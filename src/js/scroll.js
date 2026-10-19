@@ -22,12 +22,14 @@
   }, { passive: true });
 
   // WebGL: la organización que se enciende (portada) y la S hecha de partículas (método)
-  const GL = window.SPGL && window.SPGL.supported() && !ahorro ? window.SPGL : null;
+  // Si el motor falla, se sigue sin WebGL: la portada usa su vídeo y el método, el SVG
+  const crear = (cv, o) => { try { return GL.create(cv, o); } catch (e) { return null; } };
+  let GL = null; try { GL = window.SPGL && window.SPGL.supported() && !ahorro ? window.SPGL : null; } catch (e) {}
   const hero = $('[data-hero]'), spiral = $('[data-piece=spiral]');
   let glHero = null, glSp = null;
   if (GL && hero) {
     const cv = $('.hero-gl', hero);
-    glHero = GL.create(cv, { scene: 'planta', density: innerWidth < 760 ? .6 : 1, still: quieto });
+    glHero = crear(cv, { scene: 'planta', density: innerWidth < 760 ? .6 : 1, still: quieto });
     if (glHero) {
       hero.classList.add('has-gl'); glHero.start();
       if (fino) {
@@ -49,7 +51,7 @@
     }
   }
   if (GL && spiral) {
-    glSp = GL.create($('.sp-gl', spiral), { scene: 'espiral', density: innerWidth < 760 ? .6 : 1, still: quieto });
+    glSp = crear($('.sp-gl', spiral), { scene: 'espiral', density: innerWidth < 760 ? .6 : 1, still: quieto });
     if (glSp) {
       spiral.classList.add('has-gl'); glSp.start();
       if (quieto) { glSp.setProgress(1); glSp.setStep(6); }

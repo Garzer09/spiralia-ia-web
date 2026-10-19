@@ -332,7 +332,7 @@ h2 = {es = "Lo que nos preguntan antes de empezar.", en = "What we're asked befo
 q1 = {es = "¿Por qué ahora y no dentro de seis meses?", en = "Why now and not in six months?"}
 a1 = {es = "Porque el uso se enfría en semanas y las licencias se pagan igual. Y porque quien ya rediseña su trabajo no va un paso por delante: va una curva por delante.", en = "Because usage cools off within weeks and the licenses cost the same. And because those already redesigning their work aren't one step ahead: they're a whole curve ahead."}
 q2 = {es = "¿Nuestros datos salen de la empresa?", en = "Does our data leave the company?"}
-a2 = {es = "No hace falta. Trabajamos dentro de tu entorno y con las herramientas que aprueba tu IT. Los casos de la formación se preparan con tus documentos, bajo confidencialidad, y lo que construimos vive en tus sistemas.", en = "It doesn't need to. We work inside your environment and with the tools your IT approves. Training cases are prepared with your documents, under confidentiality, and what we build lives in your systems."}
+a2 = {es = "Solo por donde ya lo permite tu IT. Trabajamos dentro de tu entorno, con las herramientas y los permisos que aprueba tu IT. Los casos de la formación se preparan con tus documentos, bajo confidencialidad, y lo que construimos vive en tus sistemas.", en = "Only where your IT already allows it. We work inside your environment, with the tools and permissions your IT approves. Training cases are prepared with your documents, under confidentiality, and what we build lives in your systems."}
 q3 = {es = "¿Sois lo bastante grandes para nosotros?", en = "Are you big enough for us?"}
 a3 = {es = "En Deloitte España formamos a 13.000 personas en un mes. Somos una boutique por cómo trabajamos, no por lo que abarcamos.", en = "At Deloitte Spain we trained 13,000 people in one month. We're a boutique in how we work, not in what we can take on."}
 q4 = {es = "¿Y si no funciona?", en = "What if it doesn't work?"}
@@ -377,6 +377,7 @@ diag = {es = "Diagnóstico", en = "Assessment"}
 faq = {es = "Preguntas", en = "Questions"}
 privacy = {es = "Política de privacidad", en = "Privacy policy"}
 nocookies = {es = "Esta página no usa cookies.", en = "This page uses no cookies."}
+marcas = {es = "Logos de clientes de Spiralia. Marcas registradas de sus titulares.", en = "Logos of Spiralia clients. Trademarks of their respective owners."}
 copy = {es = "© 2026 Spiralia", en = "© 2026 Spiralia"}
 
 # ---------------------------------------------------------------------------

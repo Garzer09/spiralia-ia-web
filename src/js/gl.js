@@ -12,6 +12,8 @@
   'use strict';
   const TAU = Math.PI * 2;
   const lcg = s => () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  // Semilla por celda: un hash entero (la primera salida de un lcg es lineal en la semilla y dibuja bandas)
+  const hash = (a, b) => { let h = Math.imul(a, 374761393) + Math.imul(b, 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return (h ^ (h >>> 16)) >>> 0; };
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const suave = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
   // Acerca v a meta con una caída exponencial independiente de los fps (k: rapidez en 1/s)
@@ -79,12 +81,13 @@ void main() {
   o = vec4(vC.rgb * a, a);
 }`;
 
-  const PALETA = `const vec3 BASE = ${rgb('#3E688A')}, GRIS = ${rgb('#A9B1B8')}, GREIGE = ${rgb('#E0DFDA')}, BLANCO = vec3(1.);`;
+  const PALETA = `const vec3 BASE = ${rgb('#46708F')}, GRIS = ${rgb('#A9B1B8')}, GREIGE = ${rgb('#E0DFDA')}, BLANCO = vec3(1.);`;
 
   /* ---------------- Escena «planta» ---------------- */
 
-  // Focos en el suelo: x, z y fase de su onda
-  const FOCOS = [[1.05, 1.5, 0], [2.1, 2.75, .33], [.05, 3.05, .66]];
+  // Focos en el suelo: x, z y fase de su onda. La cámara mira hacia +z, así que x crece hacia la izquierda:
+  // los focos quedan en la mitad derecha, lejos del titular
+  const FOCOS = [[-.85, 1.7, 0], [-1.7, 2.75, .33], [-.5, 3.35, .66]];
 
   const VS_PLANTA = `#version 300 es
 precision highp float;
@@ -103,7 +106,7 @@ float onda(float u) { return u < .05 ? u / .05 : exp(-(u - .05) * 6.5); }
 float gauss(vec2 a, vec2 b, float r) { vec2 d = a - b; return exp(-dot(d, d) / (r * r)); }
 void main() {
   int k = int(a1.x + .5);
-  float p = uT / T, l = 0., y = 0., sz = .016, al = 1., nuc = 1., halo = 0., anillo = 0.;
+  float p = uT / T, l = 0., y = 0., sz = .018, al = 1., nuc = 1., halo = 0., anillo = 0.;
   vec2 xz = a0.xy;
   if (k == 0) {
     // Puesto: ondas de los tres focos (subida rápida, caída lenta), un leve parpadeo y equipos que se encienden solos
@@ -123,8 +126,9 @@ void main() {
   } else if (k == 2) {
     // Anillo que se abre en el plano: en los focos, continuo; en el destino de un filamento, al llegar la luz
     float g, R;
-    if (a1.w < .5) { g = fract(p * 2. + a1.y + a0.w / 3.); R = .04 + g * .62; al = (1. - g) * (1. - g) * .55; }
-    else { float t = fract(p * a1.z + a1.y) * 1.35 - 1.; g = t / .3; R = .02 + g * .16; al = t > 0. && t < .3 ? (1. - g) * .7 : 0.; }
+    if (a1.w < .5) { g = fract(p * 2. + a1.y + a0.w / 3.); R = .05 + g * .62; al = (1. - g) * (1. - g) * .5; }
+    else { float t = fract(p * a1.z + a1.y) * 1.35 - 1.; g = t / .3; R = .03 + g * .16; al = t > 0. && t < .3 ? (1. - g) * .5 : 0.; }
+    al *= smoothstep(0., .18, g);
     xz += R * vec2(cos(a0.z), sin(a0.z)); l = .9; sz = .009;
   } else if (k == 3) {
     // Brillo de un foco: núcleo blanco y aura amplia
@@ -132,7 +136,7 @@ void main() {
     if (a0.z > .1) { nuc = .001; halo = 1.; }
   } else if (k == 4) {
     // Charco de luz bajo el puntero
-    xz = uLuz.xy; sz = uLuz.w * 2.8; al = .11 * uLuz.z; l = .8; nuc = .001; halo = 1.;
+    xz = uLuz.xy; sz = uLuz.w * 3.; al = .16 * uLuz.z; l = .8; nuc = .001; halo = 1.;
   } else {
     // Agente trabajando: dos satélites alrededor de un puesto
     float a = TAU * (p * 3. + a0.z + a0.w * .5);
@@ -144,21 +148,21 @@ void main() {
   al *= ent; y -= (1. - ent) * .15;
   // Salida con el scroll: suben, se separan un poco y bajan de intensidad
   y += uSal * (.06 + .55 * h);
-  xz += (xz - vec2(.9, 2.3)) * uSal * (.05 + .14 * h);
+  xz += (xz - vec2(-.9, 2.4)) * uSal * (.05 + .14 * h);
   vec4 P = vec4(xz.x, y, xz.y, 1.), C = uPV * P;
   gl_Position = C;
   // Zona del titular más oscura: abajo a la izquierda en horizontal, la mitad de abajo en vertical
   vec2 s = C.xy / C.w * .5 + .5;
-  float m = uVert > .5 ? mix(.1, 1., smoothstep(.34, .64, s.y))
-                       : mix(.08, 1., smoothstep(.6, 1.18, length(vec2(s.x / .62, s.y / .78))));
+  float m = uVert > .5 ? mix(.1, 1., smoothstep(.36, .62, s.y))
+                       : mix(.1, 1., smoothstep(.7, 1.3, length((s - vec2(.16, .2)) / vec2(.5, .42))));
   float dist = distance(P.xyz, uOjo);
   m *= (1. - smoothstep(4.2, 10., dist)) * (1. - smoothstep(.8, 1.06, s.y));
   l = clamp(l, 0., 1.4) * (1. - .72 * uSal);
   vec3 col = mix(BASE, GREIGE, smoothstep(.05, .8, l));
   col = mix(col, BLANCO, smoothstep(.8, 1.25, l));
-  float px = sz * uPx / C.w;
+  float px = sz * uPx / C.w * (uVert > .5 ? 1.3 : 1.);
   if (k == 0) {
-    al = .3 + .7 * min(l, 1.);
+    al = .36 + .64 * min(l, 1.);
     float b = smoothstep(.4, 1.15, l);
     px *= 1. + 1.5 * b; nuc = 1. / (1. + 1.5 * b); halo = .5 * b;
   }
@@ -176,18 +180,19 @@ void main() {
     const R = lcg(5021966), Rd = lcg(77), v = [];
     const toma = () => dens >= 1 || Rd() < dens;
     // Suelo en celdas: islas de puestos separadas por pasillos, alguna sala de reuniones y zonas vacías
-    const CX = .5, CZ = .4, X0 = -3.3, NX = 16, NZ = 13;
-    for (let iz = 0; iz < NZ; iz++) for (let ix = 0; ix < NX; ix++) {
-      const x0 = X0 + ix * CX, z0 = iz * CZ, xc = x0 + CX / 2, zc = z0 + CZ / 2;
-      if (Math.abs(xc - .9) > 1.7 + .62 * zc) continue;   // fuera del encuadre
-      const hc = lcg(ix * 97 + iz * 31 + 7), tipo = hc();
+    // Solo las celdas que ve alguna de las dos cámaras (horizontal y vertical)
+    const CX = .5, CZ = .4;
+    for (let iz = 0; iz < 16; iz++) for (let ix = -9; ix < 9; ix++) {
+      const x0 = ix * CX, z0 = iz * CZ - .8, xc = x0 + CX / 2, zc = z0 + CZ / 2;
+      if (!(zc > .1 && Math.abs(xc) < 1.7 + .5 * zc) && !(xc > -2.4 && xc < .5 && zc < 1.6)) continue;
+      const hc = lcg(hash(ix + 20, iz + 7)), tipo = hc();
       const isla = hc();
       if (tipo < .1) continue;
-      if (tipo < .21) {
+      if (tipo < .17) {
         // Sala: sillas alrededor de una mesa ovalada
         const n = 10 + Math.floor(hc() * 6), rx = .11 + hc() * .05, rz = .07 + hc() * .03;
         for (let j = 0; j < n; j++) { const a = TAU * j / n; if (toma()) v.push(xc + rx * Math.cos(a), zc + rz * Math.sin(a), .85, R(), 0, isla, 0, 0); }
-      } else if (tipo < .27) {
+      } else if (tipo < .23) {
         // Zona abierta: unos pocos puntos sueltos
         for (let j = 0; j < 7; j++) if (toma()) v.push(x0 + .06 + R() * (CX - .12), z0 + .06 + R() * (CZ - .12), .8 + R() * .4, R(), 0, isla, 0, 0);
       } else {
@@ -215,13 +220,13 @@ void main() {
           const u = s / ns, w = 1 - u, k0 = w * w * w, k1 = 3 * w * w * u, k2 = 3 * w * u * u, k3 = u * u * u;
           v.push(k0 * a[0] + k1 * b[0] + k2 * c[0] + k3 * d[0], k0 * a[1] + k1 * b[1] + k2 * c[1] + k3 * d[1], u, m, 1, f, 0, 0);
         }
-        for (let s = 0; s < 40; s++) v.push(px, pz, TAU * s / 40, 0, 2, f, m, 1);
+        for (let s = 0; s < 32; s++) v.push(px, pz, TAU * s / 32, 0, 2, f, m, 1);
       }
     });
     // Anillos de los focos (tres por foco), su brillo y los agentes
     FOCOS.forEach(([fx, fz, ff]) => {
       for (let r = 0; r < 3; r++) for (let s = 0; s < 120; s++) v.push(fx, fz, TAU * s / 120, r, 2, ff, 0, 0);
-      v.push(fx, fz, .55, .3, 3, ff, 0, 0, fx, fz, .034, 1, 3, ff, 0, 0);
+      v.push(fx, fz, .8, .26, 3, ff, 0, 0, fx, fz, .034, 1, 3, ff, 0, 0);
     });
     v.push(0, 0, 0, 0, 4, 0, 0, 0);
     const ro = lcg(2026);
@@ -236,8 +241,8 @@ void main() {
       // Encuadre por orientación y una deriva lenta y periódica; con la salida, la cámara mira hacia arriba
       const w = TAU * t / 26, d = [.16 * Math.sin(w), .05 * Math.sin(w * 2 + 1), .12 * Math.cos(w)];
       const c = vert
-        ? { fov: 52, ojo: [1.05, 3.3, -.55], obj: [1.05, 0, 2.05] }
-        : { fov: 38, ojo: [.55, 2.15, -1.3], obj: [.8, 0, 2.05] };
+        ? { fov: 50, ojo: [-1.05, 3.6, -.9], obj: [-1.05, 0, 1.15] }
+        : { fov: 38, ojo: [0, 2.3, -1.1], obj: [0, 0, 2] };
       const ojo = [c.ojo[0] + d[0], c.ojo[1] + d[1] - .25 * p, c.ojo[2] + d[2]];
       const obj = [c.obj[0] + d[0] * .4, c.obj[1] + 1.6 * p * p + .7 * p, c.obj[2] + .3 * p];
       return { ojo, obj, fov: c.fov * Math.PI / 180 };
@@ -261,7 +266,7 @@ void main() {
       let meta = st.ptr && alSuelo(c, st.ptr[0], st.ptr[1]), lm = 1;
       if (!meta || quieto > 0) {
         if (quieto < 1.4 && luz) { meta = luz; lm = 1 - quieto / 1.4; }
-        else { meta = [1.1 + 1.25 * Math.sin(t * .11), 2.05 + .75 * Math.sin(t * .17 + 1.3)]; lm = .6; }
+        else { meta = [-1.1 + .8 * Math.sin(t * .11), 2.3 + .8 * Math.sin(t * .17 + 1.3)]; lm = .65; }
       }
       if (!luz || st.still) luz = meta.slice();
       const kk = st.ptr ? 11 : 1.6;
@@ -321,8 +326,8 @@ void main() {
   float l = 0., fr = 0., on = step(.001, uFr);
   if (a1.w == ${SP_HEBRA}. && ty != 1.) {
     float q = (s - uFr) / .02;
-    l = (1. - smoothstep(uFr - .004, uFr + .004, s)) * on;
-    fr = exp(-q * q) * uFrG * on;
+    l = (1. - smoothstep(uFr - .004, uFr + .004, s)) * on * e;
+    fr = exp(-q * q) * uFrG * on * e;
   }
   float hd = fract(uT / 12. + a1.w * .37) * 1.25, dd = hd - s;
   float pul = dd > 0. && dd < .14 ? pow(1. - dd / .14, 2.) : 0.;
@@ -332,20 +337,20 @@ void main() {
     // Nodo de un paso: anillo fino; al alcanzarlo, núcleo y halo; el paso actual brilla más
     float q = (s - uFr) / .014, lle = smoothstep(s - .006, s, uFr) * on, act = exp(-q * q) * on;
     sz = .062 * (1. + .18 * lle); anillo = .55 + .45 * lle; nuc = .3 * lle + .001; halo = .25 * lle + .5 * act;
-    al = (.42 + .58 * lle) * smoothstep(.5, .8, uP); l = lle;
+    al = (.5 + .5 * lle) * smoothstep(.5, .8, uP); l = lle;
   } else {
-    al = ty == 1. ? .16 : mix(.2, .42, e);
+    al = ty == 1. ? .12 : mix(.3, .46, e);
     l = max(l, fr + pul);
     al = mix(al, 1., min(l, 1.));
-    sz *= 1. + .35 * l + .8 * fr;
-    halo = .7 * fr;
+    sz *= 1. + .3 * l + .8 * fr;
+    halo = .7 * fr + .25 * l;
   }
   vec3 col = mix(mix(GRIS, GREIGE, .5), BLANCO, clamp(l, 0., 1.));
   // Profundidad de campo: fuera del plano de la S, el punto crece y se desenfoca
   float dof = clamp(abs(C.w - uD) / 1.4, 0., 1.);
-  float px = sz * uPx / C.w * (1. + 2.2 * dof);
-  nuc *= ty == 2. ? 1. : 1. - .7 * dof;
-  al *= (1. - .62 * dof) * min(1., px / 1.6);
+  float px = sz * uPx / C.w * (1. + 2.4 * dof);
+  if (ty != 2.) { nuc *= 1. - .4 * dof; halo += .35 * dof; }
+  al *= (1. - .55 * dof) * min(1., px / 1.6);
   gl_PointSize = clamp(px, 1., uMax);
   vC = vec4(col, al);
   vS = vec4(max(nuc, .001), halo, 1., anillo);
@@ -373,22 +378,20 @@ void main() {
       return [x, y, (h - 2.5) * .03 + .07 * Math.sin(y * 1.7 + 1), -ty / tl, tx / tl];
     }
     const total = hebras.reduce((s, h) => s + h.L, 0), v = [];
-    const nube = () => {
-      const z = R() * 2 - 1, a = R() * TAU, q = Math.sqrt(1 - z * z), r = .9 + 1.2 * Math.pow(R(), .6);
-      return [q * Math.cos(a) * r * 1.35, z * r * 1.1, q * Math.sin(a) * r];
-    };
-    const nh = Math.round(N * .86);
+    // Nube de partida: una masa gaussiana, densa en el centro y deshilachada hacia fuera
+    const nube = () => [gs() * .95, gs() * 1.15, gs() * 1.1];
+    const nh = Math.round(N * .92);
     hebras.forEach((hb, h) => {
       const n = Math.round(nh * hb.L / total);
       for (let j = 0; j < n; j++) {
-        const f = clamp((j + .5 + (R() - .5) * .6) / n), [x, y, z, nx, ny] = en(h, f), g = gs() * .0065;
-        v.push(x, y, z, f, nx * g, ny * g, gs() * .022, h, ...nube(), .55 * R() + .45 * f, R(), .8 + R() * .5, 0, 0);
+        const f = clamp((j + .5 + (R() - .5) * .6) / n), [x, y, z, nx, ny] = en(h, f), g = gs() * .0042;
+        v.push(x, y, z, f, nx * g, ny * g, gs() * .014, h, ...nube(), .65 * R() + .35 * f, R(), .8 + R() * .5, 0, 0);
       }
     });
     // Polvo: una envoltura suelta alrededor de las hebras
     for (let j = nh; j < N; j++) {
-      const h = Math.floor(R() * 6), f = R(), [x, y, z, nx, ny] = en(h, f), g = gs() * .06;
-      v.push(x, y, z, f, nx * g, ny * g, gs() * .22, h, ...nube(), R(), R(), .7 + R() * .6, 1, 0);
+      const h = Math.floor(R() * 6), f = R(), [x, y, z, nx, ny] = en(h, f), g = gs() * .05;
+      v.push(x, y, z, f, nx * g, ny * g, gs() * .2, h, ...nube(), R(), R(), .7 + R() * .6, 1, 0);
     }
     // Los seis nodos del método sobre la hebra 3
     SP_AT.forEach(f => { const [x, y, z] = en(SP_HEBRA, f); v.push(x, y, z, f, 0, 0, 0, SP_HEBRA, x, y, z, 0, .5, 1, 2, 0); });

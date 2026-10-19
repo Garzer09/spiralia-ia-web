@@ -51,7 +51,7 @@ function crearEntorno(renderer) {
     m.lookAt(0, 0, 0);
     env.add(m);
   };
-  caja(10, 7, [-5, 10, 11], 5.5, '#fff6ec');   // principal: arriba, delante a la izquierda
+  caja(10, 7, [-5, 10, 11], 5.5, '#fff9f3');   // principal: arriba, delante a la izquierda
   caja(18, 2.4, [10, 4, -12], 7.0, '#eef3f8'); // tira de contorno detrás a la derecha
   caja(2.4, 14, [-13, 5, -6], 3.2, '#eef3f8'); // tira de contorno detrás a la izquierda
   caja(16, 16, [0, 18, 0], 1.4, '#ffffff');    // cenital suave
@@ -116,7 +116,7 @@ export function ceramica(color, { rugosidad = 0.5, barniz = 0.3, rim = 0.45, rim
 }
 
 // Vidrio esmerilado: transmisión física con rugosidad y atenuación navy.
-export function vidrio({ rugosidad = 0.32, espesor = 0.9, atenuacion = '#6f879c', distancia = 1.4, rim = 0.55 } = {}) {
+export function vidrio({ rugosidad = 0.3, espesor = 0.35, atenuacion = '#97a3ad', distancia = 2.0, rim = 0.55 } = {}) {
   const m = new THREE.MeshPhysicalMaterial({
     color: '#ffffff', roughness: rugosidad, metalness: 0,
     transmission: 1, thickness: espesor, ior: 1.42,
@@ -165,11 +165,18 @@ function texturaHalo() {
 }
 
 // Punto de luz completo: perla + halo + luz puntual que ilumina a los vecinos.
-export function puntoDeLuz(radio, { halo = 5.5, opacidadHalo = 0.55, intensidad = 2.5, alcance = 0 } = {}) {
+// Con «orbe», la luz va dentro de una esfera de vidrio esmerilado: brilla sobre noche y
+// conserva el contorno sobre papel. Sin orbe (dentro de otro vidrio) queda la perla sola.
+export function puntoDeLuz(radio, { halo = 5.5, opacidadHalo = 0.55, intensidad = 2.5, alcance = 0, orbe = true } = {}) {
   const g = new THREE.Group();
-  const perla = new THREE.Mesh(new THREE.SphereGeometry(radio, 64, 32), luz());
+  const perla = new THREE.Mesh(new THREE.SphereGeometry(orbe ? radio * 0.55 : radio, 64, 32), luz());
   perla.userData.sinSombra = true;
   g.add(perla);
+  if (orbe) {
+    const cascara = new THREE.Mesh(new THREE.SphereGeometry(radio, 96, 48), vidrio({ rugosidad: 0.38, espesor: 0.25, rim: 0.7 }));
+    cascara.userData.sinSombra = true;
+    g.add(cascara);
+  }
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({
     map: texturaHalo(), color: '#fffaf2', transparent: true, opacity: opacidadHalo,
     depthWrite: false, depthTest: false, toneMapped: false,
@@ -194,7 +201,7 @@ function fondoVidrio() {
     new THREE.ShaderMaterial({
       side: THREE.BackSide, depthWrite: false, blending: THREE.NoBlending,
       uniforms: {
-        alto: { value: new THREE.Color('#e9ecef') }, bajo: { value: new THREE.Color('#9fb0bf') },
+        alto: { value: new THREE.Color('#eceeef') }, bajo: { value: new THREE.Color('#a7b0b8') },
         aAlto: { value: 0.34 }, aBajo: { value: 0.22 },
       },
       vertexShader: 'varying vec3 vD; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vD = normalize(w.xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * w; }',
@@ -280,7 +287,6 @@ class SombraContacto {
           `gl_FragColor = vec4( vec3( 0.0 ), ( 1.0 - fragCoordZ ) * ${(oscuridad * k).toFixed(3)} );`);
       };
       m.customProgramCacheKey = () => 'sombra' + oscuridad * k;
-      m.depthTest = false; m.depthWrite = false;
       m.side = THREE.DoubleSide;
       return m;
     };
@@ -355,7 +361,7 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
   camera.updateMatrixWorld();
 
   // Luz principal (arriba, delante a la izquierda de la cámara) y contraluz (detrás a la derecha).
-  const principal = new THREE.DirectionalLight('#fff7ef', 1.5);
+  const principal = new THREE.DirectionalLight('#fffaf4', 1.5);
   principal.position.set(-3.5, 9, 6.5);
   principal.castShadow = true;
   principal.shadow.mapSize.set(2048, 2048);
@@ -392,10 +398,11 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
 
   // Mismo tamaño visual para todos: la mayor dimensión en pantalla ocupa «tam» del encuadre.
   // Se escala el objeto (no se acerca la cámara) para que la perspectiva sea idéntica.
-  function montar(icono, { tam = 0.68, peso = 0.5 } = {}) {
+  function montar(icono, { tam = 0.68, peso = 0.5, flotar = 0 } = {}) {
     const caja = new THREE.Box3().setFromObject(icono);
     const c = caja.getCenter(new THREE.Vector3());
     icono.position.sub(new THREE.Vector3(c.x, caja.min.y, c.z));
+    icono.position.y += flotar * (caja.max.y - caja.min.y);
     pivote.add(icono);
     for (let k = 0; k < 4; k++) {
       const b = cajaPantalla();
@@ -429,8 +436,8 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
     });
     // dos sombras de contacto: una ceñida y otra amplia y suave
     const lado = Math.max(tamMundo.x, tamMundo.z) * 2.2 + 1;
-    sombras.push(new SombraContacto(renderer, scene, { lado, centro, alto: tamMundo.y * 0.12 + 0.05, desenfoque: 1.2, opacidad: 0.5, y: 0.002 }));
-    sombras.push(new SombraContacto(renderer, scene, { lado, centro, alto: tamMundo.y * 0.9 + 0.3, desenfoque: 7, opacidad: 0.34, y: 0.001 }));
+    sombras.push(new SombraContacto(renderer, scene, { lado, centro, alto: tamMundo.y * 0.12 + 0.05, desenfoque: 1.2, opacidad: 0.62, y: 0.002 }));
+    sombras.push(new SombraContacto(renderer, scene, { lado, centro, alto: tamMundo.y * 0.9 + 0.3, desenfoque: 7, opacidad: 0.42, y: 0.001 }));
   }
 
   function pintar() {
@@ -442,7 +449,7 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
   // Copia reducida del lienzo, en RGBA recto (sin premultiplicar), en pasos de mitad.
   function exportar(tam) {
     let src = canvas;
-    while (src.width / 2 >= tam * 1.0001 && src.width / 2 >= tam) {
+    while (src.width / 2 >= tam) {
       const c = document.createElement('canvas');
       c.width = c.height = Math.round(src.width / 2);
       const g = c.getContext('2d');
