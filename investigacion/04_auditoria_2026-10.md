@@ -36,6 +36,23 @@ Ninguna página externa se ha podido abrir entera: en este entorno solo funciona
 
 ---
 
+> **Estado a 19-oct-2026, tarde.** Esta auditoría evaluó la V2 (commit `e01bd8f`). Después se implementó en la rama `claude/fervent-turing-qrn9ho` buena parte de su plan:
+> - **Conversión:**
+>   - página `/reserva/` con la marca;
+>   - botón de reserva en el resultado del diagnóstico;
+>   - botones del diagnóstico legibles;
+>   - CTA contextuales tras Casos, Método y Lo que construimos, y CTA fijo en móvil;
+>   - medición sin cookies preparada (falta el dominio en `ANALYTICS`).
+> - **Accesibilidad y técnica:**
+>   - pausa en logos y en el vídeo del cierre, logos como lista y nombres accesibles corregidos;
+>   - sin contadores falsos;
+>   - JSON-LD con los formatos, compresión y caché en `.htaccess`, e imagen para compartir correcta en el prototipo;
+>   - logos a su tamaño;
+>   - respuesta sobre datos reformulada.
+> - **Diseño, a petición del cliente («vendemos IA: state of the art»):** WebGL en la portada y en el método, narrativa guiada por el scroll, cristal, bento e iconos 3D, siempre con alternativa estática. La auditoría desaconsejaba Lenis y WebGL; se han implantado con límites (solo con ratón, sin GPU no hay WebGL, «reducir movimiento» lo apaga).
+>
+> **Siguen abiertas** las decisiones de la §7.2: autorizaciones de Deloitte y de los logos, buzón y Bookings de equipo, testimonios, metraje real, credenciales colectivas con nombre y protección del prototipo público.
+
 ## 1. Resumen ejecutivo
 
 **En once líneas:**

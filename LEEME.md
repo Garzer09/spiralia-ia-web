@@ -15,7 +15,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 | Cifras permitidas y su fuente | `src/cifras.toml`. De aquí sale `FUENTES.md`. |
 | Estructura de la página | `src/index.template.html` |
 | Estilos (paleta «Monocromo Spiralia») | `src/css/site.css` |
-| Piezas animadas | `src/js/motion.js`: curva, espiral SPIRAL, antes y después, caso, vídeos de fondo, barra, menú móvil, película en diálogo, logos y pestañas |
+| Piezas animadas | `src/js/motion.js`: curva, espiral SPIRAL, antes y después, caso, vídeos de fondo, barra, menú móvil, película en diálogo, logos y pestañas. Capa de movimiento: `src/js/scroll.js`. WebGL: `src/js/gl.js` |
 | Diagnóstico | `src/js/diagnostico.js`. Sus preguntas y niveles están en `[data.diag]` de `content.toml`. |
 | URL de Microsoft Bookings | `BOOKINGS` en `build.py`, o directamente en `dist/reserva/index.html` sin volver a generar |
 | Geometría de la S (medida sobre el logo oficial) | `tools/s_geom.py`. Genera `s-lines.svg`, `favicon.svg` y `s-geom.js`. |
@@ -44,9 +44,27 @@ Además:
 - el bloque de testimonios (`<!--si:testimonios-->` en la plantilla) no se publica mientras queden `[PLACEHOLDER]`;
 - la página lleva datos estructurados JSON-LD (organización, servicio y preguntas del comité), generados desde el copy.
 
-## Portada: vídeo de fondo a pantalla completa (HyperFrames)
+## Capa de movimiento y WebGL («state of the art»)
 
-- **Qué es:** «La organización se enciende». Una planta vista desde arriba con unos 1.800 puntos (personas, puestos) agrupados en equipos; desde tres focos salen ondas de luz y filamentos con la curva de la S que van encendiendo a los vecinos. Bucle perfecto de 12 s a 24 fps, sin texto ni sonido, así que vale para ES y EN.
+Todo es mejora progresiva: sin JS, sin WebGL2, con «reducir movimiento» o con `?still=1`, la página se ve completa y estática.
+
+- **`src/js/gl.js`:** motor WebGL2 propio, sin librerías (unos 11 KB con gzip). Tiene dos escenas:
+  - `planta` (portada): la organización vista desde arriba, con ondas de luz que salen de tres focos y una luz que sigue al cursor;
+  - `espiral` (método): unas 4.000 partículas que forman la S de Spiralia con el scroll y una luz que recorre los seis pasos.
+  - API: `SPGL.create(canvas, {scene, density, still})` → `setProgress`, `setStep`, `setPointer`, `start`, `stop`, `destroy`.
+  - Sin GPU (`failIfMajorPerformanceCaveat`) devuelve `null`: la portada usa entonces el vídeo y el método, el SVG.
+  - Laboratorio: sirve la raíz del repo (`python3 -m http.server 8863`) y abre `http://localhost:8863/motion/gl-lab/`.
+- **`src/js/scroll.js`:**
+  - Scroll suave con Lenis (solo con ratón o trackpad).
+  - Titulares que suben por líneas y frases que se encienden palabra a palabra (SplitText).
+  - La curva del reto, que se dibuja con el scroll, y el método fijo mientras el scroll avanza sus pasos (ScrollTrigger).
+  - Botones magnéticos, teselas que se inclinan, luz que sigue al cursor (`.spot`) y progreso de lectura.
+- **Librerías** en `src/js/vendor/`, servidas desde la propia web (sin CDN ni cookies): GSAP 3.14.2 con ScrollTrigger y SplitText (licencia estándar de GSAP, gratuita también para uso comercial) y Lenis 1.3.27 (MIT).
+- **Iconos 3D de marca:** `assets/img/3d/` (WebP de 512 y 192 px, más PNG). Se generan con three.js solo en tiempo de generación: `node tools/icons3d/render.mjs` (ver `tools/icons3d/README.md`).
+
+## Portada: vídeo de respaldo (HyperFrames)
+
+- **Qué es:** el respaldo de la escena WebGL cuando no hay GPU o falla. «La organización se enciende»: una planta vista desde arriba con unos 1.800 puntos (personas, puestos) agrupados en equipos; desde tres focos salen ondas de luz y filamentos con la curva de la S que van encendiendo a los vecinos. Bucle perfecto de 12 s a 24 fps, sin texto ni sonido, así que vale para ES y EN.
 - **Formatos:** `assets/video/hero-h` (1920×1080, escritorio) y `hero-v` (720×1280, móvil), en WebM (VP9) y MP4 (H.264), con su póster (primer fotograma). El JS elige vertical u horizontal al cargar y WebM si el navegador lo admite.
 - **Comportamiento:** el póster es lo primero que se ve (precargado); el vídeo entra con un fundido. Botón de pausa (la elección se recuerda). Con «reducir movimiento», Save-Data o 2G no se descarga. La película de 20 s (4:5) se abre a demanda en un diálogo con controles («Ver la película · 20 s»).
 - **Cierre:** el mismo sistema con la S de Spiralia y pulsos de luz que recorren sus seis hebras (`assets/video/firma-*`). La página abre con la organización y cierra con la firma.
@@ -113,5 +131,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 - **Portada:** vídeo de fondo a pantalla completa generado con HyperFrames («La organización se enciende»), hasta que haya metraje real. H1: «Toda tu empresa, trabajando con IA.» El anterior («La inteligencia se compra. La ventaja se despliega.») era elegante, pero no se podía visualizar y «desplegar» es jerga para el ICP.
 - **Perfiles, de forma sutil:** «Para ti» se organiza por inquietud, no por cargo: Resultados (dirección general y negocio) · Personas y talento (RR. HH. y Formación) · Tecnología (CTO y CIO, nueva).
 - **Orden:** portada → franja de prueba → por qué ahora → casos → método → personalización → lo que construimos → para ti → formatos → por qué Spiralia → diagnóstico → preguntas → cierre.
+- **Nivel «state of the art» (petición del 19-oct):** portada y método en WebGL, narrativa guiada por el scroll, cristal y bento, e iconos 3D. Todo sobre la paleta monocroma y con alternativa estática.
+- **Reserva:** mientras no haya Bookings, `/reserva/` es una página con la marca que ofrece el email, con el origen y el idioma.
 - **Copy:** «tú» en toda la página; urgencia real (licencias pagadas, uso que se enfría, la brecha del 6 %, el presupuesto de 2027) y sin escasez inventada; objeciones duras en las preguntas del comité.
 
