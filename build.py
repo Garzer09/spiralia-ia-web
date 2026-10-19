@@ -83,10 +83,17 @@ norm = lambda s: re.sub(r'[.,\s]', '', s)
 ALLOWED = {norm(c['valor']) for c in cifras}
 
 # Cifras en letras: el build no las ve como cifras, el lector sí (auditoría §6.6). Solo avisan.
-LETRAS = {'es': dict(dos=2, tres=3, cuatro=4, cinco=5, seis=6, siete=7, ocho=8, nueve=9, diez=10, doce=12, quince=15,
-                     veinte=20, treinta=30, cuarenta=40, cincuenta=50, cien=100, mil=1000, docena=12, década=10, décadas=10),
-          'en': dict(two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, twelve=12, fifteen=15,
-                     twenty=20, thirty=30, forty=40, fifty=50, hundred=100, thousand=1000, dozen=12, decade=10, decades=10)}
+# Con None avisan siempre: «la mitad», «el doble», «miles de» no son una cifra concreta que se pueda dar de alta.
+# «un», «una», «one» solo cuentan en proporciones («uno de cada diez»): sueltos son artículos. «once» en inglés es «una vez»
+LETRAS = {'es': dict(dos=2, tres=3, cuatro=4, cinco=5, seis=6, siete=7, ocho=8, nueve=9, diez=10, once=11, doce=12, trece=13,
+                     catorce=14, quince=15, veinte=20, treinta=30, cuarenta=40, cincuenta=50, sesenta=60, setenta=70, ochenta=80,
+                     noventa=90, cien=100, mil=1000, docena=12, década=10, décadas=10,
+                     mitad=None, doble=None, triple=None, decenas=None, cientos=None, centenares=None, miles=None, millón=None, millones=None),
+          'en': dict(two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, eleven=11, twelve=12, thirteen=13,
+                     fourteen=14, fifteen=15, twenty=20, thirty=30, forty=40, fifty=50, sixty=60, seventy=70, eighty=80, ninety=90,
+                     hundred=100, thousand=1000, dozen=12, decade=10, decades=10,
+                     half=None, double=None, triple=None, dozens=None, hundreds=None, thousands=None, million=None, millions=None)}
+PROPORCION = {'es': {'un', 'uno', 'una'}, 'en': {'one'}}
 
 def numbers(t, lang):
     found = []
@@ -101,10 +108,10 @@ def numbers(t, lang):
         if '[PLACEHOLDER' in plain:
             continue
         for w in re.findall(r'\w+', plain.lower()):
-            if w in LETRAS[lang] and str(LETRAS[lang][w]) not in ALLOWED:
+            if w in LETRAS[lang] and (LETRAS[lang][w] is None or str(LETRAS[lang][w]) not in ALLOWED):
                 avisos.append(f'cifra en letras sin alta en cifras.toml: «{w}» en {key} ({lang})')
         for a, b in re.findall(r'\b(\w+) (?:de cada|in|out of) (\w+)\b', plain.lower()):
-            if a in LETRAS[lang] and b in LETRAS[lang]:
+            if (a in LETRAS[lang] or a in PROPORCION[lang]) and b in LETRAS[lang]:
                 avisos.append(f'proporción en letras: «{a} … {b}» en {key} ({lang}); mejor la cifra, con su fuente')
     return sorted(found)
 

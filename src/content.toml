@@ -68,8 +68,8 @@ chart_x0 = {es = "Lanzamiento", en = "Launch"}
 chart_x1 = {es = "Seis meses", en = "Six months"}
 chart_note = {es = "Esquema: la forma de la curva es ilustrativa; ambos valores son del estudio.", en = "Diagram: the shape of the curve is illustrative; both values come from the study."}
 src1 = {es = "Dillon, Jaffe, Immorlica y Stanton, «Shifting Work Patterns with Generative AI», NBER Working Paper 33795 (2025). Experimento con 7.137 personas de 66 empresas durante seis meses.", en = "Dillon, Jaffe, Immorlica and Stanton, “Shifting Work Patterns with Generative AI”, NBER Working Paper 33795 (2025). Experiment with 7,137 people across 66 companies over six months."}
-b2a = {es = "La IA ya está en todas las mesas.", en = "AI is already on every desk."}
-b2b = {es = "En el beneficio, todavía en muy pocas.", en = "On the P&amp;L, still in very few."}
+b2a = {es = "La IA ya está en cada mesa.", en = "AI is already on every desk."}
+b2b = {es = "En pocas cuentas de resultados.", en = "On very few P&amp;Ls."}
 b2_80 = {es = "80 %", en = "80%"}
 b2_80t = {es = "de los encuestados dice que la IA le ha hecho más productivo", en = "of respondents say AI has made them more productive"}
 b2_6 = {es = "6 %", en = "6%"}
@@ -96,7 +96,7 @@ ing_antes = {es = "Antes", en = "Before"}
 ing_despues = {es = "Después", en = "After"}
 ing_b1 = {es = "66 %", en = "66%"}
 ing_b2 = {es = "92 %", en = "92%"}
-ing_m1t = {es = "de usuarios activos cada semana", en = "weekly active users"}
+ing_m1t = {es = "Usuarios activos cada semana", en = "Weekly active users"}
 ing_m2 = {es = "4,7 / 5", en = "4.7 / 5"}
 ing_m2t = {es = "de satisfacción con el uso de la IA en España, con el programa. En el siguiente país del grupo, 3,2.", en = "satisfaction with AI use in Spain, with the program. In the next-best country in the group, 3.2."}
 ing_src = {es = "Programa de adopción de IA de Spiralia en ING España. Medición interna del grupo ING; uso externo autorizado.", en = "Spiralia AI adoption program at ING Spain. ING Group internal measurement; external use authorized."}
@@ -123,7 +123,7 @@ tst_r = {es = "[PLACEHOLDER · Cargo · Empresa]", en = "[PLACEHOLDER · Role ·
 
 [como]
 kicker = {es = "Método · SPIRAL", en = "Method · SPIRAL"}
-h2a = {es = "Del aula al trabajo real.", en = "From the classroom to real work."}
+h2a = {es = "Del aula al trabajo real.", en = "From classroom to real work."}
 h2b = {es = "Hasta que tu equipo siga solo.", en = "Until your team carries on without us."}
 lead = {es = "Seis pasos. Cada uno deja algo funcionando. El primero forma a toda el área; los demás se repiten con cada proceso, en ciclos cortos, hasta que tu equipo sigue sin nosotros.", en = "Six steps. Each one leaves something working. The first trains the whole area; the rest repeat for each process, in short cycles, until your team can keep going on its own."}
 hint = {es = "Pulsa cualquier paso para verlo en la espiral.", en = "Click any step to see it on the spiral."}
@@ -260,6 +260,7 @@ t3_2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que
 t3_3 = {es = "Antes de usarse, se prueba con casos reales, también los raros. La autonomía se gana con pruebas.", en = "Before it’s used, it’s tested on real cases, edge cases included. Autonomy is earned with evidence."}
 t3_4 = {es = "Lo traspasamos con manual, pruebas y formación, para que tu equipo lo mantenga sin depender de nosotros.", en = "We hand it over with a manual, tests and training, so your team maintains it without depending on us."}
 t3_l = {es = "Agentes en uso, gobernados y documentados, y un equipo interno capaz de mantenerlos.", en = "Agents in use, governed and documented, and an in-house team able to maintain them."}
+t3_prueba = {es = "Sin cambiar de herramienta", en = "Without changing tools"}
 t3_p = {es = "En Deloitte España formamos a 13.000 personas en un mes con la IA que ya tenían: Microsoft 365 Copilot.", en = "At Deloitte Spain we trained 13,000 people in one month with the AI they already had: Microsoft 365 Copilot."}
 t3_cta = {es = "Hablemos de tu entorno", en = "Let’s talk about your environment"}
 
@@ -298,7 +299,7 @@ lead = {es = "Somos un equipo de consultores de estrategia, formadores e ingenie
 i1h = {es = "Venimos de la consultoría estratégica.", en = "We come from strategy consulting."}
 i1 = {es = "Hablamos de margen, prioridades y riesgo. La tecnología viene después.", en = "We talk about margin, priorities and risk. The technology comes after."}
 i2h = {es = "Sabemos explicar la IA sin humo.", en = "We explain AI without the hype."}
-i2 = {es = "Uno de nosotros da clase en un grado universitario de Inteligencia Artificial. Explicamos con el rigor de quien tiene que evaluar a sus alumnos.", en = "One of us teaches on a university degree in Artificial Intelligence. We explain with the rigor of someone who has to grade their students."}
+i2 = {es = "Uno de nosotros da clase en un grado universitario de Inteligencia Artificial. Explicamos con el rigor de quien tiene que evaluar a sus alumnos.", en = "One of us teaches in a university AI degree program. We explain with the rigor of someone who has to grade their students."}
 i4h = {es = "Cada perfil, con sus casos.", en = "Every profile, with its own cases."}
 i4 = {es = "Antes de enseñar, entendemos cómo trabaja cada equipo. Nada de ejemplos de manual.", en = "Before teaching, we understand how each team works. No textbook examples."}
 i5h = {es = "Construimos hasta que funciona.", en = "We build until it works."}
@@ -352,7 +353,7 @@ a7 = {es = "Rumbo son 3 horas de tu comité. En los programas, las sesiones se h
 q8 = {es = "Ya hemos hecho formación. ¿Empezamos de cero?", en = "We’ve already done training. Do we start from scratch?"}
 a8 = {es = "Al contrario: partimos de ahí. Solo el 36 % de los profesionales cree que su formación en IA ha sido suficiente (BCG, 2026). Vemos qué se usa y qué no, y llevamos a cada perfil al siguiente nivel con sus propios casos.", en = "Quite the opposite: we build on it. Only 36% of professionals think their AI training has been enough (BCG, 2026). We see what is being used and what isn’t, and take each profile to the next level with their own cases."}
 q9 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI Act require?"}
-a9 = {es = "Desde 2025, la ley europea pide a las empresas que usan IA que tomen medidas para formar a su gente. Desde julio de 2026 no exige un nivel concreto ni certificados, pero conviene poder enseñar lo que se ha hecho. Nuestros programas lo dejan documentado.", en = "Since 2025, EU law has asked companies that use AI to take steps to build their staff’s AI literacy. Since July 2026 it sets no specific level and requires no certificates, but you should be able to show what you have done. Our programs document it."}
+a9 = {es = "Desde 2025, la ley europea pide a las empresas que usan IA que tomen medidas para formar a su gente. No pide certificados y, desde julio de 2026, deja claro que no exige un nivel concreto, pero conviene poder enseñar lo que se ha hecho. Nuestros programas lo dejan documentado.", en = "Since 2025, EU law has asked companies that use AI to take steps to build their staff’s AI literacy. It has never required certificates and, since July 2026, it makes clear that no specific level is required, but you should be able to show what you have done. Our programs document it."}
 q10 = {es = "¿Cuánto cuesta?", en = "How much does it cost?"}
 a10 = {es = "Depende de tu punto de partida y de hasta dónde quieras llegar: cada programa se diseña a medida. Lo vemos en una conversación de 30 minutos y te llevas una propuesta de primer paso.", en = "It depends on your starting point and how far you want to go: every program is tailored to you. We’ll go through it in a 30-minute conversation and you’ll leave with a proposed first step."}
 
@@ -436,7 +437,7 @@ antes = [
 cuenta = [[6, 4], [2, 1]]
 encargo = {es = "Con la petición de Acme y nuestras credenciales del sector, prepara el índice de la propuesta y una primera versión del enfoque.", en = "With Acme’s request and our sector credentials, prepare the proposal outline and a first draft of the approach."}
 fuentes = {es = ["Petición de Acme", "Credenciales del sector", "Plantilla de la firma"], en = ["Acme’s request", "Sector credentials", "Firm template"]}
-borrador = {es = ["Contexto: Acme quiere acortar su cierre contable.", "Enfoque: piloto en Finanzas y despliegue por áreas.", "Credenciales: dos proyectos similares en distribución.", "Pendiente de decidir: equipo y precio."], en = ["Context: Acme wants to shorten its financial close.", "Approach: a pilot in Finance, then rollout by area.", "Credentials: two similar projects in distribution.", "Still to decide: team and price."]}
+borrador = {es = ["Contexto: Acme quiere acortar su cierre contable.", "Enfoque: piloto en Finanzas y extensión por áreas.", "Credenciales: dos proyectos similares en distribución.", "Pendiente de decidir: equipo y precio."], en = ["Context: Acme wants to shorten its financial close.", "Approach: a pilot in Finance, then rollout by area.", "Credentials: two similar projects in distribution.", "Still to decide: team and price."]}
 tuyo = {es = "Tuyo: el enfoque, el equipo y el precio.", en = "Yours: the approach, the team and the price."}
 
 [[data.demo]]

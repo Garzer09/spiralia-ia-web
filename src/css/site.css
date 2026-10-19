@@ -303,7 +303,8 @@ p{text-wrap:pretty}
 .demo{display:grid;grid-template-columns:minmax(220px,.42fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
 .demo-pick{font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin:0 0 .8rem}
 .demo-profiles{display:flex;flex-direction:column;gap:8px}
-.demo-profiles button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid var(--line-l);background:var(--paper);cursor:pointer;transition:all .25s}
+.demo-profiles button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid var(--line-l);background:var(--paper);cursor:pointer;
+  transition:background-color .25s,color .25s,border-color .25s}
 .demo-profiles button b{font-family:var(--serif);font-weight:400;font-size:1.15rem}
 .demo-profiles button span{font-size:.88rem;color:var(--ink-2)}
 .demo-profiles button[aria-pressed=true]{background:var(--navy);color:var(--on-dark);border-color:var(--navy)}
@@ -446,7 +447,7 @@ html:not(.js) .panel-who{display:block}
 .dg-bar i{position:absolute;inset:0 auto 0 0;background:var(--hl);width:var(--p,0%);transition:width .4s var(--ease)}
 .dg-q{font-family:var(--serif);font-weight:300;font-size:clamp(1.45rem,2.6vw,2.1rem);line-height:1.2;margin:0 0 22px}
 .dg-opts{display:grid;gap:10px}
-.dg-opts button{text-align:left;padding:14px 18px;border-radius:14px;border:1px solid var(--line-d);background:rgba(224,223,218,.03);cursor:pointer;line-height:1.4;transition:all .2s}
+.dg-opts button{text-align:left;padding:14px 18px;border-radius:14px;border:1px solid var(--line-d);background:rgba(224,223,218,.03);cursor:pointer;line-height:1.4;transition:background-color .2s,border-color .2s}
 .dg-opts button:hover{border-color:rgba(224,223,218,.5)}
 .dg-opts button[aria-pressed=true]{border-color:var(--hl);background:rgba(224,223,218,.1)}
 .dg-nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
@@ -655,9 +656,10 @@ html:not(.js) .panel-who{display:block}
 .intro .hero-in,.intro .hero-ctl{visibility:hidden}
 .sota .spiral.pinned .sp-fig{position:relative;top:0}
 /* Fijada, la escena cabe en la altura de la ventana: la S se mide por alto (el lienzo GL sigue a la figura)
-   y en pantallas bajas la lista se compacta */
-.spiral.pinned .sp-svg{width:min(100%,420px,(100svh - 160px) * .621);max-height:calc(100svh - 160px)}
-@media (max-height:820px){
+   y en pantallas bajas la lista se compacta. Solo en pantalla: al imprimir, la S medida por alto no se puede
+   partir entre páginas y el PDF acaba con una página en blanco */
+@media screen{.spiral.pinned .sp-svg{width:min(100%,420px,(100svh - 160px) * .621);max-height:calc(100svh - 160px)}}
+@media screen and (max-height:820px){
   .spiral.pinned .sp-steps .hint{margin-bottom:.5rem}
   .spiral.pinned .sp-b{padding:10px 0}
   .spiral.pinned .sp-b b{font-size:1.4rem}
@@ -682,7 +684,7 @@ html:not(.js) .panel-who{display:block}
 main{counter-reset:sec}
 .sec .head .kicker::before{counter-increment:sec;content:counter(sec,decimal-leading-zero) "\2003—\2003";opacity:.7}
 .bar-prog{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--on-dark);transform-origin:0 50%;transform:scaleX(var(--prog,0));opacity:.55;pointer-events:none}
-.bar.over .bar-prog{opacity:0}
+.bar.over .bar-prog,.bar.open .bar-prog{opacity:0}
 .scroll-cue{position:absolute;left:50%;bottom:clamp(18px,3.4vh,32px);width:1px;height:46px;margin-left:-.5px;background:rgba(224,223,218,.18);overflow:hidden}
 .scroll-cue i{position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--on-dark);animation:cue 2.4s var(--ease) infinite}
 @keyframes cue{to{top:100%}}
@@ -747,8 +749,8 @@ html.still{scroll-behavior:auto}
   .ing-bars b::before{--s:1!important;background:#08263D!important}
   .ing-bars i{opacity:1!important;color:#fff}
   /* La espiral: el SVG en lugar del lienzo, sin fijar, y los seis pasos abiertos */
-  .pin-spacer{padding:0!important;height:auto!important;min-height:0!important;max-height:none!important}
-  .spiral{position:static!important;transform:none!important;top:auto!important;left:auto!important;width:auto!important;max-width:none!important;height:auto!important}
+  .pin-spacer{padding:0!important;width:auto!important;height:auto!important;min-height:0!important;max-height:none!important}
+  .spiral{position:static!important;transform:none!important;top:auto!important;left:auto!important;width:auto!important;max-width:none!important;height:auto!important;max-height:none!important}
   .sp-fig{position:static}
   .spiral .sp-svg,.spiral.has-gl .sp-svg{opacity:1!important;width:min(40%,220px)}
   .js .spiral .sp-steps li .sp-d{display:block}

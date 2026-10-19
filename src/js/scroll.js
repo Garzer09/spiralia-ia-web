@@ -129,6 +129,9 @@
   }
   gsap.registerPlugin(ST); if (Split) gsap.registerPlugin(Split);
   root.classList.add('sota');
+  // Con html{scroll-behavior:smooth}, ScrollTrigger mide mal si recalcula con la página desplazada: todas las
+  // posiciones salen corridas en -scrollY. El scroll suave lo dan Lenis y SP.scrollTo
+  root.style.scrollBehavior = 'auto';
 
   // Scroll suave solo con ratón o trackpad; en táctil, el nativo. Las anclas las lleva Lenis, que ya resta
   // el scroll-padding-top de html (la altura de la barra)
@@ -141,11 +144,54 @@
     // El menú a pantalla completa (motion.js) detiene el scroll de detrás
     document.addEventListener('sp:menu', e => lenis && (e.detail ? lenis.stop() : lenis.start()));
     enEscucha(reduce, e => { if (e.matches && lenis) { lenis.destroy(); lenis = null; } });
+  } else if (!reduce.matches) {
+    // Sin Lenis, las anclas nativas (menú, enlaces de la página) siguen siendo suaves: solo mientras dura el salto
+    const quieta = () => { root.style.scrollBehavior = 'auto'; removeEventListener('scrollend', quieta); };
+    document.addEventListener('click', e => {
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('href').length < 2 || reduce.matches) return;
+      root.style.scrollBehavior = 'smooth'; addEventListener('scrollend', quieta); setTimeout(quieta, 1500);
+    });
   }
+  const aY = y => { if (lenis) { lenis.resize(); lenis.scrollTo(y, { immediate: true, force: true }); } else scrollTo({ top: y, behavior: 'instant' }); };
+
+  // Al girar la tableta, cruzar los 1024 px, cambiar el alto de la ventana, imprimir o rehacer el método,
+  // ScrollTrigger rehace las escenas y la página salta (o vuelve arriba). Se recuerda dónde se estaba (la sección
+  // a la vista y cuánto se ha leído de ella), medido al dejar de desplazarse; en el cambio se congela y, tras el
+  // recálculo, se vuelve allí sin animación. En táctil, el alto cambia solo con la barra del navegador: no cuenta
+  let sitio = null, ultimo = null, imprime = false, anchoAntes = innerWidth, altoAntes = innerHeight, rm = 0, rq = 0, movido = 0;
+  const pad = () => parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+  const mide = () => {
+    const p = pad(), el = [...$$('main > *'), $('.foot')].find(x => x && x.getBoundingClientRect().bottom > p); if (!el) return null;
+    const r = el.getBoundingClientRect(); return { el, f: (p - r.top) / r.height };
+  };
+  const vale = () => sitio && performance.now() - sitio.t < 1200;
+  const guarda = antes => {
+    if (vale()) { sitio.t = performance.now(); return; }
+    const m = antes || mide(); sitio = m && Object.assign({ t: performance.now() }, m);
+  };
+  const vuelve = () => {
+    if (imprime) return;
+    if (vale()) {
+      const r = sitio.el.getBoundingClientRect(), y = Math.round(scrollY + r.top + sitio.f * r.height - pad());
+      if (Math.abs(y - scrollY) > 2) aY(y);
+    }
+    sitio = null; ultimo = mide();
+  };
+  addEventListener('resize', () => {
+    const w = innerWidth !== anchoAntes, h = innerHeight !== altoAntes; anchoAntes = innerWidth; altoAntes = innerHeight;
+    if (w || (h && fino)) guarda(ultimo);
+  });
+  ST.addEventListener('refresh', vuelve);
+  addEventListener('beforeprint', () => { guarda(); imprime = true; });
+  addEventListener('afterprint', () => { imprime = false; if (sitio) { sitio.t = performance.now(); setTimeout(vuelve, 600); } });
+  addEventListener('scroll', () => {
+    movido = performance.now(); clearTimeout(rm);
+    rm = setTimeout(() => { if (!imprime && !vale()) { sitio = null; ultimo = mide(); } }, 150);
+  }, { passive: true });
+
   // Cuando cambia la altura de la página (pestañas, diagnóstico, preguntas), ScrollTrigger recalcula posiciones.
   // Nunca a mitad de un desplazamiento: el refresh lo cortaría (o desajustaría a Lenis); espera a que pare
-  let rq = 0, movido = 0;
-  addEventListener('scroll', () => { movido = performance.now(); }, { passive: true });
   const recalcula = () => { clearTimeout(rq); rq = 0; ST.refresh(); };
   const espera = () => { rq = (lenis && lenis.isScrolling) || performance.now() - movido < 150 ? setTimeout(espera, 150) : (recalcula(), 0); };
   document.addEventListener('sp:alto', e => { clearTimeout(rq); rq = setTimeout(espera, Math.max(120, e.detail || 0)); });
@@ -264,8 +310,13 @@
       const suelto = () => {
         fijada = false; SP_.guiada = false; SP_.onPick = null;
         ST.create({ trigger: spiral, start: 'top 85%', end: 'top 20%', scrub: true, onUpdate: s => spProg(s.progress) });
-        // Si el motor de piezas no la lleva (se retiró al arrancar fijada), se reproduce al entrar
-        if (guiadaAntes || !spiral.hasAttribute('data-piece')) ST.create({ trigger: spiral, start: 'top 72%', once: true, onEnter: () => SP_.play() });
+        // Si el motor de piezas no la lleva (se retiró al arrancar fijada), se reproduce al entrar. Si ya ha quedado
+        // arriba (se entra por un ancla o se rehace la escena con la página más abajo), queda como al acabar: los
+        // pasos no se abren uno tras otro por encima de lo que se está leyendo
+        if (guiadaAntes || !spiral.hasAttribute('data-piece')) {
+          if (spiral.getBoundingClientRect().top < innerHeight * .72) SP_.pick(actual > 0 ? actual : 6);
+          else ST.create({ trigger: spiral, start: 'top 72%', once: true, onEnter: () => SP_.play() });
+        }
       };
       const fija = () => {
         fijada = true; SP_.guiada = guiadaAntes = true; actual = -1;
@@ -279,11 +330,13 @@
         return () => { spiral.classList.remove('pinned'); if (rep) rep.hidden = false; SP_.guiada = false; SP_.onPick = null; repinta = null; };
       };
       const monta = () => {
-        if (mm) mm.revert();
+        const otra = !!mm;
+        if (otra) { guarda(); mm.revert(); }
         medida = innerWidth + 'x' + innerHeight;
         mm = gsap.matchMedia();
         mm.add('(min-width: 1024px)', () => cabe() ? fija() : suelto());
         mm.add('(max-width: 1023px)', suelto);
+        if (otra) ST.refresh();
       };
       monta();
       // Si cambia el alto de la ventana sin cruzar los 1024 px, la escena puede dejar de caber (o volver a caber)

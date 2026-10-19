@@ -6,6 +6,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 
 - En local: `python3 build.py` y después `python3 -m http.server 8851 -d dist`. Se abre en http://localhost:8851 (español) y en http://localhost:8851/en/ (inglés).
 - Con `?still=1` en la URL se ve todo en su estado final, sin animaciones. Es útil para revisar textos.
+- Con `?gl=1` se admite el WebGL por software (SwiftShader, llvmpipe) y no actúa el vigilante de rendimiento: sirve para probar las escenas en un navegador sin GPU. Con `?gl=0` no hay WebGL y se ven el vídeo y el SVG.
 
 ## Dónde se cambia cada cosa
 
@@ -29,7 +30,12 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 - una clave usada en la plantilla no existe;
 - quedan `{{…}}` sin resolver;
 - aparece en el texto una cifra que no está en `cifras.toml`;
-- las cifras de ES y EN no coinciden.
+- las cifras de ES y EN no coinciden;
+- el HTML enlaza un recurso de `assets/` que no llega a `dist/`.
+
+Las cifras escritas en letras («ocho», «una década», «tres de cada cuatro») que no están en `cifras.toml` dan un aviso, no un error.
+
+El build no publica los retratos (`ana-iza.*`, `jose-garza.*`) ni los PNG de `assets/img/3d/`. Añade `?v=<huella del fichero>` a las URL de CSS, JS y vídeos, así que al volver a publicar nadie recibe una versión antigua de la caché; el HTML se sirve con `no-cache`.
 
 Con `--prod` falla además si:
 
@@ -51,14 +57,17 @@ Todo es mejora progresiva: sin JS, sin WebGL2, con «reducir movimiento» o con 
 - **`src/js/gl.js`:** motor WebGL2 propio, sin librerías (unos 11 KB con gzip). Tiene dos escenas:
   - `planta` (portada): la organización vista desde arriba, con ondas de luz que salen de tres focos y una luz que sigue al cursor;
   - `espiral` (método): unas 4.000 partículas que forman la S de Spiralia con el scroll y una luz que recorre los seis pasos.
-  - API: `SPGL.create(canvas, {scene, density, still})` → `setProgress`, `setStep`, `setPointer`, `start`, `stop`, `destroy`.
-  - Sin GPU (`failIfMajorPerformanceCaveat`) devuelve `null`: la portada usa entonces el vídeo y el método, el SVG.
+  - API: `SPGL.create(canvas, {scene, density, still, software, vigia, lento})` → `setProgress`, `setStep`, `setPointer`, `start`, `stop`, `destroy`.
+  - Sin GPU devuelve `null`: la portada usa entonces el vídeo y el método, el SVG. Rechaza también el WebGL por software (renderer SwiftShader, llvmpipe o similar), salvo con `software: true` (`?gl=1`).
+  - Vigilante: si durante 1,5 s pintar cuesta de media más de 8 ms o el bucle no llega a 12 fps, la escena se destruye y vuelven el vídeo y el SVG (`lento`).
   - Laboratorio: sirve la raíz del repo (`python3 -m http.server 8863`) y abre `http://localhost:8863/motion/gl-lab/`.
 - **`src/js/scroll.js`:**
   - Scroll suave con Lenis (solo con ratón o trackpad).
   - Titulares que suben por líneas y frases que se encienden palabra a palabra (SplitText).
   - La curva del reto, que se dibuja con el scroll, y el método fijo mientras el scroll avanza sus pasos (ScrollTrigger).
   - Botones magnéticos, teselas que se inclinan, luz que sigue al cursor (`.spot`) y progreso de lectura.
+  - Con la capa activa, `html` va con `scroll-behavior: auto`: con `smooth`, ScrollTrigger calcula mal las posiciones si recalcula con la página desplazada. En táctil, las anclas siguen siendo suaves solo mientras dura el salto.
+  - Al girar la tableta, cambiar el tamaño de la ventana o imprimir, ScrollTrigger rehace las escenas. Antes se guarda la sección que se está leyendo y después se vuelve a ella.
 - **Librerías** en `src/js/vendor/`, servidas desde la propia web (sin CDN ni cookies): GSAP 3.14.2 con ScrollTrigger y SplitText (licencia estándar de GSAP, gratuita también para uso comercial) y Lenis 1.3.27 (MIT).
 - **Iconos 3D de marca:** `assets/img/3d/` (WebP de 512 y 192 px, más PNG). Se generan con three.js solo en tiempo de generación: `node tools/icons3d/render.mjs` (ver `tools/icons3d/README.md`).
 
@@ -80,10 +89,10 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 ## Película de 20 s (HyperFrames)
 
 - **Qué es:** 20 s en formato 4:5 (1080×1350), sin sonido, en ES y EN. Desde el 19-oct se abre a demanda en un diálogo desde la portada («Ver la película · 20 s»).
-- **Ritmo y estilo:** el de la portada de Santander. 120 BPM, frases que suben desde una máscara, la cifra que rueda al 80 % y cae al 6 %, «El curso acaba el viernes. ¿Y el lunes?», y la S de Spiralia dibujándose en un segundo.
+- **Ritmo y estilo:** el de la portada de Santander. 120 BPM, frases que suben desde una máscara, el 80 % y, con un corte, el 6 %, «El curso acaba el viernes. ¿Y el lunes?», y la S de Spiralia dibujándose en un segundo.
 - **Cartel final:** la S, la palabra SPIRALIA y las pruebas (50.000 · ING del 66 % al 92 % · Deloitte, 13.000). No repite el titular de la web.
 - **Archivos:** `motion/film/`. Los textos están en `copy.js` y la coreografía, en función de t, en `film.js`.
-- **Comandos:** `bash motion/render_film.sh snap` saca las capturas del guion (las de la versión actual están en `motion/guion-pelicula/`) y `bash motion/render_film.sh render` deja en `assets/video/` `film-es.mp4`, `film-en.mp4` y sus carteles. Tarda unos 25 s por idioma.
+- **Comandos:** `bash motion/render_film.sh snap` saca las capturas del guion (las de la versión actual están en `motion/guion-pelicula/`) y `bash motion/render_film.sh render` deja en `assets/video/` `film-es` y `film-en` en MP4 (H.264) y WebM (VP9), y sus carteles. La web usa el WebM si el navegador lo admite y, si falla, el MP4. Tarda unos 25 s por idioma.
 - **Formato:** el 4:5 es también el que mejor funciona en el feed de LinkedIn, así que podéis publicarla tal cual.
 - **Requisitos:** Node, FFmpeg y `hyperframes@0.8.81` con su Chrome en caché.
 - **Descartado:** el bucle anterior de la S, que se desenrollaba, está en `motion/_descartado/bucle-s/`. No se publica.
@@ -106,6 +115,8 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 - Los **testimonios**: hay tres huecos `[PLACEHOLDER]`.
 - **Revisar el inglés.** Lo ha traducido Claude.
 - Comprobar que la **política de privacidad** de spiralia.es cubre Microsoft Bookings.
+- **Aviso de privacidad** (`[cta].legal`, también en `/reserva/`): que lo revise un asesor. Faltan la razón social y el NIF del responsable, y un enlace al aviso legal en el pie, cuando se sepa su URL.
+- **Pendiente de decidir o confirmar** (revisión del 19-oct): la base del 92 % de ING; si las 50.000 personas formadas incluyen a los alumnos de la UFV y de thePower; qué entrega Rumbo, por escrito; si el contrato da al cliente la propiedad de lo que se construye (para afirmarlo en la pregunta a6), y un caso de implantación, anonimizado y con permiso, para la pestaña Tecnología.
 - **Butler**: su licencia (v1.1, Fabian De Smet) permite usarla e incrustarla. Solo prohíbe venderla o lucrarse con la fuente en sí. Ya es la tipografía del logotipo. Los `woff2` regenerados son una conversión de formato de la misma fuente.
 
 ## Decisiones tomadas (14-oct-2026)
