@@ -19,7 +19,7 @@ for L in ${LANGS:-es en}; do
     mkdir -p "$OUT"
     ffmpeg -y -loglevel error -i "$SCR/film-$L.master.mp4" -frames:v 600 -c:v libx264 -preset slow -crf 26 -tune animation \
       -pix_fmt yuv420p -profile:v high -movflags +faststart -an -map_metadata -1 "$OUT/film-$L.mp4"
-    ffmpeg -y -loglevel error -i "$SCR/film-$L.master.mp4" -frames:v 600 -c:v libvpx-vp9 -b:v 0 -crf 34 -row-mt 1 \
+    ffmpeg -y -loglevel error -i "$SCR/film-$L.master.mp4" -frames:v 600 -c:v libvpx-vp9 -b:v 0 -crf 40 -row-mt 1 \
       -deadline good -cpu-used 2 -pix_fmt yuv420p -an -map_metadata -1 "$OUT/film-$L.webm"
     C="scale=in_color_matrix=bt709:in_range=tv:out_color_matrix=bt601:out_range=pc"
     ffmpeg -y -loglevel error -sseof -0.1 -i "$SCR/film-$L.master.mp4" -vf "$C" -frames:v 1 -q:v 4 "$OUT/film-$L.jpg"
