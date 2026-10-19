@@ -21,7 +21,7 @@ for P in ${PIEZAS:-hero firma}; do
         -e 's/width=1920, height=1080/width=1080, height=1920/' "$D/index.html"
       SCALE="scale=720:1280:flags=lanczos"; MP4CRF=27; WEBMCRF=40
     else
-      SCALE="scale=1920:1080:flags=lanczos"; MP4CRF=26; WEBMCRF=38
+      SCALE="scale=1920:1080:flags=lanczos"; MP4CRF=28; WEBMCRF=38
     fi
     (cd "$D" && $HF lint)
     if [ "$MODE" = snap ]; then

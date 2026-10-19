@@ -164,11 +164,21 @@
   // La barra es transparente mientras la portada está detrás; sólida en cuanto deja de estarlo
   (() => {
     const bar = $('#bar'); if (!bar || !hero) return;
-    const s = document.createElement('div'); s.style.cssText = 'position:absolute;left:0;bottom:0;height:1px;width:1px'; hero.append(s);
-    new IntersectionObserver(([e]) => {
-      bar.classList.toggle('over', e.isIntersecting && !bar.classList.contains('open'));
-      hero.classList.toggle('lejos', !e.isIntersecting);
-    }, { rootMargin: '-68px 0px 0px 0px' }).observe(s);
+    // Sólida en cuanto el texto de la portada llega a la barra (así nunca se solapan); los controles del vídeo se van al dejarla
+    const txt = $('.hero-in', hero), s = document.createElement('div');
+    s.style.cssText = 'position:absolute;left:0;bottom:0;height:1px;width:1px'; hero.append(s);
+    new IntersectionObserver(([e]) => bar.classList.toggle('over', e.boundingClientRect.top > 68 && !bar.classList.contains('open')),
+      { threshold: [0, 1], rootMargin: '-68px 0px 0px 0px' }).observe(txt);
+    new IntersectionObserver(([e]) => hero.classList.toggle('lejos', !e.isIntersecting), { rootMargin: '-68px 0px 0px 0px' }).observe(s);
+  })();
+
+  // CTA fijo en móvil: aparece al dejar la portada y se retira al llegar al cierre (que ya tiene el suyo)
+  (() => {
+    const f = $('.cta-fija'); if (!f || !hero || !cierre) return;
+    let enHero = true, enCierre = false;
+    const set = () => f.classList.toggle('on', !enHero && !enCierre);
+    new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
+    new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
   })();
 
   // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón
@@ -180,6 +190,7 @@
       bar.classList.toggle('open', on); bar.classList.toggle('over', !on && estabaSobre);
       btn.setAttribute('aria-expanded', String(on)); btn.setAttribute('aria-label', on ? btn.dataset.close : btn.dataset.open);
       document.documentElement.style.overflow = on ? 'hidden' : '';
+      document.documentElement.classList.toggle('menu-abierto', on);
       if (on) $('a', nav).focus();
     };
     btn.addEventListener('click', () => abrir(btn.getAttribute('aria-expanded') !== 'true'));

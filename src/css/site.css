@@ -508,6 +508,25 @@ html:not(.js) .panel-who{display:block}
 @media (max-width:980px){.foot-in{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
 @media (max-width:560px){.foot-in{grid-template-columns:1fr}}
 
+/* Móvil: etiquetas del gráfico legibles, pestañas en una fila, caso sin la columna «Registro» y CTA fijo */
+@media (max-width:640px){
+  .ch-sm,.ch-ax{font-size:19px}.ch-big{font-size:32px}
+  .tablist{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tablist::-webkit-scrollbar{display:none}
+  .tablist [role=tab]{flex:none;padding-inline:12px}
+  .log{display:none}
+}
+.cta-fija{display:none}
+@media (max-width:760px){
+  .cta-fija{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px var(--gut) calc(10px + env(safe-area-inset-bottom));
+    background:rgba(5,26,43,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line-d);
+    transform:translateY(110%);transition:transform .35s var(--ease)}
+  .cta-fija .btn{flex:1}
+  .cta-fija.on{transform:none}
+  html.menu-abierto .cta-fija{transform:translateY(110%)}
+}
+@media (max-width:760px) and (prefers-reduced-transparency:reduce){.cta-fija{background:var(--night);backdrop-filter:none;-webkit-backdrop-filter:none}}
+
 /* Aparición suave */
 .rv.pre{opacity:0;transform:translateY(18px)}
 .rv{transition:opacity .9s var(--ease),transform .9s var(--ease)}

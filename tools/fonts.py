@@ -8,7 +8,7 @@ Butler: Chromium no pinta algunos acentos de los OTF originales (en el peso 400,
 subrutinas que el saneador de fuentes de Chrome rechaza. Se redibujan todos los glifos como contornos
 planos (T2CharStringPen) y se guardan en woff2. Se pierde el hinting CFF, que Chromium apenas usa.
 
-Sofia Sans Condensed: solo se pasa a woff2 (de 343 KB a 110 KB).
+Sofia Sans Condensed: se queda con los caracteres latinos (los de Open Sans latin y latin-ext) y se pasa a woff2.
 """
 import pathlib
 from fontTools.ttLib import TTFont
@@ -27,8 +27,15 @@ def butler(name):
         cs[g] = c
     f.flavor = 'woff2'; f.save(FONTS / f'{name}.woff2')
 
+LATIN = ('U+0000-024F,U+0259,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+1E00-1EFF,'
+         'U+2000-206F,U+2074,U+20AC,U+2113,U+2122,U+2190-2193,U+2212,U+2215,U+FEFF,U+FFFD')
+
 def woff2(src, dst):
-    f = TTFont(FONTS / src); f.flavor = 'woff2'; f.save(FONTS / dst)
+    from fontTools import subset
+    opts = subset.Options(); opts.flavor = 'woff2'; opts.layout_features = ['*']; opts.name_IDs = ['*']
+    f = TTFont(FONTS / src); s = subset.Subsetter(opts)
+    s.populate(unicodes=subset.parse_unicodes(LATIN)); s.subset(f)
+    f.flavor = 'woff2'; f.save(FONTS / dst)
 
 if __name__ == '__main__':
     for w in ('Light', 'Regular', 'Medium'):
