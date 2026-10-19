@@ -65,15 +65,17 @@ function crearEntorno(renderer) {
 // ───────────────────────────── materiales
 
 // Inyecta el borde de luz y, en el vidrio, la salida premultiplicada.
-function parchear(material, { rim, rimPot, vidrio = false }) {
+function parchear(material, { rim, rimPot, vidrio = false, filo = 0, filoPot = 2.2 }) {
   const u = {
     uRim: { value: new THREE.Color(rim[0]).multiplyScalar(rim[1]) },
     uRimPot: { value: rimPot },
     uRimDir: { value: RIM_DIR },
+    uFilo: { value: filo }, uFiloPot: { value: filoPot },
+    uFiloColor: { value: new THREE.Color(PALETA.navy) },
   };
   material.onBeforeCompile = (sh) => {
     Object.assign(sh.uniforms, u);
-    sh.fragmentShader = 'uniform vec3 uRim; uniform float uRimPot; uniform vec3 uRimDir;\n' + sh.fragmentShader;
+    sh.fragmentShader = 'uniform vec3 uRim; uniform float uRimPot; uniform vec3 uRimDir; uniform float uFilo; uniform float uFiloPot; uniform vec3 uFiloColor;\n' + sh.fragmentShader;
     const borde = `
 	float frR = pow( 1.0 - saturate( dot( normal, geometryViewDir ) ), uRimPot );
 	outgoingLight += uRim * frR * saturate( dot( normal, uRimDir ) * 0.55 + 0.55 );
@@ -82,7 +84,15 @@ function parchear(material, { rim, rimPot, vidrio = false }) {
       sh.fragmentShader = sh.fragmentShader.replace('#include <opaque_fragment>', borde + '#include <opaque_fragment>');
       return;
     }
-    // Vidrio: la luz transmitida ya llega premultiplicada (ver «fondoVidrio»). Se le suma la
+    // Vidrio: filo oscuro en los bordes (lo que dibuja el vidrio sobre fondo claro, como la
+    // refracción real de un entorno más oscuro). Va bajo los reflejos, en premultiplicado.
+    sh.fragmentShader = sh.fragmentShader.replace('#include <transmission_fragment>', `#include <transmission_fragment>
+	#ifdef USE_TRANSMISSION
+		float fFilo = uFilo * pow( 1.0 - saturate( dot( normal, geometryViewDir ) ), uFiloPot );
+		totalDiffuse = mix( totalDiffuse, uFiloColor, fFilo );
+		material.transmissionAlpha = mix( material.transmissionAlpha, 1.0, fFilo );
+	#endif`);
+    // La luz transmitida ya llega premultiplicada (ver «fondoVidrio»). Se le suma la
     // reflejada y se da a la cobertura lo que haga falta para que el PNG la conserve.
     const i0 = sh.fragmentShader.indexOf('#include <opaque_fragment>');
     const i1 = sh.fragmentShader.indexOf('#include <dithering_fragment>') + '#include <dithering_fragment>'.length;
@@ -101,84 +111,95 @@ function parchear(material, { rim, rimPot, vidrio = false }) {
 	gl_FragColor = vec4( C * a, a );
 ` + sh.fragmentShader.slice(i1);
   };
-  material.customProgramCacheKey = () => (vidrio ? 'vidrio' : 'ceramica') + rim.join() + rimPot;
+  material.customProgramCacheKey = () => (vidrio ? 'vidrio' : 'ceramica') + rim.join() + rimPot + filo + filoPot;
   return material;
 }
 
 // Cerámica mate con un punto de esmalte.
-export function ceramica(color, { rugosidad = 0.5, barniz = 0.3, rim = 0.45, rimPot = 3.0 } = {}) {
+export function ceramica(color, { rugosidad = 0.5, barniz = 0.3, rim = 0.45, rimPot = 3.0, terciopelo = 0.3 } = {}) {
   const m = new THREE.MeshPhysicalMaterial({
     color, roughness: rugosidad, metalness: 0,
     clearcoat: barniz, clearcoatRoughness: 0.35,
-    sheen: 0.35, sheenRoughness: 0.7, sheenColor: new THREE.Color('#ffffff'),
+    sheen: terciopelo, sheenRoughness: 0.7, sheenColor: new THREE.Color('#ffffff'),
   });
   return parchear(m, { rim: ['#e9eef2', rim], rimPot });
 }
 
 // Vidrio esmerilado: transmisión física con rugosidad y atenuación navy.
-export function vidrio({ rugosidad = 0.3, espesor = 0.35, atenuacion = '#97a3ad', distancia = 2.0, rim = 0.55 } = {}) {
+export function vidrio({ rugosidad = 0.3, espesor = 0.35, atenuacion = '#8494a1', distancia = 1.5, rim = 0.55, filo = 0.6, filoPot = 2.2, ior = 1.42 } = {}) {
   const m = new THREE.MeshPhysicalMaterial({
     color: '#ffffff', roughness: rugosidad, metalness: 0,
-    transmission: 1, thickness: espesor, ior: 1.42,
+    transmission: 1, thickness: espesor, ior,
     attenuationColor: new THREE.Color(atenuacion), attenuationDistance: distancia,
     clearcoat: 1, clearcoatRoughness: 0.08, specularIntensity: 1,
   });
-  return parchear(m, { rim: ['#f3f6f8', rim], rimPot: 2.4, vidrio: true });
+  return parchear(m, { rim: ['#f3f6f8', rim], rimPot: 2.4, vidrio: true, filo, filoPot });
 }
 
-// Luz: núcleo de perla, blanco en el centro y algo más cálido hacia el borde.
-export function luz({ centro = 3.2, borde = 0.85, color = '#fff8ee' } = {}) {
+// Luz: núcleo de perla, blanco en el centro y algo más cálido hacia el borde. «caida» marca
+// cuánto ocupa el centro saturado: con valores bajos solo se oscurece el limbo, lo justo para
+// que la esfera tenga volumen sobre papel sin dejar de leerse como luz sobre noche.
+export function luz({ centro = 3.2, borde = 0.85, color = '#fff8ee', caida = 0.7 } = {}) {
   return new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(color) }, uCentro: { value: centro }, uBorde: { value: borde } },
+    uniforms: { uColor: { value: new THREE.Color(color) }, uCentro: { value: centro }, uBorde: { value: borde }, uCaida: { value: caida } },
     vertexShader: `varying vec3 vN; varying vec3 vV;
       void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 uColor; uniform float uCentro; uniform float uBorde; varying vec3 vN; varying vec3 vV;
+    fragmentShader: `uniform vec3 uColor; uniform float uCentro; uniform float uBorde; uniform float uCaida; varying vec3 vN; varying vec3 vV;
       void main(){
         float d = clamp(dot(normalize(vN), normalize(vV)), 0.0, 1.0);
-        gl_FragColor = vec4(uColor * mix(uBorde, uCentro, pow(d, 0.7)), 1.0);
+        // el limbo vira a greige cálido: la perla no queda como un disco plano
+        vec3 tinte = mix(vec3(0.93, 0.89, 0.82), vec3(1.0), smoothstep(0.0, 0.6, d));
+        gl_FragColor = vec4(uColor * tinte * mix(uBorde, uCentro, pow(d, uCaida)), 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
   });
 }
 
-// Halo: textura radial gaussiana, una sola para todos.
-let _halo = null;
-function texturaHalo() {
-  if (_halo) return _halo;
+// Halo: textura radial. Dentro del radio de la esfera casi no cubre (para que se vea su
+// volumen); en el borde da el máximo y cae suave hacia fuera. r0 es ese radio en [0, 1].
+const _halos = new Map();
+function texturaHalo(r0) {
+  const clave = r0.toFixed(3);
+  if (_halos.has(clave)) return _halos.get(clave);
   const n = 256, c = document.createElement('canvas');
   c.width = c.height = n;
   const g = c.getContext('2d');
   const img = g.createImageData(n, n);
+  const suave = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
     const dx = (x + 0.5) / n * 2 - 1, dy = (y + 0.5) / n * 2 - 1;
     const r = Math.sqrt(dx * dx + dy * dy);
-    const a = Math.max(0, Math.exp(-r * r * 9) * 0.85 + Math.exp(-r * r * 2.6) * 0.15 - 0.012 * r) * (r < 1 ? 1 : 0);
+    const fuera = Math.max(0, r - r0) / Math.max(1 - r0, 1e-3);
+    let a = Math.exp(-fuera * fuera * 7) * 0.8 + Math.exp(-fuera * fuera * 2) * 0.2;
+    a *= 0.12 + 0.88 * suave(r0 * 0.55, r0 * 1.02, r);
+    a *= 1 - suave(0.92, 1, r);
     const i = (y * n + x) * 4;
     img.data[i] = img.data[i + 1] = img.data[i + 2] = 255;
     img.data[i + 3] = Math.round(Math.min(1, a) * 255);
   }
   g.putImageData(img, 0, 0);
-  _halo = new THREE.CanvasTexture(c);
-  _halo.colorSpace = THREE.SRGBColorSpace;
-  return _halo;
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  _halos.set(clave, t);
+  return t;
 }
 
 // Punto de luz completo: perla + halo + luz puntual que ilumina a los vecinos.
 // Con «orbe», la luz va dentro de una esfera de vidrio esmerilado: brilla sobre noche y
 // conserva el contorno sobre papel. Sin orbe (dentro de otro vidrio) queda la perla sola.
-export function puntoDeLuz(radio, { halo = 5.5, opacidadHalo = 0.55, intensidad = 2.5, alcance = 0, orbe = true } = {}) {
+export function puntoDeLuz(radio, { halo = 5.5, opacidadHalo = 0.7, intensidad = 2.5, alcance = 0, orbe = true, nucleo = 0.6 } = {}) {
   const g = new THREE.Group();
-  const perla = new THREE.Mesh(new THREE.SphereGeometry(orbe ? radio * 0.55 : radio, 64, 32), luz());
+  const perla = new THREE.Mesh(new THREE.SphereGeometry(orbe ? radio * nucleo : radio, 64, 32), luz({ borde: 0.4, caida: 0.42 }));
   perla.userData.sinSombra = true;
   g.add(perla);
   if (orbe) {
-    const cascara = new THREE.Mesh(new THREE.SphereGeometry(radio, 96, 48), vidrio({ rugosidad: 0.38, espesor: 0.25, rim: 0.7 }));
+    const cascara = new THREE.Mesh(new THREE.SphereGeometry(radio, 96, 48), vidrio({ rugosidad: 0.3, espesor: 0.3, rim: 0.6, filo: 0.22, ior: 1.1 }));
     cascara.userData.sinSombra = true;
     g.add(cascara);
   }
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: texturaHalo(), color: '#fffaf2', transparent: true, opacity: opacidadHalo,
+    map: texturaHalo(2 / halo), color: '#fffaf2', transparent: true, opacity: opacidadHalo,
     depthWrite: false, depthTest: false, toneMapped: false,
   }));
   sp.scale.setScalar(radio * halo);
@@ -201,8 +222,8 @@ function fondoVidrio() {
     new THREE.ShaderMaterial({
       side: THREE.BackSide, depthWrite: false, blending: THREE.NoBlending,
       uniforms: {
-        alto: { value: new THREE.Color('#eceeef') }, bajo: { value: new THREE.Color('#a7b0b8') },
-        aAlto: { value: 0.34 }, aBajo: { value: 0.22 },
+        alto: { value: new THREE.Color('#c3cad0') }, bajo: { value: new THREE.Color('#71808d') },
+        aAlto: { value: 0.4 }, aBajo: { value: 0.32 },
       },
       vertexShader: 'varying vec3 vD; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vD = normalize(w.xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * w; }',
       fragmentShader: `uniform vec3 alto, bajo; uniform float aAlto, aBajo; varying vec3 vD;
@@ -365,7 +386,6 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
   principal.position.set(-3.5, 9, 6.5);
   principal.castShadow = true;
   principal.shadow.mapSize.set(2048, 2048);
-  principal.shadow.radius = 6;
   principal.shadow.bias = -0.0004;
   principal.shadow.normalBias = 0.02;
   scene.add(principal);
@@ -396,8 +416,9 @@ export function crearEstudio(canvas, { ss = 1 } = {}) {
     return { x0, x1, y0, y1, w: x1 - x0, h: y1 - y0 };
   }
 
-  // Mismo tamaño visual para todos: la mayor dimensión en pantalla ocupa «tam» del encuadre.
-  // Se escala el objeto (no se acerca la cámara) para que la perspectiva sea idéntica.
+  // Mismo tamaño visual para todos: la medida en pantalla (mezcla de lado mayor y área)
+  // ocupa «tam» del encuadre. Se escala el objeto (no se acerca la cámara) para que la
+  // perspectiva sea idéntica. «flotar» lo separa del suelo en esa fracción de su altura.
   function montar(icono, { tam = 0.68, peso = 0.5, flotar = 0 } = {}) {
     const caja = new THREE.Box3().setFromObject(icono);
     const c = caja.getCenter(new THREE.Vector3());

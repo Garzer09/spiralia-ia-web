@@ -531,7 +531,19 @@ html:not(.js) .panel-who{display:block}
 .tile-ing{grid-column:span 7;grid-row:span 2}
 .tile-del,.tile-cc{grid-column:span 5}
 .tile-ind{grid-column:span 12;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1.2fr);align-items:center;gap:clamp(16px,3vw,40px)}
-.tile .pc-logo{margin-bottom:auto;padding-bottom:22px}
+.tile .pc-logo{height:26px;width:auto;max-width:none;margin:0;padding:0;flex:none}
+.tile .pc-logo + *{margin-top:28px}
+.tile-ing .tile-k{margin-top:auto;padding-top:28px}
+.ing-bars{width:100%;display:grid;gap:14px;margin-top:clamp(28px,4vw,56px)}
+.ing-bars p{margin:0;display:grid;grid-template-columns:5.5rem 1fr;align-items:center;gap:14px;font-family:var(--cond);font-size:.84rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-2)}
+.ing-bars b{display:block;height:34px;border-radius:99px;background:rgba(224,223,218,.08);position:relative;overflow:hidden}
+.ing-bars b::before{content:"";position:absolute;inset:0 auto 0 0;width:calc(var(--v) * 100%);border-radius:inherit;
+  background:linear-gradient(90deg,rgba(224,223,218,.25),rgba(224,223,218,.75));transform-origin:0 50%;transform:scaleX(var(--s,1));transition:transform 1.4s var(--ease)}
+.ing-bars p:last-child b::before{background:linear-gradient(90deg,rgba(224,223,218,.35),#fff)}
+.ing-bars i{position:absolute;right:calc((1 - var(--v)) * 100% + 12px);top:50%;transform:translateY(-50%);font-style:normal;font-family:var(--serif);font-size:1.05rem;letter-spacing:0;text-transform:none;color:var(--night)}
+.ing-bars i{transition:opacity .5s ease 1.1s}
+.sota .ing-bars:not(.on) b::before{--s:0}
+.sota .ing-bars:not(.on) i{opacity:0;transition:none}
 .tile-k{margin:0;font-family:var(--cond);font-size:.84rem;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-2)}
 .tile-big{margin:.3rem 0 .4rem;font-family:var(--serif);font-weight:300;line-height:.95;letter-spacing:-.02em;color:var(--hl);font-size:clamp(2.6rem,4.6vw,4.2rem)}
 .tile-ing .tile-big{font-size:clamp(3.4rem,7.4vw,7rem)}
@@ -559,11 +571,14 @@ html:not(.js) .panel-who{display:block}
 .fcard dt{font-family:var(--cond);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-top:.7rem}
 .fcard dd{margin:0;font-size:.96rem;line-height:1.5}
 .fcard .btn{margin-top:auto;align-self:flex-start}
-.fcard-main{background:linear-gradient(160deg,#0D3150,#08263D 60%);color:var(--on-dark);border:0}
+.fcard-main.glass,.paper .fcard-main.glass{background:linear-gradient(160deg,#0D3150,#08263D 60%);color:var(--on-dark);border:0;box-shadow:0 40px 70px -40px rgba(8,38,61,.7)}
+/* Las tarjetas del equipo van sobre el bloque navy: cristal oscuro aunque la sección sea clara */
+.light .equipo .glass{border-color:rgba(224,223,218,.14);background:linear-gradient(160deg,rgba(224,223,218,.08),rgba(224,223,218,.02) 50%);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.light .equipo .spot::before{background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(224,223,218,.12),transparent 60%)}
 .fcard-main .fcard-dur,.fcard-main dt{color:var(--on-dark-2)}
 .fcard-main .fcard-top em{color:var(--hl)}
 .fcard-main .btn-cta{background:var(--cta-bg);color:var(--cta-ink)}
-.fcard-main .spot::before,.fcard-main::before{background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(224,223,218,.14),transparent 60%)}
+.paper .fcard-main.spot::before{background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(224,223,218,.14),transparent 60%)}
 @property --giro{syntax:"<angle>";inherits:false;initial-value:0deg}
 .fcard-main::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
   background:conic-gradient(from var(--giro),transparent 0 62%,rgba(224,223,218,.85) 76%,transparent 90%);
@@ -585,7 +600,8 @@ html:not(.js) .panel-who{display:block}
 .hero-gl,.sp-gl{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease}
 .hero.has-gl .hero-gl{opacity:1}
 .hero.has-gl .hero-video{display:none}
-.sp-fig{position:sticky}
+.hero-poster{transition:opacity 1.2s ease}
+.hero.has-gl .hero-poster{opacity:0}
 .spiral .sp-gl{inset:-6% -18%;width:136%;height:112%;pointer-events:none}
 #como{overflow-x:clip}
 @media (max-width:900px){.spiral .sp-gl{inset:-4% 0;width:100%;height:108%}}

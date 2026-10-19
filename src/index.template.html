@@ -62,7 +62,7 @@
       <img class="hero-poster" src="{{base}}assets/video/hero-h.jpg" alt="" width="1920" height="1080" fetchpriority="high">
     </picture>
     <video class="hero-video" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback></video>
-    <canvas class="hero-gl"></canvas>
+    <canvas class="hero-gl" aria-hidden="true"></canvas>
     <div class="hero-scrim"></div>
   </div>
   <div class="wrap hero-in">
@@ -179,6 +179,10 @@
     <div class="bento">
       <article class="tile tile-ing glass spot rv">
         <img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="26" class="pc-logo">
+        <div class="ing-bars" aria-hidden="true">
+          <p><span>{{pr.ing_antes}}</span><b style="--v:.66"><i>{{pr.ing_b1}}</i></b></p>
+          <p><span>{{pr.ing_despues}}</span><b style="--v:.92"><i>{{pr.ing_b2}}</i></b></p>
+        </div>
         <p class="tile-k">{{pr.ing_m1t}}</p>
         <p class="tile-big">{{pr.ing_m1}}</p>
         <h3 class="display h4">{{pr.ing_h}}</h3><p class="tile-p">{{pr.ing_p}}</p>
@@ -200,7 +204,7 @@
         <p class="src">{{pr.cc_src}}</p>
       </article>
       <article class="tile tile-ind glass spot rv">
-        <img class="tile-ico" src="{{base}}assets/img/3d/espiral.webp" alt="" width="132" height="132" loading="lazy">
+        <img class="tile-ico" src="{{base}}assets/img/3d/espiral-192.webp" srcset="{{base}}assets/img/3d/espiral-192.webp 192w, {{base}}assets/img/3d/espiral.webp 512w" sizes="132px" alt="" width="132" height="132" loading="lazy">
         <h3 class="display h5t">{{pr.ind_h}}</h3><p class="tile-p">{{pr.ind_p}}</p>
       </article>
     </div>
@@ -331,9 +335,9 @@
     </header>
     <div class="tabs" data-tabs>
       <div class="tablist" role="tablist" aria-labelledby="t-pt">
-        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true"><img class="tab-ico" src="{{base}}assets/img/3d/resultados.webp" alt="" width="40" height="40" loading="lazy">{{pt.t1_tab}}</button>
-        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/personas.webp" alt="" width="40" height="40" loading="lazy">{{pt.t2_tab}}</button>
-        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/tecnologia.webp" alt="" width="40" height="40" loading="lazy">{{pt.t3_tab}}</button>
+        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true"><img class="tab-ico" src="{{base}}assets/img/3d/resultados-192.webp" srcset="{{base}}assets/img/3d/resultados-192.webp 192w, {{base}}assets/img/3d/resultados.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t1_tab}}</button>
+        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/personas-192.webp" srcset="{{base}}assets/img/3d/personas-192.webp 192w, {{base}}assets/img/3d/personas.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t2_tab}}</button>
+        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/tecnologia-192.webp" srcset="{{base}}assets/img/3d/tecnologia-192.webp 192w, {{base}}assets/img/3d/tecnologia.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t3_tab}}</button>
       </div>
       <div class="panel" role="tabpanel" id="para-ti-negocio" aria-labelledby="tab-negocio" tabindex="0">
         <p class="panel-who">{{pt.t1_tab}}</p>
@@ -379,18 +383,18 @@
     </header>
     <div class="fmts">
       <article class="fcard fcard-main glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/rumbo.webp" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/rumbo-192.webp" srcset="{{base}}assets/img/3d/rumbo-192.webp 192w, {{base}}assets/img/3d/rumbo.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
         <h3 class="fcard-n">{{fmt.r_name}}</h3><p class="fcard-dur">{{fmt.r_dur}}</p>
         <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.r_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.r_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.r_lleva}}</dd></dl>
         <a class="btn btn-cta" href="{{base}}reserva/?d=rumbo&amp;l={{lang}}">{{fmt.r_cta}}</a>
       </article>
       <article class="fcard glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="112" height="112" loading="lazy"></div>
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"></div>
         <h3 class="fcard-n">{{fmt.p_name}}</h3><p class="fcard-dur">{{fmt.p_dur}}</p>
         <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.p_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.p_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.p_lleva}}</dd></dl>
       </article>
       <article class="fcard glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria.webp" alt="" width="112" height="112" loading="lazy"></div>
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"></div>
         <h3 class="fcard-n">{{fmt.d_name}}</h3><p class="fcard-dur">{{fmt.d_dur}}</p>
         <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.d_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.d_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.d_lleva}}</dd></dl>
       </article>
@@ -415,9 +419,9 @@
     <div class="equipo rv" aria-labelledby="t-eq">
       <h3 id="t-eq" class="h5">{{pq.eq_h}}</h3>
       <div class="eq-row">
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/estrategia.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/ingenieria.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/estrategia-192.webp" srcset="{{base}}assets/img/3d/estrategia-192.webp 192w, {{base}}assets/img/3d/estrategia.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
       </div>
       <p class="eq-note">{{pq.eq_note}}</p>
     </div>

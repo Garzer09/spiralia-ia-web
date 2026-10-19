@@ -8,11 +8,15 @@ import { ceramica, vidrio, puntoDeLuz, luz, PALETA } from './estudio.js';
 const M = {
   greige: ceramica('#E2E0DA', { rugosidad: 0.55, barniz: 0.25, rim: 0.3 }),
   blanco: ceramica('#F3F1EC', { rugosidad: 0.5, barniz: 0.3, rim: 0.25 }),
-  navy: ceramica(PALETA.navy2, { rugosidad: 0.45, barniz: 0.32, rim: 0.7 }),
-  navy3: ceramica(PALETA.navy3, { rugosidad: 0.48, barniz: 0.3, rim: 0.6 }),
-  vidrio: vidrio(),
-  vitrina: vidrio({ rugosidad: 0.22, espesor: 0.12 }),
-  hueco: vidrio({ rugosidad: 0.26, espesor: 0.1 }),
+  navy: ceramica(PALETA.navy2, { rugosidad: 0.55, barniz: 0.22, rim: 0.6, terciopelo: 0 }),
+  navy3: ceramica(PALETA.navy3, { rugosidad: 0.55, barniz: 0.22, rim: 0.5, terciopelo: 0 }),
+  vitrina: vidrio({ rugosidad: 0.22, espesor: 0.12, filo: 0.5, ior: 1.18 }),
+  // vidrio claro, poco esmerilado, para la hebra encendida de la S: deja ver la luz de dentro
+  hebra: vidrio({ rugosidad: 0.2, espesor: 0.2, filo: 0.35, atenuacion: '#c9d0d6', distancia: 3 }),
+  // la S: laca navy con más borde de luz que el resto, para que se lea también sobre noche
+  laca: ceramica(PALETA.navy3, { rugosidad: 0.4, barniz: 0.55, rim: 1.0, rimPot: 2.6, terciopelo: 0 }),
+  // vidrio muy esmerilado: lo que brilla por dentro (losa de formación, anillo, barras)
+  lechoso: vidrio({ rugosidad: 0.48, espesor: 0.25, filo: 0.55 }),
 };
 
 const caja = (w, h, d, r, seg = 8) => new RoundedBoxGeometry(w, h, d, seg, r);
@@ -32,8 +36,8 @@ function estrategia() {
     const h = paso * (i + 1);
     g.add(malla(caja(ancho, h, fondo, r), mats[i], 0, h / 2, (1 - i) * fondo));
   }
-  const luzP = puntoDeLuz(0.16, { intensidad: 1.6 });
-  luzP.position.set(0, paso * 3 + 0.16 + 0.1, -fondo);
+  const luzP = puntoDeLuz(0.21, { intensidad: 1.6, halo: 4.6 });
+  luzP.position.set(0, paso * 3 + 0.21 + 0.07, -fondo);
   g.add(luzP);
   return { objeto: g };
 }
@@ -42,13 +46,13 @@ function estrategia() {
 function formacion() {
   const g = new THREE.Group();
   const lado = 1.5, alto = 0.24, hueco = 0.1;
-  const mats = [M.navy, M.greige, M.vidrio];
+  const mats = [M.navy, M.greige, M.lechoso];
   for (let i = 0; i < 3; i++) {
     const m = malla(caja(lado, alto, lado, 0.12), mats[i], (i - 1) * 0.08, alto / 2 + i * (alto + hueco), -(i - 1) * 0.08);
     m.rotation.y = (i - 1) * 0.13;
     g.add(m);
     if (i === 2) {
-      const nucleo = malla(caja(lado * 0.72, 0.05, lado * 0.72, 0.025), luz({ centro: 2.2, borde: 1.4 }), 0, 0, 0);
+      const nucleo = malla(caja(lado * 0.72, 0.06, lado * 0.72, 0.03), luz({ centro: 2.0, borde: 1.3 }), 0, 0, 0);
       nucleo.userData.sinSombra = true;
       m.add(nucleo);
       const pl = new THREE.PointLight('#fff4e6', 1.2, 0, 2);
@@ -59,7 +63,7 @@ function formacion() {
   return { objeto: g };
 }
 
-// ── ingeniería: dos anillos entrelazados, uno cerámico y otro de vidrio con un filamento de luz.
+// ── ingeniería: dos anillos entrelazados, uno cerámico y otro de vidrio.
 // Sus normales forman 45° con la mirada (una hacia arriba y otra hacia abajo), así que los dos
 // se leen abiertos y el enlace queda en horizontal en pantalla.
 function ingenieria(est) {
@@ -67,7 +71,7 @@ function ingenieria(est) {
   const R = 0.6, t = 0.16;
   const cam = est.camera.position.clone().normalize();
   const derecha = new THREE.Vector3(1, 0, -1).normalize();
-  const arriba = new THREE.Vector3().crossVectors(derecha, cam).normalize();
+  const arriba = new THREE.Vector3().crossVectors(cam, derecha).normalize();
   const nA = cam.clone().multiplyScalar(Math.SQRT1_2).addScaledVector(arriba, Math.SQRT1_2).normalize();
   const nB = cam.clone().multiplyScalar(Math.SQRT1_2).addScaledVector(arriba, -Math.SQRT1_2).normalize();
   const eje = new THREE.Vector3().crossVectors(nA, nB).normalize();
@@ -75,61 +79,85 @@ function ingenieria(est) {
   const a = malla(new THREE.TorusGeometry(R, t, 64, 200), M.navy);
   a.quaternion.setFromUnitVectors(z, nA);
   a.position.copy(eje).multiplyScalar(-R * 0.5);
-  const b = malla(new THREE.TorusGeometry(R, t, 64, 200), M.hueco);
-  b.quaternion.setFromUnitVectors(z, nB);
-  b.position.copy(eje).multiplyScalar(R * 0.5);
-  const fil = malla(new THREE.TorusGeometry(R, 0.03, 16, 200), luz({ centro: 2.2, borde: 1.3 }));
+  const b = malla(new THREE.TorusGeometry(R, t, 64, 200), M.lechoso);
+  // dentro del vidrio, un filamento tenue: el esmerilado lo convierte en un resplandor
+  const fil = malla(new THREE.TorusGeometry(R, 0.04, 24, 200), luz({ centro: 1.4, borde: 0.9 }));
   fil.userData.sinSombra = true;
   b.add(fil);
+  b.quaternion.setFromUnitVectors(z, nB);
+  b.position.copy(eje).multiplyScalar(R * 0.5);
   g.add(a, b);
   // un leve giro en el plano de la imagen le quita rigidez
   g.rotateOnWorldAxis(cam, THREE.MathUtils.degToRad(-12));
   return { objeto: g, opciones: { flotar: 0.06 } };
 }
 
-// ── resultados: barras de vidrio que crecen y acaban en una esfera de luz
+// ── resultados: tres barras de vidrio esmerilado que crecen; la luz las llena por dentro y
+// la última queda encendida entera. Sin línea de tendencia: no es un gráfico de stock, es la
+// idea de la marca (la organización se enciende) aplicada al resultado.
 function resultados() {
   const g = new THREE.Group();
-  const w = 0.42, alturas = [0.6, 1.0, 1.45];
+  const w = 0.44, alturas = [0.62, 1.0, 1.45], llenado = [0.34, 0.6, 0.94];
   const d = new THREE.Vector3(1, 0, -1).normalize();
-  const cimas = [];
   alturas.forEach((h, i) => {
     const p = d.clone().multiplyScalar((i - 1) * 0.6);
-    g.add(malla(caja(w, h, w, 0.08), M.vidrio, p.x, h / 2, p.z));
-    cimas.push(new THREE.Vector3(p.x, h, p.z));
+    const barra = malla(caja(w, h, w, 0.09), M.lechoso, p.x, h / 2, p.z);
+    g.add(barra);
+    // columna de luz dentro de la barra, apoyada en el fondo; el esmerilado la difumina
+    const hl = h * llenado[i];
+    const col = malla(caja(w * 0.5, hl, w * 0.5, 0.06, 4), luz({ centro: 1.6, borde: 0.9 }), p.x, 0.04 + hl / 2, p.z);
+    col.userData.sinSombra = true;
+    g.add(col);
+    if (i === 2) {
+      const pl = new THREE.PointLight('#fff4e6', 1.1, 0, 2);
+      pl.position.set(p.x, h * 0.7, p.z);
+      g.add(pl);
+    }
   });
   const base = malla(caja(2.0, 0.1, 0.8, 0.05), M.navy, 0, -0.05, 0);
   base.rotation.y = Math.PI / 4;
   g.add(base);
-  const fin = cimas[2].clone().add(new THREE.Vector3(0, 0.3, 0));
-  const curva = new THREE.CatmullRomCurve3([
-    cimas[0].clone().add(new THREE.Vector3(0, 0.12, 0)),
-    cimas[1].clone().add(new THREE.Vector3(0, 0.2, 0)),
-    fin,
-  ]);
-  const tubo = malla(new THREE.TubeGeometry(curva, 120, 0.018, 12, false), luz({ centro: 1.8, borde: 1.1 }));
-  tubo.userData.sinSombra = true;
-  g.add(tubo);
-  const lp = puntoDeLuz(0.15, { intensidad: 1.4 });
-  lp.position.copy(fin);
-  g.add(lp);
   return { objeto: g };
 }
 
-// ── personas: un grupo de esferas de distinto tamaño; una se enciende e ilumina a las demás
+// ── personas: un grupo de esferas de distinto tamaño, apiñadas; una se enciende e ilumina
+// a las demás. Las posiciones salen de una relajación sencilla: se tocan sin solaparse.
+function apinar(radios, semilla) {
+  const p = semilla.map(([x, z]) => new THREE.Vector2(x, z));
+  for (let it = 0; it < 400; it++) {
+    for (let i = 0; i < p.length; i++) p[i].multiplyScalar(0.985);
+    for (let i = 0; i < p.length; i++) for (let j = i + 1; j < p.length; j++) {
+      const d = p[j].clone().sub(p[i]);
+      const L = d.length(), min = radios[i] + radios[j] + 0.012;
+      if (L < min) {
+        const k = (min - L) / 2 / Math.max(L, 1e-6);
+        p[i].addScaledVector(d, -k); p[j].addScaledVector(d, k);
+      }
+    }
+  }
+  return p;
+}
+
 function personas() {
   const g = new THREE.Group();
   const gente = [
-    { r: 0.46, x: -0.35, z: -0.32, m: M.navy },
-    { r: 0.36, x: 0.5, z: -0.46, m: M.greige },
-    { r: 0.26, x: -0.64, z: 0.44, m: M.navy3 },
-    { r: 0.22, x: 0.7, z: 0.22, m: M.blanco },
-    { r: 0.16, x: -0.18, z: 0.82, m: M.greige },
+    { r: 0.5, m: M.navy, s: [-0.4, -0.35] },
+    { r: 0.4, m: M.greige, s: [0.45, -0.4] },
+    { r: 0.32, luz: true, s: [0.05, 0.3] },
+    { r: 0.29, m: M.navy3, s: [-0.6, 0.4] },
+    { r: 0.24, m: M.blanco, s: [0.62, 0.25] },
+    { r: 0.17, m: M.greige, s: [-0.2, 0.8] },
   ];
-  for (const p of gente) g.add(malla(new THREE.SphereGeometry(p.r, 96, 48), p.m, p.x, p.r, p.z));
-  const lp = puntoDeLuz(0.3, { intensidad: 2.4, halo: 5 });
-  lp.position.set(0.12, 0.3, 0.3);
-  g.add(lp);
+  const pos = apinar(gente.map((p) => p.r), gente.map((p) => p.s));
+  gente.forEach((p, i) => {
+    if (p.luz) {
+      const lp = puntoDeLuz(p.r, { intensidad: 1.5, halo: 3.3, opacidadHalo: 0.55 });
+      lp.position.set(pos[i].x, p.r, pos[i].y);
+      g.add(lp);
+    } else {
+      g.add(malla(new THREE.SphereGeometry(p.r, 96, 48), p.m, pos[i].x, p.r, pos[i].y));
+    }
+  });
   return { objeto: g };
 }
 
@@ -145,35 +173,44 @@ function tecnologia() {
   return { objeto: g };
 }
 
-// ── rumbo: esfera armilar sobre peana, con una aguja que marca dirección y luz en el centro
-function rumbo() {
+// ── rumbo: esfera armilar sobre peana, con una aguja que marca dirección y luz en el centro.
+// Los anillos se orientan respecto a la cámara para que los dos se lean abiertos.
+function rumbo(est) {
   const g = new THREE.Group();
   const R = 0.8, t = 0.065, cy = 1.22;
-  const esfera = new THREE.Group();
-  const meridiano = malla(new THREE.TorusGeometry(R, t, 48, 220), M.navy);
-  const ecuador = malla(new THREE.TorusGeometry(R, t, 48, 220), M.greige);
-  ecuador.rotation.set(Math.PI / 2 - 0.38, 0, 0.18);
-  esfera.add(meridiano, ecuador);
-  esfera.rotation.y = 0.55;
-  esfera.position.y = cy;
-  // aguja: dos conos largos unidos por la base, blanco hacia el norte y navy hacia el sur
+  const cam = est.camera.position.clone().normalize();
+  const derecha = new THREE.Vector3(1, 0, -1).normalize();
+  const arriba = new THREE.Vector3().crossVectors(cam, derecha).normalize();
+  const gira = (a, b, ang) => a.clone().multiplyScalar(Math.cos(ang)).addScaledVector(b, Math.sin(ang)).normalize();
+  const z = new THREE.Vector3(0, 0, 1);
+  // el meridiano, vertical (normal horizontal) para que descanse sobre el vástago
+  const camH = new THREE.Vector3(cam.x, 0, cam.z).normalize();
+  const meridiano = malla(new THREE.TorusGeometry(R, t, 48, 220), M.navy, 0, cy, 0);
+  meridiano.quaternion.setFromUnitVectors(z, gira(camH, derecha, THREE.MathUtils.degToRad(62)));
+  const ecuador = malla(new THREE.TorusGeometry(R, t, 48, 220), M.greige, 0, cy, 0);
+  ecuador.quaternion.setFromUnitVectors(z, gira(cam, arriba, THREE.MathUtils.degToRad(58)));
+  ecuador.rotateOnWorldAxis(cam, THREE.MathUtils.degToRad(-14));
+  // aguja: dos conos que salen del orbe central, blanco hacia el norte y navy hacia el sur
   const aguja = new THREE.Group();
-  const cono = new THREE.ConeGeometry(0.085, 1.0, 64);
-  const n = malla(cono, M.blanco, 0, 0.5, 0);
-  const s = malla(cono, M.navy3, 0, -0.5, 0); s.rotation.x = Math.PI;
+  const rOrbe = 0.19, largo = 0.88;
+  const cono = new THREE.ConeGeometry(0.08, largo, 64);
+  const n = malla(cono, M.blanco, 0, rOrbe * 0.8 + largo / 2, 0);
+  const s = malla(cono, M.navy3, 0, -(rOrbe * 0.8 + largo / 2), 0); s.rotation.x = Math.PI;
   aguja.add(n, s);
   aguja.position.y = cy;
-  aguja.rotation.set(-0.25, 0, -0.75);
-  const centro = puntoDeLuz(0.17, { intensidad: 1.4, halo: 5.5 });
+  const dir = derecha.clone().multiplyScalar(0.72).addScaledVector(arriba, 0.66).addScaledVector(cam, -0.2).normalize();
+  aguja.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+  const centro = puntoDeLuz(rOrbe, { intensidad: 1.4, halo: 4.2, opacidadHalo: 0.6, nucleo: 0.5 });
   centro.position.y = cy;
   const pie = malla(caja(0.9, 0.14, 0.9, 0.07), M.navy, 0, 0.07, 0);
   const vastago = malla(new THREE.CylinderGeometry(0.04, 0.05, cy - R, 32), M.greige, 0, 0.14 + (cy - R - 0.14) / 2, 0);
-  g.add(pie, vastago, esfera, aguja, centro);
+  g.add(pie, vastago, meridiano, ecuador, aguja, centro);
   return { objeto: g };
 }
 
-// ── espiral: la S de Spiralia como seis tubos de vidrio paralelos (geometría de s-geom.js)
-// con un pulso de luz que recorre la hebra 3, la de los pasos de SPIRAL.
+// ── espiral: la S de Spiralia como seis tubos paralelos (geometría de s-geom.js). Cinco son de
+// laca navy; la hebra 3, la de los pasos de SPIRAL, es de vidrio con la luz dentro, así que la
+// S encendida se lee incluso a 28 px.
 function tuboAfilado(curva, desde, hasta, radio, segs = 160, lados = 16) {
   const sub = new THREE.Curve();
   sub.getPoint = (u, v = new THREE.Vector3()) => v.copy(curva.getPointAt(desde + (hasta - desde) * u));
@@ -198,23 +235,32 @@ function espiral() {
   const g = new THREE.Group();
   const alto = 2.4 / 455;
   const [cx, cy] = G.center;
-  const r = 19.4 * 0.36 * alto;
+  const r = 19.4 * 0.4 * alto;
   const curvas = G.pts.map((pts) => new THREE.CatmullRomCurve3(
     pts.map(([x, y]) => new THREE.Vector3((x - cx) * alto, -(y - cy) * alto, 0)), false, 'centripetal'));
-  curvas.forEach((curva) => {
-    g.add(malla(new THREE.TubeGeometry(curva, 900, r, 20, false), M.hueco));
+  // cinco hebras de porcelana greige (la firma sobre oscuro) y la 3, la del método, de vidrio
+  // esmerilado con la luz dentro
+  curvas.forEach((curva, i) => {
+    const mat = i === 2 ? M.hebra : M.laca;
+    g.add(malla(new THREE.TubeGeometry(curva, 900, r, 20, false), mat));
     for (const u of [0, 1]) {
       const p = curva.getPointAt(u);
-      g.add(malla(new THREE.SphereGeometry(r, 24, 16), M.hueco, p.x, p.y, p.z));
+      g.add(malla(new THREE.SphereGeometry(r, 24, 16), mat, p.x, p.y, p.z));
     }
   });
-  const pulso = malla(tuboAfilado(curvas[2], 0.5, 0.68, r * 0.55), luz({ centro: 2.6, borde: 1.4 }));
+  const fil = malla(tuboAfilado(curvas[2], 0.03, 0.97, r * 0.5, 400), luz({ centro: 1.6, borde: 1.2 }));
+  fil.userData.sinSombra = true;
+  g.add(fil);
+  // el pulso: un tramo más intenso hacia el centro de la hebra, con su halo
+  const pulso = malla(tuboAfilado(curvas[2], 0.42, 0.78, r * 0.62), luz({ centro: 3.0, borde: 1.4 }));
   pulso.userData.sinSombra = true;
   g.add(pulso);
-  const lp = puntoDeLuz(r * 1.2, { intensidad: 0.6, halo: 9, opacidadHalo: 0.45, orbe: false });
-  lp.children[0].visible = false;
-  lp.position.copy(curvas[2].getPointAt(0.62));
-  g.add(lp);
+  for (const [u, k] of [[0.54, 0.45], [0.6, 0.7], [0.66, 0.45]]) {
+    const lp = puntoDeLuz(r * 2, { intensidad: 0.3, halo: 7, opacidadHalo: k * 0.5, orbe: false });
+    lp.children[0].visible = false;
+    lp.position.copy(curvas[2].getPointAt(u));
+    g.add(lp);
+  }
   g.rotation.y = THREE.MathUtils.degToRad(26);
   return { objeto: g, opciones: { flotar: 0.1 } };
 }

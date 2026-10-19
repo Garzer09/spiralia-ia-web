@@ -8,12 +8,14 @@
 //             --celda 220       tamaño de cada icono en la hoja
 //             --maestros dir    guarda también el PNG de 768 px de cada icono
 //             --solo-hoja       no vuelve a pintar; monta la hoja con lo que ya hay
-import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+
+// Playwright: el del proyecto si existe; si no, la instalación global de este entorno.
+const { chromium } = await import('playwright').catch(() => import('/opt/node22/lib/node_modules/playwright/index.mjs'));
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.resolve(AQUI, '../..');
@@ -84,14 +86,26 @@ function sangrar(rgba, tam, pasadas = 8) {
   return d;
 }
 
-// WebP con alfa; baja la calidad hasta entrar en el peso objetivo.
+// Reduce el alfa a «niveles» escalones (0 y 255 quedan exactos). El alfa del WebP va sin
+// pérdida y, en piezas con mucho vidrio, es lo que más pesa.
+function cuantizarAlfa(rgba, niveles) {
+  if (niveles >= 256) return rgba;
+  const d = Buffer.from(rgba), paso = 255 / (niveles - 1);
+  for (let i = 3; i < d.length; i += 4) d[i] = Math.round(Math.round(d[i] / paso) * paso);
+  return d;
+}
+
+// WebP con alfa: prueba pares (calidad, escalones de alfa) hasta entrar en el peso objetivo.
+// El orden prima el color: antes de bajar de 84 se cuantiza el alfa, que a 96 o 64 escalones
+// no se distingue y en las piezas con muchos contornos es lo que más pesa.
+const ESCALERA = [[88, 256], [84, 256], [88, 96], [84, 96], [84, 64], [80, 64], [80, 48], [76, 48], [72, 48]];
 function guardarWebp(rgba, tam, destino) {
-  const fuente = sangrar(rgba, tam);
-  for (let q = 88; q >= 50; q -= 4) {
-    ffmpeg([...crudo(tam), '-c:v', 'libwebp', '-pix_fmt', 'yuva420p', '-quality', String(q), '-compression_level', '6', '-preset', 'picture', destino], fuente);
-    if (fs.statSync(destino).size <= PESO_MAX) return q;
+  const base = sangrar(rgba, tam);
+  for (const [q, niveles] of ESCALERA) {
+    ffmpeg([...crudo(tam), '-c:v', 'libwebp', '-pix_fmt', 'yuva420p', '-quality', String(q), '-compression_level', '6', '-preset', 'picture', destino], cuantizarAlfa(base, niveles));
+    if (fs.statSync(destino).size <= PESO_MAX) return `q ${q}` + (niveles < 256 ? `, alfa ${niveles}` : '');
   }
-  return 50;
+  return 'q 72, alfa 48 (sobre el objetivo)';
 }
 
 function guardarPng(rgba, tam, destino) {
@@ -100,49 +114,52 @@ function guardarPng(rgba, tam, destino) {
 
 // ── render
 const navegador = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-const resumen = [];
-if (!opt.soloHoja) {
-  fs.mkdirSync(SALIDA, { recursive: true });
-  if (opt.maestros) fs.mkdirSync(opt.maestros, { recursive: true });
-  for (const n of lista) {
-    const t0 = Date.now();
-    const pagina = await navegador.newPage({ viewport: { width: 768, height: 768 } });
-    pagina.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.log(`  [${n}] ${m.text()}`); });
-    pagina.on('pageerror', (e) => console.log(`  [${n}] ${e.message}`));
-    await pagina.goto(`${BASE}/tools/icons3d/index.html?icon=${n}&ss=${opt.ss}`);
-    await pagina.waitForFunction(() => window.__listo || window.__error, null, { timeout: 300000, polling: 250 });
-    const error = await pagina.evaluate(() => window.__error);
-    if (error) throw new Error(`${n}: ${error}`);
-    const leer = async (tam) => Buffer.from(await pagina.evaluate((t) => window.__exportar(t), tam), 'base64');
-    if (opt.maestros) guardarPng(await leer(768), 768, path.join(opt.maestros, `${n}.png`));
-    const q = guardarWebp(await leer(512), 512, path.join(SALIDA, `${n}.webp`));
-    guardarPng(await leer(256), 256, path.join(SALIDA, `${n}.png`));
-    await pagina.close();
-    const kb = (f) => (fs.statSync(path.join(SALIDA, f)).size / 1024).toFixed(1);
-    resumen.push(`${n.padEnd(11)} webp ${kb(n + '.webp').padStart(5)} KB (q ${q}) · png ${kb(n + '.png').padStart(5)} KB · ${((Date.now() - t0) / 1000).toFixed(1)} s`);
-    console.log(resumen.at(-1));
+// Si algo falla, el navegador y el servidor se cierran igual: el proceso no se queda colgado.
+try {
+  const resumen = [];
+  if (!opt.soloHoja) {
+    fs.mkdirSync(SALIDA, { recursive: true });
+    if (opt.maestros) fs.mkdirSync(opt.maestros, { recursive: true });
+    for (const n of lista) {
+      const t0 = Date.now();
+      const pagina = await navegador.newPage({ viewport: { width: 768, height: 768 } });
+      pagina.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.log(`  [${n}] ${m.text()}`); });
+      pagina.on('pageerror', (e) => console.log(`  [${n}] ${e.message}`));
+      await pagina.goto(`${BASE}/tools/icons3d/index.html?icon=${n}&ss=${opt.ss}`);
+      await pagina.waitForFunction(() => window.__listo || window.__error, null, { timeout: 300000, polling: 250 });
+      const error = await pagina.evaluate(() => window.__error);
+      if (error) throw new Error(`${n}: ${error}`);
+      const leer = async (tam) => Buffer.from(await pagina.evaluate((t) => window.__exportar(t), tam), 'base64');
+      if (opt.maestros) guardarPng(await leer(768), 768, path.join(opt.maestros, `${n}.png`));
+      const q = guardarWebp(await leer(512), 512, path.join(SALIDA, `${n}.webp`));
+      guardarPng(await leer(256), 256, path.join(SALIDA, `${n}.png`));
+      await pagina.close();
+      const kb = (f) => (fs.statSync(path.join(SALIDA, f)).size / 1024).toFixed(1);
+      resumen.push(`${n.padEnd(11)} webp ${kb(n + '.webp').padStart(5)} KB (${q}) · png ${kb(n + '.png').padStart(5)} KB · ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+      console.log(resumen.at(-1));
+    }
   }
-}
 
-// ── hoja de contacto: los ocho sobre noche y sobre papel, leídos del WebP publicado
-if (opt.hoja) {
-  const c = opt.celda;
-  const fila = (fondo, tinta) => `<div class="banda" style="background:${fondo};color:${tinta}">${TODOS.map((n) =>
-    `<figure><img src="/assets/img/3d/${n}.webp?${Date.now()}" width="${c}" height="${c}"><figcaption>${n}</figcaption></figure>`).join('')}</div>`;
-  const html = `<!doctype html><meta charset="utf-8"><style>
-    body{margin:0;font:500 13px/1.2 system-ui,sans-serif;letter-spacing:.04em}
-    .banda{display:flex;gap:8px;padding:28px 28px 20px}
-    figure{margin:0;text-align:center}
-    figcaption{opacity:.6;margin-top:4px;text-transform:uppercase;font-size:11px}
-  </style>${fila('#051A2B', '#E0DFDA')}${fila('#F5F4F0', '#08263D')}`;
-  const pagina = await navegador.newPage({ viewport: { width: TODOS.length * (c + 8) + 48, height: 400 } });
-  await pagina.route(`${BASE}/__hoja`, (r) => r.fulfill({ contentType: 'text/html', body: html }));
-  await pagina.goto(`${BASE}/__hoja`);
-  await pagina.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 30000 });
-  fs.mkdirSync(path.dirname(opt.hoja), { recursive: true });
-  await pagina.screenshot({ path: opt.hoja, fullPage: true });
-  console.log('hoja de contacto: ' + opt.hoja);
+  // ── hoja de contacto: los ocho sobre noche y sobre papel, leídos del WebP publicado
+  if (opt.hoja) {
+    const c = opt.celda;
+    const fila = (fondo, tinta) => `<div class="banda" style="background:${fondo};color:${tinta}">${TODOS.map((n) =>
+      `<figure><img src="/assets/img/3d/${n}.webp?${Date.now()}" width="${c}" height="${c}"><figcaption>${n}</figcaption></figure>`).join('')}</div>`;
+    const html = `<!doctype html><meta charset="utf-8"><style>
+      body{margin:0;font:500 13px/1.2 system-ui,sans-serif;letter-spacing:.04em}
+      .banda{display:flex;gap:8px;padding:28px 28px 20px}
+      figure{margin:0;text-align:center}
+      figcaption{opacity:.6;margin-top:4px;text-transform:uppercase;font-size:11px}
+    </style>${fila('#051A2B', '#E0DFDA')}${fila('#F5F4F0', '#08263D')}`;
+    const pagina = await navegador.newPage({ viewport: { width: TODOS.length * (c + 8) + 48, height: 400 } });
+    await pagina.route(`${BASE}/__hoja`, (r) => r.fulfill({ contentType: 'text/html', body: html }));
+    await pagina.goto(`${BASE}/__hoja`);
+    await pagina.waitForFunction(() => [...document.images].every((i) => i.complete), null, { timeout: 30000 });
+    fs.mkdirSync(path.dirname(opt.hoja), { recursive: true });
+    await pagina.screenshot({ path: opt.hoja, fullPage: true });
+    console.log('hoja de contacto: ' + opt.hoja);
+  }
+} finally {
+  await navegador.close();
+  servidor.close();
 }
-
-await navegador.close();
-servidor.close();

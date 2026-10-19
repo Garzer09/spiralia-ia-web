@@ -18,11 +18,13 @@
       background: radial-gradient(125% 100% at 64% 40%, transparent 55%, rgba(2, 10, 18, .6) 100%); }
     .lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
     .escena.columna .lienzo { width: 46%; }
-    .titular { position: absolute; left: clamp(16px, 8.3vw, 120px); bottom: 14vh; max-width: 760px; pointer-events: none; z-index: 1; }
+    /* Mismo sitio que en la portada real: columna izquierda, del 37 % al 89 % del alto; en vertical, desde el 38 % */
+    .titular { position: absolute; left: clamp(16px, 8.3vw, 120px); top: 37vh; max-width: 760px; pointer-events: none; z-index: 1; }
+    .titular .sub { margin-top: 1.6rem; max-width: 34ch; font: 400 1.3rem/1.45 "Open Sans", Arial, sans-serif; letter-spacing: 0; text-transform: none; color: var(--greige); }
     .titular p { margin: 0 0 1rem; font-weight: 600; font-size: .84rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gris); }
     .titular h1 { margin: 0; font: 300 clamp(2.55rem, 5.6vw, 5.4rem)/1.04 "Butler", Georgia, serif; letter-spacing: -.012em; }
     .titular h1 span { display: block; color: var(--gris); }
-    @media (max-aspect-ratio: 9/10) { .titular { bottom: 8vh; right: 16px; } }
+    @media (max-aspect-ratio: 9/10) { .titular { top: 38vh; right: 16px; } .titular .sub { font-size: 1.05rem; } }
     .panel { position: fixed; right: 16px; bottom: 16px; z-index: 2; width: 268px; padding: 14px 16px 12px; border-radius: 16px;
       background: rgba(8, 38, 61, .55); border: 1px solid rgba(224, 223, 218, .14);
       -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
@@ -31,7 +33,8 @@
     .fila label { color: var(--gris); }
     select, button { font: inherit; color: var(--greige); background: rgba(224, 223, 218, .06); border: 1px solid rgba(224, 223, 218, .16);
       border-radius: 99px; padding: 3px 10px; }
-    input[type=range] { width: 150px; accent-color: var(--greige); }
+    input[type=range] { width: 150px; }
+    input { accent-color: var(--greige); }
     .pasos { display: flex; gap: 4px; }
     .pasos button { padding: 2px 0; width: 26px; }
     .pasos button[aria-pressed=true] { background: var(--greige); color: var(--navy); }
@@ -45,6 +48,7 @@
     <div class="titular" id="titular">
       <p>Spiralia · IA para empresas</p>
       <h1>Toda tu empresa, <span>trabajando con IA.</span></h1>
+      <p class="sub">Formamos a cada persona con su propio trabajo. Y construimos con tus equipos hasta que la IA da resultados.</p>
     </div>
   </div>
 
@@ -70,7 +74,8 @@
     (() => {
       'use strict';
       const $ = id => document.getElementById(id), q = new URLSearchParams(location.search);
-      const escena = $('escena'), lienzo = $('lienzo'), datos = $('datos');
+      const escena = $('escena'), datos = $('datos');
+      let lienzo = $('lienzo');
       const f = { esc: $('f-esc'), den: $('f-den'), marco: $('f-marco'), still: $('f-still'), intro: $('f-intro'), auto: $('f-auto'), p: $('f-p') };
       f.esc.value = q.get('scene') || 'planta';
       f.den.value = q.get('density') || '1';
@@ -93,8 +98,9 @@
 
       function monta() {
         if (gl) gl.destroy();
-        // Un lienzo nuevo en cada cambio: un contexto WebGL no se puede reutilizar con otras opciones
-        const nuevo = lienzo.cloneNode(); lienzo.replaceWith(nuevo); window.lienzoActual = nuevo;
+        // Un lienzo nuevo en cada cambio: destroy() libera el contexto y no se puede reutilizar.
+        // Se sustituye el lienzo actual, no el original, que ya no está en la página
+        const nuevo = lienzo.cloneNode(); lienzo.replaceWith(nuevo); lienzo = window.lienzoActual = nuevo;
         escena.classList.toggle('columna', f.marco.value === 'columna');
         $('titular').hidden = f.esc.value !== 'planta' || q.get('titular') === '0';
         if (!SPGL.supported()) { datos.textContent = 'Sin WebGL2: la página mantendría su póster o su SVG.'; return; }

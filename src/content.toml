@@ -90,6 +90,10 @@ h2b = {es = "Ya lo estamos haciendo.", en = "We're already doing it."}
 ing_h = {es = "Misma herramienta. Mismo grupo. La diferencia, la formación.", en = "Same tool. Same group. The difference: the training."}
 ing_p = {es = "Formamos a toda la organización de ING España, del comité de dirección a las oficinas y el contact center, por equipos y con los archivos de su día a día.", en = "We trained the whole of ING Spain, from the leadership team to the branches and the contact center, team by team and with the files from their day-to-day."}
 ing_m1 = {es = "del 66 % al 92 %", en = "from 66% to 92%"}
+ing_antes = {es = "Antes", en = "Before"}
+ing_despues = {es = "Después", en = "After"}
+ing_b1 = {es = "66 %", en = "66%"}
+ing_b2 = {es = "92 %", en = "92%"}
 ing_m1t = {es = "de usuarios activos cada semana", en = "weekly active users"}
 ing_m2 = {es = "4,7 / 5", en = "4.7 / 5"}
 ing_m2t = {es = "de satisfacción con el uso de la IA, frente a 3,2 del segundo país del grupo", en = "satisfaction with AI use, versus 3.2 in the group's second country"}

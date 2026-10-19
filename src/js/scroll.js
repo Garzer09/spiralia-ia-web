@@ -56,7 +56,8 @@
       spiral.classList.add('has-gl'); glSp.start();
       if (quieto) { glSp.setProgress(1); glSp.setStep(6); }
       if (fino) {
-        spiral.addEventListener('pointermove', e => { const r = spiral.getBoundingClientRect(); glSp.setPointer(e.clientX - r.left, e.clientY - r.top); }, { passive: true });
+        const cvs = $('.sp-gl', spiral);
+        spiral.addEventListener('pointermove', e => { const r = cvs.getBoundingClientRect(); glSp.setPointer(e.clientX - r.left, e.clientY - r.top); }, { passive: true });
         spiral.addEventListener('pointerleave', () => glSp.setPointer(null));
       }
     }
@@ -174,6 +175,9 @@
         t.addEventListener('pointerleave', () => { rx(0); ry(0); });
       });
     }
+
+    // Las barras de ING crecen al entrar
+    const bars = $('.ing-bars'); if (bars) ST.create({ trigger: bars, start: 'top 85%', once: true, onEnter: () => bars.classList.add('on') });
 
     // Progreso de lectura en la barra
     const bar = $('#bar');
