@@ -1,7 +1,7 @@
 // Piezas de la página. Cada una tiene arm (preparada, oculta), play (se reproduce) y finish (estado final).
 (() => {
   'use strict';
-  const { $, $$, still, piece, data } = window.SP;
+  const { $, $$, still, piece, data, ev } = window.SP;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const later = () => { let ts = []; return { at: (ms, fn) => ts.push(setTimeout(fn, ms)), clear: () => { ts.forEach(clearTimeout); ts = []; } }; };
 
@@ -123,31 +123,88 @@
     return { arm, play, finish };
   })());
 
-  // M1 · Película de apertura: se reproduce una vez cuando la portada está a la vista y se queda en su cartel final.
-  // Con «reducir movimiento», Save-Data o conexión lenta solo se ve el cartel (es el mismo último fotograma).
+  // Vídeos de fondo en bucle (portada y cierre). El póster es el fotograma 0 y el vídeo entra con un fundido.
+  // Con «reducir movimiento», Save-Data o conexión lenta no se descarga: queda el póster, que es un diseño terminado.
+  // El archivo se elige al cargar según la orientación (vertical en móvil) y el formato que admita el navegador.
+  const PAUSA = 'sp-fondo-pausado', reduced = matchMedia('(prefers-reduced-motion: reduce)'), SPfondo = {};
+  const pausadoAntes = () => { try { return localStorage.getItem(PAUSA) === '1'; } catch (e) { return false; } };
+  const recordar = v => { try { v ? localStorage.setItem(PAUSA, '1') : localStorage.removeItem(PAUSA); } catch (e) {} };
+  function fondo(sec, btn) {
+    const v = $('video', sec), c = navigator.connection || {};
+    if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '')) return;
+    const base = matchMedia('(max-aspect-ratio: 1/1)').matches ? sec.dataset.srcV : sec.dataset.srcH;
+    const webm = v.canPlayType('video/webm; codecs="vp9"');
+    let visto = false, cargado = false, user = pausadoAntes();
+    const set = () => { if (!btn) return; btn.setAttribute('aria-pressed', String(user)); btn.setAttribute('aria-label', user ? btn.dataset.play : btn.dataset.pause); };
+    const seguir = () => { if (visto && !user && !document.hidden) v.play().catch(() => sec.classList.add('no-video')); else v.pause(); };
+    v.addEventListener('playing', () => { sec.classList.add('is-playing'); if (btn) btn.hidden = false; });
+    new IntersectionObserver(([e]) => {
+      visto = e.isIntersecting;
+      if (visto && !cargado && !user) { cargado = true; v.src = base + (webm ? '.webm' : '.mp4'); }
+      seguir();
+    }, { threshold: .15 }).observe(sec);
+    document.addEventListener('visibilitychange', seguir);
+    reduced.addEventListener && reduced.addEventListener('change', e => { if (e.matches) { user = true; seguir(); } });
+    if (btn) {
+      if (user) { btn.hidden = false; set(); }
+      btn.addEventListener('click', () => {
+        user = !user; recordar(user); set();
+        if (!user && !cargado) { cargado = true; v.src = base + (webm ? '.webm' : '.mp4'); }
+        seguir();
+      });
+    }
+    return { pausar: () => v.pause(), seguir };
+  }
+  const hero = $('[data-hero]'), cierre = $('[data-firma]');
+  addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => {
+    if (hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero));
+    if (cierre) SPfondo.cierre = fondo(cierre, null);
+  }));
+
+  // La barra es transparente mientras la portada está detrás; sólida en cuanto deja de estarlo
   (() => {
-    const f = $('[data-film]'); if (!f) return;
-    const v = $('video', f), tg = $('.film-toggle', f), rp = $('.film-replay', f), bar = $('.film-bar i', f);
-    const c = navigator.connection || {};
-    if (still() || c.saveData || /2g/.test(c.effectiveType || '')) return;
-    let started = false, user = false, visto = false;
-    const set = () => { tg.classList.toggle('is-paused', v.paused); tg.setAttribute('aria-label', v.paused ? tg.dataset.play : tg.dataset.pause); };
-    const seguir = () => { if (visto && started && !user && v.paused && !v.ended && !document.hidden) v.play().catch(() => {}); };
-    v.addEventListener('playing', () => { f.classList.add('playing'); f.classList.remove('ended'); tg.hidden = false; rp.hidden = true; set(); });
-    v.addEventListener('pause', set);
-    v.addEventListener('timeupdate', () => { bar.style.transform = `scaleX(${(v.currentTime / v.duration || 0).toFixed(4)})`; });
-    v.addEventListener('ended', () => { f.classList.add('ended'); tg.hidden = true; rp.hidden = false; });
-    addEventListener('load', () => {
-      new IntersectionObserver(([e]) => {
-        visto = e.isIntersecting;
-        if (visto && !started) { started = true; v.src = f.dataset.src; v.play().catch(() => {}); }
-        else if (!visto && !v.paused) v.pause();
-        else seguir();
-      }, { threshold: .4 }).observe(f);
+    const bar = $('#bar'); if (!bar || !hero) return;
+    const s = document.createElement('div'); s.style.cssText = 'position:absolute;left:0;bottom:0;height:1px;width:1px'; hero.append(s);
+    new IntersectionObserver(([e]) => bar.classList.toggle('over', e.isIntersecting && !bar.classList.contains('open')), { rootMargin: '-68px 0px 0px 0px' }).observe(s);
+  })();
+
+  // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón
+  (() => {
+    const bar = $('#bar'), btn = $('.menu-btn', bar), nav = $('#menu'); if (!btn) return;
+    let estabaSobre = false;
+    const abrir = on => {
+      if (on) estabaSobre = bar.classList.contains('over');
+      bar.classList.toggle('open', on); bar.classList.toggle('over', !on && estabaSobre);
+      btn.setAttribute('aria-expanded', String(on)); btn.setAttribute('aria-label', on ? btn.dataset.close : btn.dataset.open);
+      document.documentElement.style.overflow = on ? 'hidden' : '';
+      if (on) $('a', nav).focus();
+    };
+    btn.addEventListener('click', () => abrir(btn.getAttribute('aria-expanded') !== 'true'));
+    $$('a', nav).forEach(a => a.addEventListener('click', () => abrir(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && bar.classList.contains('open')) { abrir(false); btn.focus(); } });
+    matchMedia('(min-width: 981px)').addEventListener('change', e => e.matches && abrir(false));
+  })();
+
+  // La película de 20 s, a demanda: el fondo se detiene mientras se ve
+  (() => {
+    const d = $('.film-dialog'), op = $('[data-film-open]'); if (!d || !op) return;
+    if (typeof d.showModal !== 'function') { op.hidden = true; return; }
+    const v = $('video', d);
+    op.addEventListener('click', () => {
+      if (!v.src) { v.poster = v.dataset.poster; v.src = v.dataset.src; }
+      d.showModal(); SPfondo.hero && SPfondo.hero.pausar();
+      ev('Película');
+      v.play().catch(() => {});
     });
-    document.addEventListener('visibilitychange', seguir); // si la pestaña estaba oculta, el navegador no arranca el vídeo
-    tg.addEventListener('click', () => { if (v.paused) { user = false; v.play().catch(() => {}); } else { user = true; v.pause(); } });
-    rp.addEventListener('click', () => { user = false; v.currentTime = 0; v.play().catch(() => {}); });
+    d.addEventListener('close', () => { v.pause(); SPfondo.hero && SPfondo.hero.seguir(); op.focus(); });
+    d.addEventListener('click', e => { if (e.target === d) d.close(); });
+  })();
+
+  // Logos en movimiento lento: se duplica la fila para que el bucle no tenga salto (los duplicados no se leen)
+  (() => {
+    const l = $('.logos'); if (!l || still()) return;
+    [...l.children].forEach(i => { const c = i.cloneNode(true); c.alt = ''; c.removeAttribute('role'); c.setAttribute('aria-hidden', 'true'); l.append(c); });
+    l.classList.add('run');
   })();
 
   // Pestañas «Para ti» (patrón ARIA) y accesos por perfil desde la portada
@@ -156,10 +213,11 @@
     const tabs = $$('[role=tab]', box), panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
     function select(i, focus) {
       tabs.forEach((t, j) => { const on = i === j; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; panels[j].hidden = !on; });
+      if (focus !== undefined) ev('Perfil', { pestaña: panels[i].id.replace('para-ti-', '') });
       if (focus) tabs[i].focus();
     }
     tabs.forEach((t, i) => {
-      t.addEventListener('click', () => select(i));
+      t.addEventListener('click', () => select(i, false));
       t.addEventListener('keydown', e => {
         const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
         if (k === undefined) return; e.preventDefault(); select((k + tabs.length) % tabs.length, true);
@@ -168,7 +226,7 @@
     const byHash = h => panels.findIndex(p => '#' + p.id === h);
     $$('a[data-tab]').forEach(a => a.addEventListener('click', e => {
       const i = byHash(a.getAttribute('href')); if (i < 0) return;
-      e.preventDefault(); select(i); $('#para-ti').scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
+      e.preventDefault(); select(i, false); $('#para-ti').scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
       history.replaceState(null, '', a.getAttribute('href'));
     }));
     const h = byHash(location.hash); select(h < 0 ? 0 : h);
@@ -177,7 +235,7 @@
 
   // Copiar el email
   $$('.copy').forEach(b => b.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(b.dataset.copy); const t = b.textContent; b.textContent = b.dataset.done; setTimeout(() => (b.textContent = t), 1800); } catch (e) {}
+    try { await navigator.clipboard.writeText(b.dataset.copy); window.SP.ev('Email', { origen: 'copiar' }); const t = b.textContent; b.textContent = b.dataset.done; setTimeout(() => (b.textContent = t), 1800); } catch (e) {}
   }));
 
 })();

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Fondo de la portada · La organización se enciende · Spiralia AI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow: hidden; background: #051A2B; }
+    .lienzo { position: relative; overflow: hidden; background: radial-gradient(120% 90% at 66% 30%, #082A44 0%, #041625 55%, #020B14 100%); }
+    .lienzo-org { position: absolute; inset: 0; }
+    .lienzo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(125% 100% at 64% 40%, transparent 52%, rgba(2, 10, 18, .7) 100%); }
+  </style>
+  <script src="gsap.min.js"></script>
+</head>
+<body>
+  <!-- Bucle de 12 s a 24 fps, sin sonido. Coreografía en org.js (función de t). render_hero_bg.sh cambia el tamaño para la versión vertical -->
+  <div id="fondo" class="lienzo" data-composition-id="fondo" data-start="0" data-duration="12" data-width="1920" data-height="1080" data-fps="24"></div>
+  <script src="org.js"></script>
+  <script>
+    ORG.montar(document.getElementById('fondo'));
+    const tl = gsap.timeline({ paused: true, onUpdate: () => ORG.pintar(tl.time()) });
+    tl.to({ ancla: 0 }, { ancla: 1, duration: ORG.duracion, ease: 'none' }, 0);
+    window.__timelines = window.__timelines || {};
+    window.__timelines["fondo"] = tl;
+    tl.seek(0);
+    ORG.pintar(0);
+  </script>
+</body>
+</html>

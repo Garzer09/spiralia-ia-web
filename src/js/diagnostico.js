@@ -24,7 +24,7 @@
   function intro() {
     box.innerHTML = `<ol class="dg-scale dg-preview">${D.n.map(x => `<li>${esc(x.name)}</li>`).join('')}</ol>
       <button type="button" class="btn btn-cta btn-lg dg-start">${esc(L.start)}</button>`;
-    $('.dg-start', box).addEventListener('click', () => ask(0, true));
+    $('.dg-start', box).addEventListener('click', () => { window.SP.ev('Diagnóstico', { paso: 'inicio' }); ask(0, true); });
   }
   function ask(i, focus) {
     cur = i; const q = D.q[i];
@@ -44,6 +44,7 @@
   }
   function result() {
     const a = ans.map(x => x || 0), n = window.SPDiag.level(a), N = D.n[n];
+    window.SP.ev('Diagnóstico', { paso: 'resultado', nivel: N.name });
     const body = [L.intro, '', `${N.name}: ${N.h}`, '', ...D.q.map((q, i) => `${i + 1}. ${q.q} ${q.o[a[i]]}`)].join('\n');
     const mail = `mailto:${box.dataset.mail}?subject=${encodeURIComponent(L.subject)}&body=${encodeURIComponent(body)}`;
     box.innerHTML = `<div class="dg-res"><h3>${esc(L.res)}</h3><p class="dg-level" tabindex="-1">${esc(N.name)}</p><p class="dg-h">${esc(N.h)}</p>

@@ -74,6 +74,16 @@
   // El enlace de idioma conserva el ancla
   $$('[data-keep-hash]').forEach(a => a.addEventListener('click', () => { if (location.hash) a.href = a.getAttribute('href').split('#')[0] + location.hash; }));
 
-  window.SP = { $, $$, still, fmt, piece, data: JSON.parse(($('#page-data') || {}).textContent || '{}') };
+  // Medición sin cookies: si la página carga Plausible (ANALYTICS en build.py), cada evento le llega; si no, no hace nada.
+  const ev = (name, props) => { try { window.plausible && window.plausible(name, props ? { props } : undefined); } catch (e) {} };
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href*="reserva/"], a[href^="mailto:"], a[hreflang]'); if (!a) return;
+    const h = a.getAttribute('href');
+    if (h.includes('reserva/')) ev('Reserva', { origen: (h.match(/[?&]d=([\w-]+)/) || [, 'otro'])[1] });
+    else if (h.startsWith('mailto:')) ev('Email', { origen: a.closest('[id]') ? a.closest('[id]').id : 'otro' });
+    else ev('Idioma', { a: a.getAttribute('hreflang') });
+  });
+
+  window.SP = { $, $$, still, fmt, piece, ev, data: JSON.parse(($('#page-data') || {}).textContent || '{}') };
   document.addEventListener('DOMContentLoaded', setup);
 })();

@@ -6,6 +6,10 @@
 
 Comprobaciones: claves sin traducir, {{...}} sin resolver, [PLACEHOLDER] y [BOOKINGS_URL]
 en producción, y que cada cifra del copy esté en src/cifras.toml (con la misma cifra en ES y EN).
+
+Bloques condicionales en la plantilla: <!--si:nombre ...--> ... <!--/si--> se quita entero si dentro
+queda un [PLACEHOLDER] (así los testimonios solo se publican cuando son reales).
+En el copy, {mail} se sustituye por MAIL.
 """
 import html, json, re, shutil, sys, tomllib, urllib.parse
 from pathlib import Path
@@ -14,8 +18,10 @@ ROOT = Path(__file__).resolve().parent
 SRC, DIST = ROOT / 'src', ROOT / 'dist'
 PROD = '--prod' in sys.argv
 SITE = 'https://spiralia.es/ia/'                  # URL final recomendada (carpeta en Nominalia)
-BOOKINGS = '[BOOKINGS_URL]'                       # página de Microsoft Bookings de Ana
-MAIL = 'ana.iza@spiralia.es'
+BOOKINGS = '[BOOKINGS_URL]'                       # página de Microsoft Bookings (mejor una de equipo)
+MAIL = 'ana.iza@spiralia.es'                      # email de contacto de toda la página; cambiarlo aquí basta
+ANALYTICS = ''                                    # dominio en Plausible (sin cookies, UE); vacío = sin medición
+ANALYTICS_SRC = 'https://plausible.io/js/script.js'
 LANGS = {'es': '', 'en': 'en/'}
 errors, warns = [], []
 
@@ -44,7 +50,24 @@ def localize(x, lang, key='data'):
     return x
 
 def texts(lang):
-    return {f'{s}.{k}': pick(v, lang, f'{s}.{k}') for s, sec in content.items() for k, v in sec.items()}
+    t = {f'{s}.{k}': pick(v, lang, f'{s}.{k}') for s, sec in content.items() for k, v in sec.items()}
+    return {k: v.replace('{mail}', MAIL) if isinstance(v, str) else v for k, v in t.items()}
+
+plain = lambda v: html.unescape(re.sub(r'<[^>]+>', '', str(v)))
+
+def jsonld(t, url):
+    """Datos estructurados: la organización, el servicio y las preguntas del comité (Google y buscadores con IA)."""
+    org = {'@type': 'Organization', '@id': SITE + '#org', 'name': 'Spiralia', 'url': 'https://spiralia.es/',
+           'logo': SITE + 'assets/img/spiralia.svg', 'sameAs': ['https://www.linkedin.com/company/spiralia/']}
+    srv = {'@type': 'Service', 'name': plain(t['meta.title']), 'description': plain(t['meta.description']),
+           'serviceType': plain(t['ft.tag']), 'provider': {'@id': SITE + '#org'}, 'areaServed': 'ES', 'url': url}
+    qs = sorted((k for k in t if re.fullmatch(r'faq\.q\d+', k)), key=lambda k: int(k[5:]))
+    faq = {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': plain(t[q]),
+           'acceptedAnswer': {'@type': 'Answer', 'text': plain(t['faq.a' + q[5:]])}} for q in qs]}
+    return json.dumps({'@context': 'https://schema.org', '@graph': [org, srv, faq]}, ensure_ascii=False,
+                      separators=(',', ':')).replace('</', '<\\/')
+
+SI = re.compile(r'<!--si:[^>]*-->(.*?)<!--/si-->', re.S)
 
 NUM = re.compile(r'\d+(?:[.,]\d+)*')
 norm = lambda s: re.sub(r'[.,\s]', '', s)
@@ -71,6 +94,9 @@ def render(tpl, t, lang):
         'robots': 'index,follow' if PROD else 'noindex,nofollow', 'mail': MAIL,
         'og_image': SITE + f'assets/og-{lang}.jpg',
         'data': json.dumps(localize(data, lang), ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'),
+        'jsonld': jsonld(t, url),
+        'analytics': (f'<script defer data-domain="{ANALYTICS}" src="{ANALYTICS_SRC}"></script>\n'
+                      '<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)}</script>') if ANALYTICS else '',
     }
     def sub(m):
         mode, key = (m.group(1) or ''), m.group(2)
@@ -85,6 +111,7 @@ def render(tpl, t, lang):
             return urllib.parse.quote(re.sub(r'<[^>]+>', '', v))
         return v
     out = re.sub(r'\{\{(attr:|url:)?([\w.]+)\}\}', sub, tpl)
+    out = SI.sub(lambda m: '' if '[PLACEHOLDER' in m.group(1) else m.group(1), out)
     for left in re.findall(r'\{\{[^}]*\}\}', out):
         errors.append(f'sin resolver: {left}')
     if PROD:
@@ -118,7 +145,8 @@ def main():
         out.write_text(render(tpl, t, lang))
     if not warns and nums['es'] != nums['en']:
         errors.append('las cifras de ES y EN no coinciden')
-    shutil.copytree(ROOT / 'assets', DIST / 'assets', ignore=shutil.ignore_patterns('.DS_Store', 'src-*'))
+    # Las fuentes se sirven en woff2 (tools/fonts.py); los OTF/TTF originales se quedan en el repo
+    shutil.copytree(ROOT / 'assets', DIST / 'assets', ignore=shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf'))
     for d in ('css', 'js'):
         shutil.copytree(SRC / d, DIST / d)
     if PROD and not BOOKINGS.startswith('http'):
@@ -129,8 +157,9 @@ def main():
     (DIST / 'vercel.json').write_text(json.dumps({'headers': [{'source': '/(.*)', 'headers': [
         {'key': 'X-Robots-Tag', 'value': robots}, {'key': 'X-Content-Type-Options', 'value': 'nosniff'}]}]}, indent=2))
     (DIST / '.htaccess').write_text(f'Header set X-Robots-Tag "{robots}"\nAddType font/otf .otf\nAddType font/ttf .ttf\n'
-                                    'AddType video/mp4 .mp4\n<IfModule mod_expires.c>\nExpiresActive On\n'
-                                    'ExpiresByType font/woff2 "access plus 1 year"\nExpiresByType video/mp4 "access plus 1 month"\n</IfModule>\n')
+                                    'AddType video/mp4 .mp4\nAddType video/webm .webm\nAddType font/woff2 .woff2\n<IfModule mod_expires.c>\nExpiresActive On\n'
+                                    'ExpiresByType font/woff2 "access plus 1 year"\nExpiresByType video/mp4 "access plus 1 month"\n'
+                                    'ExpiresByType video/webm "access plus 1 month"\n</IfModule>\n')
     (DIST / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       + ''.join(f'<url><loc>{SITE}{s}</loc></url>' for s in LANGS.values()) + '</urlset>\n')
     fuentes = ['# Fuentes de cada cifra', '', 'Generado por build.py desde src/cifras.toml. No editar a mano.', '',

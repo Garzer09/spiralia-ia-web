@@ -101,7 +101,7 @@ fuente = "Oferta de Spiralia (decisión de Jose Garza, 14-oct-2026)."
 [[c]]
 valor = "30"
 tipo = "formato"
-que = "Duración de la conversación con Ana (minutos)"
+que = "Duración de la primera conversación con el equipo (minutos)"
 fuente = "Oferta de Spiralia."
 
 [[c]]
@@ -127,3 +127,9 @@ valor = "20"
 tipo = "formato"
 que = "Duración de la película de apertura (segundos), en su texto alternativo"
 fuente = "—"
+
+[[c]]
+valor = "2027"
+tipo = "otro"
+que = "Año: el presupuesto de 2027, que los comités cierran en el último trimestre de 2026 (urgencia de calendario en el cierre)"
+fuente = "Calendario presupuestario. Retirar o cambiar por el año siguiente en el primer trimestre de 2027 (src/content.toml, [cta].urg)."

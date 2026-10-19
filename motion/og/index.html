@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=1200, height=630" />
   <title>Imagen para compartir · Spiralia AI</title>
   <style>
-    @font-face { font-family: "Butler"; src: url("Butler-Light.otf") format("opentype"); font-weight: 300; font-display: block; }
-    @font-face { font-family: "Sofia Sans Condensed"; src: url("SofiaSansCondensed-VF.ttf") format("truetype"); font-weight: 100 900; font-display: block; }
+    @font-face { font-family: "Butler"; src: url("Butler-Light.woff2") format("woff2"); font-weight: 300; font-display: block; }
+    @font-face { font-family: "Sofia Sans Condensed"; src: url("SofiaSansCondensed.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 1200px; height: 630px; overflow: hidden; background: #051A2B; }
     .lienzo { position: relative; width: 1200px; height: 630px; overflow: hidden; color: #E0DFDA; }
-    .s { position: absolute; right: 70px; top: 50%; height: 500px; transform: translateY(-50%); }
+    .fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 40%; }
+    .velo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,26,43,.9) 0%, rgba(5,26,43,.55) 55%, rgba(5,26,43,.1) 100%); }
     .k { position: absolute; left: 72px; top: 92px; font: 600 18px/1 "Sofia Sans Condensed"; letter-spacing: .22em; text-transform: uppercase; color: #A9B1B8; }
     h1 { position: absolute; left: 70px; top: 150px; width: 760px; font: 300 76px/1.04 "Butler"; letter-spacing: -.01em; }
     h1 span { display: block; } h1 span + span { color: #A9B1B8; }
@@ -19,15 +20,19 @@
 </head>
 <body>
   <div id="og" class="lienzo" data-composition-id="og" data-start="0" data-duration="1" data-width="1200" data-height="630" data-fps="30">
-    <img class="s" src="s-lines.svg" alt="" />
-    <p class="k">Spiralia AI · AI adoption, end-to-end.</p>
+    <img class="fondo" src="hero-h.jpg" alt="" />
+    <div class="velo"></div>
+    <p class="k" data-t="k"></p>
     <h1><span data-t="a"></span><span data-t="b"></span></h1>
     <img class="logo" src="spiralia-blanco.svg" alt="Spiralia" />
   </div>
   <script src="gsap.min.js"></script>
   <script>
-    const T = { es: ['La inteligencia se compra.', 'La ventaja se despliega.'], en: ['Intelligence is bought.', 'Advantage is deployed.'] }[document.documentElement.lang];
-    document.querySelector('[data-t=a]').textContent = T[0]; document.querySelector('[data-t=b]').textContent = T[1];
+    // Mismo titular que la portada (src/content.toml, [hero])
+    const T = { es: ['Spiralia · IA para empresas', 'Toda tu empresa,', 'trabajando con IA.'], en: ['Spiralia · AI for business', 'Your whole company,', 'working with AI.'] }[document.documentElement.lang];
+    document.querySelector('[data-t=k]').textContent = T[0];
+    document.querySelector('[data-t=a]').textContent = T[1];
+    document.querySelector('[data-t=b]').textContent = T[2];
     const tl = gsap.timeline({ paused: true }); tl.to({ a: 0 }, { a: 1, duration: 1 }, 0);
     window.__timelines = { og: tl };
   </script>
