@@ -11,11 +11,11 @@ Bloques condicionales en la plantilla: <!--si:nombre ...--> ... <!--/si--> se qu
 queda un [PLACEHOLDER] (así los testimonios solo se publican cuando son reales).
 En el copy, {mail} se sustituye por MAIL.
 """
-import html, json, re, shutil, sys, tomllib, urllib.parse
+import html, json, os, re, shutil, sys, tomllib, urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SRC, DIST = ROOT / 'src', ROOT / 'dist'
+SRC, DIST = ROOT / 'src', Path(os.environ.get('SP_DIST', ROOT / 'dist'))   # SP_DIST: otra carpeta de salida (pruebas)
 PROD = '--prod' in sys.argv
 SITE = 'https://spiralia.es/ia/' if PROD else 'https://spiralia-ia.vercel.app/'   # producción: carpeta en Nominalia; prototipo: Vercel
 BOOKINGS = '[BOOKINGS_URL]'                       # página de Microsoft Bookings (mejor una de equipo)
