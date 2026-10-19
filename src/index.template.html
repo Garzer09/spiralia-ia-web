@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{attr:meta.title}}</title>
+<meta name="description" content="{{attr:meta.description}}">
+<meta name="robots" content="{{robots}}">
+<link rel="canonical" href="{{canonical}}">
+<link rel="alternate" hreflang="es" href="{{url_es}}">
+<link rel="alternate" hreflang="en" href="{{url_en}}">
+<link rel="alternate" hreflang="x-default" href="{{url_es}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Spiralia">
+<meta property="og:title" content="{{attr:meta.title}}">
+<meta property="og:description" content="{{attr:meta.description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{og_image}}">
+<meta property="og:image:alt" content="{{attr:meta.og_alt}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#051A2B">
+<link rel="icon" href="{{base}}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="{{base}}assets/fonts/Butler-Light.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="{{base}}assets/fonts/SofiaSansCondensed-VF.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="{{base}}css/site.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main">{{nav.skip}}</a>
+
+<!-- 00 · Barra -->
+<header class="bar" id="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#top" aria-label="{{attr:nav.home}}">
+      <img src="{{base}}assets/img/spiralia-blanco.svg" alt="Spiralia" width="140" height="34">
+    </a>
+    <span class="pill" aria-hidden="true"><img src="{{base}}assets/img/s-lines.svg" alt="" width="12" height="20">AI</span>
+    <nav class="bar-nav" aria-label="{{attr:nav.menu}}">
+      <a href="#reto">{{nav.reto}}</a><a href="#como">{{nav.como}}</a><a href="#para-ti">{{nav.parati}}</a><a href="#quienes">{{nav.quienes}}</a>
+    </nav>
+    <a class="lang" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" aria-label="{{attr:nav.lang_label}}" data-keep-hash>{{nav.lang}}</a>
+    <a class="btn btn-cta btn-sm" href="{{base}}reserva/?d=barra">{{nav.cta}}</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 01 · Portada -->
+<section class="hero dark" id="top" aria-labelledby="h1">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="kicker">{{hero.kicker}}</p>
+      <h1 id="h1" class="display"><span class="l1">{{hero.h1a}}</span> <span class="l2">{{hero.h1b}}</span></h1>
+      <p class="hero-sub">{{hero.sub}}</p>
+      <div class="hero-ctas">
+        <a class="btn btn-cta" href="{{base}}reserva/?d=portada">{{hero.cta1}}</a>
+        <a class="btn btn-ghost" href="#diagnostico">{{hero.cta2}}</a>
+      </div>
+      <div class="roles">
+        <span class="roles-lbl">{{hero.roles}}</span>
+        <a href="#para-ti-direccion" data-tab="direccion">{{hero.role1}}</a>
+        <a href="#para-ti-personas" data-tab="personas">{{hero.role2}}</a>
+        <a href="#para-ti-formacion" data-tab="formacion">{{hero.role3}}</a>
+      </div>
+    </div>
+    <figure class="film" data-film data-src="{{base}}assets/video/film-{{lang}}.mp4">
+      <img class="film-poster" src="{{base}}assets/video/film-{{lang}}.jpg" alt="{{attr:hero.film_alt}}" width="1080" height="1350">
+      <video class="film-video" muted playsinline preload="none" aria-label="{{attr:hero.film_alt}}"></video>
+      <span class="film-bar" aria-hidden="true"><i></i></span>
+      <div class="film-ctl">
+        <button type="button" class="film-toggle" hidden data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
+        <button type="button" class="film-replay" hidden>↻ {{hero.replay}}</button>
+      </div>
+    </figure>
+  </div>
+  <div class="wrap proof">
+    <p class="proof-n"><span class="pre">{{hero.proof_pre}}</span> <b data-to="50000" data-group="1">{{hero.proof_num}}</b> <span>{{hero.proof_txt}}</span></p>
+    <div class="logos" role="list" aria-label="{{attr:hero.logos}}">
+      <img role="listitem" src="{{base}}assets/img/logo-ing.svg" alt="ING" height="22">
+      <img role="listitem" src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="22">
+      <img role="listitem" src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="30">
+      <img role="listitem" src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" height="46">
+      <img role="listitem" src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" height="24">
+      <img role="listitem" src="{{base}}assets/img/logo-ey.svg" alt="EY" height="28">
+      <img role="listitem" src="{{base}}assets/img/logo-lg.svg" alt="LG" height="24">
+      <img role="listitem" src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" height="24">
+      <img role="listitem" src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" height="20">
+      <img role="listitem" src="{{base}}assets/img/logo-wizink.png" alt="WiZink" height="26">
+      <img role="listitem" src="{{base}}assets/img/logo-teamsystem.svg" alt="TeamSystem" height="20">
+      <img role="listitem" src="{{base}}assets/img/logo-miravia.svg" alt="Miravia" height="22">
+    </div>
+  </div>
+</section>
+
+<!-- 02 · El reto -->
+<section class="sec light" id="reto" aria-labelledby="t-reto">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{reto.kicker}}</p>
+      <h2 id="t-reto" class="display"><span class="l1">{{reto.h2a}}</span> <span class="l2">{{reto.h2b}}</span></h2>
+    </header>
+    <div class="reto-grid">
+      <div class="rv">
+        <p class="lead">{{reto.lead}}</p>
+        <p class="src">{{reto.src1}}</p>
+      </div>
+      <figure class="chart" data-piece="chart" aria-label="{{attr:reto.chart_label}}">
+        <svg viewBox="0 0 560 330" role="img" aria-labelledby="chart-t">
+          <title id="chart-t">{{attr:reto.chart_label}}: {{attr:reto.chart_peak}} {{attr:reto.chart_peak_t}}, {{attr:reto.chart_end}} {{attr:reto.chart_end_t}}</title>
+          <g class="ch-grid"><line x1="40" y1="290" x2="540" y2="290"/><line x1="40" y1="40" x2="40" y2="290"/></g>
+          <path class="ch-line" pathLength="1" d="M40 286 C 70 270, 92 120, 125 95 C 150 76, 175 92, 205 118 C 260 160, 330 172, 400 178 C 450 182, 500 186, 540 188"/>
+          <g class="ch-pk"><circle cx="128" cy="93" r="6"/><text x="128" y="62" text-anchor="middle" class="ch-big">{{reto.chart_peak}}</text><text x="128" y="80" text-anchor="middle" class="ch-sm">{{reto.chart_peak_t}}</text></g>
+          <g class="ch-en"><circle cx="540" cy="188" r="6"/><text x="540" y="156" text-anchor="end" class="ch-big">{{reto.chart_end}}</text><text x="540" y="174" text-anchor="end" class="ch-sm">{{reto.chart_end_t}}</text></g>
+          <text x="40" y="314" class="ch-ax">{{reto.chart_x0}}</text><text x="540" y="314" text-anchor="end" class="ch-ax">{{reto.chart_x1}}</text>
+        </svg>
+        <figcaption>{{reto.chart_label}} · {{reto.chart_note}}</figcaption>
+      </figure>
+    </div>
+
+    <div class="beat2">
+      <h3 class="display h3 rv"><span class="l1">{{reto.b2a}}</span> <span class="l2">{{reto.b2b}}</span></h3>
+      <div class="vs" data-piece="count">
+        <div class="vs-n"><b data-to="80">{{reto.b2_80}}</b><span>{{reto.b2_80t}}</span></div>
+        <div class="vs-mid"><span>{{reto.b2_mid}}</span></div>
+        <div class="vs-n"><b data-to="6">{{reto.b2_6}}</b><span>{{reto.b2_6t}}</span></div>
+      </div>
+      <p class="lead narrow rv">{{reto.b2_p}}</p>
+      <p class="src">{{reto.src2}}</p>
+    </div>
+
+    <div class="beat3 rv">
+      <h3 class="display h3"><span class="l1">{{reto.b3a}}</span> <span class="l2">{{reto.b3b}}</span></h3>
+      <div>
+        <p class="lead">{{reto.b3_p}}</p>
+        <p class="src">{{reto.src3}}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="remate dark">
+  <p class="wrap display rv"><span class="l1">{{reto.remate_a}}</span> <span class="l2">{{reto.remate_b}}</span></p>
+</div>
+
+<!-- 03 · Cómo trabajamos · SPIRAL -->
+<section class="sec dark" id="como" aria-labelledby="t-como">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{como.kicker}}</p>
+      <h2 id="t-como" class="display"><span class="l1">{{como.h2a}}</span> <span class="l2">{{como.h2b}}</span></h2>
+      <p class="lead narrow">{{como.lead}}</p>
+    </header>
+    <div class="spiral" data-piece="spiral">
+      <figure class="sp-fig">
+        <svg class="sp-svg" viewBox="234 146 292 470" role="img" aria-label="{{attr:como.aria}}"></svg>
+        <button class="replay" type="button">↻ {{como.replay}}</button>
+      </figure>
+      <div class="sp-steps">
+        <p class="hint">{{como.hint}}</p>
+        <ol>
+          <li><button type="button" class="sp-b" data-n="1" aria-expanded="true"><b>S</b><span>{{como.s_n}}</span><small lang="en">Skill</small></button>
+            <div class="sp-d"><p>{{como.s_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.s_w}}</dd><dt>{{como.left}}</dt><dd>{{como.s_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="2" aria-expanded="true"><b>P</b><span>{{como.p_n}}</span><small lang="en">Pair</small></button>
+            <div class="sp-d"><p>{{como.p_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.p_w}}</dd><dt>{{como.left}}</dt><dd>{{como.p_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="3" aria-expanded="true"><b>I</b><span>{{como.i_n}}</span><small lang="en">Identify</small></button>
+            <div class="sp-d"><p>{{como.i_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.i_w}}</dd><dt>{{como.left}}</dt><dd>{{como.i_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="4" aria-expanded="true"><b>R</b><span>{{como.r_n}}</span><small lang="en">Rebuild</small></button>
+            <div class="sp-d"><p>{{como.r_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.r_w}}</dd><dt>{{como.left}}</dt><dd>{{como.r_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="5" aria-expanded="true"><b>A</b><span>{{como.a_n}}</span><small lang="en">Assure</small></button>
+            <div class="sp-d"><p>{{como.a_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.a_w}}</dd><dt>{{como.left}}</dt><dd>{{como.a_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="6" aria-expanded="true"><b>L</b><span>{{como.l_n}}</span><small lang="en">Launch</small></button>
+            <div class="sp-d"><p>{{como.l_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.l_w}}</dd><dt>{{como.left}}</dt><dd>{{como.l_l}}</dd></dl></div></li>
+        </ol>
+        <p class="fde-note">{{como.fde}}</p>
+      </div>
+    </div>
+    <p class="display remate-in rv"><span class="l1">{{como.remate_a}}</span> <span class="l2">{{como.remate_b}}</span></p>
+  </div>
+</section>
+
+<!-- 04 · Formatos -->
+<section class="sec light" id="formatos" aria-labelledby="t-fmt">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{fmt.kicker}}</p>
+      <h2 id="t-fmt" class="display"><span class="l1">{{fmt.h2a}}</span> <span class="l2">{{fmt.h2b}}</span></h2>
+      <p class="lead narrow">{{fmt.lead}}</p>
+    </header>
+    <div class="fmt" role="table" aria-labelledby="t-fmt">
+      <div class="fmt-row fmt-hd" role="row"><span role="columnheader"></span><span role="columnheader">{{fmt.c_para}}</span><span role="columnheader">{{fmt.c_dur}}</span><span role="columnheader">{{fmt.c_que}}</span><span role="columnheader">{{fmt.c_lleva}}</span></div>
+      <div class="fmt-row is-first rv" role="row">
+        <span role="rowheader" class="fmt-name"><em>{{fmt.r_badge}}</em><b>{{fmt.r_name}}</b><a class="btn btn-cta btn-sm" href="{{base}}reserva/?d=rumbo">{{fmt.r_cta}}</a></span>
+        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.r_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.r_dur}}</span>
+        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.r_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.r_lleva}}</span>
+      </div>
+      <div class="fmt-row rv" role="row">
+        <span role="rowheader" class="fmt-name"><b>{{fmt.p_name}}</b></span>
+        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.p_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.p_dur}}</span>
+        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.p_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.p_lleva}}</span>
+      </div>
+      <div class="fmt-row rv" role="row">
+        <span role="rowheader" class="fmt-name"><b>{{fmt.d_name}}</b></span>
+        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.d_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.d_dur}}</span>
+        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.d_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.d_lleva}}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · Personalización -->
+<section class="sec paper" id="personalizacion" aria-labelledby="t-pers">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{pers.kicker}}</p>
+      <h2 id="t-pers" class="display"><span class="l1">{{pers.h2a}}</span> <span class="l2">{{pers.h2b}}</span></h2>
+      <p class="lead narrow">{{pers.lead}}</p>
+    </header>
+    <div class="demo" data-piece="demo"
+         data-l-antes="{{attr:pers.antes}}" data-l-despues="{{attr:pers.despues}}" data-l-firma="{{attr:pers.firma}}"
+         data-l-paso="{{attr:pers.paso}}" data-l-pasos="{{attr:pers.pasos}}" data-l-app="{{attr:pers.app}}" data-l-apps="{{attr:pers.apps}}"
+         data-l-pause="{{attr:pers.pause}}" data-l-play="{{attr:pers.play}}">
+      <div class="demo-side">
+        <p class="demo-pick">{{pers.pick}}</p>
+        <div class="demo-profiles" role="group" aria-label="{{attr:pers.pick}}"></div>
+        <p class="demo-more">{{pers.more}}</p>
+      </div>
+      <div class="demo-stage" aria-live="polite">
+        <span class="tag tag-ilus">{{pers.ilus}}</span>
+        <div class="demo-scene"></div>
+        <div class="demo-ctl"><button type="button" class="demo-pause"></button><button type="button" class="replay demo-replay">↻ {{pers.replay}}</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · Lo que construimos -->
+<section class="sec dark" id="construimos" aria-labelledby="t-fde">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{fde.kicker}}</p>
+      <h2 id="t-fde" class="display"><span class="l1">{{fde.h2a}}</span> <span class="l2">{{fde.h2b}}</span></h2>
+      <p class="lead narrow">{{fde.lead}}</p>
+    </header>
+    <div class="fde-def rv">
+      <div class="fde-box"><p class="fde-t">{{fde.def_t}}</p><p>{{fde.def}}</p></div>
+      <div class="duo" aria-hidden="false">
+        <div class="duo-c"><b>{{fde.duo_a}}</b><span>{{fde.duo_at}}</span></div>
+        <span class="duo-plus" aria-hidden="true">+</span>
+        <div class="duo-c"><b>{{fde.duo_b}}</b><span>{{fde.duo_bt}}</span></div>
+        <p class="duo-eq">{{fde.duo_c}}</p>
+      </div>
+    </div>
+
+    <div class="gal-head rv"><h3 class="h4">{{fde.gal_h}}</h3><span class="tag tag-ilus">{{fde.ilus}}</span></div>
+    <article class="case" data-piece="case">
+      <header class="case-h"><h4>{{fde.c1_t}}</h4><span>{{fde.c1_s}}</span><button class="replay" type="button">↻ {{fde.replay}}</button></header>
+      <div class="lanes">
+        <div class="lane old"><p class="lane-t">{{fde.hoy}}</p>
+          <ol><li>{{fde.c1_o1}}</li><li>{{fde.c1_o2}}</li><li>{{fde.c1_o3}}</li><li>{{fde.c1_o4}}</li><li>{{fde.c1_o5}}</li><li>{{fde.c1_o6}}</li></ol>
+          <p class="lane-f">{{fde.c1_ot}}</p><i class="doc" aria-hidden="true"></i></div>
+        <div class="lane new"><p class="lane-t">{{fde.con}}</p>
+          <ol>
+            <li><em class="who sys">{{fde.sys}}</em>{{fde.c1_n1}}</li><li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n2}}</li>
+            <li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n3}}</li><li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n4}}</li>
+            <li><em class="who pe">{{fde.person}}</em>{{fde.c1_n5}}</li><li><em class="who pe">{{fde.person}}</em>{{fde.c1_n6}}</li>
+          </ol>
+          <p class="lane-f">{{fde.c1_nt}}</p><i class="doc" aria-hidden="true"></i></div>
+        <div class="log"><p class="lane-t">{{fde.log_h}}</p>
+          <ul><li>{{fde.c1_g1}}</li><li>{{fde.c1_g2}}</li><li>{{fde.c1_g3}}</li><li>{{fde.c1_g4}}</li><li>{{fde.c1_g5}}</li><li>{{fde.c1_g6}}</li></ul></div>
+      </div>
+    </article>
+    <div class="cards">
+      <article class="card rv"><header><h4>{{fde.c2_t}}</h4><span>{{fde.c2_s}}</span></header>
+        <dl><dt>{{fde.hoy}}</dt><dd>{{fde.c2_h}}</dd><dt>{{fde.con}}</dt><dd>{{fde.c2_c}}</dd><dt>{{fde.decide}}</dt><dd>{{fde.c2_d}}</dd><dt>{{fde.trabaja}}</dt><dd>{{fde.c2_w}}</dd></dl></article>
+      <article class="card rv"><header><h4>{{fde.c3_t}}</h4><span>{{fde.c3_s}}</span></header>
+        <dl><dt>{{fde.hoy}}</dt><dd>{{fde.c3_h}}</dd><dt>{{fde.con}}</dt><dd>{{fde.c3_c}}</dd><dt>{{fde.decide}}</dt><dd>{{fde.c3_d}}</dd><dt>{{fde.trabaja}}</dt><dd>{{fde.c3_w}}</dd></dl></article>
+      <article class="card rv"><header><h4>{{fde.c4_t}}</h4><span>{{fde.c4_s}}</span></header>
+        <dl><dt>{{fde.hoy}}</dt><dd>{{fde.c4_h}}</dd><dt>{{fde.con}}</dt><dd>{{fde.c4_c}}</dd><dt>{{fde.decide}}</dt><dd>{{fde.c4_d}}</dd><dt>{{fde.trabaja}}</dt><dd>{{fde.c4_w}}</dd></dl></article>
+    </div>
+    <div class="ctl rv">
+      <h3 class="h4">{{fde.ctl_h}}</h3>
+      <ul><li>{{fde.ctl1}}</li><li>{{fde.ctl2}}</li><li>{{fde.ctl3}}</li><li>{{fde.ctl4}}</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · Para ti -->
+<section class="sec light" id="para-ti" aria-labelledby="t-pt">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{pt.kicker}}</p>
+      <h2 id="t-pt" class="display"><span class="l1">{{pt.h2a}}</span> <span class="l2">{{pt.h2b}}</span></h2>
+    </header>
+    <div class="tabs" data-tabs>
+      <div class="tablist" role="tablist" aria-labelledby="t-pt">
+        <button role="tab" id="tab-direccion" aria-controls="para-ti-direccion" aria-selected="true">{{pt.t1_tab}}</button>
+        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1">{{pt.t2_tab}}</button>
+        <button role="tab" id="tab-formacion" aria-controls="para-ti-formacion" aria-selected="false" tabindex="-1">{{pt.t3_tab}}</button>
+      </div>
+      <div class="panel" role="tabpanel" id="para-ti-direccion" aria-labelledby="tab-direccion" tabindex="0">
+        <p class="panel-who">{{pt.t1_tab}}</p>
+        <h3 class="display h3">{{pt.t1_h}}</h3>
+        <blockquote class="voz">{{pt.t1_voz}}</blockquote>
+        <div class="panel-grid">
+          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t1_1}}</li><li>{{pt.t1_2}}</li><li>{{pt.t1_3}}</li><li>{{pt.t1_4}}</li></ul></div>
+          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t1_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t1_p}}</p>
+            <a class="btn btn-cta" href="{{base}}reserva/?d=direccion">{{pt.t1_cta}}</a></div>
+        </div>
+      </div>
+      <div class="panel" role="tabpanel" id="para-ti-personas" aria-labelledby="tab-personas" tabindex="0">
+        <p class="panel-who">{{pt.t2_tab}}</p>
+        <h3 class="display h3">{{pt.t2_h}}</h3>
+        <blockquote class="voz">{{pt.t2_voz}}</blockquote>
+        <div class="panel-grid">
+          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t2_1}}</li><li>{{pt.t2_2}}</li><li>{{pt.t2_3}}</li><li>{{pt.t2_4}}</li><li>{{pt.t2_5}}</li></ul></div>
+          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t2_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t2_p}}</p>
+            <a class="btn btn-cta" href="#diagnostico">{{pt.t2_cta}}</a></div>
+        </div>
+      </div>
+      <div class="panel" role="tabpanel" id="para-ti-formacion" aria-labelledby="tab-formacion" tabindex="0">
+        <p class="panel-who">{{pt.t3_tab}}</p>
+        <h3 class="display h3">{{pt.t3_h}}</h3>
+        <blockquote class="voz">{{pt.t3_voz}}</blockquote>
+        <div class="panel-grid">
+          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t3_1}}</li><li>{{pt.t3_2}}</li><li>{{pt.t3_3}}</li><li>{{pt.t3_4}}</li><li>{{pt.t3_5}}</li></ul></div>
+          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t3_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t3_p}}</p>
+            <a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:pt.t3_subject}}">{{pt.t3_cta}}</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · Pruebas -->
+<section class="sec dark" id="pruebas" aria-labelledby="t-pr">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{pr.kicker}}</p>
+      <h2 id="t-pr" class="display"><span class="l1">{{pr.h2a}}</span> <span class="l2">{{pr.h2b}}</span></h2>
+    </header>
+    <div class="cases" data-piece="count">
+      <article class="pcase pcase-main rv">
+        <img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="26" class="pc-logo">
+        <h3 class="display h4">{{pr.ing_h}}</h3><p>{{pr.ing_p}}</p>
+        <div class="metrics"><div><b>{{pr.ing_m1}}</b><span>{{pr.ing_m1t}}</span></div><div><b>{{pr.ing_m2}}</b><span>{{pr.ing_m2t}}</span></div></div>
+        <p class="src">{{pr.ing_src}}</p>
+      </article>
+      <article class="pcase rv">
+        <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="22" class="pc-logo">
+        <h3 class="display h4">{{pr.del_h}}</h3><p>{{pr.del_p}}</p>
+        <div class="metrics"><div><b data-to="13000" data-group="1">{{pr.del_m1}}</b><span>{{pr.del_m1t}}</span></div><div><b data-to="3000" data-group="1">{{pr.del_m2}}</b><span>{{pr.del_m2t}}</span></div></div>
+        <p class="src">{{pr.del_src}}</p>
+      </article>
+      <article class="pcase rv">
+        <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="30" class="pc-logo">
+        <h3 class="display h4">{{pr.cc_h}}</h3><p>{{pr.cc_p}}</p>
+        <div class="metrics"><div><b data-to="218">{{pr.cc_m1}}</b><span>{{pr.cc_m1t}}</span></div><div><b data-to="6">{{pr.cc_m2}}</b><span>{{pr.cc_m2t}}</span></div></div>
+        <p class="src">{{pr.cc_src}}</p>
+      </article>
+    </div>
+    <div class="tst">
+      <h3 class="h5">{{pr.tst_h}}</h3>
+      <div class="tst-row">
+        <figure class="tst-c"><blockquote>{{pr.tst_q}}</blockquote><figcaption><b>{{pr.tst_a}}</b><span>{{pr.tst_r}}</span></figcaption></figure>
+        <figure class="tst-c"><blockquote>{{pr.tst_q}}</blockquote><figcaption><b>{{pr.tst_a}}</b><span>{{pr.tst_r}}</span></figcaption></figure>
+        <figure class="tst-c"><blockquote>{{pr.tst_q}}</blockquote><figcaption><b>{{pr.tst_a}}</b><span>{{pr.tst_r}}</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · Quiénes somos -->
+<section class="sec light" id="quienes" aria-labelledby="t-pq">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{pq.kicker}}</p>
+      <h2 id="t-pq" class="display"><span class="l1">{{pq.h2a}}</span> <span class="l2">{{pq.h2b}}</span></h2>
+    </header>
+    <div class="why">
+      <div class="why-i rv"><h3 class="h5">{{pq.i1h}}</h3><p>{{pq.i1}}</p></div>
+      <div class="why-i rv"><h3 class="h5">{{pq.i2h}}</h3><p>{{pq.i2}}</p></div>
+      <div class="why-i rv"><h3 class="h5">{{pq.i3h}}</h3><p>{{pq.i3}}</p></div>
+      <div class="why-i rv"><h3 class="h5">{{pq.i4h}}</h3><p>{{pq.i4}}</p></div>
+      <div class="why-i rv"><h3 class="h5">{{pq.i5h}}</h3><p>{{pq.i5}}</p></div>
+    </div>
+    <div class="team">
+      <article class="person rv"><img src="{{base}}assets/img/ana-iza.jpg" alt="{{attr:pq.ana_n}}" width="160" height="160" loading="lazy">
+        <div><h3>{{pq.ana_n}}</h3><p class="role">{{pq.ana_r}}</p><p>{{pq.ana_b}}</p></div></article>
+      <article class="person rv"><img src="{{base}}assets/img/jose-garza.jpg" alt="{{attr:pq.jose_n}}" width="160" height="160" loading="lazy">
+        <div><h3>{{pq.jose_n}}</h3><p class="role">{{pq.jose_r}}</p><p>{{pq.jose_b}}</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · Diagnóstico -->
+<section class="sec navy" id="diagnostico" aria-labelledby="t-dg">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{dg.kicker}}</p>
+      <h2 id="t-dg" class="display"><span class="l1">{{dg.h2a}}</span> <span class="l2">{{dg.h2b}}</span></h2>
+      <p class="lead narrow">{{dg.lead}}</p>
+    </header>
+    <div class="dg" data-dg data-mail="{{mail}}"
+         data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
+         data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
+         data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
+         data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}">
+      <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · Preguntas del comité -->
+<section class="sec light" id="preguntas" aria-labelledby="t-faq">
+  <div class="wrap faq-wrap">
+    <header class="head rv">
+      <p class="kicker">{{faq.kicker}}</p>
+      <h2 id="t-faq" class="display h3">{{faq.h2}}</h2>
+    </header>
+    <div class="faq">
+      <details><summary>{{faq.q1}}</summary><p>{{faq.a1}}</p></details>
+      <details><summary>{{faq.q2}}</summary><p>{{faq.a2}}</p></details>
+      <details><summary>{{faq.q3}}</summary><p>{{faq.a3}}</p></details>
+      <details><summary>{{faq.q4}}</summary><p>{{faq.a4}}</p></details>
+      <details><summary>{{faq.q5}}</summary><p>{{faq.a5}}</p></details>
+      <details><summary>{{faq.q6}}</summary><p>{{faq.a6}}</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · Cierre -->
+<section class="sec dark cierre" id="hablemos" aria-labelledby="t-cta">
+  <img class="cierre-s" src="{{base}}assets/img/s-lines.svg" alt="" aria-hidden="true" width="292" height="470" loading="lazy">
+  <div class="wrap cierre-in">
+    <div class="team-cta">
+      <figure><img src="{{base}}assets/img/ana-iza.jpg" alt="{{attr:cta.ana_cap}}" width="180" height="180" loading="lazy"><figcaption>{{cta.ana_cap}}</figcaption></figure>
+      <figure><img src="{{base}}assets/img/jose-garza.jpg" alt="{{attr:cta.jose_cap}}" width="180" height="180" loading="lazy"><figcaption>{{cta.jose_cap}}</figcaption></figure>
+    </div>
+    <div>
+      <p class="kicker">{{cta.kicker}}</p>
+      <h2 id="t-cta" class="display"><span class="l1">{{cta.h2a}}</span> <span class="l2">{{cta.h2b}}</span></h2>
+      <p class="lead">{{cta.lead}}</p>
+      <div class="hero-ctas"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=cierre">{{cta.btn}}</a></div>
+      <p class="asist">{{cta.asist}} <a href="mailto:{{mail}}?subject={{url:cta.subject}}">{{mail}}</a>
+        <button type="button" class="copy" data-copy="{{mail}}" data-done="{{attr:cta.copied}}">{{cta.copy}}</button></p>
+      <p class="legal">{{cta.legal}}</p>
+      <p class="urg display">{{cta.urg}}</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 13 · Pie -->
+<footer class="foot">
+  <div class="wrap foot-in">
+    <img src="{{base}}assets/img/spiralia-blanco.svg" alt="Spiralia" width="120" height="29" loading="lazy">
+    <nav aria-label="{{attr:ft.areas}}"><p>{{ft.areas}}</p>
+      <a href="https://spiralia.es/eventos-a-medida/">Events</a><a href="https://spiralia.es/comunicacion-creativa/">Communication</a><a href="https://spiralia.es/team-building-para-empresas/">Team Building</a><a href="https://spiralia.es/bespoke/">Bespoke</a><a href="https://spiralia.es/media/">Media</a>
+    </nav>
+    <div class="foot-legal">
+      <a href="https://spiralia.es/politica-de-privacidad/">{{ft.privacy}}</a>
+      <a href="https://www.linkedin.com/company/spiralia/">LinkedIn</a>
+      <a href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{nav.lang_label}}</a>
+      <span>{{ft.nocookies}}</span><span>{{ft.copy}}</span>
+    </div>
+  </div>
+</footer>
+
+
+<script type="application/json" id="page-data">{{data}}</script>
+<script src="{{base}}js/s-geom.js" defer></script>
+<script src="{{base}}js/engine.js" defer></script>
+<script src="{{base}}js/motion.js" defer></script>
+<script src="{{base}}js/diagnostico.js" defer></script>
+</body>
+</html>

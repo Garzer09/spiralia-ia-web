@@ -1,0 +1,129 @@
+# Cifras permitidas en el copy. El build falla si aparece en la página una cifra que no está aquí.
+# valor: tal como se escribe en español. tipo: dato (con fuente) · formato (oferta de Spiralia) · otro.
+# Las claves src* y *_src (las propias fuentes) y la sección [data] no se comprueban.
+
+[[c]]
+valor = "50.000"
+tipo = "dato"
+que = "Alumnos formados por Spiralia en IA aplicada a negocio"
+fuente = "Spiralia, dato interno confirmado por Jose Garza el 14-oct-2026 («50k alumnos»)."
+
+[[c]]
+valor = "7.137"
+tipo = "dato"
+que = "Personas en el experimento de Copilot"
+fuente = "Dillon, Jaffe, Immorlica y Stanton, NBER Working Paper 33795 (mayo de 2025, revisado en noviembre de 2025). https://www.nber.org/papers/w33795"
+
+[[c]]
+valor = "66"
+tipo = "dato"
+que = "Empresas del experimento (Dillon et al.) · % sin orientación sobre el tiempo ahorrado (BCG 2026) · % de usuarios activos semanales en ING antes del programa"
+fuente = "Dillon et al. (NBER w33795); BCG, «AI at Work: Why Strategy Matters More Than Tools» (junio de 2026), https://www.bcg.com/publications/2026/ai-at-work-why-strategy-matters-more-than-tools; medición interna del grupo ING, uso externo autorizado."
+
+[[c]]
+valor = "55"
+tipo = "dato"
+que = "Techo del uso semanal de Copilot en las primeras semanas"
+fuente = "Dillon et al. (NBER w33795)."
+
+[[c]]
+valor = "40"
+tipo = "dato"
+que = "El uso semanal acaba algo por debajo del 40 %"
+fuente = "Dillon et al. (NBER w33795)."
+
+[[c]]
+valor = "80"
+tipo = "dato"
+que = "Encuestados que dicen que la IA les ha hecho más productivos"
+fuente = "McKinsey, «The state of AI in 2026» (agosto de 2026), pp. 3-4. Contrastado en fuentes secundarias y en el deck de KPMG; Jose decide no verificar el original (14-oct-2026)."
+
+[[c]]
+valor = "6"
+tipo = "dato"
+que = "Empresas que atribuyen a la IA al menos un 5 % de su EBIT (McKinsey 2026) · áreas y catálogos de CCEP"
+fuente = "McKinsey, «The state of AI in 2026», p. 17 (contrastado en fuentes secundarias); programa CCEP Iberia × Spiralia, julio de 2026."
+
+[[c]]
+valor = "5"
+tipo = "dato"
+que = "Umbral de EBIT atribuido a la IA (McKinsey)"
+fuente = "McKinsey, «The state of AI in 2026», p. 17."
+
+[[c]]
+valor = "36"
+tipo = "dato"
+que = "Profesionales que creen que su formación en IA ha sido suficiente"
+fuente = "BCG, «AI at Work: Why Strategy Matters More Than Tools» (junio de 2026), verificado en el original el 14-oct-2026: «only 36% feel that they have received adequate upskilling»."
+
+[[c]]
+valor = "92"
+tipo = "dato"
+que = "Usuarios activos semanales en ING España tras el programa (nivel, no crecimiento)"
+fuente = "Programa de adopción de IA de Spiralia en ING España. Medición interna del grupo ING, uso externo autorizado."
+
+[[c]]
+valor = "4,7"
+tipo = "dato"
+que = "Satisfacción con el uso de la IA en ING España (sobre 5)"
+fuente = "Medición interna del grupo ING, uso externo autorizado. Confirmado por Jose Garza el 14-oct-2026."
+
+[[c]]
+valor = "3,2"
+tipo = "dato"
+que = "Satisfacción del segundo país del grupo ING"
+fuente = "Medición interna del grupo ING, uso externo autorizado."
+
+[[c]]
+valor = "13.000"
+tipo = "dato"
+que = "Personas formadas en Deloitte España en un mes"
+fuente = "Programa Deloitte España × Spiralia, septiembre y octubre de 2026."
+
+[[c]]
+valor = "3.000"
+tipo = "dato"
+que = "Managers y directores formados en Deloitte España"
+fuente = "Programa Deloitte España × Spiralia, septiembre y octubre de 2026."
+
+[[c]]
+valor = "218"
+tipo = "dato"
+que = "Casos de uso identificados por los equipos de CCEP Iberia (identificados, no implantados)"
+fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
+
+[[c]]
+valor = "3"
+tipo = "formato"
+que = "Duración de Rumbo (horas) y del diagnóstico (minutos)"
+fuente = "Oferta de Spiralia (decisión de Jose Garza, 14-oct-2026)."
+
+[[c]]
+valor = "30"
+tipo = "formato"
+que = "Duración de la conversación con Ana (minutos)"
+fuente = "Oferta de Spiralia."
+
+[[c]]
+valor = "365"
+tipo = "otro"
+que = "Nombre de producto: Microsoft 365 Copilot"
+fuente = "—"
+
+[[c]]
+valor = "2025"
+tipo = "otro"
+que = "Año: el artículo 4 del Reglamento de IA se aplica desde el 2 de febrero de 2025"
+fuente = "Reglamento (UE) 2024/1689, https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+
+[[c]]
+valor = "2026"
+tipo = "otro"
+que = "Año: reforma «Ómnibus» del Reglamento de IA (en vigor el 27-jul-2026) y copyright"
+fuente = "Comisión Europea, preguntas y respuestas sobre alfabetización en IA (actualizadas el 27-jul-2026). Ver investigacion/02_icp_arquetipos.md, sección 5."
+
+[[c]]
+valor = "20"
+tipo = "formato"
+que = "Duración de la película de apertura (segundos), en su texto alternativo"
+fuente = "—"

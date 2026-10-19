@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1350" />
+  <title>Película de apertura · Spiralia AI</title>
+  <style>
+    @font-face { font-family: "Butler"; src: url("Butler-Light.otf") format("opentype"); font-weight: 300; font-display: block; }
+    @font-face { font-family: "Butler"; src: url("Butler-Regular.otf") format("opentype"); font-weight: 400; font-display: block; }
+    @font-face { font-family: "Sofia Sans Condensed"; src: url("SofiaSansCondensed-VF.ttf") format("truetype"); font-weight: 100 900; font-display: block; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1350px; overflow: hidden; background: #051A2B; }
+    .lienzo { position: relative; width: 1080px; height: 1350px; overflow: hidden; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+    .fondo, .escena { position: absolute; inset: 0; }
+    .cromo { position: absolute; left: 84px; top: 76px; font: 600 24px/1 "Sofia Sans Condensed"; letter-spacing: .26em; text-transform: uppercase; }
+    .bloque { position: absolute; left: 84px; right: 84px; }
+    .centro { top: 50%; transform: translateY(-50%); }
+    .mascara { overflow: hidden; padding-bottom: .08em; }
+    .sube { display: block; will-change: transform; }
+    .grande .mascara { font: 300 118px/1.02 "Butler"; letter-spacing: -.012em; }
+    .enorme .mascara { font: 300 176px/1 "Butler"; letter-spacing: -.015em; }
+    .cifra { position: absolute; left: 70px; top: 300px; font: 300 470px/1 "Butler"; letter-spacing: -.03em; }
+    .cifra .suf { font-size: .42em; margin-left: .06em; }
+    .etiqueta { position: absolute; left: 84px; top: 860px; width: 820px; font: 400 54px/1.2 "Sofia Sans Condensed"; letter-spacing: .01em; }
+    .fuente { position: absolute; left: 84px; bottom: 84px; width: 900px; font: 400 23px/1.35 "Sofia Sans Condensed"; letter-spacing: .02em; opacity: .7; }
+    .ese { position: absolute; left: 50%; top: 110px; height: 540px; transform: translateX(-50%); overflow: visible; }
+    .ese path { fill: none; stroke: #E0DFDA; stroke-width: 3; stroke-linecap: round; }
+    .marca { position: absolute; left: 50%; margin-left: -200px; top: 712px; width: 400px; }
+    .lema { position: absolute; left: 0; right: 0; top: 842px; text-align: center; font: 500 34px/1 "Sofia Sans Condensed"; letter-spacing: .22em; text-transform: uppercase; color: #A9B1B8; }
+    .tabla { position: absolute; left: 84px; right: 84px; top: 930px; }
+    .regla { height: 2px; background: rgba(224, 223, 218, .45); transform-origin: 0 50%; }
+    .fila { display: flex; justify-content: space-between; align-items: baseline; padding: 22px 0 20px; font: 400 36px/1 "Sofia Sans Condensed"; letter-spacing: .03em; color: #A9B1B8; }
+    .fila b { font: 300 52px/1 "Butler"; color: #E0DFDA; letter-spacing: 0; }
+  </style>
+  <script src="gsap.min.js"></script>
+  <script src="s-geom.js"></script>
+  <script src="copy.js"></script>
+</head>
+<body>
+  <!-- 20 s a 30 fps (600 fotogramas), 4:5, sin sonido. Guion en film.js; textos en copy.js -->
+  <div id="film" class="lienzo" data-composition-id="film" data-start="0" data-duration="20" data-width="1080" data-height="1350" data-fps="30"></div>
+  <script src="film.js"></script>
+  <script>
+    FILM.montar(document.getElementById('film'));
+    const tl = gsap.timeline({ paused: true, onUpdate: () => FILM.pintar(tl.time()) });
+    tl.to({ ancla: 0 }, { ancla: 1, duration: FILM.duracion, ease: 'none' }, 0);
+    window.__timelines = window.__timelines || {};
+    window.__timelines["film"] = tl;
+    tl.seek(0);
+    FILM.pintar(0);
+  </script>
+</body>
+</html>
