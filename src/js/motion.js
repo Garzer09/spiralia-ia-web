@@ -37,10 +37,16 @@
       prog.style.strokeDashoffset = n ? len * (1 - SP_AT[n - 1]) : len;
       sts.forEach((g, i) => { g.classList.toggle('on', i < n); g.classList.toggle('cur', i === n - 1); });
       items.forEach((li, i) => { const o = openAll || i === n - 1; li.classList.toggle('open', o); li.classList.toggle('on', i < n); $('.sp-b', li).setAttribute('aria-expanded', String(o)); });
+      if (SPs.onSet) SPs.onSet(n);
     }
     function pick(el, n) { T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, n); }
-    // La capa de scroll (scroll.js) mueve los pasos con el scroll
-    window.SP.spiral = { pick: n => { const el = $('[data-piece=spiral]'); build(el); pick(el, n); }, onPick: null };
+    // La capa de scroll (scroll.js) mueve los pasos con el scroll (guiada) y lleva cada paso a la S de WebGL (onSet)
+    const raiz = () => $('.spiral');
+    const SPs = window.SP.spiral = {
+      pick: n => { const el = raiz(); build(el); pick(el, n); },
+      play: () => play(raiz()), finish: () => finish(raiz()),
+      onPick: null, onSet: null, guiada: false,
+    };
     function arm(el) { build(el); el.classList.add('anim'); el.classList.remove('drawn', 'done'); set(el, 0); }
     function play(el) {
       arm(el); void el.offsetWidth;
@@ -49,12 +55,13 @@
       T.at(2300 + 5 * 1550 + 900, () => el.classList.add('done'));
     }
     function finish(el) { build(el); T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, 6, true); }
-    return { arm, play, finish };
+    return { arm, play: el => { if (!SPs.guiada) play(el); }, finish };
   })());
 
   // M4 · Antes y después, por perfil (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
+  // Cada columna arranca al estar en pantalla: en móvil el «después» va debajo y no debe animarse fuera de vista
   piece('demo', (() => {
-    const FIN = 10.6; let el, scene, pbtn, idx = 0, t = FIN, t0 = 0, raf = 0, run = false, els = [], L = {};
+    const FIN = 10.6, CORTE = 3.5; let el, scene, pbtn, idx = 0, t = FIN, t0 = 0, raf = 0, run = false, els = [], L = {}, cols = [], vistas = [], io = null;
     const D = data.demo || [];
     const cuenta = ([p, a]) => `${p} ${p === 1 ? L.paso : L.pasos} · ${a} ${a === 1 ? L.app : L.apps}`;
     function html(x) {
@@ -70,10 +77,20 @@
     function render(i) {
       idx = i; scene.innerHTML = html(D[i]); els = $$('[data-at]', scene).map(e => [e, +e.dataset.at]);
       $$('.demo-profiles button', el).forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
+      cols = $$(':scope > div', scene); vistas = cols.map(() => false);
+      if (io) { io.disconnect(); cols.forEach(c => io.observe(c)); }
+      window.SP.alto();
     }
     const aplicar = tt => { t = tt; for (const [e, a] of els) e.classList.toggle('on', a <= tt); };
-    function btn() { pbtn.hidden = still(); pbtn.textContent = run ? '❚❚ ' + L.pause : '▶ ' + L.play; }
-    function tick(ts) { const tt = (ts - t0) / 1000; if (tt >= FIN) { aplicar(FIN); run = false; btn(); return; } aplicar(tt); raf = requestAnimationFrame(tick); }
+    function btn() { pbtn.hidden = still() || (!run && t >= FIN); pbtn.textContent = run ? '❚❚ ' + L.pause : '▶ ' + L.play; }
+    // El reloj espera en 0 a que se vea la demo y justo antes de CORTE a que se vea el «después»
+    function tick(ts) {
+      let tt = (ts - t0) / 1000;
+      const tope = t < CORTE && !vistas[1] ? (t <= 0 && !vistas[0] ? 0 : CORTE - .01) : FIN;
+      if (tt > tope && t <= tope) { tt = tope; t0 = ts - tope * 1000; }
+      if (tt >= FIN) { aplicar(FIN); run = false; btn(); return; }
+      aplicar(tt); raf = requestAnimationFrame(tick);
+    }
     function go(from) { cancelAnimationFrame(raf); t0 = performance.now() - from * 1000; run = true; btn(); raf = requestAnimationFrame(tick); }
     function start(i) {
       cancelAnimationFrame(raf); render(i);
@@ -82,6 +99,7 @@
     }
     function init(root) {
       if (el) return; el = root; scene = $('.demo-scene', el); pbtn = $('.demo-pause', el);
+      io = new IntersectionObserver(es => es.forEach(e => { const k = cols.indexOf(e.target); if (k >= 0) vistas[k] = e.isIntersecting; }), { rootMargin: '0px 0px -12% 0px' });
       Object.keys(el.dataset).forEach(k => { if (k.startsWith('l')) L[k.slice(1).toLowerCase()] = el.dataset[k]; });
       $('.demo-profiles', el).innerHTML = D.map(x => `<button type="button" aria-pressed="false"><b>${esc(x.perfil)}</b><span>${esc(x.tarea)}</span></button>`).join('');
       $$('.demo-profiles button', el).forEach((b, i) => b.addEventListener('click', () => start(i)));
@@ -135,33 +153,39 @@
     const v = $('video', sec), c = navigator.connection || {};
     if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '') || sec.classList.contains('has-gl')) return; // con WebGL, el vídeo sobra
     const base = matchMedia('(max-aspect-ratio: 1/1)').matches ? sec.dataset.srcV : sec.dataset.srcH;
-    const webm = v.canPlayType('video/webm; codecs="vp9"');
+    // data-v: la huella que pone build.py, para que la caché no sirva un vídeo antiguo
+    const url = base + (v.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4') + (sec.dataset.v ? '?v=' + sec.dataset.v : '');
     let visto = false, cargado = false, user = pausadoAntes();
-    const set = () => { if (!btn) return; btn.setAttribute('aria-pressed', String(user)); btn.setAttribute('aria-label', user ? btn.dataset.play : btn.dataset.pause); };
+    // Etiqueta fija («Pausar la animación de fondo»); el estado lo dice aria-pressed
+    const set = () => { if (!btn) return; btn.setAttribute('aria-pressed', String(user)); btn.setAttribute('aria-label', btn.dataset.pause); };
     const seguir = () => { if (visto && !user && !document.hidden) v.play().catch(() => sec.classList.add('no-video')); else v.pause(); };
     v.addEventListener('playing', () => { sec.classList.add('is-playing'); if (btn) btn.hidden = false; });
     new IntersectionObserver(([e]) => {
       visto = e.isIntersecting;
-      if (visto && !cargado && !user) { cargado = true; v.src = base + (webm ? '.webm' : '.mp4'); }
+      if (visto && !cargado && !user) { cargado = true; v.src = url; }
       seguir();
     }, { threshold: .15 }).observe(sec);
     document.addEventListener('visibilitychange', seguir);
-    reduced.addEventListener && reduced.addEventListener('change', e => { if (e.matches) { user = true; seguir(); } });
+    reduced.addEventListener && reduced.addEventListener('change', e => { if (e.matches) { user = true; set(); seguir(); } });
     if (btn) {
       if (user) { btn.hidden = false; set(); }
       btn.addEventListener('click', () => {
         user = !user; recordar(user); set();
-        if (!user && !cargado) { cargado = true; v.src = base + (webm ? '.webm' : '.mp4'); }
+        if (!user && !cargado) { cargado = true; v.src = url; }
         seguir();
       });
     }
     return { pausar: () => v.pause(), seguir };
   }
   const hero = $('[data-hero]'), cierre = $('[data-firma]');
+  let fondos = false;
   addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => {
+    fondos = true;
     if (hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero));
     if (cierre) SPfondo.cierre = fondo(cierre, $('.cierre-pausa', cierre));
   }));
+  // Si la portada pierde el WebGL (va lento), vuelve el vídeo
+  if (hero) hero.addEventListener('sp:singl', () => { if (fondos && !SPfondo.hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero)); });
 
   // La barra es transparente mientras la portada está detrás; sólida en cuanto deja de estarlo
   (() => {
@@ -174,25 +198,32 @@
     new IntersectionObserver(([e]) => hero.classList.toggle('lejos', !e.isIntersecting), { rootMargin: '-68px 0px 0px 0px' }).observe(s);
   })();
 
-  // CTA fijo en móvil: aparece al dejar la portada y se retira al llegar al cierre (que ya tiene el suyo)
+  // CTA fijo en móvil: aparece al dejar la portada y se retira al llegar al cierre (que ya tiene el suyo).
+  // El pie va justo después del cierre: si el cierre ha quedado arriba, el pie está en pantalla y tampoco se ve
   (() => {
-    const f = $('.cta-fija'); if (!f || !hero || !cierre) return;
-    let enHero = true, enCierre = false;
-    const set = () => f.classList.toggle('on', !enHero && !enCierre);
+    const f = $('.cta-fija'), pie = $('.foot'); if (!f || !hero || !cierre) return;
+    let enHero = true, enCierre = false, enPie = false;
+    const set = () => f.classList.toggle('on', !enHero && !enCierre && !enPie);
     new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
     new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
+    if (pie) new IntersectionObserver(([e]) => { enPie = e.isIntersecting; set(); }).observe(pie);
   })();
 
-  // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón
+  // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón.
+  // Mientras está abierto, el resto de la página es inerte y el scroll suave se detiene (sp:menu)
   (() => {
     const bar = $('#bar'), btn = $('.menu-btn', bar), nav = $('#menu'); if (!btn) return;
+    const fuera = [...$$('body > *:not(#bar):not(script)'), ...[...btn.parentElement.children].filter(x => x !== nav && x !== btn)];
     let estabaSobre = false;
     const abrir = on => {
+      if (on === bar.classList.contains('open')) return;
       if (on) estabaSobre = bar.classList.contains('over');
       bar.classList.toggle('open', on); bar.classList.toggle('over', !on && estabaSobre);
       btn.setAttribute('aria-expanded', String(on)); btn.setAttribute('aria-label', on ? btn.dataset.close : btn.dataset.open);
       document.documentElement.style.overflow = on ? 'hidden' : '';
       document.documentElement.classList.toggle('menu-abierto', on);
+      fuera.forEach(x => x.toggleAttribute('inert', on));
+      document.dispatchEvent(new CustomEvent('sp:menu', { detail: on }));
       if (on) $('a', nav).focus();
     };
     btn.addEventListener('click', () => abrir(btn.getAttribute('aria-expanded') !== 'true'));
@@ -206,8 +237,11 @@
     const d = $('.film-dialog'), op = $('[data-film-open]'); if (!d || !op) return;
     if (typeof d.showModal !== 'function') { op.hidden = true; return; }
     const v = $('video', d);
+    // WebM (VP9) si el navegador lo admite; si falla, el MP4
+    let webm = !!v.dataset.webm && !!v.canPlayType('video/webm; codecs="vp9"');
+    v.addEventListener('error', () => { if (webm) { webm = false; v.src = v.dataset.src; v.play().catch(() => {}); } });
     op.addEventListener('click', () => {
-      if (!v.src) { v.poster = v.dataset.poster; v.src = v.dataset.src; }
+      if (!v.src) { v.poster = v.dataset.poster; v.src = webm ? v.dataset.webm : v.dataset.src; }
       d.showModal(); SPfondo.hero && SPfondo.hero.pausar(); document.dispatchEvent(new Event('sp:pausa'));
       ev('Película');
       v.play().catch(() => {});
@@ -221,23 +255,30 @@
     const l = $('.logos'); if (!l || still()) return;
     [...l.children].forEach(i => { const c = i.cloneNode(true); c.setAttribute('aria-hidden', 'true'); $('img', c).alt = ''; l.append(c); });
     l.classList.add('run');
-    // Se mueve más de 5 s junto a otro contenido: necesita un botón de pausa (WCAG 2.2.2)
+    // Se mueve más de 5 s junto a otro contenido: necesita un botón de pausa (WCAG 2.2.2).
+    // Como la pausa del fondo: etiqueta fija («Pausar los logos») y el estado en aria-pressed
     const b = $('.marquee-pausa'); if (!b) return;
     b.hidden = false;
-    b.addEventListener('click', () => {
-      const p = l.classList.toggle('parada');
-      b.setAttribute('aria-pressed', String(p)); b.setAttribute('aria-label', p ? b.dataset.play : b.dataset.pause);
-    });
+    b.addEventListener('click', () => b.setAttribute('aria-pressed', String(l.classList.toggle('parada'))));
   })();
 
   // Pestañas «Para ti» (patrón ARIA) y accesos por perfil desde la portada
   (() => {
     const box = $('[data-tabs]'); if (!box) return;
     const tabs = $$('[role=tab]', box), panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+    const lista = tabs[0].parentElement;
+    // Si la lista se desplaza en horizontal (móvil), la pestaña activa queda a la vista sin mover la página
+    const aLaVista = t => {
+      if (lista.scrollWidth <= lista.clientWidth) return;
+      const a = t.getBoundingClientRect().left - lista.getBoundingClientRect().left + lista.scrollLeft, b = a + t.offsetWidth;
+      if (a < lista.scrollLeft) lista.scrollLeft = a - 12;
+      else if (b > lista.scrollLeft + lista.clientWidth) lista.scrollLeft = b - lista.clientWidth + 12;
+    };
     function select(i, focus) {
       tabs.forEach((t, j) => { const on = i === j; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; panels[j].hidden = !on; });
       if (focus !== undefined) ev('Perfil', { pestaña: panels[i].id.replace('para-ti-', '') });
-      if (focus) tabs[i].focus();
+      if (focus) tabs[i].focus({ preventScroll: true });
+      aLaVista(tabs[i]); window.SP.alto();
     }
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => select(i, false));
@@ -247,19 +288,27 @@
       });
     });
     const byHash = h => panels.findIndex(p => '#' + p.id === h);
+    // stopPropagation: el gestor de anclas de Lenis (en window) iría al panel y no a la sección
     $$('a[data-tab]').forEach(a => a.addEventListener('click', e => {
       const i = byHash(a.getAttribute('href')); if (i < 0) return;
-      e.preventDefault(); select(i, false);
-      window.SP.scrollTo ? window.SP.scrollTo($('#para-ti')) : $('#para-ti').scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
+      e.preventDefault(); e.stopPropagation(); select(i, false);
+      window.SP.scrollTo ? window.SP.scrollTo($('#para-ti')) : $('#para-ti').scrollIntoView({ behavior: still() ? 'instant' : 'smooth' });
       history.replaceState(null, '', a.getAttribute('href'));
     }));
     const h = byHash(location.hash); select(h < 0 ? 0 : h);
-    if (h >= 0) requestAnimationFrame(() => $('#para-ti').scrollIntoView());
+    if (h >= 0) requestAnimationFrame(() => $('#para-ti').scrollIntoView({ behavior: 'instant' }));
   })();
 
-  // Copiar el email
+  // Las respuestas que se abren cambian la altura de la página
+  $$('.faq details').forEach(d => d.addEventListener('toggle', () => window.SP.alto(500)));
+
+  // Copiar el email (el texto original se guarda una vez; un segundo clic reinicia la espera)
   $$('.copy').forEach(b => b.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(b.dataset.copy); window.SP.ev('Email', { origen: 'copiar' }); const t = b.textContent; b.textContent = b.dataset.done; setTimeout(() => (b.textContent = t), 1800); } catch (e) {}
+    try {
+      await navigator.clipboard.writeText(b.dataset.copy); window.SP.ev('Email', { origen: 'copiar' });
+      if (!b.dataset.txt) b.dataset.txt = b.textContent;
+      b.textContent = b.dataset.done; clearTimeout(b._t); b._t = setTimeout(() => (b.textContent = b.dataset.txt), 1800);
+    } catch (e) {}
   }));
 
 })();

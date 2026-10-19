@@ -1,11 +1,12 @@
 # Cifras permitidas en el copy. El build falla si aparece en la página una cifra que no está aquí.
 # valor: tal como se escribe en español. tipo: dato (con fuente) · formato (oferta de Spiralia) · otro.
 # Las claves src* y *_src (las propias fuentes) y la sección [data] no se comprueban.
+# Las cifras en letras («seis», «treinta», «una década») también cuentan: build.py avisa si no están aquí.
 
 [[c]]
 valor = "50.000"
 tipo = "dato"
-que = "Alumnos formados por Spiralia en IA aplicada a negocio"
+que = "Personas formadas por Spiralia en IA aplicada a negocio. En la web y en la película, la misma etiqueta: «personas formadas» / «people trained». Pendiente de confirmar si incluye a los alumnos de la UFV y de thePower (auditoría §7.2 #18)"
 fuente = "Spiralia, dato interno confirmado por Jose Garza el 14-oct-2026 («50k alumnos»)."
 
 [[c]]
@@ -23,7 +24,7 @@ fuente = "Dillon et al. (NBER w33795); BCG, «AI at Work: Why Strategy Matters M
 [[c]]
 valor = "55"
 tipo = "dato"
-que = "Techo del uso semanal de Copilot en las primeras semanas"
+que = "Techo del uso semanal de Copilot en las primeras semanas, entre las personas que recibieron licencia (3.684 de las 7.137)"
 fuente = "Dillon et al. (NBER w33795)."
 
 [[c]]
@@ -36,19 +37,19 @@ fuente = "Dillon et al. (NBER w33795)."
 valor = "80"
 tipo = "dato"
 que = "Encuestados que dicen que la IA les ha hecho más productivos"
-fuente = "McKinsey, «The state of AI in 2026» (agosto de 2026), pp. 3-4. Contrastado en fuentes secundarias y en el deck de KPMG; Jose decide no verificar el original (14-oct-2026)."
+fuente = "McKinsey, «The state of AI in 2026» (agosto de 2026). Contrastado en fuentes secundarias y en el deck de KPMG; el original no se ha verificado (decisión de Jose, 14-oct-2026), así que la web no cita páginas."
 
 [[c]]
 valor = "6"
 tipo = "dato"
-que = "Empresas que atribuyen a la IA al menos un 5 % de su EBIT (McKinsey 2026) · áreas y catálogos de CCEP"
-fuente = "McKinsey, «The state of AI in 2026», p. 17 (contrastado en fuentes secundarias); programa CCEP Iberia × Spiralia, julio de 2026."
+que = "Empresas que atribuyen a la IA al menos un 5 % de su EBIT (McKinsey 2026; otra base que el 80 %, que son personas encuestadas) · áreas y catálogos de CCEP · «seis pasos» del método y «seis meses» del experimento"
+fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundarias); programa CCEP Iberia × Spiralia, julio de 2026."
 
 [[c]]
 valor = "5"
 tipo = "dato"
 que = "Umbral de EBIT atribuido a la IA (McKinsey)"
-fuente = "McKinsey, «The state of AI in 2026», p. 17."
+fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundarias)."
 
 [[c]]
 valor = "36"
@@ -59,7 +60,7 @@ fuente = "BCG, «AI at Work: Why Strategy Matters More Than Tools» (junio de 20
 [[c]]
 valor = "92"
 tipo = "dato"
-que = "Usuarios activos semanales en ING España tras el programa (nivel, no crecimiento)"
+que = "Usuarios activos semanales en ING España tras el programa (nivel, no crecimiento). Base pendiente de guardar con el soporte de la medición: ¿% de empleados con licencia que la usan cada semana?"
 fuente = "Programa de adopción de IA de Spiralia en ING España. Medición interna del grupo ING, uso externo autorizado."
 
 [[c]]
@@ -71,7 +72,7 @@ fuente = "Medición interna del grupo ING, uso externo autorizado. Confirmado po
 [[c]]
 valor = "3,2"
 tipo = "dato"
-que = "Satisfacción del segundo país del grupo ING"
+que = "Satisfacción en el siguiente país del grupo ING, el segundo por satisfacción después de España (en la web: «el siguiente país del grupo»). No consta que la diferencia se deba a la formación: la web da el hecho, no la causa"
 fuente = "Medición interna del grupo ING, uso externo autorizado."
 
 [[c]]
@@ -95,8 +96,20 @@ fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
 [[c]]
 valor = "3"
 tipo = "formato"
-que = "Duración de Rumbo (horas) y del diagnóstico (minutos)"
+que = "Duración de Rumbo (horas) y del diagnóstico (minutos) · «dos o tres» huecos que proponemos en /reserva/"
 fuente = "Oferta de Spiralia (decisión de Jose Garza, 14-oct-2026)."
+
+[[c]]
+valor = "2"
+tipo = "formato"
+que = "Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey"
+fuente = "Oferta de Spiralia."
+
+[[c]]
+valor = "8"
+tipo = "formato"
+que = "Preguntas del diagnóstico («Ocho preguntas»)"
+fuente = "src/content.toml, [[data.diag.q]]."
 
 [[c]]
 valor = "30"

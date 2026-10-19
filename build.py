@@ -6,12 +6,15 @@
 
 Comprobaciones: claves sin traducir, {{...}} sin resolver, [PLACEHOLDER] y [BOOKINGS_URL]
 en producción, y que cada cifra del copy esté en src/cifras.toml (con la misma cifra en ES y EN).
+Las cifras escritas en letras («seis», «una década», «tres de cada cuatro») dan un aviso si no están dadas de alta.
+
+Caché: las URL de css/, js/ y assets/video/ llevan ?v=<huella del fichero>; el HTML se sirve con no-cache.
 
 Bloques condicionales en la plantilla: <!--si:nombre ...--> ... <!--/si--> se quita entero si dentro
 queda un [PLACEHOLDER] (así los testimonios solo se publican cuando son reales).
 En el copy, {mail} se sustituye por MAIL.
 """
-import html, json, os, re, shutil, sys, tomllib, urllib.parse
+import hashlib, html, json, os, re, shutil, sys, tomllib, urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -23,7 +26,7 @@ MAIL = 'ana.iza@spiralia.es'                      # email de contacto de toda la
 ANALYTICS = ''                                    # dominio en Plausible (sin cookies, UE); vacío = sin medición
 ANALYTICS_SRC = 'https://plausible.io/js/script.js'
 LANGS = {'es': '', 'en': 'en/'}
-errors, warns = [], []
+errors, warns, avisos = [], [], []
 
 content = tomllib.loads((SRC / 'content.toml').read_text())
 cifras = tomllib.loads((SRC / 'cifras.toml').read_text())['c']
@@ -43,7 +46,7 @@ def localize(x, lang, key='data'):
     if isinstance(x, dict):
         if 'es' in x and set(x) - {'es', 'en'} <= {'app'}:
             v = pick(x, lang, key)
-            return {'t': v, 'app': x['app']} if 'app' in x else v
+            return {'t': v, 'app': localize(x['app'], lang, key + '.app')} if 'app' in x else v
         return {k: localize(v, lang, f'{key}.{k}') for k, v in x.items()}
     if isinstance(x, list):
         return [localize(v, lang, f'{key}[{i}]') for i, v in enumerate(x)]
@@ -55,14 +58,15 @@ def texts(lang):
 
 plain = lambda v: html.unescape(re.sub(r'<[^>]+>', '', str(v)))
 
-def jsonld(t, url):
+def jsonld(t, url, lang):
     """Datos estructurados: la organización, el servicio y las preguntas del comité (Google y buscadores con IA)."""
     org = {'@type': 'Organization', '@id': SITE + '#org', 'name': 'Spiralia', 'url': 'https://spiralia.es/',
+           'description': plain(t['meta.org']),
            'logo': SITE + 'assets/img/spiralia.svg', 'sameAs': ['https://www.linkedin.com/company/spiralia/']}
     srv = {'@type': 'Service', 'name': plain(t['meta.title']), 'description': plain(t['meta.description']),
-           'serviceType': plain(t['ft.tag']), 'provider': {'@id': SITE + '#org'}, 'url': url,
-           'areaServed': {'@type': 'Country', 'name': 'España'},
-           'audience': {'@type': 'BusinessAudience', 'audienceType': plain(t['fmt.r_para'])},
+           'serviceType': plain(t['ft.tag']).rstrip('.'), 'provider': {'@id': SITE + '#org'}, 'url': url,
+           'areaServed': {'@type': 'Country', 'name': 'España' if lang == 'es' else 'Spain'},
+           'audience': {'@type': 'BusinessAudience', 'audienceType': plain(t['meta.audience'])},
            'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': plain(t['fmt.kicker']), 'itemListElement': [
                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'fmt.{k}_name']), 'description': plain(t[f'fmt.{k}_que'])}}
                for k in ('r', 'p', 'd')]}}
@@ -78,7 +82,13 @@ NUM = re.compile(r'\d+(?:[.,]\d+)*')
 norm = lambda s: re.sub(r'[.,\s]', '', s)
 ALLOWED = {norm(c['valor']) for c in cifras}
 
-def numbers(t):
+# Cifras en letras: el build no las ve como cifras, el lector sí (auditoría §6.6). Solo avisan.
+LETRAS = {'es': dict(dos=2, tres=3, cuatro=4, cinco=5, seis=6, siete=7, ocho=8, nueve=9, diez=10, doce=12, quince=15,
+                     veinte=20, treinta=30, cuarenta=40, cincuenta=50, cien=100, mil=1000, docena=12, década=10, décadas=10),
+          'en': dict(two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, twelve=12, fifteen=15,
+                     twenty=20, thirty=30, forty=40, fifty=50, hundred=100, thousand=1000, dozen=12, decade=10, decades=10)}
+
+def numbers(t, lang):
     found = []
     for key, val in t.items():
         if key.split('.')[1].startswith('src') or key.endswith('_src'):
@@ -88,6 +98,14 @@ def numbers(t):
             found.append(norm(n))
             if norm(n) not in ALLOWED:
                 errors.append(f'cifra sin fuente en cifras.toml: «{n}» en {key}')
+        if '[PLACEHOLDER' in plain:
+            continue
+        for w in re.findall(r'\w+', plain.lower()):
+            if w in LETRAS[lang] and str(LETRAS[lang][w]) not in ALLOWED:
+                avisos.append(f'cifra en letras sin alta en cifras.toml: «{w}» en {key} ({lang})')
+        for a, b in re.findall(r'\b(\w+) (?:de cada|in|out of) (\w+)\b', plain.lower()):
+            if a in LETRAS[lang] and b in LETRAS[lang]:
+                avisos.append(f'proporción en letras: «{a} … {b}» en {key} ({lang}); mejor la cifra, con su fuente')
     return sorted(found)
 
 def render(tpl, t, lang):
@@ -99,7 +117,7 @@ def render(tpl, t, lang):
         'robots': 'index,follow' if PROD else 'noindex,nofollow', 'mail': MAIL,
         'og_image': SITE + f'assets/og-{lang}.jpg',
         'data': json.dumps(localize(data, lang), ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'),
-        'jsonld': jsonld(t, url),
+        'jsonld': jsonld(t, url, lang),
         'analytics': (f'<script defer data-domain="{ANALYTICS}" src="{ANALYTICS_SRC}"></script>\n'
                       '<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)}</script>') if ANALYTICS else '',
     }
@@ -125,9 +143,9 @@ def render(tpl, t, lang):
                 errors.append(f'{lang}: queda «{mark}» en producción')
     return out
 
-RESERVA = '''<!doctype html><html lang="es"><head><meta charset="utf-8">
+RESERVA = """<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Hablemos · Spiralia AI</title><link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<title>{titulo} · Spiralia AI</title><link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>
 // Cambia aquí la URL de Bookings sin volver a generar la web. Mientras no la haya, la página ofrece el email.
 var BOOKINGS = "{bookings}";
@@ -144,59 +162,117 @@ p{{margin:0 0 14px;color:#A9B1B8}}ul{{margin:0 0 28px;padding-left:1.1em;color:#
 .btn{{display:inline-flex;align-items:center;min-height:52px;padding:0 26px;border-radius:99px;background:#E0DFDA;color:#08263D;text-decoration:none;
   font:600 1.05rem/1 Sofia,"Arial Narrow",sans-serif;letter-spacing:.05em;margin:8px 12px 8px 0}}
 .mail{{color:#E0DFDA}}button{{font:500 .9rem Sofia,sans-serif;letter-spacing:.05em;color:#A9B1B8;background:none;border:1px solid rgba(224,223,218,.3);border-radius:99px;padding:.3rem .8rem;cursor:pointer}}
-a.volver{{display:inline-block;margin-top:36px;color:#A9B1B8;font:500 .95rem Sofia,sans-serif;letter-spacing:.06em}}
+.legal{{margin-top:28px;font-size:.82rem;line-height:1.55}}.legal a{{color:#E0DFDA}}
+a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:500 .95rem Sofia,sans-serif;letter-spacing:.06em}}
+:focus-visible{{outline:2px solid #E0DFDA;outline-offset:3px}}
 </style></head>
 <body><main>
 <img src="../assets/img/spiralia-blanco.svg" alt="Spiralia" width="120" height="29">
-<h1 data-t="h"></h1><p data-t="p"></p><ul data-t="l"></ul>
-<a class="btn" data-t="b" href="mailto:{mail}"></a>
-<p><a class="mail" href="mailto:{mail}">{mail}</a> <button type="button" data-t="c"></button></p>
-<a class="volver" data-t="v" href="../"></a>
+<h1 data-t="h">{h}</h1><p data-t="p">{p}</p><ul data-t="l">{lista}</ul>
+<a class="btn" data-t="b" href="mailto:{mail}?subject={asunto}">{btn}</a>
+<p><a class="mail" href="mailto:{mail}">{mail}</a> <button type="button" data-t="c" hidden>{copiar}</button></p>
+<p class="legal" data-t="g">{legal}</p>
+<a class="volver" data-t="v" href="../">{volver}</a>
 </main>
 <script>
+// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pregunta por Rumbo», el texto de Rumbo.
 var q = new URLSearchParams(location.search), en = q.get("l") === "en", d = q.get("d") || "web";
-var T = en ? {{h: "Let\u2019s talk.", p: "Write to us and we\u2019ll suggest two or three slots for a 30-minute conversation with the team.",
-  l: ["Your company and your role", "Where you are with AI today", "What you would like to solve first"], b: "Write the email", c: "Copy", k: "Copied", v: "\u2190 Back to Spiralia AI",
-  s: "I\u2019d like to talk about AI with Spiralia"}}
- : {{h: "Hablemos.", p: "Escríbenos y te proponemos dos o tres huecos para una conversación de 30 minutos con el equipo.",
-  l: ["Tu empresa y tu cargo", "Dónde está tu empresa con la IA", "Qué te gustaría resolver primero"], b: "Escribir el email", c: "Copiar", k: "Copiado", v: "\u2190 Volver a Spiralia AI",
-  s: "Quiero hablar de IA con Spiralia"}};
-document.documentElement.lang = en ? "en" : "es"; document.title = (en ? "Let\u2019s talk" : "Hablemos") + " · Spiralia AI";
+var T = {textos}[en ? "en" : "es"], rumbo = /^(rumbo|metodo|resultados)$/.test(d);
 var $ = function (k) {{ return document.querySelector("[data-t=" + k + "]"); }};
-$("h").textContent = T.h; $("p").textContent = T.p; $("b").textContent = T.b; $("c").textContent = T.c; $("v").textContent = T.v;
-$("l").innerHTML = T.l.map(function (x) {{ return "<li>" + x + "</li>"; }}).join("");
-$("b").href = "mailto:{mail}?subject=" + encodeURIComponent(T.s + " · " + d);
-if (en) $("v").href = "../en/";
-$("c").onclick = function () {{ navigator.clipboard && navigator.clipboard.writeText("{mail}").then(function () {{ $("c").textContent = T.k; }}); }};
+if (en) {{
+  document.documentElement.lang = "en"; document.title = T.titulo + " · Spiralia AI";
+  $("h").textContent = T.h; $("b").textContent = T.btn; $("v").textContent = T.volver; $("v").href = "../en/";
+  $("l").innerHTML = T.lista.map(function (x) {{ return "<li>" + x + "</li>"; }}).join("");
+  $("g").innerHTML = T.legal;
+}}
+$("p").textContent = rumbo ? T.rumbo : T.p;
+$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((rumbo ? T.subject_rumbo : T.subject) + " · " + d);
+var c = $("c"), txt = T.copiar, reloj;
+c.textContent = txt; c.hidden = !navigator.clipboard;
+c.onclick = function () {{ navigator.clipboard.writeText("{mail}").then(function () {{
+  c.textContent = T.copiado; clearTimeout(reloj); reloj = setTimeout(function () {{ c.textContent = txt; }}, 1800); }}); }};
 </script></body></html>
-'''
+"""
+
+def reserva():
+    """/reserva/: la página de contacto mientras no haya Bookings. Texto en español en el HTML (funciona sin JS)."""
+    T = {}
+    for lang in LANGS:
+        t = texts(lang)
+        T[lang] = {k[8:]: v for k, v in t.items() if k.startswith('reserva.')}
+        T[lang].update(legal=t['cta.legal'], copiar=t['cta.copy'], copiado=t['cta.copied'])
+    es = T['es']
+    return RESERVA.format(bookings=BOOKINGS, mail=MAIL, titulo=es['titulo'], h=es['h'], p=es['p'], btn=es['btn'],
+                          lista=''.join(f'<li>{x}</li>' for x in es['lista']), legal=es['legal'], volver=es['volver'],
+                          copiar=es['copiar'], asunto=urllib.parse.quote(es['subject'] + ' · web'),
+                          textos=json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
+
+def fuera(d, nombres):
+    """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py), fotos de personas que la página
+    no usa y los PNG de los iconos 3D (se sirven en webp)."""
+    tapa = shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf', 'ana-iza.*', 'jose-garza.*')(d, nombres)
+    if Path(d).name == '3d':
+        tapa |= {n for n in nombres if n.endswith('.png')}
+    return tapa
+
+HUELLAS = {}
+def huella(*fs):
+    """Ocho caracteres del sha1 del contenido: cambia solo cuando cambia el fichero."""
+    h = hashlib.sha1()
+    for f in fs:
+        if f not in HUELLAS:
+            HUELLAS[f] = hashlib.sha1(f.read_bytes()).hexdigest()
+        h.update(HUELLAS[f].encode())
+    return h.hexdigest()[:8]
+
+REF = r'(?<=["\'\s,(])((?:\.\./)?{}/[\w./-]+\.\w+)(?=["\'\s,)])'
+VERSIONADO = re.compile(REF.format('(?:css|js|assets/video)'))
+ASSETS = re.compile(REF.format('assets'))
+PREFIJOS = re.compile(r'(data-src-h="([^"?]+)" data-src-v="([^"?]+)")')
+
+def versiona(out, page, lang):
+    """?v=<huella> en css/, js/ y assets/video/; para los vídeos que el JS completa con la extensión, data-v."""
+    d = page.parent
+    for ref in set(ASSETS.findall(out)):
+        if not (d / ref).is_file():
+            errors.append(f'{lang}: falta en dist {ref}')
+    out = VERSIONADO.sub(lambda m: m.group(1) + '?v=' + huella((d / m.group(1)).resolve())
+                         if (d / m.group(1)).is_file() else m.group(1), out)
+    def prefijo(m):
+        fs = sorted(f.resolve() for p in m.groups()[1:] for f in (d / p).parent.glob(Path(p).name + '.*'))
+        return m.group(1) + (f' data-v="{huella(*fs)}"' if fs else '')
+    return PREFIJOS.sub(prefijo, out)
 
 def main():
     tpl = (SRC / 'index.template.html').read_text()
     if DIST.exists():
         shutil.rmtree(DIST)
-    nums = {}
+    nums, pages = {}, {}
     for lang, sub in LANGS.items():
         t = texts(lang)
-        nums[lang] = numbers(t)
-        out = DIST / sub / 'index.html'
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(render(tpl, t, lang))
+        nums[lang] = numbers(t, lang)
+        pages[DIST / sub / 'index.html'] = (render(tpl, t, lang), lang)
     if not warns and nums['es'] != nums['en']:
         errors.append('las cifras de ES y EN no coinciden')
-    # Las fuentes se sirven en woff2 (tools/fonts.py); los OTF/TTF originales se quedan en el repo
-    shutil.copytree(ROOT / 'assets', DIST / 'assets', ignore=shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf'))
+    shutil.copytree(ROOT / 'assets', DIST / 'assets', ignore=fuera)
     for d in ('css', 'js'):
         shutil.copytree(SRC / d, DIST / d)
+    for out, (html_, lang) in pages.items():
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(versiona(html_, out, lang))
     if PROD and not BOOKINGS.startswith('http'):
         errors.append('falta la URL de Microsoft Bookings (BOOKINGS en build.py)')
     (DIST / 'reserva').mkdir()
-    (DIST / 'reserva/index.html').write_text(RESERVA.format(bookings=BOOKINGS, mail=MAIL))
+    (DIST / 'reserva/index.html').write_text(versiona(reserva(), DIST / 'reserva/index.html', 'reserva'))
     robots = 'index, follow' if PROD else 'noindex, nofollow'
-    (DIST / 'vercel.json').write_text(json.dumps({'headers': [{'source': '/(.*)', 'headers': [
-        {'key': 'X-Robots-Tag', 'value': robots}, {'key': 'X-Content-Type-Options', 'value': 'nosniff'}]}]}, indent=2))
+    (DIST / 'vercel.json').write_text(json.dumps({'headers': [
+        {'source': '/(.*)', 'headers': [{'key': 'X-Robots-Tag', 'value': robots}, {'key': 'X-Content-Type-Options', 'value': 'nosniff'}]},
+        {'source': '/((?!assets/|css/|js/).*)', 'headers': [{'key': 'Cache-Control', 'value': 'no-cache'}]}]}, indent=2))
     (DIST / '.htaccess').write_text(f'Header set X-Robots-Tag "{robots}"\nAddType font/otf .otf\nAddType font/ttf .ttf\n'
-                                    'AddType video/mp4 .mp4\nAddType video/webm .webm\nAddType font/woff2 .woff2\n<IfModule mod_expires.c>\nExpiresActive On\n'
+                                    'AddType video/mp4 .mp4\nAddType video/webm .webm\nAddType font/woff2 .woff2\n'
+                                    '# El HTML se revalida siempre; CSS, JS y vídeos cambian de URL (?v=) cuando cambian\n'
+                                    '<FilesMatch "\\.html$">\nHeader set Cache-Control "no-cache"\n</FilesMatch>\n'
+                                    '<IfModule mod_expires.c>\nExpiresActive On\n'
                                     'ExpiresByType font/woff2 "access plus 1 year"\nExpiresByType video/mp4 "access plus 1 month"\n'
                                     'ExpiresByType video/webm "access plus 1 month"\nExpiresByType image/webp "access plus 1 month"\n'
                                     'ExpiresByType image/jpeg "access plus 1 month"\nExpiresByType image/png "access plus 1 month"\n'
@@ -212,6 +288,8 @@ def main():
     (ROOT / 'FUENTES.md').write_text('\n'.join(fuentes) + '\n')
     if warns:
         print(f'aviso: {len(set(warns))} textos sin traducir; se usa el español')
+    for a in sorted(set(avisos)):
+        print('aviso: ' + a)
     if errors:
         print('\n'.join('ERROR: ' + e for e in sorted(set(errors))))
         sys.exit(1)

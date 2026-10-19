@@ -5,7 +5,7 @@
  *
  *  0,0–2,0  noche   «La IA ya está en todas las mesas.»
  *  2,0–4,0  gris    80 % · más productivos
- *  4,0–6,0  noche   la cifra cae a 6 % · lo ven en el beneficio
+ *  4,0–6,0  noche   corte a 6 % · al menos un 5 % del beneficio (otra base: sin cuenta atrás desde el 80)
  *  6,0–8,0  marino  «El curso acaba el viernes.»
  *  8,0–9,5  gris    «¿Y el lunes?»
  *  9,5–12,0 noche   «Formamos a cada persona con su propio trabajo.»
@@ -52,7 +52,7 @@
     [['s2', C.s2, 2.15], ['s3', C.s3, 4.15]].forEach(([id, d, t0]) => {
       const s = escenas.find(x => x.id === id).e;
       const n = h('p', 'cifra', null, s); const v = h('span', '', null, n); h('span', 'suf', d.suf, n);
-      cifras.push({ e: v, desde: d.desde || 0, a: d.n, t0, dur: .9 });
+      if (d.corte) v.textContent = String(d.n); else cifras.push({ e: v, desde: d.desde || 0, a: d.n, t0, dur: .9 });
       aparece(h('p', 'etiqueta', d.t, s), t0 + .45);
       aparece(h('p', 'fuente', C.fuente, s), t0 + .7);
     });

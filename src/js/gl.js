@@ -399,11 +399,19 @@ void main() {
 
   // Barata, sin contexto de prueba: create() es quien confirma que hay GPU
   const supported = () => !!(global.WebGL2RenderingContext && global.HTMLCanvasElement);
+  // failIfMajorPerformanceCaveat no rechaza SwiftShader ni llvmpipe: se mira el nombre del renderer
+  const SOFT = /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i;
+  const porSoftware = gl => {
+    try {
+      const x = gl.getExtension('WEBGL_debug_renderer_info');
+      return SOFT.test((x && gl.getParameter(x.UNMASKED_RENDERER_WEBGL)) || gl.getParameter(gl.RENDERER) || '');
+    } catch (e) { return false; }
+  };
 
   function create(canvas, o) {
     o = o || {};
     if (!canvas || !supported()) return null;
-    // Sin GPU iría a tirones: se rechaza el WebGL por software salvo con software: true
+    // Sin GPU iría a tirones: se rechaza el WebGL por software salvo con software: true (?gl=1, para pruebas)
     let gl = null;
     try {
       gl = canvas.getContext('webgl2', {
@@ -412,6 +420,7 @@ void main() {
       });
     } catch (e) {}
     if (!gl || gl.isContextLost()) return null;
+    if (!o.software && porSoftware(gl)) { const x = gl.getExtension('WEBGL_lose_context'); x && x.loseContext(); return null; }
     const fab = o.scene === 'espiral' ? espiral : planta, dens = clamp(+o.density || 1, .3, 1), still = !!o.still;
     let S;
     const monta = () => {
@@ -423,16 +432,29 @@ void main() {
 
     const maxPt = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE)[1] || 64;
     const st = { t: still ? 7.4 : 0, dt: 0, w: 1, h: 1, dpr: 1, prog: 0, step: 0, ptr: null, still, maxPt, intro: o.intro && !still ? 0 : 1 };
-    let raf = 0, last = 0, vivo = false, visible = true, perdido = false, fin = false, cpu = 0, mq = null;
+    let raf = 0, last = 0, vivo = false, visible = true, perdido = false, fin = false, cpu = 0, mq = null, api = null;
 
     const pinta = dt => {
-      if (perdido) return;
+      if (perdido) return 0;
       const t0 = performance.now(), d0 = st.dt;
       st.dt = dt;
       gl.viewport(0, 0, canvas.width, canvas.height); gl.clear(gl.COLOR_BUFFER_BIT);
       S.dibuja(st);
       st.dt = d0;
-      cpu = cpu * .95 + (performance.now() - t0) * .05;
+      const ms = performance.now() - t0;
+      cpu = cpu * .95 + ms * .05;
+      return ms;
+    };
+    // Vigilante: tramos de 1,5 s; si en uno pintar cuesta de media más de 8 ms de CPU o el bucle no llega a 12 fps,
+    // se rinde y avisa (o.lento) para volver al vídeo o al SVG. El primer tramo tras cada arranque no cuenta (carga)
+    const vigia = o.vigia !== false;
+    let vt = 0, vn = 0, vc = 0, tramo = 0;
+    const flojo = (real, ms) => {
+      vt += real; vn++; vc += ms;
+      if (vt < 1.5) return false;
+      const malo = tramo++ > 0 && (vc / vn > 8 || vt / vn > 1 / 12);
+      vt = vn = vc = 0;
+      return malo;
     };
     const anima = () => vivo && visible && !document.hidden && !perdido && !still;
     // Un fotograma cada 10 ms como mucho: a 120 Hz o más el fondo va a 60-72 fps y gasta la mitad
@@ -440,15 +462,16 @@ void main() {
       raf = 0;
       if (!anima()) return;
       if (!last || now - last > 10) {
-        const dt = last ? Math.min(.05, (now - last) / 1000) : 0; last = now;
+        const real = last ? (now - last) / 1000 : 0, dt = Math.min(.05, real); last = now;
         st.t += dt;
         if (st.intro < 1) st.intro = Math.min(1, st.intro + dt / 1.8);
-        pinta(dt);
+        const ms = pinta(dt);
+        if (vigia && real && flojo(real, ms)) { api.destroy(); if (o.lento) o.lento(); return; }
       }
       raf = requestAnimationFrame(tick);
     }
     const despierta = () => {
-      if (anima()) { if (!raf) { last = 0; raf = requestAnimationFrame(tick); } }
+      if (anima()) { if (!raf) { last = 0; vt = vn = vc = tramo = 0; raf = requestAnimationFrame(tick); } }
       else if (raf) { cancelAnimationFrame(raf); raf = 0; }
     };
     // Sin bucle (parado o still), cada cambio pinta un fotograma ya asentado; fuera de pantalla, nada
@@ -485,7 +508,7 @@ void main() {
     if (io) io.observe(canvas);
     dpr();
 
-    return {
+    return api = {
       setProgress(p) { st.prog = clamp(+p || 0); if (!still) fotograma(); },
       setStep(n) { st.step = clamp(Math.round(+n || 0), 0, 6); fotograma(); },
       setPointer(x, y) {
