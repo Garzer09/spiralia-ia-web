@@ -30,7 +30,7 @@
         g.addEventListener('click', () => pick(el, i + 1)); svg.append(g); sts.push(g);
       });
       items = $$('.sp-steps li', el);
-      $$('.sp-b', el).forEach(b => b.addEventListener('click', () => pick(el, +b.dataset.n)));
+      $$('.sp-b', el).forEach(b => b.addEventListener('click', () => { if (window.SP.spiral.onPick) window.SP.spiral.onPick(+b.dataset.n); else pick(el, +b.dataset.n); }));
       $('.replay', el).addEventListener('click', () => play(el));
     }
     function set(el, n, openAll) {
@@ -39,6 +39,8 @@
       items.forEach((li, i) => { const o = openAll || i === n - 1; li.classList.toggle('open', o); li.classList.toggle('on', i < n); $('.sp-b', li).setAttribute('aria-expanded', String(o)); });
     }
     function pick(el, n) { T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, n); }
+    // La capa de scroll (scroll.js) mueve los pasos con el scroll
+    window.SP.spiral = { pick: n => { const el = $('[data-piece=spiral]'); build(el); pick(el, n); }, onPick: null };
     function arm(el) { build(el); el.classList.add('anim'); el.classList.remove('drawn', 'done'); set(el, 0); }
     function play(el) {
       arm(el); void el.offsetWidth;
@@ -131,7 +133,7 @@
   const recordar = v => { try { v ? localStorage.setItem(PAUSA, '1') : localStorage.removeItem(PAUSA); } catch (e) {} };
   function fondo(sec, btn) {
     const v = $('video', sec), c = navigator.connection || {};
-    if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '')) return;
+    if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '') || sec.classList.contains('has-gl')) return; // con WebGL, el vídeo sobra
     const base = matchMedia('(max-aspect-ratio: 1/1)').matches ? sec.dataset.srcV : sec.dataset.srcH;
     const webm = v.canPlayType('video/webm; codecs="vp9"');
     let visto = false, cargado = false, user = pausadoAntes();
@@ -158,7 +160,7 @@
   const hero = $('[data-hero]'), cierre = $('[data-firma]');
   addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => {
     if (hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero));
-    if (cierre) SPfondo.cierre = fondo(cierre, null);
+    if (cierre) SPfondo.cierre = fondo(cierre, $('.cierre-pausa', cierre));
   }));
 
   // La barra es transparente mientras la portada está detrás; sólida en cuanto deja de estarlo
@@ -206,19 +208,26 @@
     const v = $('video', d);
     op.addEventListener('click', () => {
       if (!v.src) { v.poster = v.dataset.poster; v.src = v.dataset.src; }
-      d.showModal(); SPfondo.hero && SPfondo.hero.pausar();
+      d.showModal(); SPfondo.hero && SPfondo.hero.pausar(); document.dispatchEvent(new Event('sp:pausa'));
       ev('Película');
       v.play().catch(() => {});
     });
-    d.addEventListener('close', () => { v.pause(); SPfondo.hero && SPfondo.hero.seguir(); op.focus(); });
+    d.addEventListener('close', () => { v.pause(); SPfondo.hero && SPfondo.hero.seguir(); document.dispatchEvent(new Event('sp:sigue')); op.focus(); });
     d.addEventListener('click', e => { if (e.target === d) d.close(); });
   })();
 
   // Logos en movimiento lento: se duplica la fila para que el bucle no tenga salto (los duplicados no se leen)
   (() => {
     const l = $('.logos'); if (!l || still()) return;
-    [...l.children].forEach(i => { const c = i.cloneNode(true); c.alt = ''; c.removeAttribute('role'); c.setAttribute('aria-hidden', 'true'); l.append(c); });
+    [...l.children].forEach(i => { const c = i.cloneNode(true); c.setAttribute('aria-hidden', 'true'); $('img', c).alt = ''; l.append(c); });
     l.classList.add('run');
+    // Se mueve más de 5 s junto a otro contenido: necesita un botón de pausa (WCAG 2.2.2)
+    const b = $('.marquee-pausa'); if (!b) return;
+    b.hidden = false;
+    b.addEventListener('click', () => {
+      const p = l.classList.toggle('parada');
+      b.setAttribute('aria-pressed', String(p)); b.setAttribute('aria-label', p ? b.dataset.play : b.dataset.pause);
+    });
   })();
 
   // Pestañas «Para ti» (patrón ARIA) y accesos por perfil desde la portada
@@ -240,7 +249,8 @@
     const byHash = h => panels.findIndex(p => '#' + p.id === h);
     $$('a[data-tab]').forEach(a => a.addEventListener('click', e => {
       const i = byHash(a.getAttribute('href')); if (i < 0) return;
-      e.preventDefault(); select(i, false); $('#para-ti').scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
+      e.preventDefault(); select(i, false);
+      window.SP.scrollTo ? window.SP.scrollTo($('#para-ti')) : $('#para-ti').scrollIntoView({ behavior: still() ? 'auto' : 'smooth' });
       history.replaceState(null, '', a.getAttribute('href'));
     }));
     const h = byHash(location.hash); select(h < 0 ? 0 : h);

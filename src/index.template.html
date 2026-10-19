@@ -25,7 +25,7 @@
 <link rel="preload" href="{{base}}assets/video/hero-h.jpg" as="image" fetchpriority="high" media="(min-aspect-ratio: 1/1)">
 <link rel="preload" href="{{base}}assets/video/hero-v.jpg" as="image" fetchpriority="high" media="(max-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="{{base}}css/site.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!/[?&]still=1/.test(location.search)){d.classList.add('intro');setTimeout(function(){d.classList.remove('intro')},2600)}})(document.documentElement)</script>
 <script type="application/ld+json">{{jsonld}}</script>
 {{analytics}}
 </head>
@@ -41,11 +41,12 @@
     <span class="pill" aria-hidden="true"><img src="{{base}}assets/img/s-lines.svg" alt="" width="12" height="20">AI</span>
     <nav class="bar-nav" id="menu" aria-label="{{attr:nav.menu}}">
       <a href="#pruebas">{{nav.casos}}</a><a href="#como">{{nav.como}}</a><a href="#para-ti">{{nav.parati}}</a><a href="#quienes">{{nav.quienes}}</a>
-      <a class="bar-nav-cta btn btn-cta" href="{{base}}reserva/?d=menu">{{hero.cta1}}</a>
+      <a class="bar-nav-cta btn btn-cta" href="{{base}}reserva/?d=menu&amp;l={{lang}}">{{hero.cta1}}</a>
       <a class="bar-nav-lang" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{nav.lang_label}}</a>
     </nav>
-    <a class="lang" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" aria-label="{{attr:nav.lang_label}}" data-keep-hash>{{nav.lang}}</a>
-    <a class="btn btn-cta btn-sm" href="{{base}}reserva/?d=barra">{{nav.cta}}</a>
+    <a class="lang" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{nav.lang}}<span class="sr"> · {{nav.lang_label}}</span></a>
+    <a class="btn btn-cta btn-sm" href="{{base}}reserva/?d=barra&amp;l={{lang}}">{{nav.cta}}</a>
+    <span class="bar-prog" aria-hidden="true"></span>
     <button type="button" class="menu-btn" aria-controls="menu" aria-expanded="false" data-open="{{attr:nav.menu}}" data-close="{{attr:nav.close}}" aria-label="{{attr:nav.menu}}"><i aria-hidden="true"></i></button>
   </div>
 </header>
@@ -61,6 +62,7 @@
       <img class="hero-poster" src="{{base}}assets/video/hero-h.jpg" alt="" width="1920" height="1080" fetchpriority="high">
     </picture>
     <video class="hero-video" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback></video>
+    <canvas class="hero-gl"></canvas>
     <div class="hero-scrim"></div>
   </div>
   <div class="wrap hero-in">
@@ -68,14 +70,15 @@
     <h1 id="h1" class="display"><span class="l1">{{hero.h1a}}</span> <span class="l2">{{hero.h1b}}</span></h1>
     <p class="hero-sub">{{hero.sub}}</p>
     <div class="hero-ctas">
-      <a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=portada">{{hero.cta1}}</a>
+      <a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=portada&amp;l={{lang}}">{{hero.cta1}}</a>
       <a class="link-arrow" href="#diagnostico">{{hero.cta2}} <span aria-hidden="true">→</span></a>
     </div>
     <p class="hero-micro">{{hero.micro}}</p>
   </div>
+  <a class="scroll-cue" href="#reto" aria-hidden="true" tabindex="-1"><i></i></a>
   <div class="wrap hero-ctl">
-    <button type="button" class="glass film-open" data-film-open><i aria-hidden="true"></i>{{hero.film_btn}}</button>
-    <button type="button" class="glass hero-pause" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
+    <button type="button" class="glass-btn film-open" data-film-open><i aria-hidden="true"></i>{{hero.film_btn}}</button>
+    <button type="button" class="glass-btn hero-pause" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
   </div>
 </section>
 
@@ -84,20 +87,21 @@
   <div class="wrap proof">
     <p class="proof-n"><span class="pre">{{hero.proof_pre}}</span> <b>{{hero.proof_num}}</b> <span>{{hero.proof_txt}}</span></p>
     <div class="marquee">
-      <div class="logos" role="list" aria-label="{{attr:hero.logos}}">
-        <img role="listitem" src="{{base}}assets/img/logo-ing.svg" alt="ING" height="22">
-        <img role="listitem" src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28">
-        <img role="listitem" src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33">
-        <img role="listitem" src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" height="34">
-        <img role="listitem" src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" height="22">
-        <img role="listitem" src="{{base}}assets/img/logo-ey.svg" alt="EY" height="32">
-        <img role="listitem" src="{{base}}assets/img/logo-lg.svg" alt="LG" height="18">
-        <img role="listitem" src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" height="24">
-        <img role="listitem" src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" height="23">
-        <img role="listitem" src="{{base}}assets/img/logo-wizink.png" alt="WiZink" height="30">
-        <img role="listitem" src="{{base}}assets/img/logo-teamsystem.svg" alt="TeamSystem" height="19">
-        <img role="listitem" src="{{base}}assets/img/logo-miravia.svg" alt="Miravia" height="22">
-      </div>
+      <button type="button" class="glass-btn marquee-pausa" hidden aria-pressed="false" data-pause="{{attr:hero.logos_pause}}" data-play="{{attr:hero.logos_play}}" aria-label="{{attr:hero.logos_pause}}"><i aria-hidden="true"></i></button>
+      <ul class="logos" aria-label="{{attr:hero.logos}}">
+        <li><img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="22"></li>
+        <li><img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28"></li>
+        <li><img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33"></li>
+        <li><img src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" height="34"></li>
+        <li><img src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" height="22"></li>
+        <li><img src="{{base}}assets/img/logo-ey.svg" alt="EY" height="32"></li>
+        <li><img src="{{base}}assets/img/logo-lg.svg" alt="LG" height="18"></li>
+        <li><img src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" height="24"></li>
+        <li><img src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" height="23"></li>
+        <li><img src="{{base}}assets/img/logo-wizink.png" alt="WiZink" height="30"></li>
+        <li><img src="{{base}}assets/img/logo-teamsystem.svg" alt="TeamSystem" height="19"></li>
+        <li><img src="{{base}}assets/img/logo-miravia.svg" alt="Miravia" height="22"></li>
+      </ul>
     </div>
   </div>
   <div class="wrap roles">
@@ -172,24 +176,32 @@
       <p class="kicker">{{pr.kicker}}</p>
       <h2 id="t-pr" class="display"><span class="l1">{{pr.h2a}}</span> <span class="l2">{{pr.h2b}}</span></h2>
     </header>
-    <div class="cases">
-      <article class="pcase pcase-main rv">
+    <div class="bento">
+      <article class="tile tile-ing glass spot rv">
         <img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="26" class="pc-logo">
-        <h3 class="display h4">{{pr.ing_h}}</h3><p>{{pr.ing_p}}</p>
-        <div class="metrics"><div><b>{{pr.ing_m1}}</b><span>{{pr.ing_m1t}}</span></div><div><b>{{pr.ing_m2}}</b><span>{{pr.ing_m2t}}</span></div></div>
+        <p class="tile-k">{{pr.ing_m1t}}</p>
+        <p class="tile-big">{{pr.ing_m1}}</p>
+        <h3 class="display h4">{{pr.ing_h}}</h3><p class="tile-p">{{pr.ing_p}}</p>
+        <div class="tile-sub"><b>{{pr.ing_m2}}</b><span>{{pr.ing_m2t}}</span></div>
         <p class="src">{{pr.ing_src}}</p>
       </article>
-      <article class="pcase rv">
-        <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="22" class="pc-logo">
-        <h3 class="display h4">{{pr.del_h}}</h3><p>{{pr.del_p}}</p>
-        <div class="metrics"><div><b>{{pr.del_m1}}</b><span>{{pr.del_m1t}}</span></div><div><b>{{pr.del_m2}}</b><span>{{pr.del_m2t}}</span></div></div>
+      <article class="tile tile-del glass spot rv">
+        <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28" class="pc-logo">
+        <p class="tile-big">{{pr.del_m1}}</p><p class="tile-k">{{pr.del_m1t}}</p>
+        <h3 class="display h5t">{{pr.del_h}}</h3><p class="tile-p">{{pr.del_p}}</p>
+        <div class="tile-sub"><b>{{pr.del_m2}}</b><span>{{pr.del_m2t}}</span></div>
         <p class="src">{{pr.del_src}}</p>
       </article>
-      <article class="pcase rv">
-        <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="30" class="pc-logo">
-        <h3 class="display h4">{{pr.cc_h}}</h3><p>{{pr.cc_p}}</p>
-        <div class="metrics"><div><b>{{pr.cc_m1}}</b><span>{{pr.cc_m1t}}</span></div><div><b>{{pr.cc_m2}}</b><span>{{pr.cc_m2t}}</span></div></div>
+      <article class="tile tile-cc glass spot rv">
+        <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33" class="pc-logo">
+        <p class="tile-big">{{pr.cc_m1}}</p><p class="tile-k">{{pr.cc_m1t}}</p>
+        <h3 class="display h5t">{{pr.cc_h}}</h3><p class="tile-p">{{pr.cc_p}}</p>
+        <div class="tile-sub"><b>{{pr.cc_m2}}</b><span>{{pr.cc_m2t}}</span></div>
         <p class="src">{{pr.cc_src}}</p>
+      </article>
+      <article class="tile tile-ind glass spot rv">
+        <img class="tile-ico" src="{{base}}assets/img/3d/espiral.webp" alt="" width="132" height="132" loading="lazy">
+        <h3 class="display h5t">{{pr.ind_h}}</h3><p class="tile-p">{{pr.ind_p}}</p>
       </article>
     </div>
     <!--si:testimonios · solo se publica cuando las citas son reales (build.py lo quita si queda un [PLACEHOLDER]) -->
@@ -202,6 +214,7 @@
       </div>
     </div>
     <!--/si-->
+    <p class="ctx rv"><span>{{ctx.casos}}</span> <a class="link-arrow" href="{{base}}reserva/?d=casos&amp;l={{lang}}">{{hero.cta1}} <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -215,29 +228,31 @@
     </header>
     <div class="spiral" data-piece="spiral">
       <figure class="sp-fig">
+        <canvas class="sp-gl" aria-hidden="true"></canvas>
         <svg class="sp-svg" viewBox="234 146 292 470" role="img" aria-label="{{attr:como.aria}}"></svg>
         <button class="replay" type="button">↻ {{como.replay}}</button>
       </figure>
       <div class="sp-steps">
         <p class="hint">{{como.hint}}</p>
         <ol>
-          <li><button type="button" class="sp-b" data-n="1" aria-expanded="true"><b>S</b><span>{{como.s_n}}</span><small lang="en">Skill</small></button>
+          <li><button type="button" class="sp-b" data-n="1" aria-expanded="true"><b aria-hidden="true">S</b><span>{{como.s_n}}</span><small lang="en" aria-hidden="true">Skill</small></button>
             <div class="sp-d"><p>{{como.s_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.s_w}}</dd><dt>{{como.left}}</dt><dd>{{como.s_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="2" aria-expanded="true"><b>P</b><span>{{como.p_n}}</span><small lang="en">Pair</small></button>
+          <li><button type="button" class="sp-b" data-n="2" aria-expanded="true"><b aria-hidden="true">P</b><span>{{como.p_n}}</span><small lang="en" aria-hidden="true">Pair</small></button>
             <div class="sp-d"><p>{{como.p_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.p_w}}</dd><dt>{{como.left}}</dt><dd>{{como.p_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="3" aria-expanded="true"><b>I</b><span>{{como.i_n}}</span><small lang="en">Identify</small></button>
+          <li><button type="button" class="sp-b" data-n="3" aria-expanded="true"><b aria-hidden="true">I</b><span>{{como.i_n}}</span><small lang="en" aria-hidden="true">Identify</small></button>
             <div class="sp-d"><p>{{como.i_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.i_w}}</dd><dt>{{como.left}}</dt><dd>{{como.i_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="4" aria-expanded="true"><b>R</b><span>{{como.r_n}}</span><small lang="en">Rebuild</small></button>
+          <li><button type="button" class="sp-b" data-n="4" aria-expanded="true"><b aria-hidden="true">R</b><span>{{como.r_n}}</span><small lang="en" aria-hidden="true">Rebuild</small></button>
             <div class="sp-d"><p>{{como.r_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.r_w}}</dd><dt>{{como.left}}</dt><dd>{{como.r_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="5" aria-expanded="true"><b>A</b><span>{{como.a_n}}</span><small lang="en">Assure</small></button>
+          <li><button type="button" class="sp-b" data-n="5" aria-expanded="true"><b aria-hidden="true">A</b><span>{{como.a_n}}</span><small lang="en" aria-hidden="true">Assure</small></button>
             <div class="sp-d"><p>{{como.a_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.a_w}}</dd><dt>{{como.left}}</dt><dd>{{como.a_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="6" aria-expanded="true"><b>L</b><span>{{como.l_n}}</span><small lang="en">Launch</small></button>
+          <li><button type="button" class="sp-b" data-n="6" aria-expanded="true"><b aria-hidden="true">L</b><span>{{como.l_n}}</span><small lang="en" aria-hidden="true">Launch</small></button>
             <div class="sp-d"><p>{{como.l_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.l_w}}</dd><dt>{{como.left}}</dt><dd>{{como.l_l}}</dd></dl></div></li>
         </ol>
         <p class="fde-note">{{como.fde}}</p>
       </div>
     </div>
     <p class="display remate-in rv"><span class="l1">{{como.remate_a}}</span> <span class="l2">{{como.remate_b}}</span></p>
+    <p class="ctx rv"><span>{{ctx.metodo}}</span> <a class="link-arrow" href="{{base}}reserva/?d=metodo&amp;l={{lang}}">{{fmt.r_cta}} <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -258,7 +273,7 @@
         <div class="demo-profiles" role="group" aria-label="{{attr:pers.pick}}"></div>
         <p class="demo-more">{{pers.more}}</p>
       </div>
-      <div class="demo-stage" aria-live="polite">
+      <div class="demo-stage">
         <span class="tag tag-ilus">{{pers.ilus}}</span>
         <div class="demo-scene"></div>
         <div class="demo-ctl"><button type="button" class="demo-pause"></button><button type="button" class="replay demo-replay">↻ {{pers.replay}}</button></div>
@@ -303,6 +318,7 @@
           <ul><li>{{fde.c1_g1}}</li><li>{{fde.c1_g2}}</li><li>{{fde.c1_g3}}</li><li>{{fde.c1_g4}}</li><li>{{fde.c1_g5}}</li><li>{{fde.c1_g6}}</li></ul></div>
       </div>
     </article>
+    <p class="ctx rv"><span>{{ctx.construimos}}</span> <a class="link-arrow" href="#diagnostico">{{hero.cta2}} <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -315,9 +331,9 @@
     </header>
     <div class="tabs" data-tabs>
       <div class="tablist" role="tablist" aria-labelledby="t-pt">
-        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true">{{pt.t1_tab}}</button>
-        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1">{{pt.t2_tab}}</button>
-        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1">{{pt.t3_tab}}</button>
+        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true"><img class="tab-ico" src="{{base}}assets/img/3d/resultados.webp" alt="" width="40" height="40" loading="lazy">{{pt.t1_tab}}</button>
+        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/personas.webp" alt="" width="40" height="40" loading="lazy">{{pt.t2_tab}}</button>
+        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/tecnologia.webp" alt="" width="40" height="40" loading="lazy">{{pt.t3_tab}}</button>
       </div>
       <div class="panel" role="tabpanel" id="para-ti-negocio" aria-labelledby="tab-negocio" tabindex="0">
         <p class="panel-who">{{pt.t1_tab}}</p>
@@ -326,7 +342,7 @@
         <div class="panel-grid">
           <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t1_1}}</li><li>{{pt.t1_2}}</li><li>{{pt.t1_3}}</li><li>{{pt.t1_4}}</li></ul></div>
           <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t1_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t1_p}}</p>
-            <a class="btn btn-cta" href="{{base}}reserva/?d=resultados">{{pt.t1_cta}}</a></div>
+            <a class="btn btn-cta" href="{{base}}reserva/?d=resultados&amp;l={{lang}}">{{pt.t1_cta}}</a></div>
         </div>
       </div>
       <div class="panel" role="tabpanel" id="para-ti-personas" aria-labelledby="tab-personas" tabindex="0">
@@ -346,7 +362,7 @@
         <div class="panel-grid">
           <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t3_1}}</li><li>{{pt.t3_2}}</li><li>{{pt.t3_3}}</li><li>{{pt.t3_4}}</li></ul></div>
           <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t3_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t3_p}}</p>
-            <a class="btn btn-cta" href="{{base}}reserva/?d=tecnologia">{{pt.t3_cta}}</a></div>
+            <a class="btn btn-cta" href="{{base}}reserva/?d=tecnologia&amp;l={{lang}}">{{pt.t3_cta}}</a></div>
         </div>
       </div>
     </div>
@@ -361,23 +377,23 @@
       <h2 id="t-fmt" class="display"><span class="l1">{{fmt.h2a}}</span> <span class="l2">{{fmt.h2b}}</span></h2>
       <p class="lead narrow">{{fmt.lead}}</p>
     </header>
-    <div class="fmt" role="table" aria-labelledby="t-fmt">
-      <div class="fmt-row fmt-hd" role="row"><span role="columnheader"></span><span role="columnheader">{{fmt.c_para}}</span><span role="columnheader">{{fmt.c_dur}}</span><span role="columnheader">{{fmt.c_que}}</span><span role="columnheader">{{fmt.c_lleva}}</span></div>
-      <div class="fmt-row is-first rv" role="row">
-        <span role="rowheader" class="fmt-name"><em>{{fmt.r_badge}}</em><b>{{fmt.r_name}}</b><a class="btn btn-cta btn-sm" href="{{base}}reserva/?d=rumbo">{{fmt.r_cta}}</a></span>
-        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.r_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.r_dur}}</span>
-        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.r_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.r_lleva}}</span>
-      </div>
-      <div class="fmt-row rv" role="row">
-        <span role="rowheader" class="fmt-name"><b>{{fmt.p_name}}</b></span>
-        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.p_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.p_dur}}</span>
-        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.p_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.p_lleva}}</span>
-      </div>
-      <div class="fmt-row rv" role="row">
-        <span role="rowheader" class="fmt-name"><b>{{fmt.d_name}}</b></span>
-        <span role="cell" data-l="{{attr:fmt.c_para}}">{{fmt.d_para}}</span><span role="cell" data-l="{{attr:fmt.c_dur}}" class="fmt-dur">{{fmt.d_dur}}</span>
-        <span role="cell" data-l="{{attr:fmt.c_que}}">{{fmt.d_que}}</span><span role="cell" data-l="{{attr:fmt.c_lleva}}">{{fmt.d_lleva}}</span>
-      </div>
+    <div class="fmts">
+      <article class="fcard fcard-main glass spot rv">
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/rumbo.webp" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
+        <h3 class="fcard-n">{{fmt.r_name}}</h3><p class="fcard-dur">{{fmt.r_dur}}</p>
+        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.r_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.r_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.r_lleva}}</dd></dl>
+        <a class="btn btn-cta" href="{{base}}reserva/?d=rumbo&amp;l={{lang}}">{{fmt.r_cta}}</a>
+      </article>
+      <article class="fcard glass spot rv">
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="112" height="112" loading="lazy"></div>
+        <h3 class="fcard-n">{{fmt.p_name}}</h3><p class="fcard-dur">{{fmt.p_dur}}</p>
+        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.p_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.p_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.p_lleva}}</dd></dl>
+      </article>
+      <article class="fcard glass spot rv">
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria.webp" alt="" width="112" height="112" loading="lazy"></div>
+        <h3 class="fcard-n">{{fmt.d_name}}</h3><p class="fcard-dur">{{fmt.d_dur}}</p>
+        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.d_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.d_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.d_lleva}}</dd></dl>
+      </article>
     </div>
   </div>
 </section>
@@ -399,9 +415,9 @@
     <div class="equipo rv" aria-labelledby="t-eq">
       <h3 id="t-eq" class="h5">{{pq.eq_h}}</h3>
       <div class="eq-row">
-        <div class="eq-c"><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
-        <div class="eq-c"><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
-        <div class="eq-c"><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/estrategia.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
+        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/ingenieria.webp" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
       </div>
       <p class="eq-note">{{pq.eq_note}}</p>
     </div>
@@ -416,11 +432,11 @@
       <h2 id="t-dg" class="display"><span class="l1">{{dg.h2a}}</span> <span class="l2">{{dg.h2b}}</span></h2>
       <p class="lead narrow">{{dg.lead}}</p>
     </header>
-    <div class="dg" data-dg data-mail="{{mail}}"
+    <div class="dg glass" data-dg data-mail="{{mail}}"
          data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
          data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
          data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
-         data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}">
+         data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}" data-l-book="{{attr:cta.btn}}" data-book="{{base}}reserva/?d=diagnostico&amp;l={{lang}}">
       <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
     </div>
   </div>
@@ -459,11 +475,12 @@
     <video class="cierre-video" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback></video>
     <div class="cierre-scrim"></div>
   </div>
+  <button type="button" class="glass-btn hero-pause cierre-pausa" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
   <div class="wrap cierre-in">
     <p class="kicker">{{cta.kicker}}</p>
     <h2 id="t-cta" class="display"><span class="l1">{{cta.h2a}}</span> <span class="l2">{{cta.h2b}}</span></h2>
     <p class="lead">{{cta.lead}}</p>
-    <div class="hero-ctas"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=cierre">{{cta.btn}}</a></div>
+    <div class="hero-ctas"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=cierre&amp;l={{lang}}">{{cta.btn}}</a></div>
     <p class="urg">{{cta.urg}}</p>
     <p class="asist">{{cta.asist}} <a href="mailto:{{mail}}?subject={{url:cta.subject}}">{{mail}}</a>
       <button type="button" class="copy" data-copy="{{mail}}" data-done="{{attr:cta.copied}}">{{cta.copy}}</button></p>
@@ -473,7 +490,7 @@
 
 </main>
 
-<div class="cta-fija" aria-hidden="true"><a class="btn btn-cta" href="{{base}}reserva/?d=fija" tabindex="-1">{{hero.cta1}}</a></div>
+<div class="cta-fija" aria-hidden="true"><a class="btn btn-cta" href="{{base}}reserva/?d=fija&amp;l={{lang}}" tabindex="-1">{{hero.cta1}}</a></div>
 
 <!-- 13 · Pie: la marca grande, recortada -->
 <footer class="foot">
@@ -496,7 +513,7 @@
       <span>{{ft.nocookies}}</span><span>{{ft.copy}}</span>
     </div>
   </div>
-  <p class="foot-mark" aria-hidden="true">Spiralia</p>
+  <p class="foot-mark luz" aria-hidden="true">Spiralia</p>
 </footer>
 
 
@@ -505,5 +522,11 @@
 <script src="{{base}}js/engine.js" defer></script>
 <script src="{{base}}js/motion.js" defer></script>
 <script src="{{base}}js/diagnostico.js" defer></script>
+<script src="{{base}}js/gl.js" defer></script>
+<script src="{{base}}js/vendor/gsap.min.js" defer></script>
+<script src="{{base}}js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="{{base}}js/vendor/SplitText.min.js" defer></script>
+<script src="{{base}}js/vendor/lenis.min.js" defer></script>
+<script src="{{base}}js/scroll.js" defer></script>
 </body>
 </html>

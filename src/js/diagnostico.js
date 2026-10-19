@@ -50,7 +50,7 @@
     box.innerHTML = `<div class="dg-res"><h3>${esc(L.res)}</h3><p class="dg-level" tabindex="-1">${esc(N.name)}</p><p class="dg-h">${esc(N.h)}</p>
       <ol class="dg-scale">${D.n.map((x, i) => `<li class="${i < n ? 'past' : i === n ? 'cur' : ''}"${i === n ? ' aria-current="step"' : ''}>${esc(x.name)}</li>`).join('')}</ol>
       <h3>${esc(L.steps)}</h3><ul class="dg-steps">${N.s.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
-      <div class="dg-acts"><a class="btn btn-cta" href="${mail}">${esc(L.send)}</a>
+      <div class="dg-acts"><a class="btn btn-cta" href="${esc(box.dataset.book)}">${esc(L.book)}</a><a class="btn btn-ghost" href="${mail}">${esc(L.send)}</a>
       <button type="button" class="btn btn-ghost dg-print">${esc(L.print)}</button><button type="button" class="btn btn-ghost dg-again">${esc(L.again)}</button></div>
       <p class="dg-note">${esc(L.note)}</p></div>`;
     $('.dg-print', box).addEventListener('click', () => {

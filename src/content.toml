@@ -12,7 +12,7 @@
 
 [meta]
 title = {es = "Spiralia AI · Formación y despliegue de IA para empresas", en = "Spiralia AI · AI training and deployment for companies"}
-description = {es = "Formamos a cada persona con su propio trabajo y construimos con tus equipos hasta que la IA da resultados. Más de 50.000 personas formadas. ING, Deloitte, Coca-Cola Europacific Partners.", en = "We train every person on their own work and build with your teams until AI delivers results. More than 50,000 people trained. ING, Deloitte, Coca-Cola Europacific Partners."}
+description = {es = "Formamos a cada persona con su propio trabajo y construimos con tus equipos hasta que la IA da resultados. Más de 50.000 personas formadas.", en = "We train every person on their own work and build with your teams until AI delivers results. More than 50,000 people trained. ING, Deloitte, Coca-Cola Europacific Partners."}
 og_alt = {es = "Toda tu empresa, trabajando con IA. Spiralia AI.", en = "Your whole company, working with AI. Spiralia AI."}
 
 [nav]
@@ -48,6 +48,8 @@ proof_pre = {es = "Más de", en = "More than"}
 proof_num = {es = "50.000", en = "50,000"}
 proof_txt = {es = "personas formadas en IA aplicada a negocio", en = "people trained in AI applied to business"}
 logos = {es = "Hemos formado a equipos de", en = "We have trained teams at"}
+logos_pause = {es = "Pausar los logos", en = "Pause the logos"}
+logos_play = {es = "Mover los logos", en = "Play the logos"}
 
 [reto]
 kicker = {es = "Por qué ahora", en = "Why now"}
@@ -106,6 +108,8 @@ cc_m1t = {es = "casos de uso identificados por los propios equipos", en = "use c
 cc_m2 = {es = "6", en = "6"}
 cc_m2t = {es = "catálogos priorizados, uno por área", en = "prioritized catalogs, one per area"}
 cc_src = {es = "Programa CCEP Iberia × Spiralia, julio de 2026.", en = "CCEP Iberia × Spiralia program, July 2026."}
+ind_h = {es = "Con la IA que ya tiene tu empresa.", en = "With the AI your company already has."}
+ind_p = {es = "Microsoft 365 Copilot, ChatGPT, Claude o Gemini. No cambiamos tu herramienta: hacemos que se use en cada puesto.", en = "Microsoft 365 Copilot, ChatGPT, Claude or Gemini. We don't change your tool: we make it work in every role."}
 tst_h = {es = "Lo que dicen", en = "What they say"}
 tst_q = {es = "[PLACEHOLDER · Cita del cliente, una o dos frases]", en = "[PLACEHOLDER · Client quote, one or two sentences]"}
 tst_a = {es = "[PLACEHOLDER · Nombre y apellido]", en = "[PLACEHOLDER · First and last name]"}
@@ -345,6 +349,11 @@ q9 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI
 a9 = {es = "Desde 2025, las empresas que usan IA deben adoptar medidas para que su plantilla tenga los conocimientos necesarios. Tras la reforma de 2026 no hace falta certificar a cada persona, pero sí poder enseñar lo que se ha hecho. Nuestros programas lo dejan documentado.", en = "Since 2025, companies that use AI must take measures so their staff have the necessary knowledge. Since the 2026 reform, certifying each person is not required, but you must be able to show what has been done. Our programs document it."}
 q10 = {es = "¿Cuánto cuesta?", en = "How much does it cost?"}
 a10 = {es = "Depende de tu punto de partida y de hasta dónde quieras llegar: cada programa se diseña a medida. Lo vemos en una conversación de 30 minutos y te llevas una propuesta de primer paso.", en = "It depends on your starting point and how far you want to go: every program is designed to measure. We'll go through it in a 30-minute conversation and you'll leave with a proposed first step."}
+
+[ctx]
+casos = {es = "¿Quieres ver algo así en tu empresa?", en = "Want to see this in your company?"}
+metodo = {es = "El primer paso: 3 horas con tu comité.", en = "The first step: 3 hours with your leadership team."}
+construimos = {es = "¿Dónde está tu empresa hoy?", en = "Where does your company stand today?"}
 
 [cta]
 kicker = {es = "Hablemos", en = "Let's talk"}

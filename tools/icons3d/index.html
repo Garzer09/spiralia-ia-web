@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Iconos 3D · Spiralia</title>
+<!-- Banco de render de los iconos 3D. Solo se usa al generar (render.mjs); no se publica.
+     ?icon=<nombre>  icono que se pinta (estrategia, formacion, ingenieria, resultados,
+                     personas, tecnologia, rumbo, espiral)
+     ?ss=2           supermuestreo: el lienzo mide 768 × ss píxeles reales
+     ?fondo=oscuro|claro  solo para mirar a mano; la salida siempre es transparente -->
+<style>
+  html,body{margin:0;background:transparent}
+  body.oscuro{background:#051A2B}
+  body.claro{background:#F5F4F0}
+  canvas{display:block;width:768px;height:768px}
+</style>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+<script src="../../src/js/s-geom.js"></script>
+</head>
+<body>
+<canvas id="lienzo" width="768" height="768"></canvas>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

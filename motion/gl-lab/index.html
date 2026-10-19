@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laboratorio WebGL · Spiralia AI</title>
+  <!-- Banco de pruebas de src/js/gl.js. Parámetros de URL: scene=planta|espiral, density=1|0.6, still=1, intro=1,
+       p=0..1, step=0..6, ptr=x,y (fracciones del lienzo, o «auto»), marco=pantalla|columna, titular=0, panel=0 -->
+  <style>
+    @font-face { font-family: "Butler"; src: url(../../assets/fonts/Butler-Light.woff2) format("woff2"); font-weight: 300; }
+    @font-face { font-family: "Sofia Sans Condensed"; src: url(../../assets/fonts/SofiaSansCondensed.woff2) format("woff2"); font-weight: 100 900; }
+    :root { --night: #051A2B; --navy: #08263D; --greige: #E0DFDA; --gris: #A9B1B8; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--night); color: var(--greige); overflow: hidden;
+      font: 400 13px/1.4 "Sofia Sans Condensed", "Arial Narrow", Arial, sans-serif; letter-spacing: .02em; }
+    .escena { position: fixed; inset: 0; background: radial-gradient(120% 90% at 66% 30%, #082A44 0%, #041625 55%, #020B14 100%); }
+    .escena::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(125% 100% at 64% 40%, transparent 55%, rgba(2, 10, 18, .6) 100%); }
+    .lienzo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+    .escena.columna .lienzo { width: 46%; }
+    .titular { position: absolute; left: clamp(16px, 8.3vw, 120px); bottom: 14vh; max-width: 760px; pointer-events: none; z-index: 1; }
+    .titular p { margin: 0 0 1rem; font-weight: 600; font-size: .84rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gris); }
+    .titular h1 { margin: 0; font: 300 clamp(2.55rem, 5.6vw, 5.4rem)/1.04 "Butler", Georgia, serif; letter-spacing: -.012em; }
+    .titular h1 span { display: block; color: var(--gris); }
+    @media (max-aspect-ratio: 9/10) { .titular { bottom: 8vh; right: 16px; } }
+    .panel { position: fixed; right: 16px; bottom: 16px; z-index: 2; width: 268px; padding: 14px 16px 12px; border-radius: 16px;
+      background: rgba(8, 38, 61, .55); border: 1px solid rgba(224, 223, 218, .14);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
+    .panel h2 { margin: 0 0 10px; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gris); }
+    .fila { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 7px 0; }
+    .fila label { color: var(--gris); }
+    select, button { font: inherit; color: var(--greige); background: rgba(224, 223, 218, .06); border: 1px solid rgba(224, 223, 218, .16);
+      border-radius: 99px; padding: 3px 10px; }
+    input[type=range] { width: 150px; accent-color: var(--greige); }
+    .pasos { display: flex; gap: 4px; }
+    .pasos button { padding: 2px 0; width: 26px; }
+    .pasos button[aria-pressed=true] { background: var(--greige); color: var(--navy); }
+    .datos { margin-top: 10px; font-variant-numeric: tabular-nums; color: var(--gris); font-size: 12px; }
+    .aviso { position: fixed; inset: auto 16px 16px auto; color: var(--gris); }
+  </style>
+</head>
+<body>
+  <div class="escena" id="escena">
+    <canvas class="lienzo" id="lienzo" aria-hidden="true"></canvas>
+    <div class="titular" id="titular">
+      <p>Spiralia · IA para empresas</p>
+      <h1>Toda tu empresa, <span>trabajando con IA.</span></h1>
+    </div>
+  </div>
+
+  <form class="panel" id="panel" onsubmit="return false">
+    <h2>Laboratorio WebGL</h2>
+    <div class="fila"><label for="f-esc">Escena</label>
+      <select id="f-esc"><option value="planta">Planta (portada)</option><option value="espiral">Espiral (método)</option></select></div>
+    <div class="fila"><label for="f-den">Densidad</label>
+      <select id="f-den"><option value="1">1 · escritorio</option><option value="0.6">0,6 · móvil</option></select></div>
+    <div class="fila"><label for="f-marco">Encuadre</label>
+      <select id="f-marco"><option value="pantalla">Pantalla completa</option><option value="columna">Columna</option></select></div>
+    <div class="fila"><label for="f-still">Fotograma fijo</label><input type="checkbox" id="f-still" /></div>
+    <div class="fila"><label for="f-intro">Entrada</label><input type="checkbox" id="f-intro" /></div>
+    <div class="fila"><label for="f-auto">Luz sola (táctil)</label><input type="checkbox" id="f-auto" /></div>
+    <div class="fila"><label for="f-p">Progreso</label><input type="range" id="f-p" min="0" max="1" step="0.001" value="0" /></div>
+    <div class="fila"><label>Paso</label><div class="pasos" id="f-pasos"></div></div>
+    <div class="datos" id="datos">—</div>
+  </form>
+
+  <script src="../../src/js/s-geom.js"></script>
+  <script src="../../src/js/gl.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id), q = new URLSearchParams(location.search);
+      const escena = $('escena'), lienzo = $('lienzo'), datos = $('datos');
+      const f = { esc: $('f-esc'), den: $('f-den'), marco: $('f-marco'), still: $('f-still'), intro: $('f-intro'), auto: $('f-auto'), p: $('f-p') };
+      f.esc.value = q.get('scene') || 'planta';
+      f.den.value = q.get('density') || '1';
+      f.marco.value = q.get('marco') || (f.esc.value === 'espiral' ? 'columna' : 'pantalla');
+      f.still.checked = q.get('still') === '1';
+      f.intro.checked = q.get('intro') === '1';
+      f.p.value = q.get('p') || 0;
+      if (q.get('panel') === '0') $('panel').hidden = true;
+      let paso = +(q.get('step') || 0), gl = null, fijo = null;
+      if (q.get('ptr')) { f.auto.checked = q.get('ptr') === 'auto'; if (!f.auto.checked) fijo = q.get('ptr').split(',').map(Number); }
+
+      const pasos = $('f-pasos');
+      for (let n = 0; n <= 6; n++) {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = n ? 'SPIRAL'[n - 1] : '0';
+        b.onclick = () => { paso = n; marca(); if (gl) gl.setStep(n); };
+        pasos.append(b);
+      }
+      const marca = () => [...pasos.children].forEach((b, i) => b.setAttribute('aria-pressed', i === paso));
+      marca();
+
+      function monta() {
+        if (gl) gl.destroy();
+        // Un lienzo nuevo en cada cambio: un contexto WebGL no se puede reutilizar con otras opciones
+        const nuevo = lienzo.cloneNode(); lienzo.replaceWith(nuevo); window.lienzoActual = nuevo;
+        escena.classList.toggle('columna', f.marco.value === 'columna');
+        $('titular').hidden = f.esc.value !== 'planta' || q.get('titular') === '0';
+        if (!SPGL.supported()) { datos.textContent = 'Sin WebGL2: la página mantendría su póster o su SVG.'; return; }
+        gl = SPGL.create(nuevo, { scene: f.esc.value, density: +f.den.value, still: f.still.checked, intro: f.intro.checked, software: true });
+        window.lab = gl;
+        if (!gl) { datos.textContent = 'create() ha devuelto null.'; return; }
+        gl.setProgress(+f.p.value); gl.setStep(paso);
+        if (fijo) gl.setPointer(fijo[0] * nuevo.clientWidth, fijo[1] * nuevo.clientHeight);
+        nuevo.addEventListener('pointermove', e => {
+          if (f.auto.checked || fijo) return;
+          const r = nuevo.getBoundingClientRect(); gl.setPointer(e.clientX - r.left, e.clientY - r.top);
+        });
+        nuevo.addEventListener('pointerleave', () => { if (!fijo) gl.setPointer(null); });
+        gl.start();
+      }
+      ['esc', 'den', 'still', 'intro', 'marco'].forEach(k => f[k].addEventListener('change', () => {
+        if (k === 'esc') f.marco.value = f.esc.value === 'espiral' ? 'columna' : 'pantalla';
+        monta();
+      }));
+      f.auto.addEventListener('change', () => { if (gl && f.auto.checked) gl.setPointer(null); });
+      f.p.addEventListener('input', () => gl && gl.setProgress(+f.p.value));
+
+      // Cifras: ms de CPU por fotograma (media) y fotogramas por segundo
+      let n = 0, t0 = performance.now();
+      (function cuenta(t) {
+        n++;
+        if (t - t0 > 1000 && gl) {
+          const i = gl.info();
+          datos.textContent = `${i.vertices} vértices · ${i.cpuMs.toFixed(2)} ms CPU · ${Math.round(n * 1000 / (t - t0))} fps${i.running ? '' : ' · en pausa'}`;
+          n = 0; t0 = t;
+        }
+        requestAnimationFrame(cuenta);
+      })(t0);
+      monta();
+    })();
+  </script>
+</body>
+</html>
