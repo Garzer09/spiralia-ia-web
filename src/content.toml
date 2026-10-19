@@ -56,9 +56,9 @@ h2b = {es = "Ahora, que trabaje.", en = "Now put it to work."}
 lead = {es = "Llegan las licencias, el curso entusiasma y, a las pocas semanas, cada uno vuelve a lo de siempre. En un experimento con 7.137 personas de 66 empresas, el uso semanal de Copilot tocó techo en el 55 % y acabó por debajo del 40 %.", en = "The licenses arrive, the course inspires and, a few weeks later, everyone goes back to the old way. In an experiment with 7,137 people across 66 companies, weekly Copilot use peaked at 55% and ended below 40%."}
 lead2 = {es = "Mientras tanto, la licencia se paga igual.", en = "Meanwhile, the license costs the same."}
 chart_label = {es = "Personas que usan la IA cada semana", en = "People using AI every week"}
-chart_peak = {es = "55 %", en = "55%"}
+chart_peak = {es = "55 %", en = "55%"}
 chart_peak_t = {es = "las primeras semanas", en = "first weeks"}
-chart_end = {es = "menos del 40 %", en = "under 40%"}
+chart_end = {es = "menos del 40 %", en = "under 40%"}
 chart_end_t = {es = "meses después", en = "months later"}
 chart_x0 = {es = "Lanzamiento", en = "Launch"}
 chart_x1 = {es = "Seis meses", en = "Six months"}
@@ -66,9 +66,9 @@ chart_note = {es = "Esquema: la forma de la curva es ilustrativa; los dos valore
 src1 = {es = "Dillon, Jaffe, Immorlica y Stanton, «Shifting Work Patterns with Generative AI», NBER Working Paper 33795 (2025). Experimento con 7.137 personas de 66 empresas durante seis meses.", en = "Dillon, Jaffe, Immorlica and Stanton, “Shifting Work Patterns with Generative AI”, NBER Working Paper 33795 (2025). Experiment with 7,137 people across 66 companies over six months."}
 b2a = {es = "La IA ya está en todas las mesas.", en = "AI is already on every desk."}
 b2b = {es = "En la cuenta de resultados, casi en ninguna.", en = "On the P&amp;L, almost nowhere."}
-b2_80 = {es = "80 %", en = "80%"}
+b2_80 = {es = "80 %", en = "80%"}
 b2_80t = {es = "de los encuestados dice que la IA le ha hecho más productivo", en = "of respondents say AI has made them more productive"}
-b2_6 = {es = "6 %", en = "6%"}
+b2_6 = {es = "6 %", en = "6%"}
 b2_6t = {es = "de las empresas atribuye a la IA al menos un 5 % de su beneficio operativo", en = "of companies attribute at least 5% of their operating profit to AI"}
 b2_mid = {es = "Entre una cifra y la otra, la forma de trabajar.", en = "Between one figure and the other: the way people work."}
 b2_p = {es = "Ese 6 % no tiene otra IA. Tiene otra forma de trabajar: casi tres de cada cuatro de esas empresas han rediseñado a fondo sus procesos.", en = "That 6% doesn't have different AI. It works differently: almost three in four of those companies have deeply redesigned their processes."}
@@ -87,7 +87,7 @@ h2a = {es = "No lo contamos.", en = "We don't just talk about it."}
 h2b = {es = "Ya lo estamos haciendo.", en = "We're already doing it."}
 ing_h = {es = "Misma herramienta. Mismo grupo. La diferencia, la formación.", en = "Same tool. Same group. The difference: the training."}
 ing_p = {es = "Formamos a toda la organización de ING España, del comité de dirección a las oficinas y el contact center, por equipos y con los archivos de su día a día.", en = "We trained the whole of ING Spain, from the leadership team to the branches and the contact center, team by team and with the files from their day-to-day."}
-ing_m1 = {es = "del 66 % al 92 %", en = "from 66% to 92%"}
+ing_m1 = {es = "del 66 % al 92 %", en = "from 66% to 92%"}
 ing_m1t = {es = "de usuarios activos cada semana", en = "weekly active users"}
 ing_m2 = {es = "4,7 / 5", en = "4.7 / 5"}
 ing_m2t = {es = "de satisfacción con el uso de la IA, frente a 3,2 del segundo país del grupo", en = "satisfaction with AI use, versus 3.2 in the group's second country"}
@@ -184,8 +184,6 @@ gal_h = {es = "Agentes que hacen trabajo real", en = "Agents that do real work"}
 ilus = {es = "Ejemplos ilustrativos", en = "Illustrative examples"}
 hoy = {es = "Hoy", en = "Today"}
 con = {es = "Con el agente", en = "With the agent"}
-decide = {es = "Decide la persona", en = "The person decides"}
-trabaja = {es = "Trabaja con", en = "Works with"}
 sys = {es = "Sistema", en = "System"}
 agent = {es = "Agente", en = "Agent"}
 person = {es = "Persona", en = "Person"}
@@ -212,24 +210,7 @@ c1_g3 = {es = "Credenciales propuestas, con su fuente", en = "Credentials propos
 c1_g4 = {es = "Borrador en la plantilla de la casa", en = "Draft in the house template"}
 c1_g5 = {es = "En pausa: decisión del director", en = "Paused: director's decision"}
 c1_g6 = {es = "Lista para firmar, con el registro completo", en = "Ready to sign, with the full log"}
-c3_t = {es = "El cierre, conciliado", en = "The close, reconciled"}
-c3_s = {es = "Finanzas", en = "Finance"}
-c3_h = {es = "Cada mes, días cruzando extractos, facturas y asientos en hojas de cálculo.", en = "Every month, days spent cross-checking statements, invoices and entries in spreadsheets."}
-c3_c = {es = "Concilia lo que cuadra, explica lo que no y prepara la propuesta de ajustes.", en = "Reconciles what matches, explains what doesn't and prepares the proposed adjustments."}
-c3_d = {es = "Aprueba cada ajuste.", en = "Approves each adjustment."}
-c3_w = {es = "ERP, banca y hojas de control.", en = "ERP, banking and control sheets."}
-c4_t = {es = "La bienvenida, resuelta", en = "Onboarding, sorted"}
-c4_s = {es = "Personas", en = "People"}
-c4_h = {es = "Cada nueva incorporación pregunta lo mismo a medio departamento.", en = "Every new hire asks the same thing to half the department."}
-c4_c = {es = "Responde con la política vigente, guía los primeros días y avisa a quien toca.", en = "Answers with the current policy, guides the first days and alerts the right person."}
-c4_d = {es = "Lo que no está escrito.", en = "Whatever isn't written down."}
-c4_w = {es = "Intranet, políticas y gestor de RR. HH.", en = "Intranet, policies and HR system."}
 replay = {es = "Ver de nuevo", en = "Replay"}
-ctl_h = {es = "Con control desde el primer día", en = "In control from day one"}
-ctl1 = {es = "Construimos dentro de tus sistemas, con las herramientas que aprueba tu IT.", en = "We build inside your systems, with the tools your IT approves."}
-ctl2 = {es = "La IA prepara y propone. Lo importante lo firma una persona.", en = "AI prepares and proposes. A person signs off what matters."}
-ctl3 = {es = "Cada agente tiene un dueño que responde de él.", en = "Every agent has an owner who answers for it."}
-ctl4 = {es = "La autonomía se gana con pruebas: primero sugiere, luego actúa con aprobación.", en = "Autonomy is earned with evidence: first it suggests, then it acts with approval."}
 
 [pt]
 kicker = {es = "Para ti", en = "For you"}
@@ -262,7 +243,7 @@ t2_p = {es = "En ING España, la satisfacción con el uso de la IA llegó a 4,7 
 t2_cta = {es = "Pide un ejemplo de programa", en = "Ask for a sample program"}
 t2_subject = {es = "Ejemplo de programa para mi equipo", en = "Sample program for my team"}
 t3_tab = {es = "Tecnología", en = "Technology"}
-t3_h = {es = "La IA, dentro de tu casa. Con tus reglas.", en = "AI inside your house. With your rules."}
+t3_h = {es = "La IA, dentro de tu casa. Con tus reglas.", en = "AI inside your walls. On your terms."}
 t3_voz = {es = "«No quiero otra herramienta en la sombra ni otro piloto que nunca llega a producción.»", en = "“I don't want another shadow tool, or another pilot that never reaches production.”"}
 t3_1 = {es = "Trabajamos dentro de tu entorno y con la IA que aprueba tu IT: Microsoft 365 Copilot, ChatGPT, Claude o Gemini.", en = "We work inside your environment and with the AI your IT approves: Microsoft 365 Copilot, ChatGPT, Claude or Gemini."}
 t3_2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que hace.", en = "Every agent has an owner, permissions and a log of what it does."}

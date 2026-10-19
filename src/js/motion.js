@@ -165,7 +165,10 @@
   (() => {
     const bar = $('#bar'); if (!bar || !hero) return;
     const s = document.createElement('div'); s.style.cssText = 'position:absolute;left:0;bottom:0;height:1px;width:1px'; hero.append(s);
-    new IntersectionObserver(([e]) => bar.classList.toggle('over', e.isIntersecting && !bar.classList.contains('open')), { rootMargin: '-68px 0px 0px 0px' }).observe(s);
+    new IntersectionObserver(([e]) => {
+      bar.classList.toggle('over', e.isIntersecting && !bar.classList.contains('open'));
+      hero.classList.toggle('lejos', !e.isIntersecting);
+    }, { rootMargin: '-68px 0px 0px 0px' }).observe(s);
   })();
 
   // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón
