@@ -96,13 +96,13 @@ fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
 [[c]]
 valor = "3"
 tipo = "formato"
-que = "Duración de Rumbo (horas) y del diagnóstico (minutos) · «dos o tres» huecos que proponemos en /reserva/"
-fuente = "Oferta de Spiralia (decisión de Jose Garza, 14-oct-2026)."
+que = "Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «por tres meses», lo que cuesta esperar un trimestre"
+fuente = "Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026)."
 
 [[c]]
 valor = "2"
 tipo = "formato"
-que = "Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey"
+que = "Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey; «las otras dos» / «the other two», a la escala y la capacidad frente a la velocidad («Para ti», Resultados)"
 fuente = "Oferta de Spiralia."
 
 [[c]]

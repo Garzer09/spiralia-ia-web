@@ -124,7 +124,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 - **Paleta:** la A, «Monocromo Spiralia». La B y el selector se han eliminado.
 - **Mensaje:**
   - H1: «La inteligencia se compra. La ventaja se despliega.»
-  - Primer paso con nombre: **Rumbo**, 3 horas con el comité.
+  - Primer paso con nombre: **Rumbo**, 3 horas con el comité. *Sustituido el 20-oct por Día Uno: ver abajo.*
   - SPIRAL como método público.
   - Sin precio, sin calculadora de ROI y sin FUNDAE.
 - **Pruebas:**
@@ -145,4 +145,12 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 - **Nivel «state of the art» (petición del 19-oct):** portada y método en WebGL, narrativa guiada por el scroll, cristal y bento, e iconos 3D. Todo sobre la paleta monocroma y con alternativa estática.
 - **Reserva:** mientras no haya Bookings, `/reserva/` es una página con la marca que ofrece el email, con el origen y el idioma.
 - **Copy:** «tú» en toda la página; urgencia real (licencias pagadas, uso que se enfría, la brecha del 6 %, el presupuesto de 2027) y sin escasez inventada; objeciones duras en las preguntas del comité.
+
+## Decisiones tomadas (20-oct-2026)
+
+- **Día Uno sustituye a Rumbo como primer paso** (en inglés, *Day One*):
+  - **Formato:** una jornada de trabajo real en la empresa del cliente, con la IA que ya tiene. Los equipos que elija hacen su propio trabajo en tres rondas (velocidad, escala y capacidad) y por la tarde escriben y priorizan sus casos. El comité abre el día, usando la IA con una tarea suya, y lo cierra: ve a su gente y elige con ella los primeros casos. Después, un resumen por escrito con los casos priorizados y una propuesta de siguiente paso.
+  - **Promesa:** cada persona sale con una tarea suya hecha con IA, y el comité, con los casos de sus equipos priorizados y por escrito. Lo que sale del día es del cliente, siga o no con Spiralia.
+- **Formatos (`#formatos`):** «Primero, un día de trabajo real. Después, decides tú.» Entre la cabecera y las tarjetas va la franja «Velocidad. Escala. Capacidad.», con un ejemplo por ronda y su remate (Jose eligió la versión con ejemplos). Día Uno ocupa todo el ancho; debajo, «Después, a tu ritmo», el programa por perfil y la construcción con tu equipo.
+- **En el resto de la página** también se habla de Día Uno: «Para ti» (Resultados, y Personas y talento), las preguntas 4 y 7, la llamada del método, `/reserva/` y el diagnóstico (nivel Acceso). El botón de la tarjeta enlaza a `/reserva/?d=dia-uno`; la llamada del método (`d=metodo`) y Resultados (`d=resultados`) llevan al mismo texto. `/reserva/` sigue aceptando `d=rumbo` para los enlaces ya enviados. En el diagnóstico, el nivel Acceso recomienda Día Uno y su botón de reserva lleva a ese mismo texto (`d=diagnostico-dia-uno`). Si a la primera pregunta se responde «Nadie, o cada uno usa la suya», la primera línea cambia por la de `sin_ia` (elegir antes la IA corporativa; copy pendiente de que lo vea Jose). `build.py` une «Día Uno» y «Day One» con un espacio de no separación para que el nombre no se parta entre líneas (salvo en los asuntos de correo). Icono: `assets/img/3d/diauno.webp` y `diauno-192.webp`, un amanecer (medio sol sobre el horizonte, cinco rayos); el de Rumbo sigue en `tools/icons3d`, pero `build.py` ya no lo publica (`ICONOS_RETIRADOS`).
 

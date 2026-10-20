@@ -33,6 +33,15 @@ content = tomllib.loads((SRC / 'content.toml').read_text())
 cifras = tomllib.loads((SRC / 'cifras.toml').read_text())['c']
 data = content.pop('data')
 
+# El nombre del primer paso no se parte entre dos líneas: «Día Uno» y «Day One» llevan un espacio de no separación.
+# El carácter, no &nbsp;: las líneas del diagnóstico pasan por esc(). Los asuntos de correo quedan con espacio normal
+NOMBRES = re.compile(r'\b(Día|Day) (Uno|One)\b')
+
+def junta(v):
+    if isinstance(v, str):
+        return NOMBRES.sub('\\1\u00a0\\2', v)
+    return [junta(x) for x in v] if isinstance(v, list) else v
+
 def pick(v, lang, key):
     if not isinstance(v, dict) or 'es' not in v:
         return v
@@ -41,7 +50,7 @@ def pick(v, lang, key):
         if lang != 'es':
             (errors if PROD else warns).append(f'sin traducir ({lang}): {key}')
         out = v['es']
-    return out
+    return out if 'subject' in key else junta(out)
 
 def localize(x, lang, key='data'):
     if isinstance(x, dict):
@@ -59,6 +68,11 @@ def texts(lang):
 
 plain = lambda v: html.unescape(re.sub(r'<[^>]+>', '', str(v)))
 
+def oferta(t, k):
+    """Descripción de un formato en el JSON-LD: qué es y su duración («… Duración: una jornada, en tu empresa.»)."""
+    dur = plain(t[f'fmt.{k}_dur'])
+    return f"{plain(t[f'fmt.{k}_que'])} {plain(t['fmt.c_dur'])}: {dur[:1].lower() + dur[1:]}."
+
 def jsonld(t, url, lang):
     """Datos estructurados: la organización, el servicio y las preguntas del comité (Google y buscadores con IA)."""
     org = {'@type': 'Organization', '@id': SITE + '#org', 'name': 'Spiralia', 'url': 'https://spiralia.es/',
@@ -69,13 +83,13 @@ def jsonld(t, url, lang):
            'areaServed': {'@type': 'Country', 'name': 'España' if lang == 'es' else 'Spain'},
            'audience': {'@type': 'BusinessAudience', 'audienceType': plain(t['meta.audience'])},
            'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': plain(t['fmt.kicker']), 'itemListElement': [
-               {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'fmt.{k}_name']), 'description': plain(t[f'fmt.{k}_que'])}}
+               {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'fmt.{k}_name']), 'description': oferta(t, k)}}
                for k in ('r', 'p', 'd')]}}
     qs = sorted((k for k in t if re.fullmatch(r'faq\.q\d+', k)), key=lambda k: int(k[5:]))
     faq = {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': plain(t[q]),
            'acceptedAnswer': {'@type': 'Answer', 'text': plain(t['faq.a' + q[5:]])}} for q in qs]}
     return json.dumps({'@context': 'https://schema.org', '@graph': [org, srv, faq]}, ensure_ascii=False,
-                      separators=(',', ':')).replace('</', '<\\/')
+                      separators=(',', ':')).replace('</', '<\\/').replace('\u00a0', ' ')
 
 SI = re.compile(r'<!--si:[^>]*-->(.*?)<!--/si-->', re.S)
 
@@ -228,7 +242,7 @@ if (BOOKINGS.indexOf("http") === 0) location.replace(BOOKINGS + location.search)
 body{{min-height:100svh;display:grid;place-items:center;padding:24px;background:radial-gradient(60% 50% at 75% 20%,#0D3150,transparent 70%),#051A2B}}
 main{{max-width:620px}}img{{display:block;width:120px;margin-bottom:48px}}
 h1{{font:300 clamp(2.4rem,7vw,4rem)/1.02 Butler,Georgia,serif;letter-spacing:-.015em;margin:0 0 18px}}
-p{{margin:0 0 14px;color:#A9B1B8}}ul{{margin:0 0 28px;padding-left:1.1em;color:#A9B1B8}}
+p{{margin:0 0 14px;color:#A9B1B8;text-wrap:pretty}}ul{{margin:0 0 28px;padding-left:1.1em;color:#A9B1B8}}
 .btn{{display:inline-flex;align-items:center;min-height:52px;padding:0 26px;border-radius:99px;background:#E0DFDA;color:#08263D;text-decoration:none;
   font:600 1.05rem/1 Sofia,"Arial Narrow",sans-serif;letter-spacing:.05em;margin:8px 12px 8px 0}}
 .mail{{color:#E0DFDA}}button{{font:500 .9rem Sofia,sans-serif;letter-spacing:.05em;color:#A9B1B8;background:none;border:1px solid rgba(224,223,218,.3);border-radius:99px;padding:.3rem .8rem;cursor:pointer}}
@@ -245,9 +259,10 @@ a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:500 .95rem Sof
 <a class="volver" data-t="v" href="../">{volver}</a>
 </main>
 <script>
-// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pregunta por Rumbo», el texto de Rumbo.
+// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pide fecha para tu Día Uno» o desde el diagnóstico
+// cuando recomienda Día Uno, el texto del primer paso. rumbo es el nombre anterior del primer paso: vale para los enlaces ya enviados.
 var q = new URLSearchParams(location.search), en = q.get("l") === "en", d = q.get("d") || "web";
-var T = {textos}[en ? "en" : "es"], rumbo = /^(rumbo|metodo|resultados)$/.test(d);
+var T = {textos}[en ? "en" : "es"], primero = /^(dia-uno|diagnostico-dia-uno|rumbo|metodo|resultados)$/.test(d);
 var $ = function (k) {{ return document.querySelector("[data-t=" + k + "]"); }};
 if (en) {{
   document.documentElement.lang = "en"; document.title = T.titulo + " · Spiralia AI";
@@ -255,8 +270,8 @@ if (en) {{
   $("l").innerHTML = T.lista.map(function (x) {{ return "<li>" + x + "</li>"; }}).join("");
   $("g").innerHTML = T.legal;
 }}
-$("p").textContent = rumbo ? T.rumbo : T.p;
-$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((rumbo ? T.subject_rumbo : T.subject) + " · " + d);
+$("p").textContent = primero ? T.primero : T.p;
+$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((primero ? T.subject_primero : T.subject) + " · " + (d === "rumbo" ? "dia-uno" : d));
 var c = $("c"), txt = T.copiar, reloj;
 c.textContent = txt; c.hidden = !navigator.clipboard;
 c.onclick = function () {{ navigator.clipboard.writeText("{mail}").then(function () {{
@@ -277,12 +292,15 @@ def reserva():
                           copiar=es['copiar'], asunto=urllib.parse.quote(es['subject'] + ' · web'),
                           textos=json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
 
+# Iconos 3D que tools/icons3d sigue pintando pero la página ya no usa: rumbo (el primer paso es Día Uno desde el 20-oct)
+ICONOS_RETIRADOS = {'rumbo'}
+
 def fuera(d, nombres):
     """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py), fotos de personas que la página
-    no usa y los PNG de los iconos 3D (se sirven en webp)."""
+    no usa, los PNG de los iconos 3D (se sirven en webp) y los iconos retirados."""
     tapa = shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf', 'ana-iza.*', 'jose-garza.*')(d, nombres)
     if Path(d).name == '3d':
-        tapa |= {n for n in nombres if n.endswith('.png')}
+        tapa |= {n for n in nombres if n.endswith('.png') or n.split('.')[0].removesuffix('-192') in ICONOS_RETIRADOS}
     return tapa
 
 HUELLAS = {}

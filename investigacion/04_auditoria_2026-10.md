@@ -10,6 +10,8 @@ Las recomendaciones apuntan a V2 y cada hallazgo dice si ya está resuelto.
 
 **Actualización del 20-oct:** la versión con WebGL, cristal, iconos 3D y scroll suavizado ya está en el repositorio. Pasó una revisión adversarial final (visual, código y accesibilidad, copy y afirmaciones). Los hallazgos confirmados están corregidos y verificados, salvo los que dependían de Jose. El 20-oct Jose confirmó que todas las empresas han autorizado el uso de sus logos y cifras, confirmó las cifras y promesas pendientes y pidió que el aviso legal siga el criterio de spiralia.es. Por eso las alertas de autorización de las secciones 2.8 y 7.2 quedan cerradas. Ver «Pendiente antes de producción» en el LEEME.
 
+**Día Uno (20-oct):** Rumbo, 3 horas con el comité, se sustituye por Día Uno, una jornada de trabajo real con los equipos que elija el cliente, y `#formatos` suma la franja «Velocidad. Escala. Capacidad.». Lo que este informe dice de Rumbo como primer paso (oferta de entrada, botón, /reserva/) vale ahora para Día Uno. La duración, los participantes y la promesa son los de Día Uno: ver las decisiones del 20-oct en el LEEME. La «Mesa Rumbo» trimestral de la sección 7 es otro formato y no cambia.
+
 Mientras se cerraba este informe, el árbol de trabajo empezó a incorporar una versión con más efecto (WebGL en la portada, tarjetas de cristal, iconos 3D y scroll suavizado), todavía sin commit. Este informe no la evalúa. Los límites que debería respetar están en la sección 6.8.
 
 **De dónde sale.** Es la síntesis de ocho informes de este mismo trabajo, sin repetir lo que ya está en `investigacion/01-03`:

@@ -1,5 +1,5 @@
 # Copy de la página · ES y EN en cada clave.
-# Se permite HTML sencillo (<em>, <b>, <br>, <a>). Las cifras tienen que estar en cifras.toml.
+# Se permite HTML sencillo (<em>, <b>, <br>, <a>, <span>). Las cifras tienen que estar en cifras.toml.
 # Si falta "en", el build usa el texto en español y avisa (en --prod falla).
 # {mail} se sustituye por el email de contacto (MAIL en build.py).
 #
@@ -232,16 +232,17 @@ prueba = {es = "Ya lo hemos hecho", en = "We’ve done it before"}
 t1_tab = {es = "Resultados", en = "Results"}
 t1_h = {es = "Has invertido en IA. Que se note en la cuenta.", en = "You’ve invested in AI. Make it show on the P&amp;L."}
 t1_voz = {es = "«He firmado las licencias. Si dentro de un año el consejo me pregunta qué ha cambiado, ¿qué le enseño?»", en = "“I signed off the licenses. If the board asks me in a year what has changed, what do I show them?”"}
-t1_1 = {es = "Empezamos por tu comité: con Rumbo, en 3 horas, sabes dónde entra la IA primero.", en = "We start with your leadership team: with Rumbo, in 3 hours, you know where AI comes in first."}
-t1_2 = {es = "Elegimos los casos por valor, en eficiencia y en crecimiento. La eficiencia tiene techo; el crecimiento, no.", en = "We choose cases by value, in efficiency and in growth. Efficiency has a ceiling; growth doesn’t."}
+t1_1 = {es = "Empezamos con Día Uno: tus equipos trabajan un día con IA y, al cierre, eliges con ellos los primeros casos.", en = "We start with Day One: your teams work with AI for a day and, at the close, you choose the first cases with them."}
+t1_2 = {es = "Elegimos los casos por valor: velocidad, escala y capacidad. La velocidad tiene techo; las otras dos, no.", en = "We choose cases by value: speed, scale and capability. Speed has a ceiling; the other two don’t."}
 t1_3 = {es = "Construimos los primeros con tus equipos y los medimos frente al punto de partida.", en = "We build the first ones with your teams and measure them against the starting point."}
 t1_4 = {es = "Diseñamos contigo el gobierno: quién propone, quién decide y quién responde.", en = "We design governance with you: who proposes, who decides and who answers for it."}
 t1_l = {es = "Una lista corta de casos con valor, los primeros funcionando y un equipo que sabe seguir.", en = "A short list of valuable cases, the first ones running and a team that knows how to continue."}
 t1_p = {es = "En ING España, del comité de dirección a las oficinas, los usuarios activos cada semana pasaron del 66 % al 92 %.", en = "At ING Spain, from the leadership team to the branches, weekly active users went from 66% to 92%."}
-t1_cta = {es = "Pregunta por Rumbo", en = "Ask about Rumbo"}
+t1_cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
 t2_tab = {es = "Personas y talento", en = "People and talent"}
 t2_h = {es = "Te piden productividad. Tu gente te pide dirección.", en = "They ask you for productivity. Your people ask you for direction."}
 t2_voz = {es = "«¿Cómo lo hago sin que la plantilla lo viva como una amenaza? Y la encuesta salió bien, pero ¿y el uso?»", en = "“How do I do this without the workforce seeing it as a threat? And the survey came out well, but what about usage?”"}
+t2_0 = {es = "Empezamos con Día Uno: tu gente trabaja con la IA en lo suyo, en horario laboral y sin examen.", en = "We start with Day One: your people work with AI on their own tasks, during working hours, with no grading."}
 t2_1 = {es = "Formamos a todos, del comité a la primera línea, cada perfil con sus tareas y sus archivos.", en = "We train everyone, from the leadership team to the front line, each profile with their own tasks and files."}
 t2_2 = {es = "Damos al programa nombre y marca propios, para que la plantilla lo reconozca como suyo.", en = "We give the program its own name and brand, so your people recognize it as theirs."}
 t2_3 = {es = "Medimos el uso real y lo que se construye, no solo las horas y la satisfacción.", en = "We measure real usage and what gets built, not just hours and satisfaction."}
@@ -266,20 +267,36 @@ t3_cta = {es = "Hablemos de tu entorno", en = "Let’s talk about your environme
 
 [fmt]
 kicker = {es = "Formatos", en = "Formats"}
-h2a = {es = "Empieza en 3 horas.", en = "Start in 3 hours."}
-h2b = {es = "Sigue a tu ritmo.", en = "Continue at your own pace."}
-lead = {es = "Sin proyectos eternos. Cada formato termina con algo que se queda en casa.", en = "No never-ending projects. Every format ends with something that stays in-house."}
+h2a = {es = "Primero, un día de trabajo real.", en = "First, one day of real work."}
+h2b = {es = "Después, decides tú.", en = "Then you decide."}
+lead = {es = "Quizá tengas la IA desde hace meses. Día Uno es el día en que se pone a trabajar.", en = "You may have had AI for months. Day One is the day it gets to work."}
+v_kicker = {es = "Las tres rondas de Día Uno", en = "The three rounds of Day One"}
+v_h = {es = "Velocidad. Escala. Capacidad.", en = "Speed. Scale. Capability."}
+v_sub = {es = "Lo que trae la IA a cualquier trabajo. Tu equipo lo comprueba con el suyo.", en = "What AI brings to any job. Your team proves it on its own work."}
+v1_t = {es = "Velocidad", en = "Speed"}
+v1 = {es = "Lo de siempre, en menos tiempo.", en = "The usual work, in less time."}
+v1_e = {es = "El informe que te come la tarde, listo antes de la reunión.", en = "The report that eats up your afternoon, ready before the meeting."}
+v2_t = {es = "Escala", en = "Scale"}
+v2 = {es = "Llegas a más con el mismo equipo.", en = "You reach more with the same team."}
+v2_e = {es = "Lo que hoy haces para tus mejores clientes, para todos. Lo que revisas por muestras, entero.", en = "What you do today for your best clients, for all of them. What you check by sampling, in full."}
+v3_t = {es = "Capacidad", en = "Capability"}
+v3 = {es = "Haces lo que antes no sabías o no podías hacer.", en = "You do what you couldn’t do, or didn’t know how to do, before."}
+v3_e = {es = "Analizar datos sin ser analista. Construir tu primera herramienta sin haber programado nunca.", en = "Analyzing data without being an analyst. Building your first tool without ever having written code."}
+# Una frase por <span>: cada una va en su línea y, si no cabe, se equilibra sola (con un <br>, el equilibrio lo marca la primera)
+v_remate = {es = "<span>La velocidad se nota en tu mesa.</span> <span>La escala y la capacidad, en tu cuenta de resultados.</span>", en = "<span>Speed shows up at your desk.</span> <span>Scale and capability show up on your P&amp;L.</span>"}
 c_para = {es = "Para quién", en = "Who it’s for"}
 c_dur = {es = "Duración", en = "Duration"}
 c_que = {es = "Qué es", en = "What it is"}
 c_lleva = {es = "Te llevas", en = "You take away"}
 r_badge = {es = "El primer paso", en = "The first step"}
-r_name = {es = "Rumbo", en = "Rumbo"}
-r_para = {es = "Tu comité de dirección", en = "Your leadership team"}
-r_dur = {es = "3 horas", en = "3 hours"}
-r_que = {es = "Una sesión práctica con tus tareas reales y tu propia IA. No es una charla inspiradora: es una sesión para decidir.", en = "A hands-on session with your real tasks and your own AI. It isn’t an inspirational talk: it’s a session to decide."}
-r_lleva = {es = "Tu comité entra con preguntas y sale con un plan: dónde entra la IA primero, qué se construye y cómo seguir solos.", en = "Your leadership team walks in with questions and out with a plan: where AI comes in first, what gets built and how to carry on without us."}
-r_cta = {es = "Pregunta por Rumbo", en = "Ask about Rumbo"}
+r_name = {es = "Día Uno", en = "Day One"}
+r_para = {es = "Los equipos que elijas, de una o varias áreas. Tu comité abre el día y lo cierra.", en = "The teams you choose, from one area or several. Your leadership team opens and closes the day."}
+r_dur = {es = "Una jornada, en tu empresa", en = "One day, at your offices"}
+r_que = {es = "Una jornada de trabajo real con la IA de tu empresa. Cada persona, con sus propias tareas: no mira, hace.", en = "A day of real work with your company’s AI. Everyone on their own tasks: they don’t watch, they do."}
+r_lleva = {es = "Cada persona sale con una tarea suya hecha con IA. Tu comité, con los casos de sus equipos, priorizados y por escrito.", en = "Everyone leaves with a task of their own done with AI. Your leadership team, with its teams’ use cases, prioritized and in writing."}
+r_cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
+r_nota = {es = "Lo que sale del día es tuyo, sigas o no con nosotros.", en = "What comes out of the day is yours, whether or not you continue with us."}
+despues = {es = "Después, a tu ritmo", en = "Then, at your own pace"}
 p_name = {es = "Programa por perfil", en = "Program by profile"}
 p_para = {es = "Toda la organización, del comité a la primera línea", en = "The whole organization, from the leadership team to the front line"}
 p_dur = {es = "Se diseña contigo", en = "Designed with you"}
@@ -289,7 +306,7 @@ d_name = {es = "Construcción con tu equipo", en = "Building with your team"}
 d_para = {es = "Un área y sus procesos", en = "One area and its processes"}
 d_dur = {es = "Ciclos cortos, proceso a proceso", en = "Short cycles, process by process"}
 d_que = {es = "Un ingeniero de Spiralia se sienta con el equipo y construye con él los agentes que asumen trabajo real.", en = "A Spiralia engineer sits with the team and builds with them the agents that take on real work."}
-d_lleva = {es = "Agentes en uso, cada uno con su dueño, y un equipo capaz de mantenerlos.", en = "Agents in use, each with its owner, and a team able to maintain them."}
+d_lleva = {es = "Agentes en uso, cada uno con su dueño, y un equipo capaz de mantenerlos.", en = "Agents in use, each with its owner, and a team able to maintain them."}
 
 [pq]
 kicker = {es = "Por qué Spiralia", en = "Why Spiralia"}
@@ -343,13 +360,13 @@ a2 = {es = "Solo por donde ya lo permite tu IT. Trabajamos dentro de tu entorno,
 q3 = {es = "¿Sois lo bastante grandes para nosotros?", en = "Are you big enough for us?"}
 a3 = {es = "En Deloitte España formamos a 13.000 personas en un mes. Somos una boutique por cómo trabajamos, no por lo que abarcamos.", en = "At Deloitte Spain we trained 13,000 people in one month. We’re a boutique in how we work, not in what we can take on."}
 q4 = {es = "¿Y si no funciona?", en = "What if it doesn’t work?"}
-a4 = {es = "Empezamos por algo pequeño y medible: Rumbo, 3 horas con tu comité. Y cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small and measurable: Rumbo, 3 hours with your leadership team. And every solution is tested on real cases before it’s used for real."}
+a4 = {es = "Empezamos por algo pequeño que se ve el mismo día: Día Uno, una jornada de trabajo real con tus equipos. Si no vemos casos con valor, te lo decimos. Y cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small, with something you can see the same day: Day One, a day of real work with your teams. If we don’t see valuable cases, we’ll tell you. And every solution is tested on real cases before it’s used for real."}
 q5 = {es = "¿Con qué IA trabajáis? Ya tenemos un partner de Microsoft.", en = "Which AI do you work with? We already have a Microsoft partner."}
 a5 = {es = "Con la que ya tiene tu empresa: Microsoft 365 Copilot, ChatGPT, Claude o Gemini. Tu partner pone la herramienta; nosotros, que se use en cada puesto. Si aún no está elegida, te ayudamos a decidir.", en = "With the one your company already has: Microsoft 365 Copilot, ChatGPT, Claude or Gemini. Your partner brings the tool; we make it work in every role. If it hasn’t been chosen yet, we help you decide."}
 q6 = {es = "¿Nos quedamos con lo que se construye?", en = "Do we keep what gets built?"}
 a6 = {es = "Sí. Lo que construimos para ti es tuyo y vive en tu entorno, con las herramientas que aprueba tu IT, no en una plataforma nuestra. Al terminar te dejamos el manual, las pruebas y la formación para que tu equipo lo mantenga.", en = "Yes. What we build for you is yours and lives in your environment, with the tools your IT approves, not on a platform of ours. When we finish, we leave you the manual, the tests and the training so your team can maintain it."}
 q7 = {es = "¿Cuánto tiempo pide a nuestros equipos?", en = "How much time does it take from our teams?"}
-a7 = {es = "Rumbo son 3 horas de tu comité. En los programas, las sesiones se hacen en jornada y el contenido a su ritmo cabe entre tarea y tarea. Cuando construimos con tu equipo, el experto del área prueba y corrige cada versión; el ingeniero hace el resto.", en = "Rumbo takes 3 hours of your leadership team’s time. In programs, sessions take place during working hours and self-paced content fits between tasks. When we build with your team, the area’s expert tests and corrects each version; the engineer does the rest."}
+a7 = {es = "Día Uno pide una jornada a los equipos que elijas, en horario de trabajo y sin examen, y a tu comité, la apertura y el cierre. En los programas, las sesiones van dentro del horario y el contenido a su ritmo cabe entre tarea y tarea. Cuando construimos con tu equipo, el experto del área prueba y corrige cada versión; el ingeniero hace el resto.", en = "Day One takes one day from the teams you choose, during working hours and with no grading, and the opening and the close from your leadership team. In programs, sessions also run during working hours and self-paced content fits between tasks. When we build with your team, the area’s expert tests and corrects each version; the engineer does the rest."}
 q8 = {es = "Ya hemos hecho formación. ¿Empezamos de cero?", en = "We’ve already done training. Do we start from scratch?"}
 a8 = {es = "Al contrario: partimos de ahí. Solo el 36 % de los profesionales cree que su formación en IA ha sido suficiente (BCG, 2026). Vemos qué se usa y qué no, y llevamos a cada perfil al siguiente nivel con sus propios casos.", en = "Quite the opposite: we build on it. Only 36% of professionals think their AI training has been enough (BCG, 2026). We see what is being used and what isn’t, and take each profile to the next level with their own cases."}
 q9 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI Act require?"}
@@ -359,7 +376,7 @@ a10 = {es = "Depende de tu punto de partida y de hasta dónde quieras llegar: ca
 
 [ctx]
 casos = {es = "¿Quieres ver algo así en tu empresa?", en = "Want to see this in your company?"}
-metodo = {es = "El primer paso: 3 horas con tu comité.", en = "The first step: 3 hours with your leadership team."}
+metodo = {es = "Para empezar: un día de trabajo real con tus equipos.", en = "To begin: one day of real work with your teams."}
 construimos = {es = "¿Dónde está tu empresa hoy?", en = "Where does your company stand today?"}
 
 [cta]
@@ -388,16 +405,17 @@ marcas = {es = "Logos de clientes de Spiralia. Marcas registradas de sus titular
 copy = {es = "© 2026 Spiralia", en = "© 2026 Spiralia"}
 
 # /reserva/: el texto en español va escrito en el HTML; con ?l=en lo cambia el script. El aviso legal es [cta].legal.
-# rumbo sustituye a p cuando se llega desde un «Pregunta por Rumbo» (d=rumbo, metodo o resultados).
+# primero sustituye a p cuando se llega desde un «Pide fecha para tu Día Uno» (d=dia-uno, metodo o resultados) o desde
+# el diagnóstico en el nivel Acceso, que recomienda Día Uno (d=diagnostico-dia-uno); d=rumbo sigue valiendo para los enlaces ya enviados.
 [reserva]
 titulo = {es = "Hablemos", en = "Let’s talk"}
 h = {es = "Hablemos.", en = "Let’s talk."}
 p = {es = "Escríbenos y te proponemos dos o tres huecos para una conversación de 30 minutos con el equipo.", en = "Write to us and we’ll suggest two or three slots for a 30-minute conversation with the team."}
-rumbo = {es = "Cuéntanos quién forma tu comité y te proponemos fecha para Rumbo.", en = "Tell us who is on your leadership team and we’ll suggest a date for Rumbo."}
+primero = {es = "Cuéntanos con qué equipos quieres empezar y quién vendrá del comité. Te proponemos fecha para tu Día Uno.", en = "Tell us which teams you’d like to start with and who from your leadership team will join. We’ll suggest a date for your Day One."}
 lista = {es = ["Tu empresa y tu cargo", "Dónde está tu empresa con la IA", "Qué te gustaría resolver primero"], en = ["Your company and your role", "Where you are with AI today", "What you would like to solve first"]}
 btn = {es = "Escribir el email", en = "Write the email"}
 subject = {es = "Quiero hablar de IA con Spiralia", en = "I’d like to talk about AI with Spiralia"}
-subject_rumbo = {es = "Quiero preguntar por Rumbo", en = "I’d like to ask about Rumbo"}
+subject_primero = {es = "Quiero un Día Uno para mis equipos", en = "I’d like a Day One for my teams"}
 volver = {es = "← Volver a Spiralia AI", en = "← Back to Spiralia AI"}
 
 # ---------------------------------------------------------------------------
@@ -511,7 +529,10 @@ o = {es = ["La ve como un tema de IT", "La apoya, pero no la usa", "La usa y la 
 [[data.diag.n]]
 name = {es = "Acceso", en = "Access"}
 h = {es = "Tu empresa tiene la puerta abierta, pero la IA aún no trabaja.", en = "Your company has the door open, but AI isn’t working yet."}
-s = {es = ["Empieza por tu comité: una sesión Rumbo ordena las prioridades.", "Forma por perfiles, con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with your leadership team: a Rumbo session sets the priorities.", "Train by profile, with real tasks: that’s what keeps usage from cooling off."]}
+s = {es = ["Empieza con un Día Uno: tus equipos, una jornada con la IA en su propio trabajo.", "Forma por perfiles, con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with a Day One: your teams spend a day using AI on their own work.", "Train by profile, with real tasks: that’s what keeps usage from cooling off."]}
+# Con la primera pregunta en «Nadie, o cada uno usa la suya», sustituye a la primera línea de s: Día Uno se hace
+# con la IA de la empresa, así que antes hay que elegirla (como en la respuesta 5 de las preguntas del comité)
+sin_ia = {es = "Elige tu IA corporativa (te ayudamos a decidir) y empieza con un Día Uno: tus equipos, una jornada con ella en su propio trabajo.", en = "Choose your corporate AI (we’ll help you decide) and start with a Day One: your teams spend a day using it on their own work."}
 
 [[data.diag.n]]
 name = {es = "Uso", en = "Use"}

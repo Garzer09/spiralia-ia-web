@@ -1,10 +1,11 @@
 // Genera los iconos 3D sin conexión: Chromium (Playwright) pinta cada icono con three.js
-// y FFmpeg lo guarda como WebP con alfa (512 px) y PNG de respaldo (256 px).
+// y FFmpeg lo guarda como WebP con alfa (512 px) y PNG de respaldo (256 px). La variante de
+// 192 px del srcset sale del WebP de 512 con Pillow.
 //
 //   node tools/icons3d/render.mjs                    todos los iconos
 //   node tools/icons3d/render.mjs tecnologia rumbo   solo esos
 //   opciones: --ss 2            supermuestreo (lienzo de 768 × ss)
-//             --hoja ruta.png   hoja de contacto de los ocho sobre noche y papel
+//             --hoja ruta.png   hoja de contacto de todos sobre noche y papel
 //             --celda 220       tamaño de cada icono en la hoja
 //             --maestros dir    guarda también el PNG de 768 px de cada icono
 //             --solo-hoja       no vuelve a pintar; monta la hoja con lo que ya hay
@@ -20,7 +21,7 @@ const { chromium } = await import('playwright').catch(() => import('/opt/node22/
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.resolve(AQUI, '../..');
 const SALIDA = path.join(RAIZ, 'assets/img/3d');
-const TODOS = ['estrategia', 'formacion', 'ingenieria', 'resultados', 'personas', 'tecnologia', 'rumbo', 'espiral'];
+const TODOS = ['estrategia', 'formacion', 'ingenieria', 'resultados', 'personas', 'tecnologia', 'rumbo', 'diauno', 'espiral'];
 const PESO_MAX = 40 * 1024;
 
 // ── argumentos
@@ -112,6 +113,16 @@ function guardarPng(rgba, tam, destino) {
   ffmpeg([...crudo(tam), '-pix_fmt', 'rgba', '-compression_level', '9', destino], rgba);
 }
 
+// Variante de 192 px para el srcset: el WebP de 512 reducido con Pillow (Lanczos, calidad 86,
+// método 6), igual que las publicadas. Sin Python o sin Pillow avisa y sigue.
+const PY192 = "import sys\nfrom PIL import Image\nImage.open(sys.argv[1]).convert('RGBA').resize((192, 192), Image.LANCZOS).save(sys.argv[2], quality=86, method=6)";
+function guardar192(origen, destino) {
+  const r = spawnSync('python3', ['-c', PY192, origen, destino]);
+  if (r.status === 0) return true;
+  console.log(`  sin variante de 192 px (python3 con Pillow): ${(r.stderr || r.error || '').toString().trim().split('\n').pop()}`);
+  return false;
+}
+
 // ── render
 const navegador = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 // Si algo falla, el navegador y el servidor se cierran igual: el proceso no se queda colgado.
@@ -133,14 +144,15 @@ try {
       if (opt.maestros) guardarPng(await leer(768), 768, path.join(opt.maestros, `${n}.png`));
       const q = guardarWebp(await leer(512), 512, path.join(SALIDA, `${n}.webp`));
       guardarPng(await leer(256), 256, path.join(SALIDA, `${n}.png`));
+      const con192 = guardar192(path.join(SALIDA, `${n}.webp`), path.join(SALIDA, `${n}-192.webp`));
       await pagina.close();
       const kb = (f) => (fs.statSync(path.join(SALIDA, f)).size / 1024).toFixed(1);
-      resumen.push(`${n.padEnd(11)} webp ${kb(n + '.webp').padStart(5)} KB (${q}) · png ${kb(n + '.png').padStart(5)} KB · ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+      resumen.push(`${n.padEnd(11)} webp ${kb(n + '.webp').padStart(5)} KB (${q})` + (con192 ? ` · 192 ${kb(n + '-192.webp').padStart(4)} KB` : '') + ` · png ${kb(n + '.png').padStart(5)} KB · ${((Date.now() - t0) / 1000).toFixed(1)} s`);
       console.log(resumen.at(-1));
     }
   }
 
-  // ── hoja de contacto: los ocho sobre noche y sobre papel, leídos del WebP publicado
+  // ── hoja de contacto: todos sobre noche y sobre papel, leídos del WebP publicado
   if (opt.hoja) {
     const c = opt.celda;
     const fila = (fondo, tinta) => `<div class="banda" style="background:${fondo};color:${tinta}">${TODOS.map((n) =>

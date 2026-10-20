@@ -1,5 +1,5 @@
 // Estudio común de los iconos 3D: cámara, entorno de luz, materiales, sombras y salida.
-// Todo lo que hace que los ocho iconos parezcan una familia vive aquí; iconos.js solo modela.
+// Todo lo que hace que los iconos parezcan una familia vive aquí; iconos.js solo modela.
 import * as THREE from 'three';
 
 export const LADO = 768;

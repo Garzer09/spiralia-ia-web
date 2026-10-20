@@ -377,10 +377,12 @@
         b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * .22); y((e.clientY - r.top - r.height / 2) * .32); });
         b.addEventListener('pointerleave', () => { x(0); y(0); });
       });
-      $$('.tile, .fcard').forEach(t => {
+      // La tarjeta de Día Uno no se inclina: es ancha (se vería un trapecio), el texto se emborrona en 3D y lleva el CTA.
+      // En las demás, cuanto más ancha, menos ángulo: el borde se desplaza lo mismo en una tesela que en una tarjeta
+      $$('.tile, .fcard:not(.fcard-main)').forEach(t => {
         gsap.set(t, { transformPerspective: 1200 });
         const rx = gsap.quickTo(t, 'rotationX', { duration: .6, ease: 'power3' }), ry = gsap.quickTo(t, 'rotationY', { duration: .6, ease: 'power3' });
-        t.addEventListener('pointermove', e => { const r = t.getBoundingClientRect(); ry(((e.clientX - r.left) / r.width - .5) * 5); rx(-((e.clientY - r.top) / r.height - .5) * 5); });
+        t.addEventListener('pointermove', e => { const r = t.getBoundingClientRect(), a = 5 * Math.min(1, 420 / r.width); ry(((e.clientX - r.left) / r.width - .5) * a); rx(-((e.clientY - r.top) / r.height - .5) * a); });
         t.addEventListener('pointerleave', () => { rx(0); ry(0); });
       });
     }

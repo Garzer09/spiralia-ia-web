@@ -72,9 +72,14 @@
   // Antes se avisa (sp:imprime, una vez por impresión) para que se anote lo que hay en pantalla (sitio de lectura,
   // paso abierto del método)
   const alFinal = () => { void root.offsetWidth; (document.getAnimations ? document.getAnimations() : []).forEach(a => { try { a.finish(); } catch (e) {} }); };
+  // Las imágenes diferidas que aún no se han pedido (iconos de más abajo) se piden ya; mientras no llegan, no se imprimen
+  const sinDiferir = () => $$('img[loading=lazy]').forEach(img => {
+    img.loading = 'eager';
+    if (!img.complete) { img.classList.add('sin-cargar'); img.addEventListener('load', () => img.classList.remove('sin-cargar'), { once: true }); }
+  });
   addEventListener('beforeprint', () => {
     if (!printing) document.dispatchEvent(new Event('sp:imprime'));
-    printing = true; all.forEach(p => p.h.finish(p.el)); $$('.rv.pre').forEach(el => el.classList.remove('pre')); alFinal();
+    printing = true; sinDiferir(); all.forEach(p => p.h.finish(p.el)); $$('.rv.pre').forEach(el => el.classList.remove('pre')); alFinal();
   });
   addEventListener('afterprint', () => { printing = false; });
 

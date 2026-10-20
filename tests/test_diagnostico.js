@@ -1,6 +1,6 @@
 // node tests/test_diagnostico.js
 const assert = require('assert');
-const { level, score, MAXQ, NLEVELS } = require('../src/js/diagnostico.js');
+const { level, score, pasos, MAXQ, NLEVELS } = require('../src/js/diagnostico.js');
 const Q = 8;
 
 assert.strictEqual(level(Array(Q).fill(0)), 0, 'todo al mínimo → Acceso');
@@ -19,4 +19,9 @@ for (let s = 0; s <= Q * MAXQ; s++) {
   seen.add(n); prev = n;
 }
 assert.deepStrictEqual([...seen].sort(), [0, 1, 2, 3, 4], 'se alcanzan los cinco niveles');
-console.log('ok · diagnóstico: 25 puntuaciones, 5 niveles, sin huecos');
+// Sin IA corporativa (primera pregunta a 0), la línea sin_ia sustituye a la primera del nivel; con IA, o sin sin_ia, no
+const N = { s: ['Día Uno', 'Formación'], sin_ia: 'Elige tu IA y Día Uno' };
+assert.deepStrictEqual(pasos(N, Array(Q).fill(0)), ['Elige tu IA y Día Uno', 'Formación'], 'sin IA corporativa → primero, elegirla');
+assert.deepStrictEqual(pasos(N, [1, 0, 0, 0, 0, 0, 0, 0]), N.s, 'con un grupo piloto → la línea de siempre');
+assert.deepStrictEqual(pasos({ s: N.s }, Array(Q).fill(0)), N.s, 'un nivel sin sin_ia no cambia');
+console.log('ok · diagnóstico: 25 puntuaciones, 5 niveles, sin huecos; pasos sin IA corporativa');

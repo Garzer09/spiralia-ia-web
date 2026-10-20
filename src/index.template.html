@@ -356,7 +356,7 @@
         <h3 class="display h3">{{pt.t2_h}}</h3>
         <blockquote class="voz">{{pt.t2_voz}}</blockquote>
         <div class="panel-grid">
-          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t2_1}}</li><li>{{pt.t2_2}}</li><li>{{pt.t2_3}}</li><li>{{pt.t2_4}}</li><li>{{pt.t2_5}}</li><li>{{pt.t2_6}}</li></ul></div>
+          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t2_0}}</li><li>{{pt.t2_1}}</li><li>{{pt.t2_2}}</li><li>{{pt.t2_3}}</li><li>{{pt.t2_4}}</li><li>{{pt.t2_5}}</li><li>{{pt.t2_6}}</li></ul></div>
           <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t2_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t2_p}}</p>
             <a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:pt.t2_subject}}">{{pt.t2_cta}}</a></div>
         </div>
@@ -375,7 +375,7 @@
   </div>
 </section>
 
-<!-- 08 · Formatos: el primer paso, pequeño -->
+<!-- 08 · Formatos: el primer paso es Día Uno, un día de trabajo real; después, a su ritmo -->
 <section class="sec paper" id="formatos" aria-labelledby="t-fmt">
   <div class="wrap">
     <header class="head rv">
@@ -383,23 +383,41 @@
       <h2 id="t-fmt" class="display"><span class="l1">{{fmt.h2a}}</span> <span class="l2">{{fmt.h2b}}</span></h2>
       <p class="lead narrow">{{fmt.lead}}</p>
     </header>
+    <!-- Las tres rondas de Día Uno: velocidad, escala y capacidad -->
+    <div class="vec">
+      <div class="vec-head rv">
+        <p class="vec-k">{{fmt.v_kicker}}</p>
+        <h3 class="vec-h">{{fmt.v_h}}</h3>
+        <p class="vec-sub">{{fmt.v_sub}}</p>
+      </div>
+      <ol class="vec-l">
+        <li class="rv"><h4 class="vec-t">{{fmt.v1_t}}</h4><p class="vec-f">{{fmt.v1}}</p><p class="vec-e">{{fmt.v1_e}}</p></li>
+        <li class="rv"><h4 class="vec-t">{{fmt.v2_t}}</h4><p class="vec-f">{{fmt.v2}}</p><p class="vec-e">{{fmt.v2_e}}</p></li>
+        <li class="rv"><h4 class="vec-t">{{fmt.v3_t}}</h4><p class="vec-f">{{fmt.v3}}</p><p class="vec-e">{{fmt.v3_e}}</p></li>
+      </ol>
+      <p class="lead-strong vec-remate">{{fmt.v_remate}}</p>
+    </div>
     <div class="fmts">
       <article class="fcard fcard-main glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/rumbo-192.webp" srcset="{{base}}assets/img/3d/rumbo-192.webp 192w, {{base}}assets/img/3d/rumbo.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
+        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/diauno-192.webp" srcset="{{base}}assets/img/3d/diauno-192.webp 192w, {{base}}assets/img/3d/diauno.webp 512w" sizes="112px" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
         <h3 class="fcard-n">{{fmt.r_name}}</h3><p class="fcard-dur">{{fmt.r_dur}}</p>
-        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.r_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.r_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.r_lleva}}</dd></dl>
-        <a class="btn btn-cta" href="{{base}}reserva/?d=rumbo&amp;l={{lang}}">{{fmt.r_cta}}</a>
+        <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.r_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.r_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.r_lleva}}</dd></div></dl>
+        <a class="btn btn-cta" href="{{base}}reserva/?d=dia-uno&amp;l={{lang}}">{{fmt.r_cta}}</a>
+        <p class="fcard-nota">{{fmt.r_nota}}</p>
       </article>
-      <article class="fcard glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"></div>
-        <h3 class="fcard-n">{{fmt.p_name}}</h3><p class="fcard-dur">{{fmt.p_dur}}</p>
-        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.p_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.p_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.p_lleva}}</dd></dl>
-      </article>
-      <article class="fcard glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="96px" alt="" width="112" height="112" loading="lazy"></div>
-        <h3 class="fcard-n">{{fmt.d_name}}</h3><p class="fcard-dur">{{fmt.d_dur}}</p>
-        <dl><dt>{{fmt.c_para}}</dt><dd>{{fmt.d_para}}</dd><dt>{{fmt.c_que}}</dt><dd>{{fmt.d_que}}</dd><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.d_lleva}}</dd></dl>
-      </article>
+      <p class="fmts-despues">{{fmt.despues}}</p>
+      <div class="fmts-dos">
+        <article class="fcard glass spot rv">
+          <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="72px" alt="" width="112" height="112" loading="lazy"></div>
+          <h3 class="fcard-n">{{fmt.p_name}}</h3><p class="fcard-dur">{{fmt.p_dur}}</p>
+          <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.p_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.p_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.p_lleva}}</dd></div></dl>
+        </article>
+        <article class="fcard glass spot rv">
+          <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="72px" alt="" width="112" height="112" loading="lazy"></div>
+          <h3 class="fcard-n">{{fmt.d_name}}</h3><p class="fcard-dur">{{fmt.d_dur}}</p>
+          <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.d_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.d_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.d_lleva}}</dd></div></dl>
+        </article>
+      </div>
     </div>
   </div>
 </section>

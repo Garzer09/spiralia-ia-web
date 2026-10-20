@@ -1,6 +1,6 @@
 # Iconos 3D de Spiralia
 
-Ocho iconos de marca en 3D: estrategia, formacion, ingenieria, resultados, personas, tecnologia, rumbo y espiral. Son una familia: cerámica mate navy y greige, vidrio esmerilado, una luz cálida en cada pieza (la organización que se enciende), la misma vista 3/4 y la misma escala. Se pintan sin conexión con three.js en Chromium. three.js solo se usa al generar; la web publica imágenes.
+Nueve iconos de marca en 3D: estrategia, formacion, ingenieria, resultados, personas, tecnologia, rumbo, diauno y espiral. Son una familia: cerámica mate navy y greige, vidrio esmerilado, una luz cálida en cada pieza (la organización que se enciende), la misma vista 3/4 y la misma escala. Se pintan sin conexión con three.js en Chromium. three.js solo se usa al generar; la web publica imágenes.
 
 ## Salida
 
@@ -8,6 +8,7 @@ En `assets/img/3d/`:
 
 - `<nombre>.webp`: 512 × 512, con alfa (yuva420p) y 40 KB como máximo.
 - `<nombre>.png`: 256 × 256, de respaldo.
+- `<nombre>-192.webp`: 192 × 192, para el `srcset`. Sale del WebP de 512 con Pillow (Lanczos, calidad 86, método 6). Si no hay Python con Pillow, `render.mjs` avisa y no la toca.
 
 El fondo es transparente. Están pensados para ir sobre noche (`#051A2B`) y sobre papel (`#F5F4F0`).
 
@@ -17,12 +18,12 @@ El fondo es transparente. Están pensados para ir sobre noche (`#051A2B`) y sobr
 node tools/icons3d/render.mjs
 ```
 
-Tarda unos 40 s en total. Necesita Node, FFmpeg con libwebp y Playwright con Chromium. Usa el Playwright del proyecto si lo hay y, si no, el global de `/opt/node22`.
+Tarda unos 45 s en total. Necesita Node, FFmpeg con libwebp, Playwright con Chromium y, para la variante de 192 px, Python con Pillow. Usa el Playwright del proyecto si lo hay y, si no, el global de `/opt/node22`.
 
 Opciones:
 
 - Un solo icono: `node tools/icons3d/render.mjs rumbo`.
-- `--hoja ruta.png`: hoja de contacto con los ocho sobre noche y sobre papel, montada con los WebP publicados. `--solo-hoja` la monta sin volver a pintar.
+- `--hoja ruta.png`: hoja de contacto con todos sobre noche y sobre papel, montada con los WebP publicados. `--solo-hoja` la monta sin volver a pintar.
 - `--maestros dir`: guarda también el PNG de 768 px de cada icono.
 - `--ss 2`: supermuestreo. Es el valor por defecto: el lienzo se pinta a 1536 px y se reduce.
 

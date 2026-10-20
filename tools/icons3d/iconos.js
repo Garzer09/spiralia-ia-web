@@ -1,4 +1,4 @@
-// Los ocho iconos. Cada función modela su objeto con los materiales del estudio y devuelve
+// Los nueve iconos. Cada función modela su objeto con los materiales del estudio y devuelve
 // { objeto, opciones }. El estudio lo apoya en el suelo, lo escala y lo encuadra.
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from './vendor/RoundedBoxGeometry.js';
@@ -17,6 +17,8 @@ const M = {
   laca: ceramica(PALETA.navy3, { rugosidad: 0.4, barniz: 0.55, rim: 1.0, rimPot: 2.6, terciopelo: 0 }),
   // vidrio muy esmerilado: lo que brilla por dentro (losa de formación, anillo, barras)
   lechoso: vidrio({ rugosidad: 0.48, espesor: 0.25, filo: 0.55 }),
+  // el horizonte de día uno va sobre la tarjeta navy: un navy más claro y con canto de luz, para que no desaparezca
+  peana: ceramica(PALETA.navy3, { rugosidad: 0.5, barniz: 0.4, rim: 1.1, rimPot: 2.4, terciopelo: 0 }),
 };
 
 const caja = (w, h, d, r, seg = 8) => new RoundedBoxGeometry(w, h, d, seg, r);
@@ -208,6 +210,54 @@ function rumbo(est) {
   return { objeto: g };
 }
 
+// ── día uno: un amanecer. Medio sol de vidrio con la luz dentro, de frente, que asoma tras una franja
+// de horizonte larga y baja, y un abanico de cinco rayos finos. Sol y rayos van en el plano vertical que
+// mira a la cámara: se lee como el pictograma de un sol que sale, no como una cúpula sobre una peana
+// (la versión anterior, con tres haces cortos, recordaba a una luz de alarma). Los rayos son de cerámica
+// clara: blancos sobre la tarjeta navy y con sombra propia sobre papel, donde el vidrio casi no se ve.
+function diauno(est) {
+  const R = 0.78, fondo = 0.24, bisel = 0.07;
+  const cam = est.camera.position.clone().normalize();
+  const camH = new THREE.Vector3(cam.x, 0, cam.z).normalize();
+  const arriba = new THREE.Vector3(0, 1, 0);
+  const lado = new THREE.Vector3().crossVectors(arriba, camH).normalize();
+  const deCara = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), camH);
+  const g = new THREE.Group();
+  // el horizonte: una losa larga, baja y estrecha, de cara a la cámara
+  const H = 0.16;
+  const hor = malla(caja(2.9, H, 0.5, 0.07), M.peana, 0, H / 2, 0);
+  hor.quaternion.copy(deCara);
+  // medio disco con bisel; la base se hunde en el horizonte para que no se vea su canto
+  const medio = (r, prof, b) => {
+    const s = new THREE.Shape();
+    s.moveTo(r, 0); s.absarc(0, 0, r, 0, Math.PI, false); s.lineTo(r, 0);
+    const geo = new THREE.ExtrudeGeometry(s, { depth: prof, bevelEnabled: b > 0, bevelThickness: b, bevelSize: b, bevelSegments: 10, curveSegments: 128 });
+    geo.translate(0, 0, -prof / 2);
+    return geo;
+  };
+  const c = camH.clone().multiplyScalar(-0.04).setY(H - bisel - 0.03);
+  const sol = malla(medio(R, fondo, bisel), M.lechoso, c.x, c.y, c.z);
+  // el núcleo, más tenue que en los demás: en la tarjeta no puede ser lo más brillante, por encima del titular
+  const nucleo = malla(medio(R * 0.8, fondo * 0.35, 0), luz({ centro: 1.6, borde: 0.85 }), c.x, c.y, c.z);
+  sol.quaternion.copy(deCara); nucleo.quaternion.copy(deCara);
+  nucleo.userData.sinSombra = true;
+  const pl = new THREE.PointLight('#fff4e6', 1.0, 0, 2);
+  pl.position.copy(c).addScaledVector(arriba, R * 0.5).addScaledVector(camH, fondo);
+  g.add(hor, sol, nucleo, pl);
+  // los rayos: varillas que salen del centro del sol, en abanico de ±64°
+  const largo = 0.66, grosor = 0.06, hueco = 0.17;
+  for (let i = 0; i < 5; i++) {
+    const a = THREE.MathUtils.degToRad(-64 + 32 * i);
+    const dir = arriba.clone().multiplyScalar(Math.cos(a)).addScaledVector(lado, Math.sin(a));
+    const p = c.clone().addScaledVector(dir, R + bisel + hueco + largo / 2 + grosor);
+    const rayo = malla(new THREE.CapsuleGeometry(grosor, largo, 12, 32), M.blanco, p.x, p.y, p.z);
+    rayo.quaternion.setFromUnitVectors(arriba, dir);
+    g.add(rayo);
+  }
+  // apaisado: con más peso del área en la medida, para que pese como los demás iconos
+  return { objeto: g, opciones: { tam: 0.77, peso: 0.7 } };
+}
+
 // ── espiral: la S de Spiralia como seis tubos paralelos (geometría de s-geom.js). Cinco son de
 // laca navy; la hebra 3, la de los pasos de SPIRAL, es de vidrio con la luz dentro, así que la
 // S encendida se lee incluso a 28 px.
@@ -265,4 +315,4 @@ function espiral() {
   return { objeto: g, opciones: { flotar: 0.1 } };
 }
 
-export const ICONOS = { estrategia, formacion, ingenieria, resultados, personas, tecnologia, rumbo, espiral };
+export const ICONOS = { estrategia, formacion, ingenieria, resultados, personas, tecnologia, rumbo, diauno, espiral };

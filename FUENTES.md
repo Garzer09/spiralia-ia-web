@@ -19,8 +19,8 @@ Generado por build.py desde src/cifras.toml. No editar a mano.
 | 13.000 | Personas formadas en Deloitte España en un mes | dato | Programa Deloitte España × Spiralia, septiembre y octubre de 2026. |
 | 3.000 | Managers y directores formados en Deloitte España | dato | Programa Deloitte España × Spiralia, septiembre y octubre de 2026. |
 | 218 | Casos de uso identificados por los equipos de CCEP Iberia (identificados, no implantados) | dato | Programa CCEP Iberia × Spiralia, julio de 2026. |
-| 3 | Duración de Rumbo (horas) y del diagnóstico (minutos) · «dos o tres» huecos que proponemos en /reserva/ | formato | Oferta de Spiralia (decisión de Jose Garza, 14-oct-2026). |
-| 2 | Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey | formato | Oferta de Spiralia. |
+| 3 | Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «por tres meses», lo que cuesta esperar un trimestre | formato | Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026). |
+| 2 | Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey; «las otras dos» / «the other two», a la escala y la capacidad frente a la velocidad («Para ti», Resultados) | formato | Oferta de Spiralia. |
 | 8 | Preguntas del diagnóstico («Ocho preguntas») | formato | src/content.toml, [[data.diag.q]]. |
 | 30 | Duración de la primera conversación con el equipo (minutos) | formato | Oferta de Spiralia. |
 | 365 | Nombre de producto: Microsoft 365 Copilot | otro | — |

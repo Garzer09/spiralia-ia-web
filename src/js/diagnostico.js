@@ -8,7 +8,9 @@
   const MAXQ = 3, NLEVELS = 5;
   const score = a => a.reduce((s, x) => s + x, 0);
   const level = a => Math.min(NLEVELS - 1, Math.floor(score(a) * NLEVELS / (a.length * MAXQ + 1)));
-  return { score, level, MAXQ, NLEVELS };
+  // Los pasos de un nivel. Sin IA corporativa (la primera pregunta a 0), el nivel que tenga sin_ia la pone en primer lugar
+  const pasos = (N, a) => (a[0] === 0 && N.sin_ia ? [N.sin_ia, ...N.s.slice(1)] : N.s);
+  return { score, level, pasos, MAXQ, NLEVELS };
 });
 
 (() => {
@@ -52,13 +54,15 @@
   }
   function result() {
     const a = ans.map(x => x || 0), n = window.SPDiag.level(a), N = D.n[n];
+    // En Acceso el primer paso es Día Uno: la reserva lleva su texto, sin perder que se llega desde el diagnóstico
+    const reserva = n === 0 ? box.dataset.book.replace(/\bd=diagnostico\b/, 'd=diagnostico-dia-uno') : box.dataset.book;
     window.SP.ev('Diagnóstico', { paso: 'resultado', nivel: N.name });
     const body = [L.intro, '', `${N.name}: ${N.h}`, '', ...D.q.map((q, i) => `${i + 1}. ${q.q} ${q.o[a[i]]}`)].join('\n');
     const mail = `mailto:${box.dataset.mail}?subject=${encodeURIComponent(L.subject)}&body=${encodeURIComponent(body)}`;
     pinta(`<div class="dg-res"><h3>${esc(L.res)}</h3><p class="dg-level" tabindex="-1">${esc(N.name)}</p><p class="dg-h">${esc(N.h)}</p>
       <ol class="dg-scale">${D.n.map((x, i) => `<li class="${i < n ? 'past' : i === n ? 'cur' : ''}"${i === n ? ' aria-current="step"' : ''}>${esc(x.name)}</li>`).join('')}</ol>
-      <h3>${esc(L.steps)}</h3><ul class="dg-steps">${N.s.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
-      <div class="dg-acts"><a class="btn btn-cta" href="${esc(box.dataset.book)}">${esc(L.book)}</a><a class="btn btn-ghost" href="${mail}">${esc(L.send)}</a>
+      <h3>${esc(L.steps)}</h3><ul class="dg-steps">${window.SPDiag.pasos(N, a).map(s => `<li>${esc(s)}</li>`).join('')}</ul>
+      <div class="dg-acts"><a class="btn btn-cta" href="${esc(reserva)}">${esc(L.book)}</a><a class="btn btn-ghost" href="${mail}">${esc(L.send)}</a>
       <button type="button" class="btn btn-ghost dg-print">${esc(L.print)}</button><button type="button" class="btn btn-ghost dg-again">${esc(L.again)}</button></div>
       <p class="dg-note">${esc(L.note)}</p></div>`);
     $('.dg-print', box).addEventListener('click', () => {

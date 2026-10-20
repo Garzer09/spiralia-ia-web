@@ -241,11 +241,13 @@
   // El pie va justo después del cierre: si el cierre ha quedado arriba, el pie está en pantalla y tampoco se ve
   (() => {
     const f = $('.cta-fija'), pie = $('.foot'); if (!f || !hero || !cierre) return;
-    let enHero = true, enCierre = false, enPie = false;
-    const set = () => f.classList.toggle('on', !enHero && !enCierre && !enPie);
+    let enHero = true, enCierre = false, enPie = false, enPaso = false;
+    const set = () => f.classList.toggle('on', !enHero && !enCierre && !enPie && !enPaso);
     new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
     new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
     if (pie) new IntersectionObserver(([e]) => { enPie = e.isIntersecting; set(); }).observe(pie);
+    const paso = $('.fcard-main');
+    if (paso) new IntersectionObserver(([e]) => { enPaso = e.isIntersecting; set(); }, { threshold: .25 }).observe(paso);
   })();
 
   // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón.
