@@ -108,16 +108,15 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 
 ## Pendiente antes de producción
 
-- **Autorizaciones de marca (lo más urgente).** Solo consta por escrito la de ING. Deloitte (logo, ficha, 13.000 y 3.000, FAQ, pestaña Tecnología, JSON-LD y cartel final de la película) va en marca blanca y es confidencial desde el 2-sep; los otros 11 logos no tienen permiso documentado. Mientras no lleguen, proteger con contraseña el prototipo de Vercel o publicar una versión solo con ING. Orden y textos para pedirlas: auditoría §2.8 y §7.2.
 - La página de **Microsoft Bookings** y su URL (más adelante, decisión de Jose). Mejor una página de equipo con varios anfitriones que la agenda de una persona. Mientras no exista, los botones abren un email.
-- El **email de contacto** sigue siendo `ana.iza@spiralia.es` (decisión del 19-oct). Para pasar a un buzón de equipo basta con cambiar `MAIL` en `build.py`; también se usa en el aviso legal, donde lo ideal es el buzón de privacidad de la política de spiralia.es.
+- El **email de contacto** sigue siendo `ana.iza@spiralia.es` (decisión del 19-oct). Para pasar a un buzón de equipo basta con cambiar `MAIL` en `build.py`.
 - La urgencia del cierre menciona **el presupuesto de 2027**: cambiarla o retirarla en el primer trimestre de 2027 (`[cta].urg` y `2027` en `cifras.toml`).
 - **Metraje real** para la portada (opcional): ver el plan de rodaje en la auditoría.
 - Los **testimonios**: hay tres huecos `[PLACEHOLDER]`.
 - **Revisar el inglés.** Lo ha traducido Claude.
 - Comprobar que la **política de privacidad** de spiralia.es cubre Microsoft Bookings.
-- **Aviso de privacidad** (`[cta].legal`, también en `/reserva/`): que lo revise un asesor. Faltan la razón social y el NIF del responsable, y un enlace al aviso legal en el pie, cuando se sepa su URL.
-- **Pendiente de decidir o confirmar** (revisión del 19-oct): la base del 92 % de ING; si las 50.000 personas formadas incluyen a los alumnos de la UFV y de thePower; qué entrega Rumbo, por escrito; si el contrato da al cliente la propiedad de lo que se construye (para afirmarlo en la pregunta a6), y un caso de implantación, anonimizado y con permiso, para la pestaña Tecnología.
+- **Aviso de privacidad** (`[cta].legal`, también en `/reserva/`): sigue el criterio de spiralia.es (decisión del 20-oct). Remite a su política de privacidad, que reúne los datos del responsable y cómo ejercer los derechos. La razón social y el NIF no se repiten en esta página.
+- **Confirmado por Jose (20-oct):** todas las empresas cuyos logos y cifras aparecen han autorizado su uso; la base del 92 % de ING (empleados con licencia que la usan cada semana); las 50.000 personas formadas; que lo que se construye es del cliente (pregunta a6), y las promesas «hasta que funciona».
 - **Butler**: su licencia (v1.1, Fabian De Smet) permite usarla e incrustarla. Solo prohíbe venderla o lucrarse con la fuente en sí. Ya es la tipografía del logotipo. Los `woff2` regenerados son una conversión de formato de la misma fuente.
 
 ## Decisiones tomadas (14-oct-2026)

@@ -6,7 +6,7 @@
 [[c]]
 valor = "50.000"
 tipo = "dato"
-que = "Personas formadas por Spiralia en IA aplicada a negocio. En la web y en la película, la misma etiqueta: «personas formadas» / «people trained». Pendiente de confirmar si incluye a los alumnos de la UFV y de thePower (auditoría §7.2 #18)"
+que = "Personas formadas por Spiralia en IA aplicada a negocio. En la web y en la película, la misma etiqueta: «personas formadas» / «people trained». Confirmada por Jose el 20-oct-2026"
 fuente = "Spiralia, dato interno confirmado por Jose Garza el 14-oct-2026 («50k alumnos»)."
 
 [[c]]
@@ -60,7 +60,7 @@ fuente = "BCG, «AI at Work: Why Strategy Matters More Than Tools» (junio de 20
 [[c]]
 valor = "92"
 tipo = "dato"
-que = "Usuarios activos semanales en ING España tras el programa (nivel, no crecimiento). Base pendiente de guardar con el soporte de la medición: ¿% de empleados con licencia que la usan cada semana?"
+que = "Usuarios activos semanales en ING España tras el programa (nivel, no crecimiento). Base: % de empleados con licencia que la usan cada semana (confirmada por Jose el 20-oct-2026)"
 fuente = "Programa de adopción de IA de Spiralia en ING España. Medición interna del grupo ING, uso externo autorizado."
 
 [[c]]
