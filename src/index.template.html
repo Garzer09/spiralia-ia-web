@@ -25,11 +25,56 @@
 <link rel="preload" href="{{base}}assets/video/hero-h.jpg" as="image" fetchpriority="high" media="(min-aspect-ratio: 1/1)">
 <link rel="preload" href="{{base}}assets/video/hero-v.jpg" as="image" fetchpriority="high" media="(max-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="{{base}}css/site.css">
-<script>(function(d){d.classList.add('js');var q=/[?&]still=1/.test(location.search);if(q)d.classList.add('still');if(!q&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro');setTimeout(function(){d.classList.remove('intro')},1200)}})(document.documentElement)</script>
+<script>(function(d){d.classList.add('js');var s=location.search,q=/[?&]still=1/.test(s);if(q)d.classList.add('still');if(q||matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('intro');
+// La película abre la web una vez por sesión: no con un ancla, Save-Data o conexión lenta (?apertura=1 la fuerza)
+var c=navigator.connection||{},vista=false;try{vista=sessionStorage.getItem('sp-apertura')==='1'}catch(e){}
+if(/[?&]apertura=1/.test(s)||(!vista&&location.hash.length<2&&!c.saveData&&!/2g/.test(c.effectiveType||'')))d.classList.add('apertura');
+else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documentElement)</script>
 <script type="application/ld+json">{{jsonld}}</script>
 {{analytics}}
 </head>
 <body>
+<!-- Apertura: la película de 20 s a pantalla completa, y después la web. Sin JS no existe.
+     Horizontal (16:9) en pantallas apaisadas; vertical (4:5) en el resto -->
+<div class="apertura-capa" aria-hidden="true">
+  <video muted playsinline preload="auto" aria-label="{{attr:hero.film_alt}}"
+         data-webm="{{base}}assets/video/film-{{lang}}.webm" data-mp4="{{base}}assets/video/film-{{lang}}.mp4"
+         data-webm-h="{{base}}assets/video/film-{{lang}}-h.webm" data-mp4-h="{{base}}assets/video/film-{{lang}}-h.mp4"></video>
+  <button type="button" class="glass-btn apertura-saltar">{{hero.saltar}} <span aria-hidden="true">→</span></button>
+  <i class="apertura-prog" aria-hidden="true"></i>
+</div>
+<script>(function(d){
+  var capa=document.querySelector('.apertura-capa');
+  if(!d.classList.contains('apertura')){capa.remove();return}
+  try{sessionStorage.setItem('sp-apertura','1')}catch(e){}
+  var v=capa.querySelector('video'),b=capa.querySelector('button'),p=capa.querySelector('.apertura-prog'),hecho=false,webm=!!v.canPlayType('video/webm; codecs="vp9"');
+  var h=innerWidth>innerHeight,src=function(w){return v.dataset[(w?'webm':'mp4')+(h?'H':'')]};
+  // El fondo de la capa (y el de html, que asoma en el hueco de la barra de desplazamiento) sigue al de cada escena,
+  // con los mismos tiempos y colores que motion/film/film.js: las bandas no se ven
+  var ESC=[[14.5,'#051A2B'],[12,'#0D3150'],[9.5,'#051A2B'],[8,'#E0DFDA'],[6,'#0D3150'],[4,'#051A2B'],[2,'#E0DFDA'],[0,'#051A2B']];
+  capa.removeAttribute('aria-hidden');
+  // Se acaba al terminar, al saltarla (botón, Esc, rueda o deslizar) o si no arranca a tiempo; la web entra con un fundido
+  function fin(){
+    if(hecho)return;hecho=true;
+    capa.classList.add('sale');d.classList.remove('apertura');d.style.background='';
+    // El scroll vuelve un poco después: el gesto que salta la película no desplaza además la página
+    document.dispatchEvent(new Event('sp:apertura-fin'));setTimeout(function(){document.dispatchEvent(new Event('sp:sigue'))},400);
+    setTimeout(function(){d.classList.remove('intro')},1200);
+    setTimeout(function(){v.pause();capa.remove()},900);
+    ['wheel','touchmove','keydown'].forEach(function(n){removeEventListener(n,salta)});
+  }
+  function salta(e){if(e.type!=='keydown'||/^(Escape|Enter| |ArrowDown|PageDown|End)$/.test(e.key)){if(e.type==='keydown')e.preventDefault();fin()}}
+  v.addEventListener('ended',fin);
+  v.addEventListener('error',function(){if(webm){webm=false;v.src=src(false);v.play().catch(fin)}else fin()},true);
+  b.addEventListener('click',fin);
+  ['wheel','touchmove','keydown'].forEach(function(n){addEventListener(n,salta,{passive:n!=='keydown'})});
+  var espera=setTimeout(fin,3500);
+  v.addEventListener('playing',function(){clearTimeout(espera);(function paso(){
+    if(hecho)return;var t=v.currentTime,i=0;while(t<ESC[i][0])i++;
+    capa.style.background=d.style.background=ESC[i][1];capa.classList.toggle('clara',ESC[i][1]==='#E0DFDA');
+    p.style.transform='scaleX('+(v.duration?t/v.duration:0)+')';requestAnimationFrame(paso)})()});
+  v.src=src(webm);v.play().catch(function(e){if(!webm||(e&&e.name==='NotAllowedError'))fin()});
+})(document.documentElement)</script>
 <a class="skip" href="#main">{{nav.skip}}</a>
 
 <!-- 00 · Barra: transparente sobre la portada, sólida al bajar -->
@@ -77,7 +122,6 @@
   </div>
   <a class="scroll-cue" href="#reto" aria-hidden="true" tabindex="-1"><i></i></a>
   <div class="wrap hero-ctl">
-    <button type="button" class="glass-btn film-open" data-film-open><i aria-hidden="true"></i>{{hero.film_btn}}</button>
     <button type="button" class="glass-btn hero-pause" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
   </div>
 </section>
@@ -113,13 +157,6 @@
     <a href="#para-ti-tecnologia" data-tab="tecnologia">{{hero.role3}}</a>
   </div>
 </section>
-
-<!-- La película de 20 s, a demanda y con controles -->
-<dialog class="film-dialog" aria-label="{{attr:hero.film_btn}}">
-  <form method="dialog"><button class="film-close" aria-label="{{attr:nav.close}}">×</button></form>
-  <video class="film-full" controls playsinline preload="none" data-poster="{{base}}assets/video/film-{{lang}}.jpg"
-         data-src="{{base}}assets/video/film-{{lang}}.mp4" data-webm="{{base}}assets/video/film-{{lang}}.webm" aria-label="{{attr:hero.film_alt}}"></video>
-</dialog>
 
 <!-- 02 · Por qué ahora: el problema, en clave de pérdida -->
 <section class="sec light" id="reto" aria-labelledby="t-reto">

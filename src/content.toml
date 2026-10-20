@@ -38,7 +38,7 @@ sub = {es = "Formamos a cada persona con su propio trabajo. Y construimos con tu
 cta1 = {es = "Hablemos de tu caso", en = "Let’s talk about your case"}
 cta2 = {es = "Diagnóstico en 3 minutos", en = "3-minute assessment"}
 micro = {es = "En ING España, los usuarios activos cada semana pasaron <b>del 66 % al 92 %</b>.", en = "At ING Spain, weekly active users went <b>from 66% to 92%</b>."}
-film_btn = {es = "Ver la película · 20 s", en = "Watch the film · 20 s"}
+saltar = {es = "Saltar", en = "Skip"}
 film_alt = {es = "Vídeo de 20 segundos: la IA ya está en todas las mesas, pero solo el 6 % de las empresas saca de la IA al menos un 5 % de su beneficio. Formamos a cada persona con su propio trabajo y construimos con tu equipo hasta que funciona.", en = "20-second video: AI is already on every desk, but only 6% of companies get at least 5% of their operating profit from AI. We train every person on their own work and build with your team until it works."}
 pause = {es = "Pausar la animación de fondo", en = "Pause the background animation"}
 play = {es = "Reanudar la animación de fondo", en = "Play the background animation"}

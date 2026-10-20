@@ -218,9 +218,11 @@
   }
   const hero = $('[data-hero]'), cierre = $('[data-firma]');
   let fondos = false;
+  // Mientras se ve la película de apertura, el vídeo de la portada espera: no compite por la red
+  const tras = f => document.documentElement.classList.contains('apertura') ? document.addEventListener('sp:apertura-fin', f, { once: true }) : f();
   addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => {
     fondos = true;
-    if (hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero));
+    if (hero) tras(() => { if (!SPfondo.hero) SPfondo.hero = fondo(hero, $('.hero-pause', hero)); });
     if (cierre) SPfondo.cierre = fondo(cierre, $('.cierre-pausa', cierre));
   }));
   // Si la portada pierde el WebGL (va lento), vuelve el vídeo
@@ -271,24 +273,6 @@
     $$('a', nav).forEach(a => a.addEventListener('click', () => abrir(false)));
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && bar.classList.contains('open')) { abrir(false); btn.focus(); } });
     matchMedia('(min-width: 981px)').addEventListener('change', e => e.matches && abrir(false));
-  })();
-
-  // La película de 20 s, a demanda: el fondo se detiene mientras se ve
-  (() => {
-    const d = $('.film-dialog'), op = $('[data-film-open]'); if (!d || !op) return;
-    if (typeof d.showModal !== 'function') { op.hidden = true; return; }
-    const v = $('video', d);
-    // WebM (VP9) si el navegador lo admite; si falla, el MP4
-    let webm = !!v.dataset.webm && !!v.canPlayType('video/webm; codecs="vp9"');
-    v.addEventListener('error', () => { if (webm) { webm = false; v.src = v.dataset.src; v.play().catch(() => {}); } });
-    op.addEventListener('click', () => {
-      if (!v.src) { v.poster = v.dataset.poster; v.src = webm ? v.dataset.webm : v.dataset.src; }
-      d.showModal(); SPfondo.hero && SPfondo.hero.pausar(); document.dispatchEvent(new Event('sp:pausa'));
-      ev('Película');
-      v.play().catch(() => {});
-    });
-    d.addEventListener('close', () => { v.pause(); SPfondo.hero && SPfondo.hero.seguir(); document.dispatchEvent(new Event('sp:sigue')); op.focus(); });
-    d.addEventListener('click', e => { if (e.target === d) d.close(); });
   })();
 
   // Logos en movimiento lento: se duplica la fila para que el bucle no tenga salto (los duplicados no se leen)

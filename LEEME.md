@@ -16,7 +16,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 | Cifras permitidas y su fuente | `src/cifras.toml`. De aquí sale `FUENTES.md`. |
 | Estructura de la página | `src/index.template.html` |
 | Estilos (paleta «Monocromo Spiralia») | `src/css/site.css` |
-| Piezas animadas | `src/js/motion.js`: curva, espiral SPIRAL, antes y después, caso, vídeos de fondo, barra, menú móvil, película en diálogo, logos y pestañas. Capa de movimiento: `src/js/scroll.js`. WebGL: `src/js/gl.js` |
+| Piezas animadas | `src/js/motion.js`: curva, espiral SPIRAL, antes y después, caso, vídeos de fondo, barra, menú móvil, logos y pestañas (la película de apertura va en línea en la plantilla). Capa de movimiento: `src/js/scroll.js`. WebGL: `src/js/gl.js` |
 | Diagnóstico | `src/js/diagnostico.js`. Sus preguntas y niveles están en `[data.diag]` de `content.toml`. |
 | URL de Microsoft Bookings | `BOOKINGS` en `build.py`, o directamente en `dist/reserva/index.html` sin volver a generar |
 | Geometría de la S (medida sobre el logo oficial) | `tools/s_geom.py`. Genera `s-lines.svg`, `favicon.svg` y `s-geom.js`. |
@@ -88,11 +88,12 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 
 ## Película de 20 s (HyperFrames)
 
-- **Qué es:** 20 s en formato 4:5 (1080×1350), sin sonido, en ES y EN. Desde el 19-oct se abre a demanda en un diálogo desde la portada («Ver la película · 20 s»).
+- **Qué es:** 20 s sin sonido, en ES y EN, en dos formatos: 16:9 (1920×1080) para pantallas apaisadas y 4:5 (1080×1350) para el resto.
+- **Apertura (decisión del 20-oct):** la película abre la web a pantalla completa y, al terminar, la web entra con un fundido; ya no hay botón «Ver la película». Se puede saltar con «Saltar», Esc, Intro, la rueda o deslizando. Sale una vez por sesión (`sessionStorage`), y no sale con un ancla en la URL, con `?still=1`, con «reducir movimiento», con Save-Data o en 2G. `?apertura=1` la fuerza (para enseñarla). Si no arranca en 3,5 s o el navegador bloquea la reproducción, se salta sola. Mientras se ve, la web está oculta y quieta (sin scroll, sin WebGL ni vídeo de portada), y la entrada del titular espera al fundido. El código va en línea en la plantilla, justo al abrir `<body>`, para que no se vea la web antes; el estilo, en `.apertura-capa` (site.css). El fondo de la capa cambia con cada escena para que las bandas no se noten.
 - **Ritmo y estilo:** el de la portada de Santander. 120 BPM, frases que suben desde una máscara, el 80 % y, con un corte, el 6 %, «El curso acaba el viernes. ¿Y el lunes?», y la S de Spiralia dibujándose en un segundo.
 - **Cartel final:** la S, la palabra SPIRALIA y las pruebas (50.000 · ING del 66 % al 92 % · Deloitte, 13.000). No repite el titular de la web.
 - **Archivos:** `motion/film/`. Los textos están en `copy.js` y la coreografía, en función de t, en `film.js`.
-- **Comandos:** `bash motion/render_film.sh snap` saca las capturas del guion (las de la versión actual están en `motion/guion-pelicula/`) y `bash motion/render_film.sh render` deja en `assets/video/` `film-es` y `film-en` en MP4 (H.264) y WebM (VP9), y sus carteles. La web usa el WebM si el navegador lo admite y, si falla, el MP4. Tarda unos 25 s por idioma.
+- **Comandos:** `bash motion/render_film.sh snap` saca las capturas del guion (las de la versión actual están en `motion/guion-pelicula/`) y `bash motion/render_film.sh render` deja en `assets/video/` `film-es`, `film-en` (4:5) y `film-es-h`, `film-en-h` (16:9) en MP4 (H.264) y WebM (VP9); `FORMATS=h` o `FORMATS=v` limita el formato. El encaje horizontal está en `motion/film/index.html` (reglas `.h`). La web usa el WebM si el navegador lo admite y, si falla, el MP4.
 - **Formato:** el 4:5 es también el que mejor funciona en el feed de LinkedIn, así que podéis publicarla tal cual.
 - **Requisitos:** Node, FFmpeg y `hyperframes@0.8.81` con su Chrome en caché.
 - **Descartado:** el bucle anterior de la S, que se desenrollaba, está en `motion/_descartado/bucle-s/`. No se publica.

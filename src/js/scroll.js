@@ -67,7 +67,8 @@
       // La pausa de la portada detiene la animación; la elección se recuerda como con el vídeo.
       // La etiqueta es fija; el estado lo dice aria-pressed. Mientras se ve la película, también se para (fuera)
       const btn = $('.hero-pause', hero), KEY = 'sp-fondo-pausado';
-      let pausa = false, fuera = false; try { pausa = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      // fuera: parada mientras se ve la película (de apertura, html.apertura; sp:sigue la reanuda)
+      let pausa = false, fuera = root.classList.contains('apertura'); try { pausa = localStorage.getItem(KEY) === '1'; } catch (e) {}
       const aplicar = () => {
         if (!glHero) return;
         pausa || fuera ? glHero.stop() : glHero.start();
@@ -143,6 +144,7 @@
     lenis.on('scroll', ST.update);
     gsap.ticker.add(t => lenis && lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
     document.addEventListener('sp:pausa', () => lenis && lenis.stop()); document.addEventListener('sp:sigue', () => lenis && lenis.start());
+    if (root.classList.contains('apertura')) lenis.stop();
     // El menú a pantalla completa (motion.js) detiene el scroll de detrás
     document.addEventListener('sp:menu', e => lenis && (e.detail ? lenis.stop() : lenis.start()));
     enEscucha(reduce, e => { if (e.matches && lenis) { lenis.destroy(); lenis = null; } });
@@ -246,16 +248,20 @@
     // Portada: entrada de una sola vez (solo si la página aún la espera: html.intro) y salida guiada por el scroll
     let salida = null;
     if (hero) {
-      if (root.classList.contains('intro')) {
-        const h1 = $('h1', hero), l = [...$$('.l1, .l2', h1)].flatMap(lineas);
-        gsap.timeline({ defaults: { ease: 'expo.out' } })
-          .from($('.kicker', hero), { y: 14, autoAlpha: 0, duration: .9 }, .05)
-          .from(l, { yPercent: 115, duration: 1.25, stagger: .09 }, .1)
-          .from([$('.hero-sub', hero), $('.hero-ctas', hero), $('.hero-micro', hero)], { y: 18, autoAlpha: 0, duration: 1, stagger: .08 }, .45)
-          .from($('.hero-ctl', hero), { autoAlpha: 0, duration: 1 }, .9);
-      }
-      // GSAP ya ha fijado el estado inicial: se quita .intro en el mismo tick, sin un fotograma vacío
-      fin();
+      const entra = () => {
+        if (root.classList.contains('intro')) {
+          const h1 = $('h1', hero), l = [...$$('.l1, .l2', h1)].flatMap(lineas);
+          gsap.timeline({ defaults: { ease: 'expo.out' } })
+            .from($('.kicker', hero), { y: 14, autoAlpha: 0, duration: .9 }, .05)
+            .from(l, { yPercent: 115, duration: 1.25, stagger: .09 }, .1)
+            .from([$('.hero-sub', hero), $('.hero-ctas', hero), $('.hero-micro', hero)], { y: 18, autoAlpha: 0, duration: 1, stagger: .08 }, .45)
+            .from($('.hero-ctl', hero), { autoAlpha: 0, duration: 1 }, .9);
+        }
+        // GSAP ya ha fijado el estado inicial: se quita .intro en el mismo tick, sin un fotograma vacío
+        fin();
+      };
+      // Con la película de apertura, la portada entra cuando la película se funde
+      root.classList.contains('apertura') ? document.addEventListener('sp:apertura-fin', entra, { once: true }) : entra();
       // Valores de partida explícitos: si hay entrada, al crearse el texto aún está oculto y GSAP leería 0
       salida = gsap.fromTo($('.hero-in', hero), { yPercent: 0, autoAlpha: 1 }, { yPercent: -18, autoAlpha: .15, ease: 'none', immediateRender: false,
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });

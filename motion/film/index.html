@@ -31,6 +31,21 @@
     .regla { height: 2px; background: rgba(224, 223, 218, .45); transform-origin: 0 50%; }
     .fila { display: flex; justify-content: space-between; align-items: baseline; padding: 22px 0 20px; font: 400 36px/1 "Sofia Sans Condensed"; letter-spacing: .03em; color: #A9B1B8; }
     .fila b { font: 300 52px/1 "Butler"; color: #E0DFDA; letter-spacing: 0; }
+    /* Versión horizontal (1920×1080, escritorio): render_film.sh pone class="h" en <html>. Mismo guion y textos */
+    html.h, html.h body, html.h .lienzo { width: 1920px; height: 1080px; }
+    .h .cromo { left: 160px; top: 84px; font-size: 26px; }
+    .h .bloque { left: 160px; right: 160px; }
+    .h .grande .mascara { font-size: 148px; }
+    .h .enorme .mascara { font-size: 210px; }
+    .h .cifra { left: 140px; top: 50%; transform: translateY(-56%); }
+    .h .etiqueta { left: 1040px; top: 50%; width: 720px; transform: translateY(-50%); font-size: 58px; }
+    .h .fuente { left: 160px; bottom: 84px; width: 1600px; font-size: 24px; }
+    .h .ese { left: 560px; top: 150px; height: 470px; }
+    .h .marca { left: 560px; top: 690px; }
+    .h .lema { left: 160px; right: auto; width: 800px; top: 800px; font-size: 30px; }
+    .h .tabla { left: 980px; right: 160px; top: 50%; transform: translateY(-50%); }
+    .h .fila { gap: 40px; font-size: 34px; }
+    .h .fila b { white-space: nowrap; }
   </style>
   <script src="gsap.min.js"></script>
   <script src="s-geom.js"></script>
