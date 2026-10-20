@@ -26,9 +26,9 @@
 <link rel="preload" href="{{base}}assets/video/hero-v.jpg" as="image" fetchpriority="high" media="(max-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="{{base}}css/site.css">
 <script>(function(d){d.classList.add('js');var s=location.search,q=/[?&]still=1/.test(s);if(q)d.classList.add('still');if(q||matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('intro');
-// La película abre la web una vez por sesión: no con un ancla, Save-Data o conexión lenta (?apertura=1 la fuerza)
-var c=navigator.connection||{},vista=false;try{vista=sessionStorage.getItem('sp-apertura')==='1'}catch(e){}
-if(/[?&]apertura=1/.test(s)||(!vista&&location.hash.length<2&&!c.saveData&&!/2g/.test(c.effectiveType||'')))d.classList.add('apertura');
+// La película abre la web en cada visita: no con un ancla, Save-Data o conexión lenta (?apertura=1 la fuerza; ?apertura=0 la quita)
+var c=navigator.connection||{};
+if(/[?&]apertura=1/.test(s)||(!/[?&]apertura=0/.test(s)&&location.hash.length<2&&!c.saveData&&!/2g/.test(c.effectiveType||'')))d.classList.add('apertura');
 else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documentElement)</script>
 <script type="application/ld+json">{{jsonld}}</script>
 {{analytics}}
@@ -46,7 +46,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <script>(function(d){
   var capa=document.querySelector('.apertura-capa');
   if(!d.classList.contains('apertura')){capa.remove();return}
-  try{sessionStorage.setItem('sp-apertura','1')}catch(e){}
   var v=capa.querySelector('video'),b=capa.querySelector('button'),p=capa.querySelector('.apertura-prog'),hecho=false,webm=!!v.canPlayType('video/webm; codecs="vp9"');
   var h=innerWidth>innerHeight,src=function(w){return v.dataset[(w?'webm':'mp4')+(h?'H':'')]};
   // El fondo de la capa (y el de html, que asoma en el hueco de la barra de desplazamiento) sigue al de cada escena,
