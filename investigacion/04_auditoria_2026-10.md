@@ -8,6 +8,8 @@
 
 Las recomendaciones apuntan a V2 y cada hallazgo dice si ya está resuelto.
 
+**Actualización del 20-oct:** la versión con WebGL, cristal, iconos 3D y scroll suavizado ya está en el repositorio. Pasó una revisión adversarial final (visual, código y accesibilidad, copy y afirmaciones). Los hallazgos confirmados están corregidos y verificados, salvo los que dependen de Jose: las autorizaciones de Deloitte y de los logos, el buzón de contacto, los datos legales y las promesas por validar. Ver «Pendiente antes de producción» en el LEEME.
+
 Mientras se cerraba este informe, el árbol de trabajo empezó a incorporar una versión con más efecto (WebGL en la portada, tarjetas de cristal, iconos 3D y scroll suavizado), todavía sin commit. Este informe no la evalúa. Los límites que debería respetar están en la sección 6.8.
 
 **De dónde sale.** Es la síntesis de ocho informes de este mismo trabajo, sin repetir lo que ya está en `investigacion/01-03`:

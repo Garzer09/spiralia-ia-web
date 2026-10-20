@@ -765,6 +765,9 @@ html.still{scroll-behavior:auto}
   .faq summary::after{display:none}
   .tile,.fcard,.coste,.case,.chart,.vs,.eq-c,.why-i,.faq details,.panel-side,.dg,.sp-fig,.sp-steps li,.fde-box,.duo,.demo-stage,.lane,.log{break-inside:avoid}
   h2,h3,h4,.kicker{break-after:avoid}
+  /* Los titulares de dos tiempos no se parten entre páginas ni se quedan solos al pie */
+  .head,h2,h3,.display{break-inside:avoid}
+  .head{break-after:avoid}
   html.print-dg body>*:not(main),html.print-dg main>*:not(#diagnostico){display:none!important}
   html.print-dg #diagnostico{background:#fff;color:#08263D;padding:0}
   html.print-dg #diagnostico *{color:#08263D!important;border-color:#bbb!important}

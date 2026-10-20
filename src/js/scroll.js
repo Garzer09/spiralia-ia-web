@@ -25,7 +25,9 @@
   }, { passive: true });
 
   // El ancla de la URL: en la carga se salta a ella sin animación (un panel de «Para ti» lleva a su sección),
-  // salvo que la persona ya se haya movido
+  // salvo que la persona ya se haya movido. Al recargar o volver atrás manda dónde estaba leyendo, no el ancla
+  const tipo = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type;
+  const vuelta = /^(reload|back_forward)$/.test(tipo);
   let tocado = false;
   ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(n => addEventListener(n, () => { tocado = true; }, { once: true, passive: true }));
   const destino = () => {
@@ -122,7 +124,7 @@
     // Sin capa de scroll: la S queda formada y el ancla, en su sitio
     fin(); spProg(1);
     listo.then(() => {
-      const a = destino(), salta = el => el.scrollIntoView({ behavior: 'instant' });
+      const a = !vuelta && destino(), salta = el => el.scrollIntoView({ behavior: 'instant' });
       if (a && !tocado) { salta(a); asienta(a, salta); }
     });
     return;
@@ -161,10 +163,23 @@
   // recálculo, se vuelve allí sin animación. En táctil, el alto cambia solo con la barra del navegador: no cuenta
   let sitio = null, ultimo = null, imprime = false, anchoAntes = innerWidth, altoAntes = innerHeight, rm = 0, rq = 0, movido = 0;
   const pad = () => parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+  const piezas = () => [...$$('main > *'), $('.foot')].filter(Boolean);
   const mide = () => {
-    const p = pad(), el = [...$$('main > *'), $('.foot')].find(x => x && x.getBoundingClientRect().bottom > p); if (!el) return null;
+    const p = pad(), el = piezas().find(x => x.getBoundingClientRect().bottom > p); if (!el) return null;
     const r = el.getBoundingClientRect(); return { el, f: (p - r.top) / r.height };
   };
+  // Al recargar (o volver sin bfcache), el navegador restaura el scroll antes de que exista el espacio del método
+  // fijado (+3,2 pantallas) y, ya montado, el lector aparece a mitad del método. Se guarda al salir dónde estaba
+  // (sección y fracción) y, montadas las escenas, se vuelve allí
+  // Una clave por página: al volver de /en/ a /, la de /en/ no pisa la de /
+  const SITIO = 'sp-sitio:' + location.pathname;
+  let previo = null;
+  try { previo = vuelta && JSON.parse(sessionStorage.getItem(SITIO)); } catch (e) {}
+  if (!previo || previo.u !== location.pathname) previo = null;
+  addEventListener('pagehide', () => {
+    const m = !imprime && mide(); if (!m) return;
+    try { sessionStorage.setItem(SITIO, JSON.stringify({ u: location.pathname, id: m.el.id, i: piezas().indexOf(m.el), f: +m.f.toFixed(4) })); } catch (e) {}
+  });
   const vale = () => sitio && performance.now() - sitio.t < 1200;
   const guarda = antes => {
     if (vale()) { sitio.t = performance.now(); return; }
@@ -183,17 +198,24 @@
     if (w || (h && fino)) guarda(ultimo);
   });
   ST.addEventListener('refresh', vuelve);
-  addEventListener('beforeprint', () => { guarda(); imprime = true; });
+  // sp:imprime llega en beforeprint antes de que las piezas se abran (engine.js): se mide la página aún sin crecer
+  document.addEventListener('sp:imprime', () => { guarda(); imprime = true; });
   addEventListener('afterprint', () => { imprime = false; if (sitio) { sitio.t = performance.now(); setTimeout(vuelve, 600); } });
   addEventListener('scroll', () => {
     movido = performance.now(); clearTimeout(rm);
-    rm = setTimeout(() => { if (!imprime && !vale()) { sitio = null; ultimo = mide(); } }, 150);
+    rm = setTimeout(() => {
+      // Lenis 1.3 se queda en isScrolling 'native' (y <html> con lenis-scrolling) si el último evento de scroll
+      // llega con velocidad 0, como tras un salto programático: parado el scroll, se le da por parado
+      if (lenis && lenis.isScrolling === 'native' && !lenis.velocity) lenis.isScrolling = false;
+      if (!imprime && !vale()) { sitio = null; ultimo = mide(); }
+    }, 150);
   }, { passive: true });
 
-  // Cuando cambia la altura de la página (pestañas, diagnóstico, preguntas), ScrollTrigger recalcula posiciones.
-  // Nunca a mitad de un desplazamiento: el refresh lo cortaría (o desajustaría a Lenis); espera a que pare
+  // Cuando cambia la altura de la página (pestañas, diagnóstico, preguntas, pasos del método sin fijar), ScrollTrigger
+  // recalcula posiciones. Nunca a mitad de un desplazamiento: el refresh lo cortaría (o desajustaría a Lenis); espera a que pare.
+  // Del scroll nativo ya avisa 'scroll' (movido); de Lenis solo cuenta su animación ('smooth')
   const recalcula = () => { clearTimeout(rq); rq = 0; ST.refresh(); };
-  const espera = () => { rq = (lenis && lenis.isScrolling) || performance.now() - movido < 150 ? setTimeout(espera, 150) : (recalcula(), 0); };
+  const espera = () => { rq = (lenis && lenis.isScrolling === 'smooth') || performance.now() - movido < 150 ? setTimeout(espera, 150) : (recalcula(), 0); };
   document.addEventListener('sp:alto', e => { clearTimeout(rq); rq = setTimeout(espera, Math.max(120, e.detail || 0)); });
   // Antes de un desplazamiento suave, el recálculo pendiente se hace ya y Lenis toma la posición y la altura reales
   window.SP.scrollTo = el => {
@@ -217,7 +239,7 @@
     const palabras = (el) => Split ? new Split(el, { type: 'words', wordsClass: 'palabra', aria: 'none' }).words : [el];
     // Con ancla, primero se salta (aprox.) para saber qué titulares quedan ya a la vista; los que están en
     // pantalla o por encima no se ocultan
-    const ancla = destino();
+    const ancla = previo ? null : destino();
     if (ancla && !tocado) salta(ancla);
     const visto = el => el.getBoundingClientRect().top < innerHeight;
 
@@ -383,10 +405,21 @@
       if (repinta) repinta();
     });
 
-    // Con ancla: tras recalcular (y otra vez en load, si nadie se ha movido), salto exacto a su sitio
+    // Con ancla: tras recalcular (y otra vez en load, si nadie se ha movido), salto exacto a su sitio.
+    // Sin ancla, tras recargar: a la sección y la fracción de antes, mientras la carga aún mueve la página
+    const recoloca = () => {
+      const el = previo && !tocado && ((previo.id && document.getElementById(previo.id)) || piezas()[previo.i]); if (!el) return;
+      const r = el.getBoundingClientRect(), y = Math.round(scrollY + r.top + previo.f * r.height - pad());
+      if (Math.abs(y - scrollY) > 2) aY(y);
+    };
+    if (ancla) previo = null;
     ST.refresh();
-    if (ancla && !tocado) salta(ancla);
-    const carga = () => { ST.refresh(); if (ancla && !tocado) { salta(ancla); asienta(ancla, salta); } };
+    if (ancla && !tocado) salta(ancla); else recoloca();
+    const carga = () => {
+      ST.refresh();
+      if (ancla && !tocado) { salta(ancla); asienta(ancla, salta); }
+      else if (previo) { [0, 120, 400, 900, 1600].forEach(ms => setTimeout(() => requestAnimationFrame(recoloca), ms)); setTimeout(() => { previo = null; }, 1800); }
+    };
     document.readyState === 'complete' ? setTimeout(carga) : addEventListener('load', carga);
   });
 })();

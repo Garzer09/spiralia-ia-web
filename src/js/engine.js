@@ -68,9 +68,14 @@
   }
 
   // Al imprimir, todo en su estado final. Las transiciones y animaciones CSS que acaban de empezar (apariciones,
-  // barras, pestañas) se llevan a su final: la impresión toma el estilo de ese instante. Las infinitas no se tocan
+  // barras, pestañas) se llevan a su final: la impresión toma el estilo de ese instante. Las infinitas no se tocan.
+  // Antes se avisa (sp:imprime, una vez por impresión) para que se anote lo que hay en pantalla (sitio de lectura,
+  // paso abierto del método)
   const alFinal = () => { void root.offsetWidth; (document.getAnimations ? document.getAnimations() : []).forEach(a => { try { a.finish(); } catch (e) {} }); };
-  addEventListener('beforeprint', () => { printing = true; all.forEach(p => p.h.finish(p.el)); $$('.rv.pre').forEach(el => el.classList.remove('pre')); alFinal(); });
+  addEventListener('beforeprint', () => {
+    if (!printing) document.dispatchEvent(new Event('sp:imprime'));
+    printing = true; all.forEach(p => p.h.finish(p.el)); $$('.rv.pre').forEach(el => el.classList.remove('pre')); alFinal();
+  });
   addEventListener('afterprint', () => { printing = false; });
 
   // El enlace de idioma conserva el ancla
@@ -86,7 +91,7 @@
     else ev('Idioma', { a: a.getAttribute('hreflang') });
   });
 
-  // La altura de la página ha cambiado (pestañas, diagnóstico, preguntas): scroll.js recalcula ScrollTrigger tras ms
+  // La altura de la página ha cambiado (pestañas, diagnóstico, preguntas, pasos del método): scroll.js recalcula ScrollTrigger tras ms
   const alto = ms => document.dispatchEvent(new CustomEvent('sp:alto', { detail: ms || 0 }));
 
   window.SP = { $, $$, still, fmt, piece, ev, alto, alFinal, data: JSON.parse(($('#page-data') || {}).textContent || '{}') };

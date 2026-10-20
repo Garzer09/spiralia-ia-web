@@ -15,7 +15,7 @@
   // M3 · SPIRAL sobre la S de Spiralia: las hebras se dibujan y los seis pasos se encienden por fases
   const SP_STRAND = 3, SP_AT = [.05, .23, .41, .59, .77, .955];
   piece('spiral', (() => {
-    const T = later(); let built = false, len = 0, prog, sts = [], items = [];
+    const T = later(); let built = false, len = 0, prog, sts = [], items = [], abierto = -1;
     function build(el) {
       if (built) return; built = true;
       const svg = $('.sp-svg', el), G = window.SGEOM, NS = 'http://www.w3.org/2000/svg';
@@ -37,6 +37,8 @@
       prog.style.strokeDashoffset = n ? len * (1 - SP_AT[n - 1]) : len;
       sts.forEach((g, i) => { g.classList.toggle('on', i < n); g.classList.toggle('cur', i === n - 1); });
       items.forEach((li, i) => { const o = openAll || i === n - 1; li.classList.toggle('open', o); li.classList.toggle('on', i < n); $('.sp-b', li).setAttribute('aria-expanded', String(o)); });
+      // Sin fijar, abrir otro paso cambia la altura de la página: ScrollTrigger recalcula (scroll.js, con el scroll parado)
+      const k = openAll ? 7 : n; if (k !== abierto && !SPs.guiada && !still()) window.SP.alto(); abierto = k;
       if (SPs.onSet) SPs.onSet(n);
     }
     function pick(el, n) { T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, n); }
@@ -55,14 +57,30 @@
       T.at(2300 + 5 * 1550 + 900, () => el.classList.add('done'));
     }
     function finish(el) { build(el); T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, 6, true); }
+    // Al imprimir se abren los seis pasos; después vuelve lo que había (sin reproducir, a medias o con un paso abierto)
+    // y la página recupera su altura. Fijada, lo repone scroll.js
+    let previo = null;
+    document.addEventListener('sp:imprime', () => {
+      const el = raiz(); if (!el) return;
+      const c = el.classList, abiertos = items.filter(li => li.classList.contains('open')).length;
+      previo = !built || (c.contains('anim') && !c.contains('drawn')) ? 'arm' : abiertos === 6 ? null
+        : !c.contains('done') ? 'play' : items.filter(li => li.classList.contains('on')).length;
+    });
+    addEventListener('afterprint', () => {
+      const el = raiz(), p = previo; previo = null;
+      if (!el || p === null || SPs.guiada) return;
+      p === 'arm' ? arm(el) : p === 'play' ? play(el) : pick(el, p);
+    });
     return { arm, play: el => { if (!SPs.guiada) play(el); }, finish };
   })());
 
   // M4 · Antes y después, por perfil (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
   // Cada columna arranca al estar en pantalla: en móvil el «después» va debajo y no debe animarse fuera de vista.
-  // Apiladas (móvil), lo que ya está a la vista no espera al reloj: al bajar no queda ninguna tarjeta vacía
+  // Apiladas (móvil), lo que está a la vista no espera al reloj: al bajar (o al llegar de golpe, con un ancla o al
+  // recargar) no queda ninguna tarjeta vacía. Tras un clic (un perfil, «Ver de nuevo», reanudar), lo que ya se veía
+  // sigue al reloj y solo se adelanta lo que entra al desplazarse
   piece('demo', (() => {
-    const FIN = 10.6, CORTE = 3.5; let el, scene, pbtn, idx = 0, t = FIN, t0 = 0, raf = 0, run = false, els = [], L = {}, cols = [], vistas = [], io = null, pos = [], apilada = false;
+    const FIN = 10.6, CORTE = 3.5; let el, scene, pbtn, idx = 0, t = FIN, t0 = 0, raf = 0, run = false, els = [], L = {}, cols = [], vistas = [], io = null, pos = [], apilada = false, hasta = 0, pulsada = false;
     const D = data.demo || [];
     const cuenta = ([p, a]) => `${p} ${p === 1 ? L.paso : L.pasos} · ${a} ${a === 1 ? L.app : L.apps}`;
     function html(x) {
@@ -89,21 +107,30 @@
       const y0 = scene.getBoundingClientRect().top; pos = els.map(([e, a]) => [e.getBoundingClientRect().top - y0, a]);
     };
     const alcance = () => { const lim = innerHeight * .88 - scene.getBoundingClientRect().top; let m = 0; for (const [y, a] of pos) if (y < lim && a > m) m = a; return m; };
+    // Apiladas, el reloj arranca en lo primero que queda a la vista: lo que ya está por encima de la pantalla no se espera
+    const desde = () => {
+      if (!apilada) return 0;
+      const arriba = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0) - scene.getBoundingClientRect().top;
+      let m = FIN; for (const [y, a] of pos) if (y >= arriba && a < m) m = a;
+      return m < FIN ? Math.max(0, m - .4) : 0;
+    };
     function btn() { pbtn.hidden = still() || (!run && t >= FIN); pbtn.textContent = run ? '❚❚ ' + L.pause : '▶ ' + L.play; }
     // El reloj espera en 0 a que se vea la demo y justo antes de CORTE a que se vea el «después»
     function tick(ts) {
       let tt = (ts - t0) / 1000;
       const tope = t < CORTE && !vistas[1] ? (t <= 0 && !vistas[0] ? 0 : CORTE - .01) : FIN;
       if (tt > tope && t <= tope) { tt = tope; t0 = ts - tope * 1000; }
-      const m = apilada ? alcance() : 0; if (m > tt) { tt = m; t0 = ts - m * 1000; }
+      // Adelanta el reloj hasta lo que se ve, salvo lo que ya se veía al pulsar (hasta)
+      const m = apilada ? alcance() : 0; if (m > hasta) { hasta = m; if (m > tt) { tt = m; t0 = ts - m * 1000; } }
       if (tt >= FIN) { aplicar(FIN); run = false; btn(); return; }
       aplicar(tt); raf = requestAnimationFrame(tick);
     }
-    function go(from) { cancelAnimationFrame(raf); medir(); t0 = performance.now() - from * 1000; run = true; btn(); raf = requestAnimationFrame(tick); }
-    function start(i) {
+    function go(from, sola) { cancelAnimationFrame(raf); medir(); hasta = apilada && !sola ? alcance() : 0; t0 = performance.now() - from * 1000; run = true; btn(); raf = requestAnimationFrame(tick); }
+    // sola: la primera vez, al entrar en pantalla (no la pide un clic)
+    function start(i, sola) {
       cancelAnimationFrame(raf); render(i);
       if (still()) { el.classList.remove('anim'); aplicar(FIN); run = false; btn(); return; }
-      el.classList.add('anim'); aplicar(0); go(0);
+      el.classList.add('anim'); medir(); const f = desde(); aplicar(f); go(f, sola);
     }
     function init(root) {
       if (el) return; el = root; scene = $('.demo-scene', el); pbtn = $('.demo-pause', el);
@@ -111,13 +138,16 @@
       addEventListener('resize', () => { if (run) medir(); }, { passive: true });
       Object.keys(el.dataset).forEach(k => { if (k.startsWith('l')) L[k.slice(1).toLowerCase()] = el.dataset[k]; });
       $('.demo-profiles', el).innerHTML = D.map(x => `<button type="button" aria-pressed="false"><b>${esc(x.perfil)}</b><span>${esc(x.tarea)}</span></button>`).join('');
-      $$('.demo-profiles button', el).forEach((b, i) => b.addEventListener('click', () => start(i)));
-      pbtn.addEventListener('click', () => { if (run) { cancelAnimationFrame(raf); run = false; btn(); } else if (t < FIN) go(t); else start(idx); });
-      $('.demo-replay', el).addEventListener('click', () => start(idx));
+      // Un clic manda: si llega antes de que la pieza entre en pantalla (perfil elegido con la demo a medio asomar),
+      // la primera reproducción no vuelve al primer perfil
+      const clic = f => () => { pulsada = true; f(); };
+      $$('.demo-profiles button', el).forEach((b, i) => b.addEventListener('click', clic(() => start(i))));
+      pbtn.addEventListener('click', clic(() => { if (run) { cancelAnimationFrame(raf); run = false; btn(); } else if (t < FIN) go(t); else start(idx); }));
+      $('.demo-replay', el).addEventListener('click', clic(() => start(idx)));
     }
     return {
       arm: r => { init(r); el.classList.add('anim'); render(0); aplicar(0); pbtn.hidden = true; },
-      play: r => { init(r); start(0); },
+      play: r => { init(r); if (!pulsada) start(0, true); },
       finish: r => { init(r); cancelAnimationFrame(raf); run = false; el.classList.remove('anim'); render(idx); aplicar(FIN); btn(); },
     };
   })());

@@ -33,7 +33,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 - las cifras de ES y EN no coinciden;
 - el HTML enlaza un recurso de `assets/` que no llega a `dist/`.
 
-Las cifras escritas en letras («ocho», «una década», «tres de cada cuatro») que no están en `cifras.toml` dan un aviso, no un error.
+Las cifras escritas en letras («ocho», «una década», «tres de cada cuatro», «veinticinco») que no están en `cifras.toml` dan un aviso, no un error. Las fracciones y los multiplicativos («dos tercios», «la cuarta parte», «el triple», «veinte veces», «multiplica por tres», «three times», «thirtyfold», «a third larger», «costs halved») avisan siempre, aunque la cifra esté dada de alta.
 
 El build no publica los retratos (`ana-iza.*`, `jose-garza.*`) ni los PNG de `assets/img/3d/`. Añade `?v=<huella del fichero>` a las URL de CSS, JS y vídeos, así que al volver a publicar nadie recibe una versión antigua de la caché; el HTML se sirve con `no-cache`.
 
@@ -67,7 +67,7 @@ Todo es mejora progresiva: sin JS, sin WebGL2, con «reducir movimiento» o con 
   - La curva del reto, que se dibuja con el scroll, y el método fijo mientras el scroll avanza sus pasos (ScrollTrigger).
   - Botones magnéticos, teselas que se inclinan, luz que sigue al cursor (`.spot`) y progreso de lectura.
   - Con la capa activa, `html` va con `scroll-behavior: auto`: con `smooth`, ScrollTrigger calcula mal las posiciones si recalcula con la página desplazada. En táctil, las anclas siguen siendo suaves solo mientras dura el salto.
-  - Al girar la tableta, cambiar el tamaño de la ventana o imprimir, ScrollTrigger rehace las escenas. Antes se guarda la sección que se está leyendo y después se vuelve a ella.
+  - Al girar la tableta, cambiar el tamaño de la ventana o imprimir, ScrollTrigger rehace las escenas. Antes se guarda la sección que se está leyendo y después se vuelve a ella. Al imprimir se mide antes de que el método abra sus seis pasos (`sp:imprime`, que lanza `engine.js`), y al acabar el método vuelve al paso que tenía. Al recargar (o volver atrás sin bfcache), el navegador restaura el scroll antes de que exista el espacio del método fijado: la sección y la fracción se guardan al salir (`sessionStorage`) y se recuperan con las escenas montadas.
 - **Librerías** en `src/js/vendor/`, servidas desde la propia web (sin CDN ni cookies): GSAP 3.14.2 con ScrollTrigger y SplitText (licencia estándar de GSAP, gratuita también para uso comercial) y Lenis 1.3.27 (MIT).
 - **Iconos 3D de marca:** `assets/img/3d/` (WebP de 512 y 192 px, más PNG). Se generan con three.js solo en tiempo de generación: `node tools/icons3d/render.mjs` (ver `tools/icons3d/README.md`).
 
@@ -108,6 +108,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 
 ## Pendiente antes de producción
 
+- **Autorizaciones de marca (lo más urgente).** Solo consta por escrito la de ING. Deloitte (logo, ficha, 13.000 y 3.000, FAQ, pestaña Tecnología, JSON-LD y cartel final de la película) va en marca blanca y es confidencial desde el 2-sep; los otros 11 logos no tienen permiso documentado. Mientras no lleguen, proteger con contraseña el prototipo de Vercel o publicar una versión solo con ING. Orden y textos para pedirlas: auditoría §2.8 y §7.2.
 - La página de **Microsoft Bookings** y su URL (más adelante, decisión de Jose). Mejor una página de equipo con varios anfitriones que la agenda de una persona. Mientras no exista, los botones abren un email.
 - El **email de contacto** sigue siendo `ana.iza@spiralia.es` (decisión del 19-oct). Para pasar a un buzón de equipo basta con cambiar `MAIL` en `build.py`; también se usa en el aviso legal, donde lo ideal es el buzón de privacidad de la política de spiralia.es.
 - La urgencia del cierre menciona **el presupuesto de 2027**: cambiarla o retirarla en el primer trimestre de 2027 (`[cta].urg` y `2027` en `cifras.toml`).

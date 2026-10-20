@@ -6,7 +6,8 @@
 
 Comprobaciones: claves sin traducir, {{...}} sin resolver, [PLACEHOLDER] y [BOOKINGS_URL]
 en producción, y que cada cifra del copy esté en src/cifras.toml (con la misma cifra en ES y EN).
-Las cifras escritas en letras («seis», «una década», «tres de cada cuatro») dan un aviso si no están dadas de alta.
+Las cifras escritas en letras («seis», «una década», «tres de cada cuatro») dan un aviso si no están dadas de alta;
+las fracciones y los multiplicativos («dos tercios», «el triple», «tenfold»), siempre.
 
 Caché: las URL de css/, js/ y assets/video/ llevan ?v=<huella del fichero>; el HTML se sirve con no-cache.
 
@@ -87,13 +88,69 @@ ALLOWED = {norm(c['valor']) for c in cifras}
 # «un», «una», «one» solo cuentan en proporciones («uno de cada diez»): sueltos son artículos. «once» en inglés es «una vez»
 LETRAS = {'es': dict(dos=2, tres=3, cuatro=4, cinco=5, seis=6, siete=7, ocho=8, nueve=9, diez=10, once=11, doce=12, trece=13,
                      catorce=14, quince=15, veinte=20, treinta=30, cuarenta=40, cincuenta=50, sesenta=60, setenta=70, ochenta=80,
-                     noventa=90, cien=100, mil=1000, docena=12, década=10, décadas=10,
-                     mitad=None, doble=None, triple=None, decenas=None, cientos=None, centenares=None, miles=None, millón=None, millones=None),
+                     noventa=90, cien=100, ciento=100, mil=1000, docena=12, década=10, décadas=10,
+                     mitad=None, doble=None, triple=None, cuádruple=None, cuádruplo=None, quíntuple=None, quíntuplo=None,
+                     séxtuple=None, séxtuplo=None, décuplo=None, céntuplo=None, tercio=None, tercios=None, decena=None, decenas=None,
+                     veintena=None, treintena=None, centenar=None, cientos=None, centenares=None, millar=None, millares=None,
+                     miles=None, millón=None, millones=None, billón=None, billones=None, trillón=None, trillones=None),
           'en': dict(two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, eleven=11, twelve=12, thirteen=13,
-                     fourteen=14, fifteen=15, twenty=20, thirty=30, forty=40, fifty=50, sixty=60, seventy=70, eighty=80, ninety=90,
-                     hundred=100, thousand=1000, dozen=12, decade=10, decades=10,
-                     half=None, double=None, triple=None, dozens=None, hundreds=None, thousands=None, million=None, millions=None)}
+                     fourteen=14, fifteen=15, sixteen=16, seventeen=17, eighteen=18, nineteen=19, twenty=20, thirty=30, forty=40,
+                     fifty=50, sixty=60, seventy=70, eighty=80, ninety=90, hundred=100, thousand=1000, dozen=12, decade=10, decades=10,
+                     half=None, double=None, triple=None, quadruple=None, twice=None, thrice=None, thirds=None, fifths=None, tenths=None,
+                     dozens=None, hundreds=None, thousands=None, million=None, millions=None, billion=None, billions=None,
+                     trillion=None, trillions=None)}
+# De dieciséis a veintinueve, y las centenas (doscientos, quinientas…)
+LETRAS['es'].update({w: 16 + i for i, ws in enumerate(['dieciséis dieciseis', 'diecisiete', 'dieciocho', 'diecinueve', 'veinte',
+                     'veintiuno veintiuna veintiún', 'veintidós veintidos', 'veintitrés veintitres', 'veinticuatro', 'veinticinco',
+                     'veintiséis veintiseis', 'veintisiete', 'veintiocho', 'veintinueve']) for w in ws.split()})
+LETRAS['es'].update({p + s: 100 * (i + 2) for i, p in enumerate(['dos', 'tres', 'cuatro', 'quin', 'seis', 'sete', 'ocho', 'nove'])
+                     for s in (('ientos', 'ientas') if p == 'quin' else ('cientos', 'cientas'))})
 PROPORCION = {'es': {'un', 'uno', 'una'}, 'en': {'one'}}
+# No son cifras: «por ciento» (el signo de porcentaje), «doble clic», «sexto sentido», «duplicar esfuerzos» (repetir trabajo, no
+# multiplicarlo), «double-check», «double-digit», «double down», «doubles as a guide» (hace también de guía)
+_repetir = r'(?: (?:el|la|los|las))? (?:esfuerzos?|tareas?|trabajos?|datos|información|registros?|documentos?|archivos?|ficheros?|contenidos?)\b'
+NO_CIFRA = {'es': re.compile(r'\bpor ciento\b|\bdoble clic\w*|\bsexto sentido\b|\bduplic\w+' + _repetir),
+            'en': re.compile(r'\bdouble[- ](?:check|click|tap|digit)\w*|\bdoubl(?:e|es|ed|ing) down\b|\bdoubl(?:es|ing) as an?\b(?! result)')}
+# Decenas y unidades en dos palabras («treinta y cinco», «twenty-five»): la cifra es la suma
+UNIDADES = {'es': dict(uno=1, una=1, un=1, dos=2, tres=3, cuatro=4, cinco=5, seis=6, siete=7, ocho=8, nueve=9),
+            'en': dict(one=1, two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9)}
+COMPUESTO = {'es': re.compile(r'\b(treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa) y (\w+)\b'),
+             'en': re.compile(r'\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)[- ](\w+)\b')}
+# Fracciones y multiplicativos: avisan siempre. «a quarter» sin «of» es un trimestre; «third» suelto, un ordinal (third-party,
+# «a third option»). «a third» es fracción con «of» o «the» («at a third the cost»), tras «by», «nearly», «more than», «fell», «save»…,
+# ante un comparativo («less», «larger»… o «-er than») o al final de la frase (no tras «then», «and», «or»: «then a third.» es ordinal)
+# Ante «veces», «times», «-fold», «multiplica por»: cualquier número de LETRAS, también los dados de alta («veinte veces»)
+_letra = {l: '|'.join(sorted((w for w, v in LETRAS[l].items() if v), key=len, reverse=True)) + r'|\d+' for l in LETRAS}
+_es, _en = r'(?:un|una|' + _letra['es'] + ')', r'(?:' + _letra['en'] + ')'
+_aux = r'(?:ha|han|he|has|hemos|habéis|había|habían|habrá|habrán|habría|habrían|haber|habiendo|queda|quedan|quedó|quedaron|quedará|quedarán)'
+_ante = (r'(?:by|nearly|almost|about|around|roughly|over|under|more than|less than|only|just|up to|at least|down|fell|falls?|rose|rises?'
+         r'|dropped|drops?|declined?|declines|cut|cuts|cutting|saved?|saves|saving|reduced?|reduces|reducing|grew|grows?|growing'
+         r'|shrank|shrunk|shrinks?|lowered|lowers?|trimmed|trims?|slashed|slashes|increased?|increases|gained?|gains)')
+_mas = (r'(?:less|more|fewer|lower|higher|faster|slower|quicker|cheaper|costlier|pricier|shorter|longer|larger|smaller|bigger|greater'
+        r'|wider|narrower|broader|leaner|lighter|heavier|easier|harder|better|worse|tighter|smoother|stronger|weaker|deeper|safer'
+        r'|simpler|slimmer|thinner|smarter|cleaner|clearer|richer|fuller|denser|sharper|\w+er than)')
+_tras = r'(?<!\bthen )(?<!\band )(?<!\bor )(?<!\bnor )(?<!, )'
+_ordinal = (r'(?![- ](?:part(?:y|ies)|options?|alternatives?|ways?|steps?|stages?|phases?|rounds?|waves?|places?|layers?|levels?'
+            r'|tiers?|pillars?|persons?|people|times?|years?|generations?|versions?|editions?|questions?|reasons?|points?|cases?'
+            r'|candidates?|vendors?|providers?|suppliers?|partners?|members?|teams?|players?|clients?|customers?|users?|groups?'
+            r'|sessions?|workshops?|modules?|projects?|pilots?|sprints?|attempts?|tries|chances?|models?|tools?|products?|examples?'
+            r'|scenarios?|categor(?:y|ies)|types?|kinds?|sources?|factors?|elements?|items?|roles?|areas?|quarters?|meetings?)\b)')
+FRACCION = {'es': re.compile(r'\b(?:' + _es + r' (?:cuartos?|quintos?|sextos?|séptimos?|octavos?|novenos?|décimos?)'
+                             r'|(?:tercera|cuarta|quinta|sexta|séptima|octava|novena|décima)s? partes?'
+                             r'|(?:dupli|tripli|cuadrupli|quintupli)(?:c(?:a|as|an|ar|ó|aron|amos|aba|aban|ábamos|ara|aran|ase|asen'
+                             r'|ará|arán|aremos|aría|arían|ando)|qu(?:e|es|en|emos))'
+                             r'|' + _aux + r' (?:dupli|tripli|cuadrupli|quintupli)cad[oa]s?'
+                             r'|multiplic\w* por (?:\w+ ){0,2}?(?:' + _letra['es'] + r')|' + _es + r' veces)\b'),
+            'en': re.compile(r'\b(?:(?:a|one)[ -](?:third|quarter|fifth|sixth|seventh|eighth|ninth|tenth) of|one-(?:third|quarter|fifth|tenth)'
+                             r'|' + _ante + r' (?:a|one)[ -](?:third|fifth|tenth)\b' + _ordinal +
+                             r'|(?:by|nearly|almost|roughly) (?:a|one)[ -]quarter\b' + _ordinal +
+                             r'|a full (?:third|fifth|tenth)\b' + _ordinal +
+                             r'|(?:a|one)[ -](?:third|quarter|fifth|tenth) ' + _mas +
+                             r'|' + _tras + r'(?:a|one)[ -](?:third|fifth|tenth) the|at (?:a|one)[ -]quarter the'
+                             r'|' + _tras + r'(?:a|one)[ -]third(?= ?(?:[.;:!?)]|$))|one third\b' + _ordinal +
+                             r'|' + _en + r'[ -](?:quarters|sixths|sevenths|eighths|ninths)|(?:doubl|tripl|quadrupl)(?:ed|es|ing)|halv(?:e|ed|es|ing)'
+                             r'|multipl(?:y|ied|ies|ying) by (?:\w+ ){0,2}?(?:' + _letra['en'] + r')'
+                             r'|' + _en + r'[ -]times|' + _en + r'-?fold)\b')}
 
 def numbers(t, lang):
     found = []
@@ -107,10 +164,16 @@ def numbers(t, lang):
                 errors.append(f'cifra sin fuente en cifras.toml: «{n}» en {key}')
         if '[PLACEHOLDER' in plain:
             continue
-        for w in re.findall(r'\w+', plain.lower()):
+        low = NO_CIFRA[lang].sub(' ', re.sub(r'\s+', ' ', plain.lower()))
+        for w in re.findall(r'\w+', low):
             if w in LETRAS[lang] and (LETRAS[lang][w] is None or str(LETRAS[lang][w]) not in ALLOWED):
                 avisos.append(f'cifra en letras sin alta en cifras.toml: «{w}» en {key} ({lang})')
-        for a, b in re.findall(r'\b(\w+) (?:de cada|in|out of) (\w+)\b', plain.lower()):
+        for d, u in COMPUESTO[lang].findall(low):
+            if u in UNIDADES[lang] and str(LETRAS[lang][d] + UNIDADES[lang][u]) not in ALLOWED:
+                avisos.append(f'cifra en letras sin alta en cifras.toml: «{d} … {u}» en {key} ({lang})')
+        for f in FRACCION[lang].findall(low):
+            avisos.append(f'fracción o multiplicativo en letras: «{f}» en {key} ({lang}); mejor la cifra, con su fuente')
+        for a, b in re.findall(r'\b(\w+) (?:de cada|in|out of) (\w+)\b', low):
             if (a in LETRAS[lang] or a in PROPORCION[lang]) and b in LETRAS[lang]:
                 avisos.append(f'proporción en letras: «{a} … {b}» en {key} ({lang}); mejor la cifra, con su fuente')
     return sorted(found)
