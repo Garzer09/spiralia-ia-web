@@ -4,59 +4,174 @@
   const { $, $$, still, piece, data, ev } = window.SP;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const later = () => { let ts = []; return { at: (ms, fn) => ts.push(setTimeout(fn, ms)), clear: () => { ts.forEach(clearTimeout); ts = []; } }; };
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const sale = x => 1 - Math.pow(1 - x, 3);
+  const lcg = s => () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
 
-  // M2 · La curva que se enfría
-  piece('chart', {
-    arm: el => el.classList.add('anim'),
+  // Piezas que anima el CSS: .anim las deja preparadas y .play lanza las transiciones (con retrasos por --i)
+  const css = {
+    arm: el => { el.classList.add('anim'); el.classList.remove('play'); },
     play: el => { el.classList.remove('play'); void el.offsetWidth; requestAnimationFrame(() => el.classList.add('play')); },
     finish: el => el.classList.remove('anim', 'play'),
-  });
+  };
+  // Lo que nadie dice en el comité · la escalera de Lo que hacemos · las fases de Día Uno · la preparación de Hábito · el ciclo de Pulso
+  ['voces', 'mapa', 'fases', 'prep', 'ciclo'].forEach(n => piece(n, css));
 
-  // M3 · SPIRAL sobre la S de Spiralia: las hebras se dibujan y los seis pasos se encienden por fases
+  // M2 · Lo que pagas frente a lo que se usa: la línea de lo pagado se queda arriba, la del uso sube y se enfría,
+  // y el hueco entre las dos (pagado y sin usar) se rellena al final. Reloj propio de 3,3 s, sin depender del scroll
+  piece('pago', (() => {
+    let raf = 0;
+    const partes = el => el._p || (el._p = ['pago', 'line', 'hueco', 'cab', 'pk', 'en', 'lpago', 'lhueco'].reduce((o, k) => (o[k] = $('.ch-' + k, el), o), {}));
+    function pinta(el, t) {
+      const P = partes(el), L = P.line.getTotalLength(), u = sale(clamp((t - .5) / 2));
+      P.pago.style.strokeDashoffset = (1 - sale(clamp(t / .7))).toFixed(4);
+      P.lpago.style.opacity = clamp((t - .4) / .4);
+      P.line.style.strokeDashoffset = (1 - u).toFixed(4);
+      const pt = P.line.getPointAtLength(L * u);
+      P.cab.setAttribute('cx', pt.x.toFixed(1)); P.cab.setAttribute('cy', pt.y.toFixed(1));
+      P.cab.style.opacity = u > .01 && u < .99 ? 1 : 0;
+      P.pk.style.opacity = clamp((u - .16) / .08); P.en.style.opacity = clamp((u - .94) / .06);
+      P.hueco.style.opacity = clamp((t - 2.3) / .7); P.lhueco.style.opacity = clamp((t - 2.7) / .5);
+    }
+    return {
+      arm: el => { cancelAnimationFrame(raf); pinta(el, 0); },
+      play: el => {
+        cancelAnimationFrame(raf); const t0 = performance.now();
+        const f = now => { const t = (now - t0) / 1000; pinta(el, t); if (t < 3.3) raf = requestAnimationFrame(f); };
+        raf = requestAnimationFrame(f);
+      },
+      finish: el => { cancelAnimationFrame(raf); pinta(el, 9); },
+    };
+  })());
+
+  // M3 · La nube de lo que se acumula mientras esperas, que se ordena en un plan de cuatro productos.
+  // Cada riesgo está en su columna (el plan); desordenado, se desplaza con transform a un sitio al azar del campo
+  // (semilla fija) y flota. En pantallas estrechas no se desordena: las columnas se apilan y aparecen en orden
+  piece('nube', (() => {
+    let el, campo, chips, btn, orden = true, pulsado = false, L = {};
+    const T = later(), estrecho = () => matchMedia('(max-width: 760px)').matches;
+    // Desorden legible: cada riesgo cae en una celda al azar de una rejilla de 4 × 5 que cubre el campo, con algo de holgura
+    function dispersa() {
+      const R = lcg(20261021), w = campo.clientWidth, h = campo.clientHeight, b = campo.getBoundingClientRect();
+      const celdas = chips.map((c, i) => i).sort(() => R() - .5), cw = w / 4, ch = h / 5;
+      chips.forEach(c => { c.style.transition = 'none'; c.style.transform = 'none'; });
+      chips.forEach((c, k) => {
+        const r = c.getBoundingClientRect(), col = celdas[k] % 4, fila = Math.floor(celdas[k] / 4) % 5;
+        const x = Math.min(w - r.width, col * cw + R() * Math.max(0, cw - r.width)), y = fila * ch + (ch - r.height) / 2 + (R() - .5) * ch * .35;
+        c._d = `translate(${(x - r.left + b.left).toFixed(0)}px,${(y - r.top + b.top).toFixed(0)}px) rotate(${((R() - .5) * 7).toFixed(1)}deg)`;
+        c.style.setProperty('--fd', (5 + R() * 4).toFixed(2) + 's'); c.style.setProperty('--fo', (-R() * 6).toFixed(2) + 's');
+      });
+      void campo.offsetWidth; chips.forEach(c => { c.style.transition = ''; });
+    }
+    function pon(o, sin) {
+      orden = o || estrecho(); el.classList.toggle('ordenada', orden);
+      chips.forEach((c, i) => {
+        c.style.transitionDelay = sin ? '0s' : ((i % 5) * .06 + Math.floor(i / 5) * .1).toFixed(2) + 's';
+        c.style.transform = orden ? 'none' : c._d;
+      });
+      btn.textContent = orden ? L.desordenar : L.ordenar; btn.hidden = still() || estrecho();
+    }
+    function init(r) {
+      if (el) return; el = r; campo = $('.nube-campo', el); chips = $$('.chip', el); btn = $('.nube-btn', el);
+      Object.keys(el.dataset).forEach(k => { if (k.startsWith('l')) L[k.slice(1).toLowerCase()] = el.dataset[k]; });
+      btn.addEventListener('click', () => { pulsado = true; T.clear(); if (orden) dispersa(); pon(!orden); });
+      let rt = 0;
+      addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (!orden) { dispersa(); pon(false, true); } else pon(true, true); }, 200); }, { passive: true });
+    }
+    return {
+      arm: r => { init(r); dispersa(); pon(false, true); el.classList.add('anim'); },
+      play: r => { init(r); el.classList.add('play'); if (!pulsado) T.at(estrecho() ? 0 : 2800, () => pon(true)); },
+      finish: r => { init(r); T.clear(); el.classList.remove('anim'); pon(true, true); },
+    };
+  })());
+
+  // M4 · SPIRAL sobre la S de Spiralia hecha de puntos. Los puntos llegan desde una nube a su hebra (setProgress,
+  // que mueve el scroll o el reloj de play), se encienden las seis letras y una luz recorre la hebra central hasta
+  // la fase abierta. Los puntos se pintan en un <canvas> encima del SVG; las letras y la hebra encendida son SVG
   const SP_STRAND = 3, SP_AT = [.05, .23, .41, .59, .77, .955];
   piece('spiral', (() => {
-    const T = later(); let built = false, len = 0, prog, sts = [], items = [], abierto = -1;
+    const T = later(); let built = false, len = 0, prog, sts = [], items = [], abierto = -1, raiz0 = null;
+    let cv, ctx, puntos = [], p = 0, paso = 0, dpr = 1, sc = 1, vivo = false, raf = 0, reloj = 0;
+    const [VX, VY, VW, VH] = window.SGEOM ? window.SGEOM.view : [234, 146, 292, 470];
+    function medir() {
+      if (!cv) return; const r = cv.getBoundingClientRect(); if (!r.width) return;
+      dpr = Math.min(2, devicePixelRatio || 1); sc = r.width / VW;
+      cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); pinta();
+    }
+    function pinta(t) {
+      if (!ctx) return;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+      const luz = paso ? SP_AT[paso - 1] : -1, tt = (t || 0) / 1000;
+      for (const d of puntos) {
+        const q = sale(clamp((p * 1.6 - d.dl) / .6)), x = d.sx + (d.x - d.sx) * q, y = d.sy + (d.y - d.sy) * q;
+        const on = d.k === SP_STRAND && d.f <= luz && q > .98;
+        const a = on ? 1 : (.26 + .5 * q) * (vivo ? .85 + .15 * Math.sin(tt * 1.4 + d.ph) : 1);
+        ctx.fillStyle = on ? `rgba(255,255,255,${a})` : `rgba(224,223,218,${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc((x - VX) * sc, (y - VY) * sc, (on ? 1.9 : 1.25) * Math.max(1, sc * .9), 0, 6.2832); ctx.fill();
+      }
+    }
+    // Brillo lento mientras la espiral se ve (no con «reducir movimiento» ni quieta)
+    const bucle = t => { pinta(t); if (vivo) raf = requestAnimationFrame(bucle); };
     function build(el) {
-      if (built) return; built = true;
+      if (built) return; built = true; raiz0 = el;
       const svg = $('.sp-svg', el), G = window.SGEOM, NS = 'http://www.w3.org/2000/svg';
-      const base = document.createElementNS(NS, 'g'); base.setAttribute('class', 'base');
-      G.paths.forEach((d, i) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); base.append(p); p.style.setProperty('--len', p.getTotalLength()); p.style.setProperty('--i', i); });
-      svg.append(base);
       prog = document.createElementNS(NS, 'path'); prog.setAttribute('class', 'prog'); prog.setAttribute('d', G.paths[SP_STRAND]); svg.append(prog);
       len = prog.getTotalLength(); prog.style.strokeDasharray = len; prog.style.strokeDashoffset = len;
-      'SPIRAL'.split('').forEach((L, i) => {
+      // Puntos: cada hebra muestreada cada 6 unidades; salen de una nube alrededor de la S (semilla fija)
+      const R = lcg(5021966), cx = VX + VW / 2, cy = VY + VH / 2;
+      G.paths.forEach((d, k) => {
+        const pa = document.createElementNS(NS, 'path'); pa.setAttribute('d', d); svg.append(pa);
+        const L = pa.getTotalLength(), n = Math.floor(L / 6);
+        for (let i = 0; i <= n; i++) {
+          const q = pa.getPointAtLength(L * i / n), ang = R() * 6.2832, rad = 150 + R() * 210;
+          puntos.push({ x: q.x, y: q.y, sx: cx + Math.cos(ang) * rad * .8, sy: cy + Math.sin(ang) * rad, k, f: i / n, dl: k * .05 + (i / n) * .35, ph: R() * 6.28 });
+        }
+        pa.remove();
+      });
+      'SPIRAL'.split('').forEach((Lt, i) => {
         const pt = prog.getPointAtLength(len * SP_AT[i]), g = document.createElementNS(NS, 'g');
-        g.setAttribute('class', 'st'); g.innerHTML = `<circle cx="${pt.x}" cy="${pt.y}" r="13"/><text x="${pt.x}" y="${pt.y}">${L}</text>`;
+        g.setAttribute('class', 'st'); g.innerHTML = `<circle cx="${pt.x}" cy="${pt.y}" r="13"/><text x="${pt.x}" y="${pt.y}">${Lt}</text>`;
         g.addEventListener('click', () => pick(el, i + 1)); svg.append(g); sts.push(g);
       });
+      cv = $('.sp-dots', el); ctx = cv && cv.getContext('2d');
+      if (window.ResizeObserver && cv) new ResizeObserver(medir).observe(cv); else addEventListener('resize', medir);
+      medir();
+      if (!still() && !matchMedia('(prefers-reduced-motion: reduce)').matches) new IntersectionObserver(([e]) => {
+        vivo = e.isIntersecting; cancelAnimationFrame(raf); if (vivo) raf = requestAnimationFrame(bucle); else pinta();
+      }).observe(el);
       items = $$('.sp-steps li', el);
       $$('.sp-b', el).forEach(b => b.addEventListener('click', () => { if (window.SP.spiral.onPick) window.SP.spiral.onPick(+b.dataset.n); else pick(el, +b.dataset.n); }));
       $('.replay', el).addEventListener('click', () => play(el));
     }
+    const setP = v => { p = clamp(v); raiz0 && raiz0.classList.toggle('drawn', p > .82); if (!vivo) pinta(); };
     function set(el, n, openAll) {
-      prog.style.strokeDashoffset = n ? len * (1 - SP_AT[n - 1]) : len;
+      paso = n; prog.style.strokeDashoffset = n ? len * (1 - SP_AT[n - 1]) : len;
       sts.forEach((g, i) => { g.classList.toggle('on', i < n); g.classList.toggle('cur', i === n - 1); });
       items.forEach((li, i) => { const o = openAll || i === n - 1; li.classList.toggle('open', o); li.classList.toggle('on', i < n); $('.sp-b', li).setAttribute('aria-expanded', String(o)); });
       // Sin fijar, abrir otro paso cambia la altura de la página: ScrollTrigger recalcula (scroll.js, con el scroll parado)
       const k = openAll ? 7 : n; if (k !== abierto && !SPs.guiada && !still()) window.SP.alto(); abierto = k;
+      if (!vivo) pinta();
       if (SPs.onSet) SPs.onSet(n);
     }
-    function pick(el, n) { T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, n); }
-    // La capa de scroll (scroll.js) mueve los pasos con el scroll (guiada) y lleva cada paso a la S de WebGL (onSet)
+    // Guiada por el scroll, la formación de la S la lleva el scroll; si no, pulsar una fase la deja formada
+    function pick(el, n) { T.clear(); cancelAnimationFrame(reloj); el.classList.remove('anim'); el.classList.add('done'); if (!SPs.guiada) setP(1); set(el, n); }
+    // La capa de scroll (scroll.js) mueve los pasos con el scroll (guiada) y la formación de la S (setProgress)
     const raiz = () => $('.spiral');
     const SPs = window.SP.spiral = {
       pick: n => { const el = raiz(); build(el); pick(el, n); },
       play: () => play(raiz()), finish: () => finish(raiz()),
+      setProgress: v => { const el = raiz(); if (!el) return; build(el); setP(v); },
       onPick: null, onSet: null, guiada: false,
     };
-    function arm(el) { build(el); el.classList.add('anim'); el.classList.remove('drawn', 'done'); set(el, 0); }
+    function arm(el) { build(el); el.classList.add('anim'); el.classList.remove('drawn', 'done'); setP(0); set(el, 0); }
     function play(el) {
-      arm(el); void el.offsetWidth;
-      requestAnimationFrame(() => el.classList.add('drawn'));
+      arm(el); cancelAnimationFrame(reloj); const t0 = performance.now();
+      const f = now => { const k = clamp((now - t0) / 2200); setP(k); if (k < 1) reloj = requestAnimationFrame(f); };
+      reloj = requestAnimationFrame(f);
       for (let n = 1; n <= 6; n++) T.at(2300 + (n - 1) * 1550, () => set(el, n));
       T.at(2300 + 5 * 1550 + 900, () => el.classList.add('done'));
     }
-    function finish(el) { build(el); T.clear(); el.classList.remove('anim'); el.classList.add('drawn', 'done'); set(el, 6, true); }
+    function finish(el) { build(el); T.clear(); cancelAnimationFrame(reloj); el.classList.remove('anim'); el.classList.add('drawn', 'done'); setP(1); set(el, 6, true); }
     // Al imprimir se abren los seis pasos; después vuelve lo que había (sin reproducir, a medias o con un paso abierto)
     // y la página recupera su altura. Fijada, lo repone scroll.js
     let previo = null;
@@ -67,14 +182,14 @@
         : !c.contains('done') ? 'play' : items.filter(li => li.classList.contains('on')).length;
     });
     addEventListener('afterprint', () => {
-      const el = raiz(), p = previo; previo = null;
-      if (!el || p === null || SPs.guiada) return;
-      p === 'arm' ? arm(el) : p === 'play' ? play(el) : pick(el, p);
+      const el = raiz(), pr = previo; previo = null;
+      if (!el || pr === null || SPs.guiada) return;
+      pr === 'arm' ? arm(el) : pr === 'play' ? play(el) : pick(el, pr);
     });
     return { arm, play: el => { if (!SPs.guiada) play(el); }, finish };
   })());
 
-  // M4 · Antes y después, por perfil (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
+  // M5 · Antes y después, por perfil (los ejemplos de Hábito) (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
   // Cada columna arranca al estar en pantalla: en móvil el «después» va debajo y no debe animarse fuera de vista.
   // Apiladas (móvil), lo que está a la vista no espera al reloj: al bajar (o al llegar de golpe, con un ancla o al
   // recargar) no queda ninguna tarjeta vacía. Tras un clic (un perfil, «Ver de nuevo», reanudar), lo que ya se veía
@@ -152,36 +267,6 @@
     };
   })());
 
-  // M5 · El caso de la propuesta comercial: el proceso de hoy (con esperas y un retrabajo) frente al rediseñado
-  piece('case', (() => {
-    const T = later(); let el, old, neu, os, ns, logs;
-    function init(r) {
-      if (el) return; el = r; [old, neu] = $$('.lane', el); os = $$('li', old); ns = $$('li', neu); logs = $$('.log li', el);
-      $('.replay', el).addEventListener('click', () => play(el));
-    }
-    const go = (items, k) => { items.forEach((li, i) => li.classList.toggle('at', i === k)); items[k].classList.add('seen'); };
-    function finish(r) {
-      init(r); T.clear(); el.classList.remove('anim');
-      [old, neu].forEach(l => { l.classList.add('done'); l.classList.remove('back'); });
-      [...os, ...ns].forEach(li => { li.classList.add('seen'); li.classList.remove('at'); });
-      logs.forEach(li => li.classList.add('on'));
-    }
-    function arm(r) {
-      init(r); T.clear(); el.classList.add('anim');
-      [old, neu].forEach(l => l.classList.remove('done', 'back'));
-      [...os, ...ns].forEach(li => li.classList.remove('seen', 'at'));
-      logs.forEach(li => li.classList.remove('on'));
-    }
-    function play(r) {
-      arm(r); let t = 400;
-      [0, 1, 2, 3, 4, 3, 4, 5].forEach((k, j) => { T.at(t, () => { go(os, k); old.classList.toggle('back', j === 5); }); t += 620 + (j === 2 || j === 7 ? 700 : 0); });
-      T.at(t, () => { old.classList.add('done'); old.classList.remove('back'); os.forEach(li => li.classList.remove('at')); }); t += 450;
-      ns.forEach((li, k) => { T.at(t, () => { go(ns, k); logs[k] && logs[k].classList.add('on'); }); t += 560; });
-      T.at(t, () => { neu.classList.add('done'); ns.forEach(li => li.classList.remove('at')); });
-    }
-    return { arm, play, finish };
-  })());
-
   // Vídeos de fondo en bucle (portada y cierre). El póster es el fotograma 0 y el vídeo entra con un fundido.
   // Con «reducir movimiento», Save-Data o conexión lenta no se descarga: queda el póster, que es un diseño terminado.
   // El archivo se elige al cargar según la orientación (vertical en móvil) y el formato que admita el navegador.
@@ -248,8 +333,9 @@
     new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
     new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
     if (pie) new IntersectionObserver(([e]) => { enPie = e.isIntersecting; set(); }).observe(pie);
-    const paso = $('.fcard-main');
-    if (paso) new IntersectionObserver(([e]) => { enPaso = e.isIntersecting; set(); }, { threshold: .25 }).observe(paso);
+    // Donde la sección ya tiene su propia llamada (Día Uno), la fija se retira
+    const propias = $$('[data-cta-propia]'), vistas = new Set();
+    if (propias.length) { const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vistas.add(e.target) : vistas.delete(e.target)); enPaso = vistas.size > 0; set(); }, { threshold: .25 }); propias.forEach(x => io.observe(x)); }
   })();
 
   // Menú en móvil y tableta: hoja a pantalla completa, Esc para cerrar y el foco vuelve al botón.
@@ -335,5 +421,38 @@
       b.textContent = b.dataset.done; clearTimeout(b._t); b._t = setTimeout(() => (b.textContent = b.dataset.txt), 1800);
     } catch (e) {}
   }));
+
+  // Vídeos de las piezas (HyperFrames): se reproducen una vez al verse casi enteros y se quedan en su último fotograma,
+  // que es el resumen (también es el póster). Pausa y «Ver de nuevo». Con «reducir movimiento», ?still=1, Save-Data o 2G
+  // no se descargan solos: queda el póster y un botón para verlo. Vertical (4:5) hasta 700 px de ancho; WebM si se puede
+  (() => {
+    const figs = $$('[data-vid]'); if (!figs.length) return;
+    const c = navigator.connection || {}, ahorro = !!c.saveData || /2g/.test(c.effectiveType || '');
+    const webm = !!document.createElement('video').canPlayType('video/webm; codecs="vp9"');
+    const estrecho = matchMedia('(max-width: 700px)');
+    figs.forEach(fig => {
+      const v = $('video', fig), pb = $('.vid-pausa', fig), ob = $('.vid-otra', fig), barra = $('.vid-prog', fig);
+      let cargado = '', visto = false, parado = false, acabado = false, raf = 0;
+      const url = () => (estrecho.matches ? fig.dataset.srcV : fig.dataset.srcH) + (webm ? '.webm' : '.mp4') + (fig.dataset.v ? '?v=' + fig.dataset.v : '');
+      const carga = () => { const u = url(); if (cargado !== u) { cargado = u; v.src = u; } };
+      const boton = txt => { ob.textContent = txt; ob.hidden = false; };
+      const avanza = () => { if (v.duration) barra.style.transform = `scaleX(${(v.currentTime / v.duration).toFixed(4)})`; if (!v.paused) raf = requestAnimationFrame(avanza); };
+      const reproduce = () => { carga(); acabado = false; fig.classList.remove('acabado'); v.play().catch(() => boton('▶ ' + ob.dataset.ver)); };
+      v.addEventListener('playing', () => { fig.classList.add('en-marcha'); pb.hidden = false; ob.hidden = true; pb.setAttribute('aria-pressed', 'false'); cancelAnimationFrame(raf); raf = requestAnimationFrame(avanza); });
+      v.addEventListener('pause', () => cancelAnimationFrame(raf));
+      v.addEventListener('ended', () => { acabado = true; fig.classList.add('acabado'); pb.hidden = true; boton('↻ ' + ob.dataset.otra); barra.style.transform = 'scaleX(1)'; });
+      // Si el vídeo no llega (falta el archivo, red), se queda el póster, que se entiende solo
+      v.addEventListener('error', () => { fig.classList.remove('en-marcha'); pb.hidden = ob.hidden = true; });
+      pb.addEventListener('click', () => { parado = !parado; pb.setAttribute('aria-pressed', String(parado)); parado ? v.pause() : v.play().catch(() => {}); });
+      ob.addEventListener('click', () => { parado = false; if (cargado) v.currentTime = 0; reproduce(); });
+      if (still() || ahorro) { boton('▶ ' + ob.dataset.ver); return; }
+      new IntersectionObserver(([e]) => {
+        visto = e.isIntersecting;
+        if (visto && !parado && !acabado) reproduce(); else if (!visto && !v.paused) v.pause();
+      }, { threshold: .45 }).observe(fig);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) v.pause(); else if (visto && !parado && !acabado && cargado) v.play().catch(() => {}); });
+      matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => { if (e.matches) { parado = true; v.pause(); pb.setAttribute('aria-pressed', 'true'); } });
+    });
+  })();
 
 })();

@@ -96,7 +96,7 @@ fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
 [[c]]
 valor = "3"
 tipo = "formato"
-que = "Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «por tres meses», lo que cuesta esperar un trimestre"
+que = "Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera"
 fuente = "Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026)."
 
 [[c]]
@@ -104,6 +104,12 @@ valor = "2"
 tipo = "formato"
 que = "Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey; «las otras dos» / «the other two», a la escala y la capacidad frente a la velocidad («Para ti», Resultados)"
 fuente = "Oferta de Spiralia."
+
+[[c]]
+valor = "4"
+tipo = "formato"
+que = "Productos de Spiralia AI («Cuatro productos»: Día Uno, Hábito, Spiral y Pulso) y peldaños de la escalera de la IA"
+fuente = "Oferta de Spiralia (investigacion/05_productos_y_relato.md, 21-oct-2026)."
 
 [[c]]
 valor = "8"
@@ -136,10 +142,28 @@ que = "Año: reforma «Ómnibus» del Reglamento de IA (en vigor el 27-jul-2026)
 fuente = "Comisión Europea, preguntas y respuestas sobre alfabetización en IA (actualizadas el 27-jul-2026). Ver investigacion/02_icp_arquetipos.md, sección 5."
 
 [[c]]
-valor = "20"
+valor = "22"
 tipo = "formato"
 que = "Duración de la película de apertura (segundos), en su texto alternativo"
-fuente = "—"
+fuente = "motion/film/film.js"
+
+[[c]]
+valor = "16"
+tipo = "formato"
+que = "Duración de los vídeos «modelo» y «multiplica» (segundos), en su texto alternativo"
+fuente = "motion/modelo/ y motion/multiplica/"
+
+[[c]]
+valor = "20"
+tipo = "formato"
+que = "Duración del vídeo «agentes» (segundos), en su texto alternativo"
+fuente = "motion/agentes/"
+
+[[c]]
+valor = "24"
+tipo = "formato"
+que = "Duración del vídeo «lunes» (segundos), en su texto alternativo"
+fuente = "motion/lunes/"
 
 [[c]]
 valor = "2027"

@@ -34,7 +34,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 {{analytics}}
 </head>
 <body>
-<!-- Apertura: la película de 20 s a pantalla completa, y después la web. Sin JS no existe.
+<!-- Apertura: la película de 22 s a pantalla completa, y después la web. Sin JS no existe.
      Horizontal (16:9) en pantallas apaisadas; vertical (4:5) en el resto -->
 <div class="apertura-capa" aria-hidden="true">
   <video muted playsinline preload="auto" aria-label="{{attr:hero.film_alt}}"
@@ -50,7 +50,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   var h=innerWidth>innerHeight,src=function(w){return v.dataset[(w?'webm':'mp4')+(h?'H':'')]};
   // El fondo de la capa (y el de html, que asoma en el hueco de la barra de desplazamiento) sigue al de cada escena,
   // con los mismos tiempos y colores que motion/film/film.js: las bandas no se ven
-  var ESC=[[14.5,'#051A2B'],[12,'#0D3150'],[9.5,'#051A2B'],[8,'#E0DFDA'],[6,'#0D3150'],[4,'#051A2B'],[2,'#E0DFDA'],[0,'#051A2B']];
+  var ESC=[[18.8,'#051A2B'],[16.7,'#0D3150'],[14.6,'#051A2B'],[12.4,'#0D3150'],[8.8,'#E0DFDA'],[5.2,'#051A2B'],[3.2,'#E0DFDA'],[0,'#051A2B']];
   capa.removeAttribute('aria-hidden');
   // Se acaba al terminar, al saltarla (botón, Esc, rueda o deslizar) o si no arranca a tiempo; la web entra con un fundido
   function fin(){
@@ -84,7 +84,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     </a>
     <span class="pill" aria-hidden="true"><img src="{{base}}assets/img/s-lines.svg" alt="" width="12" height="20">AI</span>
     <nav class="bar-nav" id="menu" aria-label="{{attr:nav.menu}}">
-      <a href="#pruebas">{{nav.casos}}</a><a href="#como">{{nav.como}}</a><a href="#para-ti">{{nav.parati}}</a><a href="#quienes">{{nav.quienes}}</a>
+      <a href="#productos">{{nav.productos}}</a><a href="#diagnostico">{{nav.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#quienes">{{nav.quienes}}</a>
       <a class="bar-nav-cta btn btn-cta" href="{{base}}reserva/?d=menu&amp;l={{lang}}">{{hero.cta1}}</a>
       <a class="bar-nav-lang" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{nav.lang_label}}</a>
     </nav>
@@ -97,7 +97,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 
 <main id="main">
 
-<!-- 01 · Portada: vídeo a pantalla completa de fondo, sin texto. Encima, una idea y una acción -->
+<!-- 01 · Portada: la organización que se enciende de fondo. Encima, una aspiración y qué hacemos -->
 <section class="hero dark" id="top" aria-labelledby="h1" data-hero
          data-src-h="{{base}}assets/video/hero-h" data-src-v="{{base}}assets/video/hero-v">
   <div class="hero-media" aria-hidden="true">
@@ -117,9 +117,8 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=portada&amp;l={{lang}}">{{hero.cta1}}</a>
       <a class="link-arrow" href="#diagnostico">{{hero.cta2}} <span aria-hidden="true">→</span></a>
     </div>
-    <p class="hero-micro">{{hero.micro}}</p>
   </div>
-  <a class="scroll-cue" href="#reto" aria-hidden="true" tabindex="-1"><i></i></a>
+  <a class="scroll-cue" href="#productos" aria-hidden="true" tabindex="-1"><i></i></a>
   <div class="wrap hero-ctl">
     <button type="button" class="glass-btn hero-pause" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
   </div>
@@ -138,7 +137,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
           <li><img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33"></li>
           <li><img src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" height="34"></li>
           <li><img src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" height="22"></li>
-          <li><img src="{{base}}assets/img/logo-ey.svg" alt="EY" height="32"></li>
           <li><img src="{{base}}assets/img/logo-lg.svg" alt="LG" height="18"></li>
           <li><img src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" height="24"></li>
           <li><img src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" height="23"></li>
@@ -157,57 +155,411 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 02 · Por qué ahora: el problema, en clave de pérdida -->
-<section class="sec light" id="reto" aria-labelledby="t-reto">
+<!-- 02 · Lo que hacemos: los cuatro productos en una pantalla, sobre la escalera de la IA -->
+<section class="sec light prods" id="productos" aria-labelledby="t-prod">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{prod.kicker}}</p>
+      <h2 id="t-prod" class="display"><span class="l1">{{prod.h2a}}</span> <span class="l2">{{prod.h2b}}</span></h2>
+      <p class="lead narrow">{{prod.lead}}</p>
+    </header>
+    <ol class="prod-grid">
+      <li class="pcard glass spot rv"><a class="pcard-in" href="#dia-uno">
+        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/diauno-192.webp" srcset="{{base}}assets/img/3d/diauno-192.webp 192w, {{base}}assets/img/3d/diauno.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p1_tag}}</em></span>
+        <span class="pcard-n">{{prod.p1_n}}</span><span class="pcard-p">{{prod.p1}}</span>
+        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p1_para}}</span><span><b>{{prod.dur}}</b> {{prod.p1_dur}}</span></span>
+        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
+      <li class="pcard glass spot rv"><a class="pcard-in" href="#habito">
+        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p2_tag}}</em></span>
+        <span class="pcard-n">{{prod.p2_n}}</span><span class="pcard-p">{{prod.p2}}</span>
+        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p2_para}}</span><span><b>{{prod.dur}}</b> {{prod.p2_dur}}</span></span>
+        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
+      <li class="pcard glass spot rv"><a class="pcard-in" href="#spiral">
+        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/espiral-192.webp" srcset="{{base}}assets/img/3d/espiral-192.webp 192w, {{base}}assets/img/3d/espiral.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p3_tag}}</em></span>
+        <span class="pcard-n">{{prod.p3_n}}</span><span class="pcard-p">{{prod.p3}}</span>
+        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p3_para}}</span><span><b>{{prod.dur}}</b> {{prod.p3_dur}}</span></span>
+        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
+      <li class="pcard glass spot rv"><a class="pcard-in" href="#pulso">
+        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/rumbo-192.webp" srcset="{{base}}assets/img/3d/rumbo-192.webp 192w, {{base}}assets/img/3d/rumbo.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p4_tag}}</em></span>
+        <span class="pcard-n">{{prod.p4_n}}</span><span class="pcard-p">{{prod.p4}}</span>
+        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p4_para}}</span><span><b>{{prod.dur}}</b> {{prod.p4_dur}}</span></span>
+        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
+    </ol>
+    <!-- Dónde encaja cada producto: la escalera de CCEP (pedir, enseñar, automatizar, delegar) -->
+    <figure class="mapa" data-piece="mapa" aria-labelledby="t-mapa">
+      <figcaption id="t-mapa" class="h5">{{prod.mapa_h}}</figcaption>
+      <ol class="mapa-esc">
+        <li><b>{{esc.e1}}</b><span>{{esc.e1_q}}</span><p>{{esc.e1_d}}</p></li>
+        <li><b>{{esc.e2}}</b><span>{{esc.e2_q}}</span><p>{{esc.e2_d}}</p></li>
+        <li><b>{{esc.e3}}</b><span>{{esc.e3_q}}</span><p>{{esc.e3_d}}</p></li>
+        <li><b>{{esc.e4}}</b><span>{{esc.e4_q}}</span><p>{{esc.e4_d}}</p></li>
+      </ol>
+      <div class="mapa-tramos">
+        <p class="tramo tramo-hab"><b>{{prod.p2_n}}</b> <span>{{esc.tu}}</span></p>
+        <p class="tramo tramo-spi"><b>{{prod.p3_n}}</b> <span>{{esc.contigo}}</span></p>
+        <p class="tramo tramo-pul"><b>{{prod.p4_n}}</b> <span>{{prod.mapa_pulso}}</span></p>
+      </div>
+      <p class="mapa-dia"><i class="mapa-sol" aria-hidden="true"></i>{{prod.mapa_dia}}</p>
+    </figure>
+  </div>
+</section>
+
+<!-- 03 · Por qué ahora: lo que nadie dice en el comité, y lo que se paga frente a lo que se usa -->
+<section class="sec dark" id="reto" aria-labelledby="t-reto">
   <div class="wrap">
     <header class="head rv">
       <p class="kicker">{{reto.kicker}}</p>
       <h2 id="t-reto" class="display"><span class="l1">{{reto.h2a}}</span> <span class="l2">{{reto.h2b}}</span></h2>
     </header>
+    <figure class="voces" data-piece="voces">
+      <figcaption class="voces-h">{{reto.voces_h}}</figcaption>
+      <ul>
+        <li><q>{{reto.voz1}}</q></li><li><q>{{reto.voz2}}</q></li><li><q>{{reto.voz3}}</q></li><li><q>{{reto.voz4}}</q></li><li><q>{{reto.voz5}}</q></li>
+      </ul>
+    </figure>
     <div class="reto-grid">
       <div class="rv">
         <p class="lead">{{reto.lead}}</p>
         <p class="lead lead-strong">{{reto.lead2}}</p>
         <p class="src">{{reto.src1}}</p>
       </div>
-      <figure class="chart" data-piece="chart" aria-label="{{attr:reto.chart_label}}">
-        <svg viewBox="0 0 560 330" role="img" aria-labelledby="chart-t">
-          <title id="chart-t">{{attr:reto.chart_label}}: {{attr:reto.chart_peak}} {{attr:reto.chart_peak_t}}, {{attr:reto.chart_end}} {{attr:reto.chart_end_t}}</title>
-          <g class="ch-grid"><line x1="40" y1="290" x2="540" y2="290"/><line x1="40" y1="40" x2="40" y2="290"/></g>
-          <path class="ch-line" pathLength="1" d="M40 286 C 70 270, 92 120, 125 95 C 150 76, 175 92, 205 118 C 260 160, 330 172, 400 178 C 450 182, 500 186, 540 188"/>
-          <g class="ch-pk"><circle cx="128" cy="93" r="6"/><text x="128" y="62" text-anchor="middle" class="ch-big">{{reto.chart_peak}}</text><text x="128" y="80" text-anchor="middle" class="ch-sm">{{reto.chart_peak_t}}</text></g>
-          <g class="ch-en"><circle cx="540" cy="188" r="6"/><text x="540" y="156" text-anchor="end" class="ch-big">{{reto.chart_end}}</text><text x="540" y="174" text-anchor="end" class="ch-sm">{{reto.chart_end_t}}</text></g>
-          <text x="40" y="314" class="ch-ax">{{reto.chart_x0}}</text><text x="540" y="314" text-anchor="end" class="ch-ax">{{reto.chart_x1}}</text>
+      <figure class="chart" data-piece="pago" aria-label="{{attr:reto.chart_label}}">
+        <svg viewBox="0 0 560 340" role="img" aria-labelledby="chart-t">
+          <title id="chart-t">{{attr:reto.chart_label}}: {{attr:reto.chart_uso}}, {{attr:reto.chart_peak}} {{attr:reto.chart_peak_t}}, {{attr:reto.chart_end}} {{attr:reto.chart_end_t}}</title>
+          <defs><pattern id="trama" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7"/></pattern></defs>
+          <g class="ch-grid"><line x1="40" y1="300" x2="540" y2="300"/><line x1="40" y1="40" x2="40" y2="300"/></g>
+          <path class="ch-hueco" d="M40 60 L540 60 L540 198 C 500 196, 450 192, 400 188 C 330 182, 260 170, 205 128 C 175 102, 150 86, 125 105 C 92 130, 70 280, 40 296 Z"/>
+          <path class="ch-pago" pathLength="1" d="M40 60 L540 60"/>
+          <path class="ch-line" pathLength="1" d="M40 296 C 70 280, 92 130, 125 105 C 150 86, 175 102, 205 128 C 260 170, 330 182, 400 188 C 450 192, 500 196, 540 198"/>
+          <circle class="ch-cab" r="6" cx="40" cy="296"/>
+          <text class="ch-lbl ch-lpago" x="540" y="48" text-anchor="end">{{reto.chart_pago}}</text>
+          <text class="ch-lbl ch-lhueco" x="470" y="128" text-anchor="middle">{{reto.chart_hueco}}</text>
+          <g class="ch-pk"><circle cx="128" cy="103" r="6"/><text x="128" y="246" text-anchor="middle" class="ch-big">{{reto.chart_peak}}</text><text x="128" y="266" text-anchor="middle" class="ch-sm">{{reto.chart_peak_t}}</text></g>
+          <g class="ch-en"><circle cx="540" cy="198" r="6"/><text x="540" y="232" text-anchor="end" class="ch-big">{{reto.chart_end}}</text><text x="540" y="252" text-anchor="end" class="ch-sm">{{reto.chart_end_t}}</text></g>
+          <text x="40" y="324" class="ch-ax">{{reto.chart_x0}}</text><text x="540" y="324" text-anchor="end" class="ch-ax">{{reto.chart_x1}}</text>
         </svg>
-        <figcaption>{{reto.chart_label}} · {{reto.chart_note}}</figcaption>
+        <figcaption><span class="ch-key ch-key-uso"></span>{{reto.chart_uso}} · {{reto.chart_note}}</figcaption>
       </figure>
     </div>
-
-    <div class="beat2">
-      <h3 class="display h3 rv"><span class="l1">{{reto.b2a}}</span> <span class="l2">{{reto.b2b}}</span></h3>
-      <div class="vs">
-        <div class="vs-n"><b>{{reto.b2_80}}</b><span>{{reto.b2_80t}}</span></div>
-        <div class="vs-mid"><span>{{reto.b2_mid}}</span></div>
-        <div class="vs-n"><b>{{reto.b2_6}}</b><span>{{reto.b2_6t}}</span></div>
-      </div>
-      <p class="lead narrow rv">{{reto.b2_p}}</p>
-      <p class="src">{{reto.src2}}</p>
-    </div>
-
-    <div class="coste rv" aria-labelledby="t-coste">
-      <h3 id="t-coste" class="h5">{{reto.coste_h}}</h3>
-      <ol><li>{{reto.coste1}}</li><li>{{reto.coste2}}</li><li>{{reto.coste3}}</li></ol>
-    </div>
-
   </div>
 </section>
 
-<div class="remate dark">
-  <div class="wrap rv"><p class="display"><span class="l1">{{reto.remate_a}}</span> <span class="l2">{{reto.remate_b}}</span></p>
-  <p class="remate-p">{{reto.remate_p}}</p></div>
-</div>
+<!-- 04 · La ventaja: el mismo modelo para todos; la diferencia está en el despliegue -->
+<section class="sec paper" id="ventaja" aria-labelledby="t-ventaja">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{ventaja.kicker}}</p>
+      <h2 id="t-ventaja" class="display"><span class="l1">{{ventaja.h2a}}</span> <span class="l2">{{ventaja.h2b}}</span></h2>
+    </header>
+    <div class="ventaja-grid">
+      <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/modelo-{{lang}}-h" data-src-v="{{base}}assets/video/modelo-{{lang}}-v">
+        <div class="vid-marco">
+          <picture><source media="(max-width: 700px)" srcset="{{base}}assets/video/modelo-{{lang}}-v.jpg"><img class="vid-poster" src="{{base}}assets/video/modelo-{{lang}}-h.jpg" alt="" width="1920" height="1080" loading="lazy"></picture>
+          <video muted playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+          <div class="vid-ctl"><button type="button" class="glass-btn vid-pausa" hidden aria-pressed="false" aria-label="{{attr:vid.pausa}}"><i aria-hidden="true"></i></button><button type="button" class="glass-btn vid-otra" hidden data-ver="{{attr:vid.ver}}" data-otra="{{attr:vid.otra}}">↻ {{vid.otra}}</button></div>
+          <i class="vid-prog" aria-hidden="true"></i>
+        </div>
+        <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{ventaja.vid_alt}}</span></figcaption>
+      </figure>
+      <div class="ventaja-txt">
+        <p class="lead">{{ventaja.lead}}</p>
+        <p class="def">{{ventaja.def}}</p>
+      </div>
+    </div>
+    <div class="vs">
+      <div class="vs-n"><b>{{ventaja.b2_80}}</b><span>{{ventaja.b2_80t}}</span></div>
+      <div class="vs-mid"><span>{{ventaja.b2_mid}}</span></div>
+      <div class="vs-n"><b>{{ventaja.b2_6}}</b><span>{{ventaja.b2_6t}}</span></div>
+    </div>
+    <p class="lead narrow rv">{{ventaja.b2_p}}</p>
+    <p class="src">{{ventaja.src2}}</p>
+  </div>
+</section>
 
-<!-- 03 · Casos: la prueba, pronto -->
+<!-- 05 · Lo que cuesta esperar: el multiplicador y la nube de riesgos que se ordena en un plan -->
+<section class="sec dark" id="esperar" aria-labelledby="t-esperar">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{esperar.kicker}}</p>
+      <h2 id="t-esperar" class="display"><span class="l1">{{esperar.h2a}}</span> <span class="l2">{{esperar.h2b}}</span></h2>
+      <p class="lead narrow">{{esperar.lead}}</p>
+    </header>
+    <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/multiplica-{{lang}}-h" data-src-v="{{base}}assets/video/multiplica-{{lang}}-v">
+      <div class="vid-marco">
+        <picture><source media="(max-width: 700px)" srcset="{{base}}assets/video/multiplica-{{lang}}-v.jpg"><img class="vid-poster" src="{{base}}assets/video/multiplica-{{lang}}-h.jpg" alt="" width="1920" height="1080" loading="lazy"></picture>
+        <video muted playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+        <div class="vid-ctl"><button type="button" class="glass-btn vid-pausa" hidden aria-pressed="false" aria-label="{{attr:vid.pausa}}"><i aria-hidden="true"></i></button><button type="button" class="glass-btn vid-otra" hidden data-ver="{{attr:vid.ver}}" data-otra="{{attr:vid.otra}}">↻ {{vid.otra}}</button></div>
+        <i class="vid-prog" aria-hidden="true"></i>
+      </div>
+      <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{esperar.vid_alt}}</span></figcaption>
+    </figure>
+    <div class="nube" data-piece="nube" data-l-ordenar="{{attr:esperar.ordenar}}" data-l-desordenar="{{attr:esperar.desordenar}}">
+      <div class="nube-top">
+        <h3 class="nube-h h5">{{esperar.nube_h}}</h3>
+        <h3 class="nube-plan display h3"><span class="l1">{{esperar.plan_h}}</span> <span class="l2">{{esperar.plan_p}}</span></h3>
+        <button type="button" class="glass-btn nube-btn" hidden></button>
+      </div>
+      <div class="nube-campo">
+        <div class="nube-col"><a class="nube-g" href="#dia-uno"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
+          <ul><li class="chip">{{esperar.g1_1}}</li><li class="chip">{{esperar.g1_2}}</li><li class="chip">{{esperar.g1_3}}</li><li class="chip">{{esperar.g1_4}}</li><li class="chip">{{esperar.g1_5}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#habito"><b>{{esperar.g2}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p2_n}}</em><small>{{esperar.g2_d}}</small></a>
+          <ul><li class="chip">{{esperar.g2_1}}</li><li class="chip">{{esperar.g2_2}}</li><li class="chip">{{esperar.g2_3}}</li><li class="chip">{{esperar.g2_4}}</li><li class="chip">{{esperar.g2_5}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#spiral"><b>{{esperar.g3}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p3_n}}</em><small>{{esperar.g3_d}}</small></a>
+          <ul><li class="chip">{{esperar.g3_1}}</li><li class="chip">{{esperar.g3_2}}</li><li class="chip">{{esperar.g3_3}}</li><li class="chip">{{esperar.g3_4}}</li><li class="chip">{{esperar.g3_5}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#pulso"><b>{{esperar.g4}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p4_n}}</em><small>{{esperar.g4_d}}</small></a>
+          <ul><li class="chip">{{esperar.g4_1}}</li><li class="chip">{{esperar.g4_2}}</li><li class="chip">{{esperar.g4_3}}</li><li class="chip">{{esperar.g4_4}}</li><li class="chip">{{esperar.g4_5}}</li></ul></div>
+      </div>
+    </div>
+    <p class="ctx rv"><span>{{esperar.ctx}}</span> <a class="link-arrow" href="#diagnostico">{{esperar.ctx_btn}} <span aria-hidden="true">→</span></a></p>
+  </div>
+</section>
+
+<!-- 06 · Diagnóstico: el nivel, los siguientes pasos y el valor que se escapa -->
+<section class="sec navy" id="diagnostico" aria-labelledby="t-dg">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{dg.kicker}}</p>
+      <h2 id="t-dg" class="display"><span class="l1">{{dg.h2a}}</span> <span class="l2">{{dg.h2b}}</span></h2>
+      <p class="lead narrow">{{dg.lead}}</p>
+    </header>
+    <div class="dg glass" data-dg data-mail="{{mail}}"
+         data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
+         data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
+         data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
+         data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}" data-l-book="{{attr:cta.btn}}" data-book="{{base}}reserva/?d=diagnostico&amp;l={{lang}}">
+      <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · Después de la formación: el curso acaba el viernes; lo que cuenta empieza el lunes -->
+<section class="sec light" id="lunes" aria-labelledby="t-lunes">
+  <div class="wrap">
+    <header class="head rv">
+      <p class="kicker">{{lunes.kicker}}</p>
+      <h2 id="t-lunes" class="display"><span class="l1">{{lunes.h2a}}</span> <span class="l2">{{lunes.h2b}}</span></h2>
+      <p class="lead narrow">{{lunes.lead}}</p>
+    </header>
+    <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/lunes-{{lang}}-h" data-src-v="{{base}}assets/video/lunes-{{lang}}-v">
+      <div class="vid-marco">
+        <picture><source media="(max-width: 700px)" srcset="{{base}}assets/video/lunes-{{lang}}-v.jpg"><img class="vid-poster" src="{{base}}assets/video/lunes-{{lang}}-h.jpg" alt="" width="1920" height="1080" loading="lazy"></picture>
+        <video muted playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+        <div class="vid-ctl"><button type="button" class="glass-btn vid-pausa" hidden aria-pressed="false" aria-label="{{attr:vid.pausa}}"><i aria-hidden="true"></i></button><button type="button" class="glass-btn vid-otra" hidden data-ver="{{attr:vid.ver}}" data-otra="{{attr:vid.otra}}">↻ {{vid.otra}}</button></div>
+        <i class="vid-prog" aria-hidden="true"></i>
+      </div>
+      <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{lunes.vid_alt}}</span></figcaption>
+    </figure>
+    <div class="angulos">
+      <div class="angulo rv"><span class="angulo-n" aria-hidden="true">1</span><h3 class="display h4">{{lunes.a1_t}}</h3><p>{{lunes.a1}}</p></div>
+      <div class="angulo rv"><span class="angulo-n" aria-hidden="true">2</span><h3 class="display h4">{{lunes.a2_t}}</h3><p>{{lunes.a2}}</p></div>
+    </div>
+    <p class="src">{{lunes.src}}</p>
+  </div>
+</section>
+
+<!-- 08 · Producto 01 · Día Uno, el piloto -->
+<section class="sec dark psec" id="dia-uno" aria-labelledby="t-dia">
+  <div class="wrap">
+    <header class="phead">
+      <div class="phead-l rv">
+        <p class="kicker"><span class="pnum" aria-hidden="true">01</span>{{dia.kicker}}</p>
+        <h2 id="t-dia" class="pnombre">{{prod.p1_n}}</h2>
+        <p class="display pclaim"><span class="l1">{{dia.h2a}}</span> <span class="l2">{{dia.h2b}}</span></p>
+        <p class="lead">{{dia.lead}}</p>
+      </div>
+      <div class="phead-r rv">
+        <img class="pico" src="{{base}}assets/img/3d/diauno.webp" alt="" width="200" height="200" loading="lazy">
+        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{dia.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{dia.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{dia.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{dia.peldanos}}</dd></div></dl>
+      </div>
+    </header>
+    <div class="fases" data-piece="fases" aria-labelledby="t-dia-f">
+      <h3 id="t-dia-f" class="h5">{{ficha.fases}}</h3>
+      <ol>
+        <li><span class="fase-t">{{dia.f1_t}}</span><b>{{dia.f1_n}}</b><p>{{dia.f1}}</p></li>
+        <li><span class="fase-t">{{dia.f2_t}}</span><b>{{dia.f2_n}}</b><p>{{dia.f2}}</p></li>
+        <li><span class="fase-t">{{dia.f3_t}}</span><b>{{dia.f3_n}}</b><p>{{dia.f3}}</p></li>
+        <li><span class="fase-t">{{dia.f4_t}}</span><b>{{dia.f4_n}}</b><p>{{dia.f4}}</p></li>
+      </ol>
+    </div>
+    <!-- Las tres rondas de Día Uno: velocidad, escala y capacidad -->
+    <div class="vec">
+      <div class="vec-head rv">
+        <p class="vec-k">{{fmt.v_kicker}}</p>
+        <h3 class="vec-h">{{fmt.v_h}}</h3>
+        <p class="vec-sub">{{fmt.v_sub}}</p>
+      </div>
+      <ol class="vec-l">
+        <li class="rv"><h4 class="vec-t">{{fmt.v1_t}}</h4><p class="vec-f">{{fmt.v1}}</p><p class="vec-e">{{fmt.v1_e}}</p></li>
+        <li class="rv"><h4 class="vec-t">{{fmt.v2_t}}</h4><p class="vec-f">{{fmt.v2}}</p><p class="vec-e">{{fmt.v2_e}}</p></li>
+        <li class="rv"><h4 class="vec-t">{{fmt.v3_t}}</h4><p class="vec-f">{{fmt.v3}}</p><p class="vec-e">{{fmt.v3_e}}</p></li>
+      </ol>
+      <p class="lead-strong vec-remate">{{fmt.v_remate}}</p>
+    </div>
+    <div class="pcta rv" data-cta-propia><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=dia-uno&amp;l={{lang}}">{{dia.cta}}</a><p>{{dia.nota}}</p></div>
+  </div>
+</section>
+
+<!-- 09 · Producto 02 · Hábito, formación a medida: primero cómo la preparamos, después los ejemplos -->
+<section class="sec light psec" id="habito" aria-labelledby="t-hab">
+  <div class="wrap">
+    <header class="phead">
+      <div class="phead-l rv">
+        <p class="kicker"><span class="pnum" aria-hidden="true">02</span>{{hab.kicker}}</p>
+        <h2 id="t-hab" class="pnombre">{{prod.p2_n}}</h2>
+        <p class="display pclaim"><span class="l1">{{hab.h2a}}</span> <span class="l2">{{hab.h2b}}</span></p>
+        <p class="lead">{{hab.lead}}</p>
+      </div>
+      <div class="phead-r rv">
+        <img class="pico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="200" height="200" loading="lazy">
+        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{hab.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{hab.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{hab.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{hab.peldanos}}</dd></div></dl>
+      </div>
+    </header>
+    <div class="prep" data-piece="prep" aria-labelledby="t-prep">
+      <h3 id="t-prep" class="h5">{{hab.prep_h}}</h3>
+      <ol>
+        <li><b>{{hab.s1_t}}</b><p>{{hab.s1}}</p><em>{{hab.s1_w}}</em></li>
+        <li><b>{{hab.s2_t}}</b><p>{{hab.s2}}</p><em>{{hab.s2_w}}</em></li>
+        <li><b>{{hab.s3_t}}</b><p>{{hab.s3}}</p><em>{{hab.s3_w}}</em></li>
+        <li><b>{{hab.s4_t}}</b><p>{{hab.s4}}</p><em>{{hab.s4_w}}</em></li>
+        <li><b>{{hab.s5_t}}</b><p>{{hab.s5}}</p><em>{{hab.s5_w}}</em></li>
+        <li><b>{{hab.s6_t}}</b><p>{{hab.s6}}</p><em>{{hab.s6_w}}</em></li>
+      </ol>
+      <div class="prep-pie">
+        <div class="prep-necesito"><span class="prep-ok" aria-hidden="true"></span><p><b>{{hab.necesito_h}}:</b> {{hab.necesito}}</p></div>
+        <p class="prep-remate">{{hab.remate}}</p>
+      </div>
+    </div>
+    <h3 class="ej-h display h4 rv">{{hab.ej_h}}</h3>
+    <div class="demo" data-piece="demo"
+         data-l-antes="{{attr:pers.antes}}" data-l-despues="{{attr:pers.despues}}" data-l-firma="{{attr:pers.firma}}"
+         data-l-paso="{{attr:pers.paso}}" data-l-pasos="{{attr:pers.pasos}}" data-l-app="{{attr:pers.app}}" data-l-apps="{{attr:pers.apps}}"
+         data-l-pause="{{attr:pers.pause}}" data-l-play="{{attr:pers.play}}">
+      <div class="demo-side">
+        <p class="demo-pick">{{pers.pick}}</p>
+        <div class="demo-profiles" role="group" aria-label="{{attr:pers.pick}}"></div>
+        <p class="demo-more">{{pers.more}}</p>
+      </div>
+      <div class="demo-stage">
+        <span class="tag tag-ilus">{{pers.ilus}}</span>
+        <div class="demo-scene"></div>
+        <div class="demo-ctl"><button type="button" class="demo-pause"></button><button type="button" class="replay demo-replay">↻ {{pers.replay}}</button></div>
+      </div>
+    </div>
+    <div class="pcta rv"><a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:hab.subject}}">{{hab.cta}}</a></div>
+  </div>
+</section>
+
+<!-- 10 · Producto 03 · Spiral, despliegue con tu equipo: el método SPIRAL y los agentes -->
+<section class="sec dark psec" id="spiral" aria-labelledby="t-como">
+  <div class="wrap">
+    <header class="phead">
+      <div class="phead-l rv">
+        <p class="kicker"><span class="pnum" aria-hidden="true">03</span>{{como.kicker}}</p>
+        <h2 id="t-como" class="pnombre">{{prod.p3_n}}</h2>
+        <p class="display pclaim"><span class="l1">{{como.h2a}}</span> <span class="l2">{{como.h2b}}</span></p>
+        <p class="lead">{{como.lead}}</p>
+      </div>
+      <div class="phead-r rv">
+        <img class="pico" src="{{base}}assets/img/3d/espiral.webp" alt="" width="200" height="200" loading="lazy">
+        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{como.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{como.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{como.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{como.peldanos}}</dd></div></dl>
+      </div>
+    </header>
+    <div class="spiral" data-piece="spiral">
+      <figure class="sp-fig">
+        <div class="sp-lienzo">
+          <canvas class="sp-dots" aria-hidden="true"></canvas>
+          <svg class="sp-svg" viewBox="234 146 292 470" role="img" aria-label="{{attr:como.aria}}"></svg>
+        </div>
+        <button class="replay" type="button">↻ {{como.replay}}</button>
+      </figure>
+      <div class="sp-steps">
+        <p class="hint">{{como.hint}}</p>
+        <ol>
+          <li><button type="button" class="sp-b" data-n="1" aria-expanded="true"><b aria-hidden="true">S</b><span class="sp-en" lang="en">Skill</span><span class="sp-es">{{como.s_n}}</span></button>
+            <div class="sp-d"><p>{{como.s_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.s_w}}</dd><dt>{{como.left}}</dt><dd>{{como.s_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="2" aria-expanded="true"><b aria-hidden="true">P</b><span class="sp-en" lang="en">Pair</span><span class="sp-es">{{como.p_n}}</span></button>
+            <div class="sp-d"><p>{{como.p_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.p_w}}</dd><dt>{{como.left}}</dt><dd>{{como.p_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="3" aria-expanded="true"><b aria-hidden="true">I</b><span class="sp-en" lang="en">Identify</span><span class="sp-es">{{como.i_n}}</span></button>
+            <div class="sp-d"><p>{{como.i_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.i_w}}</dd><dt>{{como.left}}</dt><dd>{{como.i_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="4" aria-expanded="true"><b aria-hidden="true">R</b><span class="sp-en" lang="en">Rebuild</span><span class="sp-es">{{como.r_n}}</span></button>
+            <div class="sp-d"><p>{{como.r_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.r_w}}</dd><dt>{{como.left}}</dt><dd>{{como.r_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="5" aria-expanded="true"><b aria-hidden="true">A</b><span class="sp-en" lang="en">Assure</span><span class="sp-es">{{como.a_n}}</span></button>
+            <div class="sp-d"><p>{{como.a_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.a_w}}</dd><dt>{{como.left}}</dt><dd>{{como.a_l}}</dd></dl></div></li>
+          <li><button type="button" class="sp-b" data-n="6" aria-expanded="true"><b aria-hidden="true">L</b><span class="sp-en" lang="en">Launch</span><span class="sp-es">{{como.l_n}}</span></button>
+            <div class="sp-d"><p>{{como.l_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.l_w}}</dd><dt>{{como.left}}</dt><dd>{{como.l_l}}</dd></dl></div></li>
+        </ol>
+        <p class="fde-note">{{como.vuelta}}</p>
+      </div>
+    </div>
+    <p class="display remate-in rv"><span class="l1">{{como.remate_a}}</span> <span class="l2">{{como.remate_b}}</span></p>
+
+    <div class="fde-def rv">
+      <div class="fde-box"><p class="fde-t">{{fde.def_t}}</p><p>{{fde.def}}</p></div>
+      <div class="duo">
+        <div class="duo-c"><b>{{fde.duo_a}}</b><span>{{fde.duo_at}}</span></div>
+        <span class="duo-plus" aria-hidden="true">+</span>
+        <div class="duo-c"><b>{{fde.duo_b}}</b><span>{{fde.duo_bt}}</span></div>
+        <p class="duo-eq">{{fde.duo_c}}</p>
+      </div>
+    </div>
+
+    <div class="agentes">
+      <div class="gal-head rv"><h3 class="display h3">{{fde.gal_h}}</h3><p class="lead">{{fde.gal_p}}</p></div>
+      <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/agentes-{{lang}}-h" data-src-v="{{base}}assets/video/agentes-{{lang}}-v">
+        <div class="vid-marco">
+          <picture><source media="(max-width: 700px)" srcset="{{base}}assets/video/agentes-{{lang}}-v.jpg"><img class="vid-poster" src="{{base}}assets/video/agentes-{{lang}}-h.jpg" alt="" width="1920" height="1080" loading="lazy"></picture>
+          <video muted playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+          <div class="vid-ctl"><button type="button" class="glass-btn vid-pausa" hidden aria-pressed="false" aria-label="{{attr:vid.pausa}}"><i aria-hidden="true"></i></button><button type="button" class="glass-btn vid-otra" hidden data-ver="{{attr:vid.ver}}" data-otra="{{attr:vid.otra}}">↻ {{vid.otra}}</button></div>
+          <i class="vid-prog" aria-hidden="true"></i>
+        </div>
+        <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{fde.vid_alt}}</span></figcaption>
+      </figure>
+      <div class="ctl rv">
+        <h3 class="h5">{{fde.ctl_h}}</h3>
+        <ul><li>{{fde.ctl1}}</li><li>{{fde.ctl2}}</li><li>{{fde.ctl3}}</li><li>{{fde.ctl4}}</li></ul>
+      </div>
+    </div>
+    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=spiral&amp;l={{lang}}">{{como.cta}}</a></div>
+  </div>
+</section>
+
+<!-- 11 · Producto 04 · Pulso, acompañamiento: el ciclo de cada mes -->
+<section class="sec paper psec" id="pulso" aria-labelledby="t-pulso">
+  <div class="wrap">
+    <header class="phead">
+      <div class="phead-l rv">
+        <p class="kicker"><span class="pnum" aria-hidden="true">04</span>{{pulso.kicker}}</p>
+        <h2 id="t-pulso" class="pnombre">{{prod.p4_n}}</h2>
+        <p class="display pclaim"><span class="l1">{{pulso.h2a}}</span> <span class="l2">{{pulso.h2b}}</span></p>
+        <p class="lead">{{pulso.lead}}</p>
+      </div>
+      <div class="phead-r rv">
+        <img class="pico" src="{{base}}assets/img/3d/rumbo.webp" alt="" width="200" height="200" loading="lazy">
+        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{pulso.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{pulso.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{pulso.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{pulso.peldanos}}</dd></div></dl>
+      </div>
+    </header>
+    <div class="ciclo" data-piece="ciclo" aria-labelledby="t-ciclo">
+      <h3 id="t-ciclo" class="h5">{{pulso.c_h}}</h3>
+      <div class="ciclo-in">
+        <div class="ciclo-aro" aria-hidden="true">
+          <svg viewBox="0 0 400 400"><circle class="aro-base" cx="200" cy="200" r="150"/><circle class="aro-luz" cx="200" cy="200" r="150" pathLength="1"/>
+            <g class="aro-st"><circle cx="200" cy="50" r="9"/><circle cx="350" cy="200" r="9"/><circle cx="200" cy="350" r="9"/><circle cx="50" cy="200" r="9"/></g>
+            <g class="aro-orbita"><circle cx="200" cy="50" r="6"/></g></svg>
+          <span class="ciclo-centro">{{pulso.centro}}</span>
+        </div>
+        <ol class="ciclo-l">
+          <li><b>{{pulso.c1_t}}</b><p>{{pulso.c1}}</p></li>
+          <li><b>{{pulso.c2_t}}</b><p>{{pulso.c2}}</p></li>
+          <li><b>{{pulso.c3_t}}</b><p>{{pulso.c3}}</p></li>
+          <li><b>{{pulso.c4_t}}</b><p>{{pulso.c4}}</p></li>
+        </ol>
+      </div>
+    </div>
+    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=pulso&amp;l={{lang}}">{{pulso.cta}}</a></div>
+  </div>
+</section>
+
+<!-- 12 · Casos -->
 <section class="sec navy" id="pruebas" aria-labelledby="t-pr">
   <div class="wrap">
     <header class="head rv">
@@ -260,111 +612,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 04 · Método SPIRAL -->
-<section class="sec dark sec-join" id="como" aria-labelledby="t-como">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{como.kicker}}</p>
-      <h2 id="t-como" class="display"><span class="l1">{{como.h2a}}</span> <span class="l2">{{como.h2b}}</span></h2>
-      <p class="lead narrow">{{como.lead}}</p>
-    </header>
-    <div class="spiral" data-piece="spiral">
-      <figure class="sp-fig">
-        <canvas class="sp-gl" aria-hidden="true"></canvas>
-        <svg class="sp-svg" viewBox="234 146 292 470" role="img" aria-label="{{attr:como.aria}}"></svg>
-        <button class="replay" type="button">↻ {{como.replay}}</button>
-      </figure>
-      <div class="sp-steps">
-        <p class="hint">{{como.hint}}</p>
-        <ol>
-          <li><button type="button" class="sp-b" data-n="1" aria-expanded="true"><b aria-hidden="true">S</b><span>{{como.s_n}}</span></button>
-            <div class="sp-d"><p>{{como.s_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.s_w}}</dd><dt>{{como.left}}</dt><dd>{{como.s_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="2" aria-expanded="true"><b aria-hidden="true">P</b><span>{{como.p_n}}</span></button>
-            <div class="sp-d"><p>{{como.p_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.p_w}}</dd><dt>{{como.left}}</dt><dd>{{como.p_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="3" aria-expanded="true"><b aria-hidden="true">I</b><span>{{como.i_n}}</span></button>
-            <div class="sp-d"><p>{{como.i_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.i_w}}</dd><dt>{{como.left}}</dt><dd>{{como.i_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="4" aria-expanded="true"><b aria-hidden="true">R</b><span>{{como.r_n}}</span></button>
-            <div class="sp-d"><p>{{como.r_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.r_w}}</dd><dt>{{como.left}}</dt><dd>{{como.r_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="5" aria-expanded="true"><b aria-hidden="true">A</b><span>{{como.a_n}}</span></button>
-            <div class="sp-d"><p>{{como.a_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.a_w}}</dd><dt>{{como.left}}</dt><dd>{{como.a_l}}</dd></dl></div></li>
-          <li><button type="button" class="sp-b" data-n="6" aria-expanded="true"><b aria-hidden="true">L</b><span>{{como.l_n}}</span></button>
-            <div class="sp-d"><p>{{como.l_p}}</p><dl><dt>{{como.who}}</dt><dd>{{como.l_w}}</dd><dt>{{como.left}}</dt><dd>{{como.l_l}}</dd></dl></div></li>
-        </ol>
-        <p class="fde-note">{{como.fde}}</p>
-      </div>
-    </div>
-    <p class="display remate-in rv"><span class="l1">{{como.remate_a}}</span> <span class="l2">{{como.remate_b}}</span></p>
-    <p class="ctx rv"><span>{{ctx.metodo}}</span> <a class="link-arrow" href="{{base}}reserva/?d=metodo&amp;l={{lang}}">{{fmt.r_cta}} <span aria-hidden="true">→</span></a></p>
-  </div>
-</section>
-
-<!-- 05 · Personalización -->
-<section class="sec paper" id="personalizacion" aria-labelledby="t-pers">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{pers.kicker}}</p>
-      <h2 id="t-pers" class="display"><span class="l1">{{pers.h2a}}</span> <span class="l2">{{pers.h2b}}</span></h2>
-      <p class="lead narrow">{{pers.lead}}</p>
-    </header>
-    <div class="demo" data-piece="demo"
-         data-l-antes="{{attr:pers.antes}}" data-l-despues="{{attr:pers.despues}}" data-l-firma="{{attr:pers.firma}}"
-         data-l-paso="{{attr:pers.paso}}" data-l-pasos="{{attr:pers.pasos}}" data-l-app="{{attr:pers.app}}" data-l-apps="{{attr:pers.apps}}"
-         data-l-pause="{{attr:pers.pause}}" data-l-play="{{attr:pers.play}}">
-      <div class="demo-side">
-        <p class="demo-pick">{{pers.pick}}</p>
-        <div class="demo-profiles" role="group" aria-label="{{attr:pers.pick}}"></div>
-        <p class="demo-more">{{pers.more}}</p>
-      </div>
-      <div class="demo-stage">
-        <span class="tag tag-ilus">{{pers.ilus}}</span>
-        <div class="demo-scene"></div>
-        <div class="demo-ctl"><button type="button" class="demo-pause"></button><button type="button" class="replay demo-replay">↻ {{pers.replay}}</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 06 · Lo que construimos: negocio e ingeniería en la misma mesa -->
-<section class="sec dark" id="construimos" aria-labelledby="t-fde">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{fde.kicker}}</p>
-      <h2 id="t-fde" class="display"><span class="l1">{{fde.h2a}}</span> <span class="l2">{{fde.h2b}}</span></h2>
-      <p class="lead narrow">{{fde.lead}}</p>
-    </header>
-    <div class="fde-def rv">
-      <div class="fde-box"><p class="fde-t">{{fde.def_t}}</p><p>{{fde.def}}</p></div>
-      <div class="duo">
-        <div class="duo-c"><b>{{fde.duo_a}}</b><span>{{fde.duo_at}}</span></div>
-        <span class="duo-plus" aria-hidden="true">+</span>
-        <div class="duo-c"><b>{{fde.duo_b}}</b><span>{{fde.duo_bt}}</span></div>
-        <p class="duo-eq">{{fde.duo_c}}</p>
-      </div>
-    </div>
-
-    <div class="gal-head rv"><h3 class="h4">{{fde.gal_h}}</h3><span class="tag tag-ilus">{{fde.ilus}}</span></div>
-    <article class="case" data-piece="case">
-      <header class="case-h"><h4>{{fde.c1_t}}</h4><span>{{fde.c1_s}}</span><button class="replay" type="button">↻ {{fde.replay}}</button></header>
-      <div class="lanes">
-        <div class="lane old"><p class="lane-t">{{fde.hoy}}</p>
-          <ol><li>{{fde.c1_o1}}</li><li>{{fde.c1_o2}}</li><li>{{fde.c1_o3}}</li><li>{{fde.c1_o4}}</li><li>{{fde.c1_o5}}</li><li>{{fde.c1_o6}}</li></ol>
-          <p class="lane-f">{{fde.c1_ot}}</p></div>
-        <div class="lane new"><p class="lane-t">{{fde.con}}</p>
-          <ol>
-            <li><em class="who sys">{{fde.sys}}</em>{{fde.c1_n1}}</li><li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n2}}</li>
-            <li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n3}}</li><li><em class="who ag">{{fde.agent}}</em>{{fde.c1_n4}}</li>
-            <li><em class="who pe">{{fde.person}}</em>{{fde.c1_n5}}</li><li><em class="who pe">{{fde.person}}</em>{{fde.c1_n6}}</li>
-          </ol>
-          <p class="lane-f">{{fde.c1_nt}}</p></div>
-        <div class="log"><p class="lane-t">{{fde.log_h}}</p>
-          <ul><li>{{fde.c1_g1}}</li><li>{{fde.c1_g2}}</li><li>{{fde.c1_g3}}</li><li>{{fde.c1_g4}}</li><li>{{fde.c1_g5}}</li><li>{{fde.c1_g6}}</li></ul></div>
-      </div>
-    </article>
-    <p class="ctx rv"><span>{{ctx.construimos}}</span> <a class="link-arrow" href="#diagnostico">{{hero.cta2}} <span aria-hidden="true">→</span></a></p>
-  </div>
-</section>
-
-<!-- 07 · Para ti: cada inquietud, su respuesta (Resultados · Personas y talento · Tecnología) -->
+<!-- 13 · Para ti: cada inquietud, su respuesta (Resultados · Personas y talento · Tecnología) -->
 <section class="sec light" id="para-ti" aria-labelledby="t-pt">
   <div class="wrap">
     <header class="head rv">
@@ -411,55 +659,8 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 08 · Formatos: el primer paso es Día Uno, un día de trabajo real; después, a su ritmo -->
-<section class="sec paper" id="formatos" aria-labelledby="t-fmt">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{fmt.kicker}}</p>
-      <h2 id="t-fmt" class="display"><span class="l1">{{fmt.h2a}}</span> <span class="l2">{{fmt.h2b}}</span></h2>
-      <p class="lead narrow">{{fmt.lead}}</p>
-    </header>
-    <!-- Las tres rondas de Día Uno: velocidad, escala y capacidad -->
-    <div class="vec">
-      <div class="vec-head rv">
-        <p class="vec-k">{{fmt.v_kicker}}</p>
-        <h3 class="vec-h">{{fmt.v_h}}</h3>
-        <p class="vec-sub">{{fmt.v_sub}}</p>
-      </div>
-      <ol class="vec-l">
-        <li class="rv"><h4 class="vec-t">{{fmt.v1_t}}</h4><p class="vec-f">{{fmt.v1}}</p><p class="vec-e">{{fmt.v1_e}}</p></li>
-        <li class="rv"><h4 class="vec-t">{{fmt.v2_t}}</h4><p class="vec-f">{{fmt.v2}}</p><p class="vec-e">{{fmt.v2_e}}</p></li>
-        <li class="rv"><h4 class="vec-t">{{fmt.v3_t}}</h4><p class="vec-f">{{fmt.v3}}</p><p class="vec-e">{{fmt.v3_e}}</p></li>
-      </ol>
-      <p class="lead-strong vec-remate">{{fmt.v_remate}}</p>
-    </div>
-    <div class="fmts">
-      <article class="fcard fcard-main glass spot rv">
-        <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/diauno-192.webp" srcset="{{base}}assets/img/3d/diauno-192.webp 192w, {{base}}assets/img/3d/diauno.webp 512w" sizes="112px" alt="" width="112" height="112" loading="lazy"><em>{{fmt.r_badge}}</em></div>
-        <h3 class="fcard-n">{{fmt.r_name}}</h3><p class="fcard-dur">{{fmt.r_dur}}</p>
-        <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.r_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.r_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.r_lleva}}</dd></div></dl>
-        <a class="btn btn-cta" href="{{base}}reserva/?d=dia-uno&amp;l={{lang}}">{{fmt.r_cta}}</a>
-        <p class="fcard-nota">{{fmt.r_nota}}</p>
-      </article>
-      <p class="fmts-despues">{{fmt.despues}}</p>
-      <div class="fmts-dos">
-        <article class="fcard glass spot rv">
-          <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="72px" alt="" width="112" height="112" loading="lazy"></div>
-          <h3 class="fcard-n">{{fmt.p_name}}</h3><p class="fcard-dur">{{fmt.p_dur}}</p>
-          <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.p_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.p_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.p_lleva}}</dd></div></dl>
-        </article>
-        <article class="fcard glass spot rv">
-          <div class="fcard-top"><img class="fcard-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="72px" alt="" width="112" height="112" loading="lazy"></div>
-          <h3 class="fcard-n">{{fmt.d_name}}</h3><p class="fcard-dur">{{fmt.d_dur}}</p>
-          <dl><div><dt>{{fmt.c_para}}</dt><dd>{{fmt.d_para}}</dd></div><div><dt>{{fmt.c_que}}</dt><dd>{{fmt.d_que}}</dd></div><div><dt>{{fmt.c_lleva}}</dt><dd>{{fmt.d_lleva}}</dd></div></dl>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 09 · Por qué Spiralia: autoridad colectiva, sin nombres -->
-<section class="sec light" id="quienes" aria-labelledby="t-pq">
+<!-- 14 · Por qué Spiralia: autoridad colectiva, sin nombres -->
+<section class="sec paper" id="quienes" aria-labelledby="t-pq">
   <div class="wrap">
     <header class="head rv">
       <p class="kicker">{{pq.kicker}}</p>
@@ -484,25 +685,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 10 · Diagnóstico -->
-<section class="sec navy" id="diagnostico" aria-labelledby="t-dg">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{dg.kicker}}</p>
-      <h2 id="t-dg" class="display"><span class="l1">{{dg.h2a}}</span> <span class="l2">{{dg.h2b}}</span></h2>
-      <p class="lead narrow">{{dg.lead}}</p>
-    </header>
-    <div class="dg glass" data-dg data-mail="{{mail}}"
-         data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
-         data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
-         data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
-         data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}" data-l-book="{{attr:cta.btn}}" data-book="{{base}}reserva/?d=diagnostico&amp;l={{lang}}">
-      <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
-    </div>
-  </div>
-</section>
-
-<!-- 11 · Preguntas del comité: las objeciones, con nombre -->
+<!-- 15 · Preguntas del comité: las objeciones, con nombre -->
 <section class="sec light" id="preguntas" aria-labelledby="t-faq">
   <div class="wrap faq-wrap">
     <header class="head rv">
@@ -520,11 +703,12 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <details><summary>{{faq.q8}}</summary><p>{{faq.a8}}</p></details>
       <details><summary>{{faq.q9}}</summary><p>{{faq.a9}}</p></details>
       <details><summary>{{faq.q10}}</summary><p>{{faq.a10}}</p></details>
+      <details><summary>{{faq.q11}}</summary><p>{{faq.a11}}</p></details>
     </div>
   </div>
 </section>
 
-<!-- 12 · Cierre: la S de Spiralia en movimiento como firma, y una sola acción -->
+<!-- 16 · Cierre: la S de Spiralia en movimiento como firma, y una sola acción -->
 <section class="sec dark cierre" id="hablemos" aria-labelledby="t-cta" data-firma
          data-src-h="{{base}}assets/video/firma-h" data-src-v="{{base}}assets/video/firma-v">
   <div class="cierre-media" aria-hidden="true">
@@ -552,7 +736,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 
 <div class="cta-fija" aria-hidden="true"><a class="btn btn-cta" href="{{base}}reserva/?d=fija&amp;l={{lang}}" tabindex="-1">{{hero.cta1}}</a></div>
 
-<!-- 13 · Pie: la marca grande, recortada -->
+<!-- 17 · Pie: la marca grande, recortada -->
 <footer class="foot">
   <div class="wrap foot-in">
     <div class="foot-brand">
@@ -560,7 +744,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <p>{{ft.tag}}</p>
     </div>
     <nav aria-label="{{attr:ft.ia}}"><p>{{ft.ia}}</p>
-      <a href="#pruebas">{{nav.casos}}</a><a href="#como">{{nav.como}}</a><a href="#para-ti">{{nav.parati}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#preguntas">{{ft.faq}}</a>
+      <a href="#dia-uno">{{prod.p1_n}}</a><a href="#habito">{{prod.p2_n}}</a><a href="#spiral">{{prod.p3_n}}</a><a href="#pulso">{{prod.p4_n}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#preguntas">{{ft.faq}}</a>
     </nav>
     <nav aria-label="{{attr:ft.areas}}"><p>{{ft.areas}}</p>
       <a href="https://spiralia.es/">spiralia.es</a>

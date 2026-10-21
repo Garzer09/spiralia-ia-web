@@ -19,12 +19,16 @@ Generado por build.py desde src/cifras.toml. No editar a mano.
 | 13.000 | Personas formadas en Deloitte España en un mes | dato | Programa Deloitte España × Spiralia, septiembre y octubre de 2026. |
 | 3.000 | Managers y directores formados en Deloitte España | dato | Programa Deloitte España × Spiralia, septiembre y octubre de 2026. |
 | 218 | Casos de uso identificados por los equipos de CCEP Iberia (identificados, no implantados) | dato | Programa CCEP Iberia × Spiralia, julio de 2026. |
-| 3 | Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «por tres meses», lo que cuesta esperar un trimestre | formato | Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026). |
+| 3 | Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera | formato | Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026). |
 | 2 | Huecos que proponemos para la primera conversación («dos o tres», en /reserva/); «the two» se refiere a las dos cifras de McKinsey; «las otras dos» / «the other two», a la escala y la capacidad frente a la velocidad («Para ti», Resultados) | formato | Oferta de Spiralia. |
+| 4 | Productos de Spiralia AI («Cuatro productos»: Día Uno, Hábito, Spiral y Pulso) y peldaños de la escalera de la IA | formato | Oferta de Spiralia (investigacion/05_productos_y_relato.md, 21-oct-2026). |
 | 8 | Preguntas del diagnóstico («Ocho preguntas») | formato | src/content.toml, [[data.diag.q]]. |
 | 30 | Duración de la primera conversación con el equipo (minutos) | formato | Oferta de Spiralia. |
 | 365 | Nombre de producto: Microsoft 365 Copilot | otro | — |
 | 2025 | Año: el artículo 4 del Reglamento de IA se aplica desde el 2 de febrero de 2025 | otro | Reglamento (UE) 2024/1689, https://eur-lex.europa.eu/eli/reg/2024/1689/oj |
 | 2026 | Año: reforma «Ómnibus» del Reglamento de IA (en vigor el 27-jul-2026) y copyright | otro | Comisión Europea, preguntas y respuestas sobre alfabetización en IA (actualizadas el 27-jul-2026). Ver investigacion/02_icp_arquetipos.md, sección 5. |
-| 20 | Duración de la película de apertura (segundos), en su texto alternativo | formato | — |
+| 22 | Duración de la película de apertura (segundos), en su texto alternativo | formato | motion/film/film.js |
+| 16 | Duración de los vídeos «modelo» y «multiplica» (segundos), en su texto alternativo | formato | motion/modelo/ y motion/multiplica/ |
+| 20 | Duración del vídeo «agentes» (segundos), en su texto alternativo | formato | motion/agentes/ |
+| 24 | Duración del vídeo «lunes» (segundos), en su texto alternativo | formato | motion/lunes/ |
 | 2027 | Año: el presupuesto de 2027, que los comités cierran en el último trimestre de 2026 (urgencia de calendario en el cierre) | otro | Calendario presupuestario. Retirar o cambiar por el año siguiente en el primer trimestre de 2027 (src/content.toml, [cta].urg). |

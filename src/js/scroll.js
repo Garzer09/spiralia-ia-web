@@ -41,19 +41,16 @@
     if (Math.abs(top - pad) > 1 && scrollY < root.scrollHeight - innerHeight - 1) salta(el);
   }), ms));
 
-  // WebGL: la organización que se enciende (portada) y la S hecha de partículas (método)
-  // Si el motor falla o va lento, se sigue sin WebGL: la portada usa su vídeo y el método, el SVG
+  // WebGL: la organización que se enciende (portada). Si el motor falla o va lento, la portada usa su vídeo
   const hero = $('[data-hero]'), spiral = $('.spiral');
   let GL = null; try { GL = glUrl !== '0' && window.SPGL && window.SPGL.supported() && !ahorro ? window.SPGL : null; } catch (e) {}
-  let glHero = null, glSp = null, esperaSp = null, sueltaPausa = null;
+  let glHero = null, sueltaPausa = null;
   const crear = (cv, o) => {
     try { return GL.create(cv, Object.assign({ density: innerWidth < 760 ? .6 : 1, still: quieto, software: glUrl === '1', vigia: glUrl !== '1', lento: sinGL }, o)); } catch (e) { return null; }
   };
   function sinGL() {
     GL = null;
-    if (esperaSp) { esperaSp.disconnect(); esperaSp = null; }
     if (glHero) { glHero.destroy(); glHero = null; hero.classList.remove('has-gl'); if (sueltaPausa) sueltaPausa(); hero.dispatchEvent(new Event('sp:singl')); }
-    if (glSp) { glSp.destroy(); glSp = null; spiral.classList.remove('has-gl'); }
   }
   if (GL && hero) {
     const cv = $('.hero-gl', hero);
@@ -90,31 +87,9 @@
     }
   }
 
-  // La S de partículas se crea a una pantalla de distancia, no en la carga. Lo que pide el método antes
-  // (progreso y paso) se guarda y se aplica al crearla. motion.js avisa de cada paso (onSet), con o sin GSAP
-  const spGL = { prog: quieto ? 1 : 0, paso: quieto ? 6 : 0 };
-  const spProg = p => { spGL.prog = p; if (glSp) glSp.setProgress(p); };
-  const spPaso = n => { spGL.paso = n; if (glSp) glSp.setStep(n); };
-  if (spiral && window.SP.spiral) window.SP.spiral.onSet = spPaso;
-  const montaSp = () => {
-    if (!GL || glSp) return;
-    const cvs = $('.sp-gl', spiral);
-    glSp = crear(cvs, { scene: 'espiral' }); if (!glSp) return;
-    spiral.classList.add('has-gl');
-    glSp.setProgress(spGL.prog); glSp.setStep(spGL.paso);
-    if (!reduce.matches) glSp.start();
-    if (fino) {
-      spiral.addEventListener('pointermove', e => { if (!glSp) return; const r = cvs.getBoundingClientRect(); glSp.setPointer(e.clientX - r.left, e.clientY - r.top); }, { passive: true });
-      spiral.addEventListener('pointerleave', () => glSp && glSp.setPointer(null));
-    }
-  };
-  if (GL && spiral) {
-    if (window.IntersectionObserver) {
-      esperaSp = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { esperaSp.disconnect(); esperaSp = null; montaSp(); } }, { rootMargin: '100% 0px' });
-      esperaSp.observe(spiral);
-    } else montaSp();
-  }
-  enEscucha(reduce, e => { if (e.matches && glSp) glSp.stop(); });
+  // La S de puntos del método (motion.js) se forma con el scroll
+  const spProg = p => window.SP.spiral && window.SP.spiral.setProgress(p);
+
 
   const gsap = window.gsap, ST = window.ScrollTrigger, Split = window.SplitText;
   // Se monta con las fuentes cargadas y después de que engine.js, motion.js y diagnostico.js pinten (DOMContentLoaded)
@@ -228,9 +203,7 @@
     if (lenis) { lenis.resize(); lenis.scrollTo(el, { immediate: true, force: true }); } else el.scrollIntoView({ behavior: 'instant' });
   };
 
-  // El gráfico del reto lo mueve el scroll: se retira del motor de piezas antes de que arranque.
-  // La espiral también, si arranca fijada (≥1024 px); si luego no se fija, la reproduce esta capa al entrar
-  const chart = $('.chart[data-piece]'); if (chart) chart.removeAttribute('data-piece');
+  // La espiral se retira del motor de piezas si arranca fijada (≥1024 px); si luego no se fija, la reproduce esta capa al entrar
   if (spiral && ancho.matches) spiral.removeAttribute('data-piece');
   // Los titulares de sección los anima esta capa, no la aparición genérica
   $$('.head.rv').forEach(h => h.classList.remove('rv'));
@@ -277,7 +250,18 @@
         .from(l, { yPercent: 115, duration: 1.15, stagger: .08 }, .05);
       const lead = $('.lead', h); if (lead) tl.from(lead, { y: 16, autoAlpha: 0, duration: 1 }, .35);
     });
-    $$('.remate .display, .remate-in, .beat2 > .h3').forEach(d => {
+    // Cabeceras de producto: el nombre grande sube, luego el claim en dos tiempos y la ficha
+    $$('.phead').forEach(h => {
+      if (visto(h)) return;
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: h, start: 'top 80%', once: true } });
+      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8 }, 0)
+        .from(lineas($('.pnombre', h)), { yPercent: 115, duration: 1.3 }, .05)
+        .from($$('.pclaim .l1, .pclaim .l2', h).flatMap(lineas), { yPercent: 115, duration: 1.1, stagger: .08 }, .3)
+        .from($('.lead', h), { y: 16, autoAlpha: 0, duration: 1 }, .55)
+        .from($('.phead-r', h), { y: 24, autoAlpha: 0, duration: 1.1 }, .4);
+    });
+    $$('.phead .rv').forEach(x => x.classList.remove('rv', 'pre'));
+    $$('.remate .display, .remate-in, .gal-head .display').forEach(d => {
       if (visto(d)) return;
       const l = $$('.l1, .l2', d).flatMap(lineas);
       gsap.from(l, { yPercent: 115, duration: 1.2, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: d, start: 'top 85%', once: true } });
@@ -290,15 +274,7 @@
         scrollTrigger: { trigger: p, start: 'top 85%', end: 'bottom 55%', scrub: .5 } });
     });
 
-    // El reto: la curva se dibuja con el scroll y las dos cifras se enfrentan
-    if (chart) {
-      const line = $('.ch-line', chart);
-      gsap.set(line, { strokeDasharray: 1, strokeDashoffset: 1 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: chart, start: 'top 88%', end: 'center 45%', scrub: .6 } });
-      tl.to(line, { strokeDashoffset: 0, ease: 'none', duration: 1 }, 0)
-        .from($('.ch-pk', chart), { autoAlpha: 0, y: 8, duration: .15 }, .3)
-        .from($('.ch-en', chart), { autoAlpha: 0, y: 8, duration: .15 }, .85);
-    }
+    // La ventaja: las dos cifras se enfrentan con el scroll
     const vs = $('.vs');
     if (vs) {
       const [a, m, b] = $$(':scope > div', vs);
@@ -309,10 +285,6 @@
         .from($('b', b), { yPercent: 40, autoAlpha: 0, duration: .4 }, .55)
         .from($('span', b), { autoAlpha: 0, duration: .3 }, .75);
     }
-    const coste = $('.coste');
-    if (coste && !visto(coste)) gsap.from($$('li', coste), { x: -16, autoAlpha: 0, stagger: .14, duration: .9, ease: 'expo.out',
-      scrollTrigger: { trigger: coste, start: 'top 80%', once: true } });
-
     // El método. Con ≥1024 px y si la escena cabe bajo la barra, se queda fija y el scroll avanza los seis pasos;
     // las partículas forman la S y la luz recorre la hebra. Si no, el scroll solo forma la S y los pasos van solos.
     // gsap.matchMedia deshace y rehace la escena al cruzar los 1024 px (giro de tableta, ventana redimensionada)
@@ -320,7 +292,7 @@
     if (spiral && window.SP.spiral) {
       const SP_ = window.SP.spiral, rep = $('.replay', spiral);
       let actual = -1, guiadaAntes = false, fijada = false, medida = '', mm = null;
-      const paso = n => { if (n === actual) return; actual = n; SP_.pick(Math.max(1, n)); spPaso(n); };
+      const paso = n => { if (n === actual) return; actual = n; SP_.pick(Math.max(1, n)); };
       // Altura con el paso más largo abierto
       const altura = () => {
         const lis = $$('.sp-steps li', spiral), antes = lis.map(li => li.classList.contains('open'));
@@ -351,11 +323,13 @@
         spiral.classList.add('pinned'); if (rep) rep.hidden = true;
         paso(0);
         const largo = () => innerHeight * 3.2;
+        // La S se forma mientras la sección sube hasta quedar fijada; ya fijada, el scroll avanza las seis fases
+        const forma = ST.create({ trigger: spiral, start: 'top 92%', end: 'top top+=72', scrub: .4, onUpdate: s => spProg(s.progress) });
         const st = ST.create({ trigger: spiral, start: 'top top+=72', end: () => '+=' + largo(), pin: true, pinSpacing: true, scrub: true, invalidateOnRefresh: true, refreshPriority: 1,
-          onUpdate: s => { spProg(Math.min(1, s.progress * 2.2)); paso(Math.min(6, Math.max(0, Math.ceil((s.progress - .18) / .82 * 6)))); } });
-        SP_.onPick = n => { const y = st.start + (st.end - st.start) * (.18 + (n - .5) / 6 * .82); lenis ? lenis.scrollTo(y) : scrollTo({ top: y, behavior: 'smooth' }); };
+          onUpdate: s => { spProg(1); paso(Math.min(6, Math.max(0, Math.ceil((s.progress - .12) / .88 * 6)))); } });
+        SP_.onPick = n => { const y = st.start + (st.end - st.start) * (.12 + (n - .5) / 6 * .88); lenis ? lenis.scrollTo(y) : scrollTo({ top: y, behavior: 'smooth' }); };
         repinta = () => { const n = actual; actual = -1; paso(n); };
-        return () => { spiral.classList.remove('pinned'); if (rep) rep.hidden = false; SP_.guiada = false; SP_.onPick = null; repinta = null; };
+        return () => { forma.kill(); spiral.classList.remove('pinned'); if (rep) rep.hidden = false; SP_.guiada = false; SP_.onPick = null; repinta = null; };
       };
       const monta = () => {
         const otra = !!mm;
@@ -378,14 +352,13 @@
 
     // Botones principales magnéticos y teselas que se inclinan hacia el cursor
     if (fino) {
-      $$('.btn-cta.btn-lg, .bar .btn-cta, .fcard-main .btn-cta').forEach(b => {
+      $$('.btn-cta.btn-lg, .bar .btn-cta').forEach(b => {
         const x = gsap.quickTo(b, 'x', { duration: .5, ease: 'power3' }), y = gsap.quickTo(b, 'y', { duration: .5, ease: 'power3' });
         b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * .22); y((e.clientY - r.top - r.height / 2) * .32); });
         b.addEventListener('pointerleave', () => { x(0); y(0); });
       });
-      // La tarjeta de Día Uno no se inclina: es ancha (se vería un trapecio), el texto se emborrona en 3D y lleva el CTA.
-      // En las demás, cuanto más ancha, menos ángulo: el borde se desplaza lo mismo en una tesela que en una tarjeta
-      $$('.tile, .fcard:not(.fcard-main)').forEach(t => {
+      // Cuanto más ancha la tarjeta, menos ángulo: el borde se desplaza lo mismo en una tesela que en una tarjeta
+      $$('.tile, .pcard').forEach(t => {
         gsap.set(t, { transformPerspective: 1200 });
         const rx = gsap.quickTo(t, 'rotationX', { duration: .6, ease: 'power3' }), ry = gsap.quickTo(t, 'rotationY', { duration: .6, ease: 'power3' });
         t.addEventListener('pointermove', e => { const r = t.getBoundingClientRect(), a = 5 * Math.min(1, 420 / r.width); ry(((e.clientX - r.left) / r.width - .5) * a); rx(-((e.clientY - r.top) / r.height - .5) * a); });

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Película de apertura (20 s, sin sonido) en ES y EN, en dos formatos · capturas del guion o render final.
+# Película de apertura (22 s, sin sonido) en ES y EN, en dos formatos · capturas del guion o render final.
 #   bash motion/render_film.sh snap     capturas en $SCR/film-<lang>-<formato>/snapshots/
 #   bash motion/render_film.sh render   assets/video/film-<lang>[-h].mp4 y .webm (VP9)
 # Formatos (FORMATS="v h" por defecto):
@@ -24,13 +24,13 @@ for L in ${LANGS:-es en}; do
     fi
     (cd "$D" && $HF check)
     if [ "$MODE" = snap ]; then
-      (cd "$D" && $HF snapshot --no-browser-gpu --describe false --no-end --at 0.9,2.6,3.6,4.6,5.6,7.2,8.8,10.6,11.8,13.4,14.9,15.3,16.2,17.4,18.6,19.95)
+      (cd "$D" && $HF snapshot --no-browser-gpu --describe false --no-end --at 0.6,1.3,2.0,2.9,4.6,5.5,6.2,7.6,9.2,10.4,12.0,14.2,16.4,18.5,19.4,20.4,21.95)
     else
       (cd "$D" && $HF render --fps 30 --workers 1 --no-browser-gpu --output "$SCR/$N.master.mp4")
       mkdir -p "$OUT"
-      ffmpeg -y -loglevel error -i "$SCR/$N.master.mp4" -frames:v 600 -c:v libx264 -preset slow -crf 26 -tune animation \
+      ffmpeg -y -loglevel error -i "$SCR/$N.master.mp4" -frames:v 660 -c:v libx264 -preset slow -crf 26 -tune animation \
         -pix_fmt yuv420p -profile:v high -movflags +faststart -an -map_metadata -1 "$OUT/$N.mp4"
-      ffmpeg -y -loglevel error -i "$SCR/$N.master.mp4" -frames:v 600 -c:v libvpx-vp9 -b:v 0 -crf 40 -row-mt 1 \
+      ffmpeg -y -loglevel error -i "$SCR/$N.master.mp4" -frames:v 660 -c:v libvpx-vp9 -b:v 0 -crf 40 -row-mt 1 \
         -deadline good -cpu-used 2 -pix_fmt yuv420p -an -map_metadata -1 "$OUT/$N.webm"
       ls -la "$OUT/$N".*
     fi

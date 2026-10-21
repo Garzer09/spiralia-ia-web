@@ -25,3 +25,12 @@ assert.deepStrictEqual(pasos(N, Array(Q).fill(0)), ['Elige tu IA y Día Uno', 'F
 assert.deepStrictEqual(pasos(N, [1, 0, 0, 0, 0, 0, 0, 0]), N.s, 'con un grupo piloto → la línea de siempre');
 assert.deepStrictEqual(pasos({ s: N.s }, Array(Q).fill(0)), N.s, 'un nivel sin sin_ia no cambia');
 console.log('ok · diagnóstico: 25 puntuaciones, 5 niveles, sin huecos; pasos sin IA corporativa');
+// Valor en juego: personas × horas × coste × semanas; lo capturado según el nivel y lo que se escapa por semana
+const { roi } = require('../src/js/diagnostico.js');
+const r = roi(500, 40, 2, 46, .25);
+assert.strictEqual(r.total, 1840000, '500 personas × 2 h × 40 € × 46 semanas');
+assert.strictEqual(r.hoy, 460000, 'en Uso se captura la cuarta parte');
+assert.strictEqual(r.fuga, 1380000, 'y se escapa el resto');
+assert.strictEqual(r.semana, 30000, 'lo que se escapa, por semana');
+assert.deepStrictEqual(roi(-5, 40, 2, 46, .1), { total: 0, hoy: 0, fuga: 0, semana: 0 }, 'sin personas no hay valor en juego');
+console.log('ok · estimación del valor en juego');

@@ -1,37 +1,35 @@
 /*
  * Textos de la película de apertura de Spiralia AI (ES y EN). Se cambian aquí; la animación no se toca.
+ * Guion del 21-oct-2026: abre con el dolor del CEO (quedarse atrás frente a quien ya trabaja con IA), da tiempo
+ * a leer las dos cifras y termina en la marca, sin cifras ni pruebas en el cartel final.
  * Cifras y fuentes (las mismas de la web, ver src/cifras.toml):
- *  80 % y 6 %: McKinsey, «The state of AI in 2026» (agosto de 2026). El 6 % son las empresas que atribuyen
- *  a la IA al menos un 5 % de su EBIT; es otra base que el 80 %, por eso hay corte y no cuenta atrás.
- *  50.000: personas formadas por Spiralia (la misma etiqueta que la web). ING España: usuarios activos
- *  semanales del 66 % al 92 % (medición interna del grupo ING, uso externo autorizado). Deloitte España:
- *  13.000 personas formadas en un mes (septiembre-octubre de 2026).
+ *  80 % y 6 %: McKinsey, «The state of AI in 2026» (agosto de 2026). El 80 % son personas encuestadas; el 6 %,
+ *  empresas que atribuyen a la IA al menos un 5 % de su EBIT. Son bases distintas: por eso hay corte, no cuenta
+ *  atrás, y cada una lleva su propia rejilla (100 personas, 100 empresas).
  */
 window.COPY = {
   es: {
     cromo: 'Spiralia AI',
-    s1: ['La IA ya está', 'en todas las mesas.'],
-    s2: { n: 80, suf: ' %', t: 'de los encuestados dice que la IA le ha hecho más productivo' },
-    s3: { n: 6, corte: true, suf: ' %', t: 'de las empresas saca de la IA al menos un 5\u00a0% de su beneficio' },
-    fuente: 'McKinsey, The state of AI in 2026. El 6\u00a0%: empresas que atribuyen a la IA al menos un 5\u00a0% de su EBIT.',
-    s4: ['El curso acaba', 'el viernes.'],
-    s5: ['¿Y el lunes?'],
-    s6: ['Formamos', 'a cada persona', 'con su propio', 'trabajo.'],
-    s7: ['Construimos', 'con tu equipo', 'hasta que funciona.'],
-    lema: 'Adopción de IA, de principio a fin.',
-    filas: [['Personas formadas', '50.000'], ['ING · usuarios activos semanales', '66 % → 92 %'], ['Deloitte · en un mes', '13.000']],
+    s1: { pre: ['Hay empresas', 'que ya'], verbos: ['responden antes.', 'deciden antes.', 'venden antes.'] },
+    s2: ['Con la misma IA', 'que tú.'],
+    s3: { n: 80, suf: ' %', t: 'de los encuestados dice que la IA le ha hecho más productivo', reja: 'De cada 100 encuestados' },
+    s4: { n: 6, corte: true, suf: ' %', t: 'de las empresas saca de la IA al menos un 5 % de su beneficio', reja: 'De cada 100 empresas' },
+    fuente: 'McKinsey, The state of AI in 2026. El 6 %: empresas que atribuyen a la IA al menos un 5 % de su EBIT.',
+    s5: ['La diferencia', 'no es la IA.', 'Es cómo', 'se despliega.'],
+    s6: ['Formamos', 'a cada persona', 'con su trabajo.'],
+    s7: ['Y construimos', 'con tu equipo', 'hasta que funciona.'],
+    lema: 'Formación y despliegue de IA',
   },
   en: {
     cromo: 'Spiralia AI',
-    s1: ['AI is already', 'on every desk.'],
-    s2: { n: 80, suf: '%', t: 'of respondents say AI has made them more productive' },
-    s3: { n: 6, corte: true, suf: '%', t: 'of companies get at least 5% of their operating profit from AI' },
+    s1: { pre: ['Some companies', 'already'], verbos: ['respond faster.', 'decide faster.', 'sell faster.'] },
+    s2: ['With the same AI', 'as you.'],
+    s3: { n: 80, suf: '%', t: 'of respondents say AI has made them more productive', reja: 'Out of every 100 respondents' },
+    s4: { n: 6, corte: true, suf: '%', t: 'of companies get at least 5% of their operating profit from AI', reja: 'Out of every 100 companies' },
     fuente: 'McKinsey, The state of AI in 2026. The 6%: companies attributing at least 5% of their EBIT to AI.',
-    s4: ['The course ends', 'on Friday.'],
-    s5: ['And on Monday?'],
-    s6: ['We train', 'every person', 'on their', 'own work.'],
-    s7: ['We build', 'with your team', 'until it works.'],
-    lema: 'AI adoption, end-to-end.',
-    filas: [['People trained', '50,000'], ['ING · weekly active users', '66% → 92%'], ['Deloitte · in one month', '13,000']],
+    s5: ['The difference', 'isn’t the AI.', 'It’s how', 'it’s deployed.'],
+    s6: ['We train', 'every person', 'on their work.'],
+    s7: ['And we build', 'with your team', 'until it works.'],
+    lema: 'AI training and deployment',
   },
 };

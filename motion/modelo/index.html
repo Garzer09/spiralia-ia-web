@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>El mismo modelo · Spiralia AI</title>
+  <style>
+    @font-face { font-family: "Butler"; src: url("Butler-Light.otf") format("opentype"); font-weight: 300; font-display: block; }
+    @font-face { font-family: "Butler"; src: url("Butler-Regular.otf") format("opentype"); font-weight: 400; font-display: block; }
+    @font-face { font-family: "Sofia Sans Condensed"; src: url("SofiaSansCondensed-VF.ttf") format("truetype"); font-weight: 100 900; font-display: block; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #051A2B; }
+    /* Geometría que lee modelo.js: el núcleo al principio (0) y arriba (1), y la escala que tiene arriba */
+    .lienzo {
+      position: relative; width: 1920px; height: 1080px; overflow: hidden; color: #E0DFDA;
+      -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision;
+      --nx0: 560; --ny0: 500; --nx1: 960; --ny1: 166; --ns1: .38; --espina: 0;
+    }
+    .fondo { position: absolute; inset: 0; background:
+      radial-gradient(900px 520px at 50% 6%, rgba(23, 68, 103, .30), rgba(23, 68, 103, 0) 70%),
+      radial-gradient(1400px 900px at 50% 100%, rgba(8, 38, 61, .55), rgba(8, 38, 61, 0) 70%), #051A2B; }
+    .capa { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+
+    /* Rótulos y líneas que suben desde una máscara */
+    .rotulo { font: 600 26px/1 "Sofia Sans Condensed"; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
+    .mascara { overflow: hidden; padding-bottom: .1em; }
+    .sube { display: block; white-space: nowrap; will-change: transform; }
+
+    /* El núcleo: anillos, brillo que respira y su rótulo */
+    .nucleo { position: absolute; left: 0; top: 0; width: 440px; height: 440px; transform-origin: 220px 220px; will-change: transform, opacity; }
+    .nucleo svg { position: absolute; left: 0; top: 0; width: 440px; height: 440px; overflow: visible; }
+    .halo { position: absolute; left: -330px; top: -330px; width: 1100px; height: 1100px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(255, 255, 255, .16), rgba(224, 223, 218, .07) 38%, rgba(23, 68, 103, .10) 62%, rgba(5, 26, 43, 0) 100%); }
+    .anillo { fill: none; stroke: #E0DFDA; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+    .nucleo-t { position: absolute; left: 0; top: 0; color: #A9B1B8; transform-origin: 50% 0; }
+
+    /* 0–3 s · tres líneas junto al núcleo */
+    .intro { position: absolute; left: 850px; top: 326px; font: 300 100px/1.06 "Butler"; letter-spacing: -.012em; }
+
+    /* Trazos del núcleo a las tarjetas */
+    .trazo { fill: none; stroke: #E0DFDA; stroke-width: 1.5; stroke-linecap: round; }
+    .luz { fill: none; stroke: #FFFFFF; stroke-width: 2.5; stroke-linecap: round; }
+    .chispa { fill: #FFFFFF; }
+
+    /* Tarjetas de las tres empresas */
+    .tarjeta { position: absolute; top: 352px; width: 504px; height: 608px; }
+    .t0 { left: 160px; } .t1 { left: 708px; } .t2 { left: 1256px; }
+    .t-sombra { position: absolute; inset: 0; border-radius: 16px; box-shadow: 0 44px 90px -28px rgba(0, 0, 0, .62), 0 14px 30px -18px rgba(0, 0, 0, .5); }
+    .t-fondo { position: absolute; inset: 0; border-radius: 16px; border-top: 1px solid rgba(255, 255, 255, .05);
+      background: linear-gradient(180deg, rgba(13, 49, 80, .92) 0%, rgba(8, 38, 61, .92) 62%, rgba(8, 38, 61, .86) 100%); }
+    .t-brillo { position: absolute; inset: 0; border-radius: 16px; background: radial-gradient(420px 260px at 50% 46%, rgba(255, 255, 255, .075), rgba(255, 255, 255, 0) 72%); }
+    .marco { position: absolute; left: 0; top: 0; overflow: visible; }
+    .marco path { fill: none; stroke: #E0DFDA; stroke-width: 1.5; }
+    .t-n { position: absolute; left: 36px; top: 36px; color: #A9B1B8; }
+    .t-hizo { position: absolute; left: 36px; top: 74px; font: 400 44px/1.1 "Butler"; letter-spacing: -.008em; color: #E0DFDA; }
+    .org { position: absolute; left: 36px; top: 146px; width: 432px; height: 250px; overflow: visible; }
+    .t-res { position: absolute; left: 36px; top: 410px; font: 300 36px/1.1 "Butler"; letter-spacing: -.005em; }
+    .t-pie { position: absolute; left: 36px; right: 36px; top: 486px; }
+    .t-linea { height: 1px; background: rgba(224, 223, 218, .22); transform-origin: 0 50%; }
+    .t-pyg { margin-top: 22px; font: 500 28px/1 "Sofia Sans Condensed"; letter-spacing: .02em; color: #A9B1B8; white-space: nowrap; }
+    .barra { position: relative; margin-top: 18px; height: 8px; border-radius: 4px; background: rgba(224, 223, 218, .10); }
+    .barra i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 4px; transform-origin: 0 50%; }
+    .t0 .barra i { background: #A9B1B8; opacity: .7; }
+    .t1 .barra i { background: #E0DFDA; }
+    .t2 .barra i { background: #FFFFFF; box-shadow: 0 0 18px rgba(255, 255, 255, .45), 0 0 4px rgba(255, 255, 255, .7); }
+    .t0 .t-res { color: #A9B1B8; } .t1 .t-res { color: #E0DFDA; } .t2 .t-res { color: #FFFFFF; }
+
+    /* La organización: equipos de seis (islas), enlaces y arcos */
+    .p-base { fill: #E0DFDA; }
+    .p-luz { fill: #FFFFFF; }
+    .enlace { fill: none; stroke: #E0DFDA; stroke-width: 1.2; }
+    .arco { fill: none; stroke: #E0DFDA; stroke-width: 1.6; stroke-linecap: round; }
+    .onda { fill: none; stroke: #FFFFFF; stroke-width: 1.4; }
+    .cerco { fill: none; stroke: #E0DFDA; stroke-width: 1.4; stroke-dasharray: 4 7; }
+
+    /* 12,5–16 s · el remate, en el sitio del núcleo */
+    .remate { position: absolute; left: 0; right: 0; top: 86px; text-align: center; font: 300 96px/1.04 "Butler"; letter-spacing: -.014em; }
+    .remate .mascara { display: inline-block; vertical-align: top; }
+    .remate .mascara + .mascara { margin-left: .26em; }
+    .remate .blanco { color: #FFFFFF; }
+    .sub { position: absolute; left: 0; right: 0; top: 216px; text-align: center; font: 400 40px/1.2 "Sofia Sans Condensed"; letter-spacing: .01em; color: #A9B1B8; }
+    .ilus { position: absolute; left: 160px; top: 1006px; color: #A9B1B8; }
+
+    /* ── 4:5 (1080×1350, móvil): render_piezas.sh pone class="v" en <html>. Núcleo y remate arriba; tarjetas en filas ── */
+    .v .lienzo { width: 1080px; height: 1350px; }
+    .v .lienzo { --nx0: 540; --ny0: 456; --nx1: 540; --ny1: 158; --ns1: .38; --espina: 1; }
+    .v .fondo { background:
+      radial-gradient(700px 480px at 50% 6%, rgba(23, 68, 103, .30), rgba(23, 68, 103, 0) 70%),
+      radial-gradient(1000px 900px at 50% 100%, rgba(8, 38, 61, .55), rgba(8, 38, 61, 0) 70%), #051A2B; }
+    .v .rotulo { font-size: 30px; }
+    .v .intro { left: 0; right: 0; top: 728px; text-align: center; font-size: 90px; }
+    .v .tarjeta { left: 96px; width: 888px; height: 286px; }
+    .v .t0 { top: 334px; } .v .t1 { top: 640px; } .v .t2 { top: 946px; }
+    .v .t-brillo { background: radial-gradient(360px 200px at 76% 40%, rgba(255, 255, 255, .075), rgba(255, 255, 255, 0) 72%); }
+    .v .t-n { left: 34px; top: 32px; }
+    .v .t-hizo { left: 34px; top: 74px; font-size: 44px; }
+    .v .org { left: 494px; top: 18px; width: 360px; height: 180px; }
+    .v .t-res { left: 34px; top: 146px; font-size: 36px; }
+    .v .t-pie { left: 34px; right: 34px; top: 212px; }
+    .v .t-pyg { margin-top: 0; position: absolute; left: 0; top: 22px; font-size: 30px; }
+    .v .barra { position: absolute; left: 460px; right: 0; top: 34px; margin-top: 0; }
+    .v .remate { top: 60px; font-size: 84px; }
+    .v .remate .mascara { display: block; }
+    .v .remate .mascara + .mascara { margin-left: 0; }
+    .v .sub { top: 252px; font-size: 36px; }
+    .v .ilus { left: 96px; top: 1270px; }
+  </style>
+  <script src="gsap.min.js"></script>
+  <script src="copy.js"></script>
+</head>
+<body>
+  <!-- 16 s a 30 fps (480 fotogramas), 16:9 (y 4:5 con html.v), sin sonido. Guion en modelo.js; textos en copy.js -->
+  <div id="pieza" class="lienzo" data-composition-id="modelo" data-start="0" data-duration="16" data-width="1920" data-height="1080" data-fps="30"></div>
+  <script src="modelo.js"></script>
+  <script>
+    PIEZA.montar(document.getElementById('pieza'));
+    const tl = gsap.timeline({ paused: true, onUpdate: () => PIEZA.pintar(tl.time()) });
+    tl.to({ ancla: 0 }, { ancla: 1, duration: PIEZA.duracion, ease: 'none' }, 0);
+    window.__timelines = window.__timelines || {};
+    window.__timelines["modelo"] = tl;
+    tl.seek(0);
+    PIEZA.pintar(0);
+  </script>
+</body>
+</html>

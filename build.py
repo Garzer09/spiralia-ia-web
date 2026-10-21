@@ -69,9 +69,10 @@ def texts(lang):
 plain = lambda v: html.unescape(re.sub(r'<[^>]+>', '', str(v)))
 
 def oferta(t, k):
-    """Descripción de un formato en el JSON-LD: qué es y su duración («… Duración: una jornada, en tu empresa.»)."""
-    dur = plain(t[f'fmt.{k}_dur'])
-    return f"{plain(t[f'fmt.{k}_que'])} {plain(t['fmt.c_dur'])}: {dur[:1].lower() + dur[1:]}."
+    """Descripción de un producto en el JSON-LD: qué es, para quién y su duración («… Duración: una jornada.»)."""
+    dur, para = plain(t[f'prod.p{k}_dur']), plain(t[f'prod.p{k}_para'])
+    return (f"{plain(t[f'prod.p{k}_tag'])}. {plain(t[f'prod.p{k}'])} {plain(t['prod.para'])}: {para[:1].lower() + para[1:]}. "
+            f"{plain(t['prod.dur'])}: {dur[:1].lower() + dur[1:]}.")
 
 def jsonld(t, url, lang):
     """Datos estructurados: la organización, el servicio y las preguntas del comité (Google y buscadores con IA)."""
@@ -82,9 +83,9 @@ def jsonld(t, url, lang):
            'serviceType': plain(t['ft.tag']).rstrip('.'), 'provider': {'@id': SITE + '#org'}, 'url': url,
            'areaServed': {'@type': 'Country', 'name': 'España' if lang == 'es' else 'Spain'},
            'audience': {'@type': 'BusinessAudience', 'audienceType': plain(t['meta.audience'])},
-           'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': plain(t['fmt.kicker']), 'itemListElement': [
-               {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'fmt.{k}_name']), 'description': oferta(t, k)}}
-               for k in ('r', 'p', 'd')]}}
+           'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': plain(t['nav.productos']), 'itemListElement': [
+               {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'prod.p{k}_n']), 'description': oferta(t, k)}}
+               for k in (1, 2, 3, 4)]}}
     qs = sorted((k for k in t if re.fullmatch(r'faq\.q\d+', k)), key=lambda k: int(k[5:]))
     faq = {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': plain(t[q]),
            'acceptedAnswer': {'@type': 'Answer', 'text': plain(t['faq.a' + q[5:]])}} for q in qs]}
@@ -292,8 +293,8 @@ def reserva():
                           copiar=es['copiar'], asunto=urllib.parse.quote(es['subject'] + ' · web'),
                           textos=json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
 
-# Iconos 3D que tools/icons3d sigue pintando pero la página ya no usa: rumbo (el primer paso es Día Uno desde el 20-oct)
-ICONOS_RETIRADOS = {'rumbo'}
+# Iconos 3D que tools/icons3d sigue pintando pero la página ya no usa. El de rumbo (el giróscopo) vuelve el 21-oct como icono de Pulso
+ICONOS_RETIRADOS = set()
 
 def fuera(d, nombres):
     """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py), fotos de personas que la página

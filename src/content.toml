@@ -9,18 +9,21 @@
 #  · Primero el resultado, después el método. Pérdida en el problema; ganancia en la solución.
 #  · Palabras de negocio. Un término técnico solo si hace falta, explicado en una línea la primera vez.
 #  · Hechos en lugar de adjetivos. Sin exclamaciones, sin superlativos, sin escasez inventada.
+# Productos y relato (21-oct): investigacion/05_productos_y_relato.md. Día Uno, Hábito, Spiral y Pulso son nombres
+# propios: no se traducen al español ni se cambian sin cambiar también ese documento.
 
 [meta]
-title = {es = "Spiralia AI · Formación e implantación de IA para empresas", en = "Spiralia AI · AI training and deployment for companies"}
-description = {es = "Formamos a cada persona con su trabajo y construimos con tus equipos hasta que la IA da resultados. Con ING, Deloitte y Coca-Cola Europacific Partners.", en = "We train every person on their own work and build with your teams until AI delivers results. With ING, Deloitte and Coca-Cola Europacific Partners."}
-og_alt = {es = "Toda tu empresa, trabajando con IA. Spiralia AI.", en = "Your whole company, working with AI. Spiralia AI."}
-org = {es = "Spiralia trabaja con empresas en formación, comunicación y eventos. Spiralia AI es su área de formación e implantación de IA.", en = "Spiralia works with companies on training, communication and events. Spiralia AI is its AI training and deployment practice."}
+title = {es = "Spiralia AI · Formación y despliegue de IA para empresas", en = "Spiralia AI · AI training and deployment for companies"}
+description = {es = "Cuatro productos para que la IA trabaje en tu empresa: Día Uno, Hábito, Spiral y Pulso. Formamos a cada persona con su trabajo y construimos con tus equipos hasta que da resultados.", en = "Four products to put AI to work in your company: Day One, Habit, Spiral and Pulse. We train every person on their own work and build with your teams until it delivers results."}
+og_alt = {es = "Que el ritmo de tu sector lo marque tu empresa. Spiralia AI.", en = "Let your company set your industry’s pace. Spiralia AI."}
+org = {es = "Spiralia trabaja con empresas en formación, comunicación y eventos. Spiralia AI es su área de formación y despliegue de IA.", en = "Spiralia works with companies on training, communication and events. Spiralia AI is its AI training and deployment practice."}
 audience = {es = "Comités de dirección, RR. HH. y tecnología de medianas y grandes empresas", en = "Leadership teams, HR and technology leaders at mid-sized and large companies"}
 
 [nav]
 home = {es = "Spiralia, inicio", en = "Spiralia, home"}
+productos = {es = "Productos", en = "Products"}
+diag = {es = "Diagnóstico", en = "Assessment"}
 casos = {es = "Casos", en = "Cases"}
-como = {es = "Método", en = "Method"}
 parati = {es = "Para ti", en = "For you"}
 quienes = {es = "Por qué Spiralia", en = "Why Spiralia"}
 cta = {es = "Hablemos", en = "Let’s talk"}
@@ -31,15 +34,14 @@ menu = {es = "Menú", en = "Menu"}
 close = {es = "Cerrar", en = "Close"}
 
 [hero]
-kicker = {es = "Spiralia · IA para empresas", en = "Spiralia · AI for business"}
-h1a = {es = "Toda tu empresa,", en = "Your whole company,"}
-h1b = {es = "trabajando con IA.", en = "working with AI."}
-sub = {es = "Formamos a cada persona con su propio trabajo. Y construimos con tus equipos hasta que la IA da resultados.", en = "We train every person on their own work. And we build with your teams until AI delivers results."}
+kicker = {es = "Spiralia AI · Formación y despliegue de IA", en = "Spiralia AI · AI training and deployment"}
+h1a = {es = "Que el ritmo de tu sector", en = "Let your company"}
+h1b = {es = "lo marque tu empresa.", en = "set your industry’s pace."}
+sub = {es = "Formamos a cada persona con su propio trabajo y construimos con tus equipos los agentes que hacen el resto. Hasta que se nota en tu cuenta de resultados.", en = "We train every person on their own work and build, with your teams, the agents that do the rest. Until it shows on your P&amp;L."}
 cta1 = {es = "Hablemos de tu caso", en = "Let’s talk about your case"}
-cta2 = {es = "Diagnóstico en 3 minutos", en = "3-minute assessment"}
-micro = {es = "En ING España, los usuarios activos cada semana pasaron <b>del 66 % al 92 %</b>.", en = "At ING Spain, weekly active users went <b>from 66% to 92%</b>."}
+cta2 = {es = "Diagnóstico y ROI en 3 minutos", en = "3-minute assessment and ROI"}
 saltar = {es = "Saltar", en = "Skip"}
-film_alt = {es = "Vídeo de 20 segundos: la IA ya está en todas las mesas, pero solo el 6 % de las empresas saca de la IA al menos un 5 % de su beneficio. Formamos a cada persona con su propio trabajo y construimos con tu equipo hasta que funciona.", en = "20-second video: AI is already on every desk, but only 6% of companies get at least 5% of their operating profit from AI. We train every person on their own work and build with your team until it works."}
+film_alt = {es = "Vídeo de 22 segundos: hay empresas que ya responden, deciden y venden antes con la misma IA que tú. El 80 % de los encuestados dice que la IA le hace más productivo, pero solo el 6 % de las empresas saca de ella al menos un 5 % de su beneficio. La diferencia no es la IA: es cómo se despliega. Spiralia forma a cada persona con su trabajo y construye con tu equipo hasta que funciona.", en = "22-second video: some companies already respond, decide and sell faster with the same AI as you. 80% of respondents say AI makes them more productive, but only 6% of companies get at least 5% of their operating profit from it. The difference isn’t the AI: it’s how it’s deployed. Spiralia trains every person on their own work and builds with your team until it works."}
 pause = {es = "Pausar la animación de fondo", en = "Pause the background animation"}
 play = {es = "Reanudar la animación de fondo", en = "Play the background animation"}
 roles = {es = "Empieza por lo que más te importa", en = "Start with what matters most to you"}
@@ -53,38 +55,153 @@ logos = {es = "Hemos formado a equipos de", en = "We have trained teams at"}
 logos_pause = {es = "Pausar los logos", en = "Pause the logos"}
 logos_play = {es = "Mover los logos", en = "Play the logos"}
 
+# Vídeos de las piezas (HyperFrames): controles comunes
+[vid]
+pausa = {es = "Pausar el vídeo", en = "Pause the video"}
+otra = {es = "Ver de nuevo", en = "Watch again"}
+ver = {es = "Ver el vídeo", en = "Watch the video"}
+guion = {es = "Lo que cuenta el vídeo", en = "What the video says"}
+
+# 02 · Lo que hacemos: los cuatro productos, en una pantalla, sobre la escalera de la IA
+[prod]
+kicker = {es = "Lo que hacemos", en = "What we do"}
+h2a = {es = "Cuatro productos.", en = "Four products."}
+h2b = {es = "Un mismo método, con tu trabajo dentro.", en = "One method, with your work inside."}
+lead = {es = "Cada uno tiene su nombre, sus fases y lo que te llevas al terminar, así que sabes qué va a pasar en cada momento. Casi todos los clientes empiezan por Día Uno.", en = "Each one has its name, its phases and what you take away at the end, so you know what will happen at every moment. Almost every client starts with Day One."}
+ver = {es = "Cómo funciona", en = "How it works"}
+para = {es = "Para", en = "For"}
+dur = {es = "Duración", en = "Duration"}
+p1_tag = {es = "El piloto", en = "The pilot"}
+p1_n = {es = "Día Uno", en = "Day One"}
+p1 = {es = "Un día de trabajo real con la IA de tu empresa. Al cierre, tu comité sabe por dónde empezar.", en = "A day of real work with your company’s AI. By the close, your leadership team knows where to start."}
+p1_para = {es = "Comité de dirección y managers", en = "Leadership team and managers"}
+p1_dur = {es = "Una jornada", en = "One day"}
+p2_tag = {es = "Formación a medida", en = "Tailored training"}
+p2_n = {es = "Hábito", en = "Habit"}
+p2 = {es = "Cada persona aprende con su propio trabajo. El lunes, ya lo usa en su mesa.", en = "Everyone learns on their own work. On Monday, they’re already using it at their desk."}
+p2_para = {es = "Toda la organización, por perfiles", en = "The whole organization, by profile"}
+p2_dur = {es = "Por oleadas, a tu ritmo", en = "In waves, at your pace"}
+p3_tag = {es = "Despliegue", en = "Deployment"}
+p3_n = {es = "Spiral", en = "Spiral"}
+p3 = {es = "Construimos con tu equipo las automatizaciones y los agentes que hacen trabajo real.", en = "We build, with your team, the automations and agents that do real work."}
+p3_para = {es = "Un área y sus procesos", en = "One area and its processes"}
+p3_dur = {es = "Ciclos cortos", en = "Short cycles"}
+p4_tag = {es = "Acompañamiento", en = "Ongoing support"}
+p4_n = {es = "Pulso", en = "Pulse"}
+p4 = {es = "Medimos el uso, resolvemos dudas y subimos un peldaño cada mes.", en = "We measure usage, answer questions and climb one step every month."}
+p4_para = {es = "Champions, managers y comité", en = "Champions, managers and leadership"}
+p4_dur = {es = "Cada mes", en = "Every month"}
+mapa_h = {es = "Dónde encaja cada uno: la escalera de la IA", en = "Where each one fits: the AI ladder"}
+mapa_dia = {es = "Día Uno te enseña la escalera entera en una jornada y decide por dónde empezar.", en = "Day One shows you the whole ladder in one day and decides where to start."}
+mapa_pulso = {es = "Pulso te acompaña en todos los peldaños.", en = "Pulse stays with you on every step."}
+
+# La escalera de la IA (de CCEP): los mismos cuatro peldaños en Lo que hacemos y en Después de la formación
+[esc]
+e1 = {es = "Pedir", en = "Ask"}
+e1_q = {es = "IA asistencial", en = "Assistant AI"}
+e1_d = {es = "Le pides y te ayuda: redactar, resumir, analizar. Cada vez, desde cero.", en = "You ask and it helps: write, summarize, analyze. From scratch, every time."}
+e1_x = {es = "«Resume cómo ha ido el mes en el área»", en = "“Summarize how the month went in the area”"}
+e2 = {es = "Enseñar", en = "Teach"}
+e2_q = {es = "Skills", en = "Skills"}
+e2_d = {es = "Escribes una vez tu método y la IA lo sigue siempre con el mismo criterio. Esa receta es una skill.", en = "You write your method once and AI follows it every time with the same judgment. That recipe is a skill."}
+e2_x = {es = "La skill «informe mensual», con tus indicadores y tu formato", en = "The “monthly report” skill, with your KPIs and your format"}
+e3 = {es = "Automatizar", en = "Automate"}
+e3_q = {es = "Automatizaciones", en = "Automations"}
+e3_d = {es = "La tarea se pone en marcha sola cuando pasa algo: llega un correo, cierra el mes.", en = "The task starts on its own when something happens: an email arrives, the month closes."}
+e3_x = {es = "Al cierre del mes, el borrador llega solo a quien lo firma", en = "At month-end, the draft reaches whoever signs it, on its own"}
+e4 = {es = "Delegar", en = "Delegate"}
+e4_q = {es = "Agentes", en = "Agents"}
+e4_d = {es = "Recibe un objetivo y unos límites, decide cómo hacerlo y pide tu revisión. Con permisos y un dueño.", en = "It gets a goal and limits, decides how to do it and asks for your review. With permissions and an owner."}
+e4_x = {es = "Prepara el comité: reúne los informes, señala desviaciones y propone el orden del día", en = "Prepares the committee: gathers the reports, flags deviations and proposes the agenda"}
+tu = {es = "Lo haces tú", en = "You do it"}
+contigo = {es = "Lo construimos contigo", en = "We build it with you"}
+
+# 03 · Por qué ahora: leerle la mente al comité, y la curva del uso frente a lo que se paga
 [reto]
 kicker = {es = "Por qué ahora", en = "Why now"}
-h2a = {es = "Ya pagas la IA.", en = "You already pay for AI."}
-h2b = {es = "Ahora, que trabaje.", en = "Now put it to work."}
-lead = {es = "Llegan las licencias, tira la novedad y, a las pocas semanas, muchos vuelven a lo de siempre. En un experimento en 66 empresas, el uso semanal de Copilot entre quienes tenían licencia tocó techo en el 55 % y acabó por debajo del 40 %.", en = "The licenses arrive, the novelty pulls people in and, a few weeks later, many go back to the old way. In an experiment across 66 companies, weekly Copilot use among those with a license peaked at 55% and ended below 40%."}
+h2a = {es = "Las licencias llegaron.", en = "The licenses arrived."}
+h2b = {es = "El plan, todavía no.", en = "The plan, not yet."}
+voces_h = {es = "Lo que nadie dice en voz alta en el comité", en = "What nobody says out loud in the leadership meeting"}
+voz1 = {es = "¿Por dónde empiezo?", en = "Where do I start?"}
+voz2 = {es = "¿Lo está usando alguien de verdad?", en = "Is anyone really using it?"}
+voz3 = {es = "¿Y si mi competencia ya va más rápido?", en = "What if my competitors are already moving faster?"}
+voz4 = {es = "¿Qué le enseño al consejo dentro de un año?", en = "What do I show the board a year from now?"}
+voz5 = {es = "¿Quién se encarga de esto?", en = "Who owns this?"}
+lead = {es = "No es falta de interés. Es que nadie ha dicho para qué, en qué tareas ni con qué criterio. Y sin eso, el uso se enfría: en un experimento en 66 empresas, el uso semanal de Copilot entre quienes tenían licencia tocó techo en el 55 % y acabó por debajo del 40 %.", en = "It isn’t a lack of interest. It’s that nobody has said what it’s for, in which tasks or with what judgment. And without that, usage cools off: in an experiment across 66 companies, weekly Copilot use among those with a license peaked at 55% and ended below 40%."}
 lead2 = {es = "Mientras tanto, la licencia se paga igual.", en = "Meanwhile, the license costs the same."}
-chart_label = {es = "Personas con Copilot que lo usan cada semana", en = "People with Copilot who use it every week"}
-chart_peak = {es = "55 %", en = "55%"}
+chart_label = {es = "Lo que pagas frente a lo que se usa", en = "What you pay for versus what gets used"}
+chart_pago = {es = "Lo que pagas", en = "What you pay for"}
+chart_uso = {es = "Personas con licencia que la usan cada semana", en = "People with a license who use it every week"}
+chart_hueco = {es = "Pagado y sin usar", en = "Paid for, unused"}
+chart_peak = {es = "55 %", en = "55%"}
 chart_peak_t = {es = "las primeras semanas", en = "first weeks"}
-chart_end = {es = "menos del 40 %", en = "under 40%"}
+chart_end = {es = "menos del 40 %", en = "under 40%"}
 chart_end_t = {es = "meses después", en = "months later"}
 chart_x0 = {es = "Lanzamiento", en = "Launch"}
 chart_x1 = {es = "Seis meses", en = "Six months"}
-chart_note = {es = "Esquema: la forma de la curva es ilustrativa; ambos valores son del estudio.", en = "Diagram: the shape of the curve is illustrative; both values come from the study."}
+chart_note = {es = "Esquema: la forma de la curva es ilustrativa; los dos valores son del estudio.", en = "Diagram: the shape of the curve is illustrative; both values come from the study."}
 src1 = {es = "Dillon, Jaffe, Immorlica y Stanton, «Shifting Work Patterns with Generative AI», NBER Working Paper 33795 (2025). Experimento con 7.137 personas de 66 empresas durante seis meses.", en = "Dillon, Jaffe, Immorlica and Stanton, “Shifting Work Patterns with Generative AI”, NBER Working Paper 33795 (2025). Experiment with 7,137 people across 66 companies over six months."}
-b2a = {es = "La IA ya está en cada mesa.", en = "AI is already on every desk."}
-b2b = {es = "En pocas cuentas de resultados.", en = "On very few P&amp;Ls."}
-b2_80 = {es = "80 %", en = "80%"}
+
+# 04 · La ventaja: el mismo modelo para todos; la diferencia está en el despliegue
+[ventaja]
+kicker = {es = "Dónde está la ventaja", en = "Where the advantage is"}
+h2a = {es = "La IA ya está en todas las empresas.", en = "AI is already in every company."}
+h2b = {es = "Pero en pocas cuentas de resultados.", en = "But on very few P&amp;Ls."}
+lead = {es = "Tu competencia y tú tenéis la misma IA, al mismo precio y desde el mismo día. El modelo no os distingue. Os distingue lo que cada empresa hace con él: en qué procesos entra, quién lo usa y cómo se mide.", en = "You and your competitors have the same AI, at the same price, from the same day. The model doesn’t set you apart. What sets you apart is what each company does with it: which processes it enters, who uses it and how it’s measured."}
+def = {es = "<b>Desplegar</b> es llevar la IA a los procesos de tu empresa, con tu gente, hasta que hace trabajo real. Eso no se compra: se construye.", en = "<b>Deploying</b> means bringing AI into your company’s processes, with your people, until it does real work. That can’t be bought: it’s built."}
+vid_alt = {es = "Vídeo de 16 segundos: el mismo modelo llega a tres empresas. La primera compra licencias y el uso se enfría; la segunda hace un piloto con un equipo; la tercera la despliega y cada equipo la usa en su trabajo. Solo la tercera lo nota en la cuenta de resultados. Mismo modelo, distinto resultado: la ventaja está en el despliegue.", en = "16-second video: the same model reaches three companies. The first buys licenses and usage cools off; the second runs a pilot with one team; the third deploys it and every team uses it in its own work. Only the third sees it on the P&L. Same model, different result: the advantage is in the deployment."}
+b2_80 = {es = "80 %", en = "80%"}
 b2_80t = {es = "de los encuestados dice que la IA le ha hecho más productivo", en = "of respondents say AI has made them more productive"}
-b2_6 = {es = "6 %", en = "6%"}
+b2_6 = {es = "6 %", en = "6%"}
 b2_6t = {es = "de las empresas atribuye a la IA al menos un 5 % de su beneficio operativo", en = "of companies attribute at least 5% of their operating profit to AI"}
-b2_mid = {es = "Entre una cifra y la otra, la forma de trabajar.", en = "What separates the two: how work gets done."}
+b2_mid = {es = "Entre una cifra y la otra, el despliegue.", en = "What separates the two: deployment."}
 b2_p = {es = "Ese 6 % no se distingue por la herramienta, sino por cómo trabaja: la mayoría de esas empresas ha rediseñado a fondo sus procesos.", en = "That 6% doesn’t stand out for its tools but for how it works: most of those companies have deeply redesigned their processes."}
 src2 = {es = "McKinsey, «The state of AI in 2026» (agosto de 2026). Encuesta global a 1.719 participantes.", en = "McKinsey, “The state of AI in 2026” (August 2026). Global survey of 1,719 participants."}
-coste_h = {es = "Lo que cuesta esperar un trimestre", en = "What waiting one quarter costs"}
-coste1 = {es = "Tus licencias, por su precio, por tres meses.", en = "Your licenses, times their price, times three months."}
-coste2 = {es = "Las horas que tu gente no recupera.", en = "The hours your people don’t get back."}
-coste3 = {es = "La distancia con quien ya rediseña su trabajo.", en = "The gap with those already redesigning their work."}
-remate_a = {es = "El curso acaba el viernes.", en = "The course ends on Friday."}
-remate_b = {es = "Lo que cuenta empieza el lunes.", en = "What counts starts on Monday."}
-remate_p = {es = "Por eso no nos quedamos en la formación. Nos quedamos hasta que funciona.", en = "That’s why we don’t stop at training. We stay until it works."}
 
+# 05 · Lo que cuesta esperar: la IA multiplica; nube de riesgos que se ordena en un plan de cuatro productos
+[esperar]
+kicker = {es = "Lo que cuesta esperar", en = "The cost of waiting"}
+h2a = {es = "La IA multiplica.", en = "AI multiplies."}
+h2b = {es = "Y la distancia, también.", en = "So does the gap."}
+lead = {es = "Quien la despliega con método gana algo cada semana y lo acumula. Quien espera no se queda quieto: se queda atrás. Y mientras tanto, la IA entra igual en tu empresa, cada uno a su manera.", en = "Those who deploy it with a method gain something every week and it compounds. Those who wait don’t stand still: they fall behind. Meanwhile, AI gets into your company anyway, everyone their own way."}
+vid_alt = {es = "Vídeo de 16 segundos: la IA no suma, multiplica. Semana a semana, quien la despliega con método se aleja de quien espera. Multiplica lo que haces bien y lo que haces mal: IA en la sombra, errores sin revisar, datos donde no deben. Cada semana que esperas, la distancia crece.", en = "16-second video: AI doesn’t add, it multiplies. Week after week, those who deploy it with a method pull away from those who wait. It multiplies what you do well and what you do badly: shadow AI, unchecked errors, data where it shouldn’t be. Every week you wait, the gap grows."}
+nube_h = {es = "Lo que se acumula mientras esperas", en = "What piles up while you wait"}
+ordenar = {es = "Ordenarlo", en = "Put it in order"}
+desordenar = {es = "Verlo como está", en = "See it as it is"}
+g1 = {es = "Sin rumbo", en = "No direction"}
+g1_d = {es = "Un día para saber por dónde empezar.", en = "One day to know where to start."}
+g1_1 = {es = "Nadie sabe por dónde empezar", en = "Nobody knows where to start"}
+g1_2 = {es = "Cada área va por su lado", en = "Every area goes its own way"}
+g1_3 = {es = "Pilotos que no pasan de piloto", en = "Pilots that never get past the pilot"}
+g1_4 = {es = "El consejo pide resultados", en = "The board asks for results"}
+g1_5 = {es = "Ideas sin priorizar", en = "Ideas with no priorities"}
+g2 = {es = "Sin hábito", en = "No habit"}
+g2_d = {es = "Cada persona, con su trabajo, desde el lunes.", en = "Everyone on their own work, from Monday."}
+g2_1 = {es = "Licencias que no se usan", en = "Licenses nobody uses"}
+g2_2 = {es = "El uso se enfría en semanas", en = "Usage cools off within weeks"}
+g2_3 = {es = "Formación genérica que no se aplica", en = "Generic training nobody applies"}
+g2_4 = {es = "Miedo a quedarse fuera", en = "Fear of being left out"}
+g2_5 = {es = "Cada uno la usa a su manera", en = "Everyone uses it their own way"}
+g3 = {es = "Sin despliegue", en = "No deployment"}
+g3_d = {es = "Agentes que hacen trabajo real, con tu equipo.", en = "Agents that do real work, with your team."}
+g3_1 = {es = "Horas en tareas repetitivas", en = "Hours on repetitive tasks"}
+g3_2 = {es = "Procesos sin rediseñar", en = "Processes nobody redesigned"}
+g3_3 = {es = "La competencia responde antes", en = "Competitors respond faster"}
+g3_4 = {es = "Talento atascado en lo operativo", en = "Talent stuck in operations"}
+g3_5 = {es = "Agentes que no llegan a producción", en = "Agents that never reach production"}
+g4 = {es = "Sin control", en = "No control"}
+g4_d = {es = "Uso medido, reglas claras y seguimiento cada mes.", en = "Measured usage, clear rules and monthly follow-up."}
+g4_1 = {es = "IA en la sombra", en = "Shadow AI"}
+g4_2 = {es = "Datos donde no deben", en = "Data where it shouldn’t be"}
+g4_3 = {es = "Errores que nadie revisa", en = "Errors nobody checks"}
+g4_4 = {es = "Nadie responde de cada uso", en = "Nobody answers for each use"}
+g4_5 = {es = "El Reglamento europeo de IA", en = "The EU AI Act"}
+plan_h = {es = "Ordenado, es un plan.", en = "Put in order, it’s a plan."}
+plan_p = {es = "Cada riesgo tiene su respuesta, y cada respuesta, su producto.", en = "Every risk has its answer, and every answer, its product."}
+ctx = {es = "¿Cuánto te está costando a ti?", en = "How much is it costing you?"}
+ctx_btn = {es = "Calcúlalo en 3 minutos", en = "Work it out in 3 minutes"}
+
+# 12 · Casos
 [pr]
 kicker = {es = "Casos", en = "Cases"}
 h2a = {es = "No lo contamos.", en = "We don’t just talk about it."}
@@ -121,53 +238,134 @@ tst_q = {es = "[PLACEHOLDER · Cita del cliente, una o dos frases]", en = "[PLAC
 tst_a = {es = "[PLACEHOLDER · Nombre y apellido]", en = "[PLACEHOLDER · First and last name]"}
 tst_r = {es = "[PLACEHOLDER · Cargo · Empresa]", en = "[PLACEHOLDER · Role · Company]"}
 
-[como]
-kicker = {es = "Método · SPIRAL", en = "Method · SPIRAL"}
-h2a = {es = "Del aula al trabajo real.", en = "From classroom to real work."}
-h2b = {es = "Hasta que tu equipo siga solo.", en = "Until your team carries on without us."}
-lead = {es = "Seis pasos. Cada uno deja algo funcionando. El primero forma a toda el área; los demás se repiten con cada proceso, en ciclos cortos, hasta que tu equipo sigue sin nosotros.", en = "Six steps. Each one leaves something working. The first trains the whole area; the rest repeat for each process, in short cycles, until your team can keep going on its own."}
-hint = {es = "Pulsa cualquier paso para verlo en la espiral.", en = "Click any step to see it on the spiral."}
-who = {es = "Quién participa", en = "Who takes part"}
-left = {es = "Lo que queda", en = "What stays"}
-s_n = {es = "Formar", en = "Train"}
-s_p = {es = "Formación para cada perfil, con sus tareas, sus archivos y la IA que ya tiene tu empresa. Práctica desde el primer minuto.", en = "Training for each profile, with their tasks, their files and the AI your company already has. Hands-on from minute one."}
-s_w = {es = "Toda el área, su dirección y sus champions: las personas que impulsan el uso en cada equipo.", en = "The whole area, its leadership and its champions: the people who drive usage in each team."}
-s_l = {es = "Un equipo que usa la IA en lo suyo y un mapa de dónde duele.", en = "A team using AI in its own work, and a map of where it hurts."}
-p_n = {es = "Emparejar", en = "Pair"}
-p_p = {es = "Un ingeniero de Spiralia se sienta con quien más sabe del proceso y observa cómo se trabaja de verdad: excepciones, atajos y criterio.", en = "A Spiralia engineer sits with the person who knows the process best and watches how the work is really done: exceptions, shortcuts and judgment."}
-p_w = {es = "Los expertos del área y un ingeniero de Spiralia.", en = "The area’s experts and a Spiralia engineer."}
-p_l = {es = "El mapa real del trabajo, no el del procedimiento.", en = "The real map of the work, not the one in the procedure."}
-i_n = {es = "Decidir", en = "Decide"}
-i_p = {es = "Decidimos contigo dónde entra la IA y dónde no, por valor, repetición y datos disponibles. No todo necesita un agente.", en = "We decide with you where AI comes in and where it doesn’t, by value, repetition and available data. Not everything needs an agent."}
-i_w = {es = "El experto, su responsable y, cuando toca, IT y Riesgos.", en = "The expert, their manager and, when needed, IT and Risk."}
-i_l = {es = "El caso elegido, sus límites por escrito y su punto de partida.", en = "The chosen case, its limits in writing and its starting point."}
-r_n = {es = "Construir", en = "Build"}
-r_p = {es = "Rediseñamos el flujo entero, no una tarea suelta, y construimos los agentes en ciclos cortos sobre tus sistemas.", en = "We redesign the whole flow, not a single task, and build the agents in short cycles on your systems."}
-r_w = {es = "El ingeniero construye; el experto prueba y corrige cada versión.", en = "The engineer builds; the expert tests and corrects every version."}
-r_l = {es = "Una solución que funciona con casos reales.", en = "A solution that works on real cases."}
-a_n = {es = "Demostrar", en = "Prove"}
-a_p = {es = "Antes de usarla de verdad, la solución se examina con casos reales, también los raros. La confianza no se declara: se demuestra.", en = "Before real use, the solution is tested on real cases, edge cases included. Trust isn’t declared: it’s proven."}
-a_w = {es = "El experto, que firma las respuestas buenas, y usuarios del área.", en = "The expert, who signs off the right answers, and users from the area."}
-a_l = {es = "Pruebas de qué acierta, qué falla y cuándo pasa el caso a una persona.", en = "Evidence of what it gets right, what it gets wrong and when it hands the case to a person."}
-l_n = {es = "Lanzar y traspasar", en = "Launch and hand over"}
-l_p = {es = "Entra en uso poco a poco, con supervisión y un dueño. Después se traspasa: manual, pruebas y formación para quien la mantiene.", en = "It goes live gradually, supervised and with an owner. Then it is handed over: manual, tests and training for whoever maintains it."}
-l_w = {es = "El dueño del proceso, los usuarios e IT.", en = "The process owner, the users and IT."}
-l_l = {es = "La solución en marcha, con dueño, y la siguiente vuelta preparada.", en = "The solution running, with an owner, and the next cycle ready."}
-remate_a = {es = "Nuestro mejor resultado:", en = "Our best result:"}
-remate_b = {es = "equipos que ya no nos necesitan.", en = "teams that no longer need us."}
-fde = {es = "Agente: un asistente de IA que hace una tarea entera dentro de un proceso, con permisos y un dueño.", en = "Agent: an AI assistant that does an entire task within a process, with permissions and an owner."}
-replay = {es = "Ver de nuevo", en = "Replay"}
-aria = {es = "La S de Spiralia con los seis pasos del método: formar, emparejar, decidir, construir, demostrar, y lanzar y traspasar.", en = "The Spiralia S with the six steps of the method: train, pair, decide, build, prove, and launch and hand over."}
 
-[pers]
-kicker = {es = "Personalización", en = "Personalization"}
+# 06 · Diagnóstico, con estimación del valor que se escapa (los supuestos y los textos del cálculo, en [data.diag.roi])
+[dg]
+kicker = {es = "Diagnóstico", en = "Assessment"}
+h2a = {es = "¿Dónde está tu empresa con la IA?", en = "Where does your company stand with AI?"}
+h2b = {es = "Y cuánto valor se te escapa.", en = "And how much value is slipping away."}
+lead = {es = "Ocho preguntas y tres datos. Sin datos personales. Te llevas tu nivel, tus siguientes pasos y una estimación orientativa del valor que hoy no capturas.", en = "Eight questions and three figures. No personal data. You leave with your level, your next steps and an indicative estimate of the value you’re not capturing today."}
+start = {es = "Empezar", en = "Start"}
+next = {es = "Siguiente", en = "Next"}
+prev = {es = "Atrás", en = "Back"}
+see = {es = "Ver el resultado", en = "See the result"}
+qof = {es = "Pregunta {n} de {t}", en = "Question {n} of {t}"}
+res_h = {es = "Tu punto de partida", en = "Your starting point"}
+res_next = {es = "Tus siguientes pasos", en = "Your next steps"}
+send = {es = "Envíanoslo", en = "Send it to us"}
+print = {es = "Guárdalo para tu comité", en = "Save it for your leadership team"}
+again = {es = "Repetir", en = "Start over"}
+note = {es = "Orientativo: es el criterio de Spiralia, no un estudio. Lo afinamos contigo en 30 minutos.", en = "Indicative: it reflects Spiralia’s judgment, not a study. We’ll refine it with you in 30 minutes."}
+mail_subject = {es = "Diagnóstico de IA: nuestro punto de partida", en = "AI assessment: our starting point"}
+mail_intro = {es = "Hola. He hecho el diagnóstico de vuestra web y este es nuestro punto de partida:", en = "Hello. I took the assessment on your website and this is our starting point:"}
+noscript = {es = "El diagnóstico necesita JavaScript. Si lo prefieres, escríbenos y lo hacemos contigo.", en = "The assessment needs JavaScript. If you prefer, write to us and we’ll do it with you."}
+
+# 07 · Después de la formación: el curso acaba el viernes; la escalera de la IA
+[lunes]
+kicker = {es = "Después de la formación", en = "After the training"}
+h2a = {es = "El curso acaba el viernes.", en = "The course ends on Friday."}
+h2b = {es = "Lo que cuenta empieza el lunes.", en = "What counts starts on Monday."}
+lead = {es = "Al terminar cualquier formación se oye la misma pregunta: ¿y ahora qué? Solo el 36 % de los profesionales cree que su formación en IA ha sido suficiente. Por eso la nuestra no se queda en el aula.", en = "At the end of any training you hear the same question: what now? Only 36% of professionals think their AI training has been enough. That’s why ours doesn’t stay in the classroom."}
+vid_alt = {es = "Vídeo de 24 segundos: el viernes, en la formación, cada persona hace con IA su propia tarea, el informe mensual del área. El lunes le llega la misma tarea y la hace igual, en su mesa. Después, la escalera de la IA: pedir, enseñar, automatizar y delegar. Con Hábito lo haces tú; con Spiral lo construimos contigo; Pulso te acompaña en cada peldaño.", en = "24-second video: on Friday, in the training, everyone does their own task with AI, the area’s monthly report. On Monday the same task arrives and they do it the same way, at their desk. Then the AI ladder: ask, teach, automate and delegate. With Habit you do it; with Spiral we build it with you; Pulse stays with you on every step."}
+a1_t = {es = "Lo que practicas, lo usas.", en = "What you practice, you use."}
+a1 = {es = "En la formación, cada persona trabaja con sus tareas, sus archivos y la IA de su empresa. El lunes no tiene que traducir nada: repite en su mesa lo que ya hizo en la sesión.", en = "In the training, everyone works on their own tasks, their own files and their company’s AI. On Monday there’s nothing to translate: they repeat at their desk what they already did in the session."}
+a2_t = {es = "Y si quieres, subimos contigo.", en = "And if you want, we climb with you."}
+a2 = {es = "A partir de ahí te acompañamos peldaño a peldaño: de pedirle ayuda a la IA a que haga tareas enteras, con permisos y con un dueño.", en = "From there we go with you step by step: from asking AI for help to having it do entire tasks, with permissions and an owner."}
+esc_h = {es = "La escalera de la IA, con el mismo ejemplo en cada peldaño: el informe mensual del área", en = "The AI ladder, with the same example on every step: the area’s monthly report"}
+src = {es = "BCG, «AI at Work: Why Strategy Matters More Than Tools» (junio de 2026).", en = "BCG, “AI at Work: Why Strategy Matters More Than Tools” (June 2026)."}
+
+# Productos en detalle: etiquetas comunes de las fichas
+[ficha]
+para = {es = "Para quién", en = "Who it’s for"}
+dur = {es = "Duración", en = "Duration"}
+lleva = {es = "Te llevas", en = "You take away"}
+peldanos = {es = "Peldaños", en = "Steps"}
+fases = {es = "Cómo funciona", en = "How it works"}
+
+# 08 · Día Uno · el piloto
+[dia]
+kicker = {es = "Día Uno · El piloto", en = "Day One · The pilot"}
+h2a = {es = "Primero, un día de trabajo real.", en = "First, one day of real work."}
+h2b = {es = "Después, decides tú.", en = "Then you decide."}
+lead = {es = "Quizá tengas la IA desde hace meses. Día Uno es el día en que se pone a trabajar: tu comité y tus managers, con sus propias tareas y la IA de tu empresa.", en = "You may have had AI for months. Day One is the day it gets to work: your leadership team and your managers, on their own tasks, with your company’s AI."}
+para = {es = "Tu comité de dirección y tus managers.", en = "Your leadership team and your managers."}
+dur = {es = "Una jornada en tu empresa, con preparación previa.", en = "One day at your offices, with preparation beforehand."}
+lleva = {es = "Cada persona sale con una tarea suya hecha con IA. Tu comité, con sus casos priorizados y un plan por escrito.", en = "Everyone leaves with a task of their own done with AI. Your leadership team, with its use cases prioritized and a written plan."}
+peldanos = {es = "Te enseña los cuatro, en un día.", en = "Shows you all four, in one day."}
+f1_t = {es = "Antes", en = "Before"}
+f1_n = {es = "Escuchamos", en = "We listen"}
+f1 = {es = "Entrevistas breves y recogida de tareas, documentos y prioridades.", en = "Short interviews and collection of tasks, documents and priorities."}
+f2_t = {es = "Por la mañana", en = "Morning"}
+f2_n = {es = "Hacen", en = "They do"}
+f2 = {es = "Tres rondas con su propio trabajo: velocidad, escala y capacidad.", en = "Three rounds on their own work: speed, scale and capability."}
+f3_t = {es = "Por la tarde", en = "Afternoon"}
+f3_n = {es = "Deciden", en = "They decide"}
+f3 = {es = "Cada uno escribe sus casos y el comité los prioriza por valor.", en = "Each person writes their use cases and the leadership team prioritizes them by value."}
+f4_t = {es = "Después", en = "After"}
+f4_n = {es = "Plan", en = "Plan"}
+f4 = {es = "Un resumen por escrito: casos priorizados, punto de partida y siguiente paso.", en = "A written summary: prioritized cases, starting point and next step."}
+cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
+nota = {es = "Lo que sale del día es tuyo, sigas o no con nosotros.", en = "What comes out of the day is yours, whether or not you continue with us."}
+
+# Las tres rondas de Día Uno (franja dentro de Día Uno)
+[fmt]
+v_kicker = {es = "Las tres rondas de Día Uno", en = "The three rounds of Day One"}
+v_h = {es = "Velocidad. Escala. Capacidad.", en = "Speed. Scale. Capability."}
+v_sub = {es = "Lo que trae la IA a cualquier trabajo. Tu comité lo comprueba con el suyo.", en = "What AI brings to any job. Your leadership team proves it on its own work."}
+v1_t = {es = "Velocidad", en = "Speed"}
+v1 = {es = "Lo de siempre, en menos tiempo.", en = "The usual work, in less time."}
+v1_e = {es = "El informe que te come la tarde, listo antes de la reunión.", en = "The report that eats up your afternoon, ready before the meeting."}
+v2_t = {es = "Escala", en = "Scale"}
+v2 = {es = "Llegas a más con el mismo equipo.", en = "You reach more with the same team."}
+v2_e = {es = "Lo que hoy haces para tus mejores clientes, para todos. Lo que revisas por muestras, entero.", en = "What you do today for your best clients, for all of them. What you check by sampling, in full."}
+v3_t = {es = "Capacidad", en = "Capability"}
+v3 = {es = "Haces lo que antes no sabías o no podías hacer.", en = "You do what you couldn’t do, or didn’t know how to do, before."}
+v3_e = {es = "Analizar datos sin ser analista. Construir tu primera herramienta sin haber programado nunca.", en = "Analyzing data without being an analyst. Building your first tool without ever having written code."}
+# Una frase por <span>: cada una va en su línea y, si no cabe, se equilibra sola
+v_remate = {es = "<span>La velocidad se nota en tu mesa.</span> <span>La escala y la capacidad, en tu cuenta de resultados.</span>", en = "<span>Speed shows up at your desk.</span> <span>Scale and capability show up on your P&amp;L.</span>"}
+
+# 09 · Hábito · formación a medida: primero cómo la preparamos (diapositiva 14 de Santander), después los ejemplos
+[hab]
+kicker = {es = "Hábito · Formación a medida", en = "Habit · Tailored training"}
 h2a = {es = "Nadie adopta la IA", en = "Nobody adopts AI"}
 h2b = {es = "con los ejemplos de otro.", en = "with someone else’s examples."}
-lead = {es = "Antes de la primera sesión recogemos las tareas, los documentos y la jerga de cada perfil. Así cada persona aprende con su lunes por la mañana. Por eso se queda.", en = "Before the first session we collect each profile’s tasks, documents and jargon. So everyone learns on the work they’ll do on Monday morning. That’s why it sticks."}
+lead = {es = "Hábito forma a cada perfil con sus tareas, sus documentos y su jerga. Así cada persona aprende con su lunes por la mañana. Por eso se queda.", en = "Habit trains each profile on its own tasks, documents and jargon. So everyone learns on the work they’ll do on Monday morning. That’s why it sticks."}
+para = {es = "Toda la organización, por perfiles, del comité a la primera línea.", en = "The whole organization, by profile, from the leadership team to the front line."}
+dur = {es = "Por oleadas, al ritmo de tu empresa. En persona, en directo y a su ritmo.", en = "In waves, at your company’s pace. In person, live online and self-paced."}
+lleva = {es = "Cada persona usando la IA en su trabajo, sus primeras skills, champions en cada equipo y el uso real medido.", en = "Everyone using AI in their work, their first skills, champions in every team and real usage measured."}
+peldanos = {es = "Pedir y enseñar: lo haces tú.", en = "Ask and teach: you do it."}
+prep_h = {es = "Así preparamos la formación, contigo", en = "How we prepare the training, with you"}
+s1_t = {es = "Partimos de lo que ya has hecho", en = "We start from what you’ve already done"}
+s1 = {es = "Revisamos los proyectos y las formaciones de IA hechos y en curso, para sumar y no repetir.", en = "We review the AI projects and training done and under way, to add to them, not duplicate them."}
+s1_w = {es = "Contigo", en = "With you"}
+s2_t = {es = "Definimos los perfiles", en = "We define the profiles"}
+s2 = {es = "Quién se forma, en qué orden y cuántas personas de cada perfil.", en = "Who gets trained, in what order and how many people from each profile."}
+s2_w = {es = "Tú decides", en = "You decide"}
+s3_t = {es = "Conocemos su día a día", en = "We get to know their day-to-day"}
+s3 = {es = "Nos sentamos con algunas personas de cada perfil para ver cómo trabajan: reuniones, informes, correos y herramientas.", en = "We sit with a few people from each profile to see how they work: meetings, reports, emails and tools."}
+s3_w = {es = "Contigo", en = "With you"}
+s4_t = {es = "Diseñamos los casos", en = "We design the cases"}
+s4 = {es = "Convertimos sus tareas reales en ejercicios con la IA de tu empresa, con datos ficticios.", en = "We turn their real tasks into exercises with your company’s AI, using fictitious data."}
+s4_w = {es = "Nosotros", en = "Us"}
+s5_t = {es = "Los validas", en = "You validate them"}
+s5 = {es = "Tu equipo prueba los casos antes de la sesión. Nada sale sin tu visto bueno.", en = "Your team tests the cases before the session. Nothing goes out without your approval."}
+s5_w = {es = "Tu equipo", en = "Your team"}
+s6_t = {es = "Impartimos la formación", en = "We run the training"}
+s6 = {es = "En jornada y con su propia IA. Al terminar, cada persona se lleva su tarea hecha.", en = "During working hours, with their own AI. At the end, everyone takes their task away, done."}
+s6_w = {es = "Nosotros", en = "Us"}
+necesito_h = {es = "Lo que necesitamos de ti", en = "What we need from you"}
+necesito = {es = "Quién lo patrocina, acceso a quienes llevan tus proyectos de IA, unas horas de algunas personas de cada perfil, tu validación y una fecha.", en = "Who sponsors it, access to whoever runs your AI projects, a few hours from some people in each profile, your sign-off and a date."}
+remate = {es = "<span>Tu equipo prueba.</span> <span>Nosotros ajustamos.</span> <span>Tú decides.</span>", en = "<span>Your team tests.</span> <span>We adjust.</span> <span>You decide.</span>"}
+ej_h = {es = "Y así queda, perfil a perfil", en = "And this is how it turns out, profile by profile"}
+cta = {es = "Pide un ejemplo de programa", en = "Ask for a sample program"}
+subject = {es = "Ejemplo de programa Hábito para mi empresa", en = "Sample Habit program for my company"}
+
+# Ejemplos por perfil (dentro de Hábito): la demo de antes y después
+[pers]
 pick = {es = "Elige un perfil", en = "Choose a profile"}
 ilus = {es = "Ejemplo ilustrativo", en = "Illustrative example"}
 antes = {es = "Hoy", en = "Today"}
-despues = {es = "Con la IA de tu empresa, después de la formación", en = "With your company’s AI, after the training"}
+despues = {es = "Con la IA de tu empresa, después de Hábito", en = "With your company’s AI, after Habit"}
 firma = {es = "Lo revisa y lo firma la persona", en = "Reviewed and signed off by the person"}
 pause = {es = "Pausa", en = "Pause"}
 play = {es = "Seguir", en = "Resume"}
@@ -178,11 +376,52 @@ app = {es = "aplicación", en = "app"}
 apps = {es = "aplicaciones", en = "apps"}
 more = {es = "Y así con cada perfil, del comité de dirección al contact center.", en = "And the same for every profile, from the leadership team to the contact center."}
 
+# 10 · Spiral · despliegue con tu equipo: el método SPIRAL (nombre en inglés de cada fase) y los agentes
+[como]
+kicker = {es = "Spiral · Despliegue con tu equipo", en = "Spiral · Deployment with your team"}
+h2a = {es = "Del aula al trabajo real.", en = "From classroom to real work."}
+h2b = {es = "Hasta que tu equipo siga solo.", en = "Until your team carries on without us."}
+lead = {es = "Spiral lleva la IA a los procesos de un área: automatizaciones y agentes que hacen trabajo real, construidos con tu equipo. Seis fases, siempre en el mismo orden; cada letra de la espiral es una.", en = "Spiral brings AI into an area’s processes: automations and agents that do real work, built with your team. Six phases, always in the same order; each letter of the spiral is one of them."}
+para = {es = "Un área y sus procesos.", en = "One area and its processes."}
+dur = {es = "Ciclos cortos, proceso a proceso.", en = "Short cycles, process by process."}
+lleva = {es = "Automatizaciones y agentes en uso, cada uno con dueño, pruebas y manual, y un equipo capaz de mantenerlos.", en = "Automations and agents in use, each with an owner, tests and a manual, and a team able to maintain them."}
+peldanos = {es = "Automatizar y delegar: lo construimos contigo.", en = "Automate and delegate: we build it with you."}
+hint = {es = "Pulsa cualquier fase para verla en la espiral.", en = "Click any phase to see it on the spiral."}
+vuelta = {es = "La S abre cada área (si ya has hecho Hábito, empezamos en la P). P, I, R, A y L se repiten con cada proceso, en ciclos cortos.", en = "S opens each area (if you’ve already done Habit, we start at P). P, I, R, A and L repeat for each process, in short cycles."}
+who = {es = "Quién participa", en = "Who takes part"}
+left = {es = "Lo que queda", en = "What stays"}
+s_n = {es = "Formar el área", en = "Train the area"}
+s_p = {es = "Formación para cada perfil, con sus tareas, sus archivos y la IA que ya tiene tu empresa. Es Hábito, aplicado al área.", en = "Training for each profile, with their tasks, their files and the AI your company already has. It’s Habit, applied to the area."}
+s_w = {es = "Toda el área, su dirección y sus champions: las personas que impulsan el uso en cada equipo.", en = "The whole area, its leadership and its champions: the people who drive usage in each team."}
+s_l = {es = "Un equipo que usa la IA en lo suyo y un mapa de dónde duele.", en = "A team using AI in its own work, and a map of where it hurts."}
+p_n = {es = "Emparejar y observar", en = "Pair up and observe"}
+p_p = {es = "Un ingeniero de Spiralia se sienta con quien más sabe del proceso y observa cómo se trabaja de verdad: excepciones, atajos y criterio.", en = "A Spiralia engineer sits with the person who knows the process best and watches how the work is really done: exceptions, shortcuts and judgment."}
+p_w = {es = "Los expertos del área y un ingeniero de Spiralia.", en = "The area’s experts and a Spiralia engineer."}
+p_l = {es = "El mapa real del trabajo, no el del procedimiento.", en = "The real map of the work, not the one in the procedure."}
+i_n = {es = "Decidir dónde entra la IA", en = "Decide where AI comes in"}
+i_p = {es = "Decidimos contigo dónde entra la IA y dónde no, por valor, repetición y datos disponibles. No todo necesita un agente.", en = "We decide with you where AI comes in and where it doesn’t, by value, repetition and available data. Not everything needs an agent."}
+i_w = {es = "El experto, su responsable y, cuando toca, IT y Riesgos.", en = "The expert, their manager and, when needed, IT and Risk."}
+i_l = {es = "El caso elegido, sus límites por escrito y su punto de partida.", en = "The chosen case, its limits in writing and its starting point."}
+r_n = {es = "Rediseñar y construir", en = "Redesign and build"}
+r_p = {es = "Rediseñamos el flujo entero, no una tarea suelta, y construimos las automatizaciones y los agentes en ciclos cortos sobre tus sistemas.", en = "We redesign the whole flow, not a single task, and build the automations and agents in short cycles on your systems."}
+r_w = {es = "El ingeniero construye; el experto prueba y corrige cada versión.", en = "The engineer builds; the expert tests and corrects every version."}
+r_l = {es = "Una solución que funciona con casos reales.", en = "A solution that works on real cases."}
+a_n = {es = "Demostrar que funciona", en = "Prove it works"}
+a_p = {es = "Antes de usarla de verdad, la solución se examina con casos reales, también los raros. La confianza no se declara: se demuestra.", en = "Before real use, the solution is tested on real cases, edge cases included. Trust isn’t declared: it’s proven."}
+a_w = {es = "El experto, que firma las respuestas buenas, y usuarios del área.", en = "The expert, who signs off the right answers, and users from the area."}
+a_l = {es = "Pruebas de qué acierta, qué falla y cuándo pasa el caso a una persona.", en = "Evidence of what it gets right, what it gets wrong and when it hands the case to a person."}
+l_n = {es = "Lanzar y traspasar", en = "Launch and hand over"}
+l_p = {es = "Entra en uso poco a poco, con supervisión y un dueño. Después se traspasa: manual, pruebas y formación para quien la mantiene.", en = "It goes live gradually, supervised and with an owner. Then it is handed over: manual, tests and training for whoever maintains it."}
+l_w = {es = "El dueño del proceso, los usuarios e IT.", en = "The process owner, the users and IT."}
+l_l = {es = "La solución en marcha, con dueño, y la siguiente vuelta preparada.", en = "The solution running, with an owner, and the next cycle ready."}
+remate_a = {es = "Nuestro mejor resultado:", en = "Our best result:"}
+remate_b = {es = "equipos que ya no nos necesitan.", en = "teams that no longer need us."}
+replay = {es = "Ver de nuevo", en = "Replay"}
+aria = {es = "La S de Spiralia formada por puntos, con las seis fases del método: Skill, Pair, Identify, Rebuild, Assure y Launch.", en = "The Spiralia S made of dots, with the six phases of the method: Skill, Pair, Identify, Rebuild, Assure and Launch."}
+cta = {es = "Hablemos de tu proceso", en = "Let’s talk about your process"}
+
+# Dentro de Spiral: quién construye (FDE) y qué cambia con un agente
 [fde]
-kicker = {es = "Lo que construimos", en = "What we build"}
-h2a = {es = "Negocio e ingeniería,", en = "Business and engineering,"}
-h2b = {es = "en la misma mesa.", en = "at the same table."}
-lead = {es = "Formar crea el hábito. El valor grande llega cuando la IA asume trabajo real dentro de un proceso. Para eso trabajamos en pareja, dentro de tu equipo.", en = "Training creates the habit. The big value arrives when AI takes on real work inside a process. That’s why we work in pairs, inside your team."}
 def_t = {es = "FDE · <span lang=\"en\">Forward Deployed Engineer</span>", en = "FDE · Forward Deployed Engineer"}
 def = {es = "Literalmente, un ingeniero desplegado en primera línea. No trabaja desde un departamento de sistemas: se sienta con tu equipo, ve cómo se trabaja de verdad y construye allí mismo.", en = "Literally, an engineer deployed on the front line. They don’t work from an IT department: they sit with your team, see how the work is really done and build right there."}
 duo_a = {es = "Negocio", en = "Business"}
@@ -191,123 +430,37 @@ duo_b = {es = "Ingeniería", en = "Engineering"}
 duo_bt = {es = "Sabe qué se puede construir: agentes, datos e integraciones.", en = "Knows what can be built: agents, data and integrations."}
 duo_c = {es = "Juntos, con tu equipo.", en = "Together, with your team."}
 gal_h = {es = "Agentes que hacen trabajo real", en = "Agents that do real work"}
-ilus = {es = "Ejemplos ilustrativos", en = "Illustrative examples"}
-hoy = {es = "Hoy", en = "Today"}
-con = {es = "Con el agente", en = "With the agent"}
-sys = {es = "Sistema", en = "System"}
-agent = {es = "Agente", en = "Agent"}
-person = {es = "Persona", en = "Person"}
-log_h = {es = "Registro", en = "Log"}
-c1_t = {es = "La propuesta comercial", en = "The sales proposal"}
-c1_s = {es = "Consultoría y servicios profesionales", en = "Consulting and professional services"}
-c1_o1 = {es = "La petición llega por correo", en = "The request arrives by email"}
-c1_o2 = {es = "Buscar credenciales en carpetas y correos", en = "Search for credentials in folders and emails"}
-c1_o3 = {es = "Pedir CV y referencias a varios equipos", en = "Ask several teams for CVs and references"}
-c1_o4 = {es = "Copiar y adaptar la última propuesta", en = "Copy and adapt the last proposal"}
-c1_o5 = {es = "Revisar formato, marca y cumplimiento", en = "Check format, branding and compliance"}
-c1_o6 = {es = "Aprobaciones por correo", en = "Approvals by email"}
-c1_ot = {es = "Esperas, versiones y retrabajo.", en = "Waiting, versions and rework."}
-c1_n1 = {es = "La petición entra en un único sitio", en = "The request enters a single place"}
-c1_n2 = {es = "Extrae los requisitos y propone un índice", en = "Extracts the requirements and proposes an outline"}
-c1_n3 = {es = "Reúne credenciales y CV, cada uno con su fuente", en = "Gathers credentials and CVs, each with its source"}
-c1_n4 = {es = "Prepara el borrador en el formato de la casa", en = "Prepares the draft in the house format"}
-c1_n5 = {es = "El director decide enfoque, equipo y precio", en = "The director decides approach, team and price"}
-c1_n6 = {es = "Comprobaciones finales y firma", en = "Final checks and sign-off"}
-c1_nt = {es = "El agente prepara. Una persona decide.", en = "The agent prepares. A person decides."}
-c1_g1 = {es = "Petición registrada", en = "Request logged"}
-c1_g2 = {es = "Requisitos extraídos", en = "Requirements extracted"}
-c1_g3 = {es = "Credenciales propuestas, con su fuente", en = "Credentials proposed, with their source"}
-c1_g4 = {es = "Borrador en la plantilla de la casa", en = "Draft in the house template"}
-c1_g5 = {es = "En pausa: decisión del director", en = "Paused: director’s decision"}
-c1_g6 = {es = "Lista para firmar, con el registro completo", en = "Ready to sign, with the full log"}
-replay = {es = "Ver de nuevo", en = "Replay"}
+gal_p = {es = "Con un asistente, la tarea la haces tú, más rápido. Con un agente, la prepara él, deja registro de cada paso y se para donde hace falta que decidas.", en = "With an assistant, you do the task, faster. With an agent, it prepares the task, logs every step and stops where you need to decide."}
+vid_alt = {es = "Vídeo de 20 segundos con un ejemplo ilustrativo, la propuesta comercial. Hoy, la persona hace seis pasos en cuatro aplicaciones y es el pegamento entre todos. Con un agente, el agente lee la petición, reúne credenciales y CV con su fuente, prepara el borrador y revisa el formato; se para para que el director decida enfoque, equipo y precio, y deja la propuesta lista para firmar. El agente prepara; una persona decide.", en = "20-second video with an illustrative example, the sales proposal. Today, the person does six steps across four apps and is the glue between them all. With an agent, the agent reads the request, gathers credentials and CVs with their source, prepares the draft and checks the format; it pauses for the director to decide approach, team and price, and leaves the proposal ready to sign. The agent prepares; a person decides."}
+ctl_h = {es = "Con control desde el primer día", en = "In control from day one"}
+ctl1 = {es = "Construimos dentro de tus sistemas, con las herramientas que aprueba tu IT.", en = "We build inside your systems, with the tools your IT approves."}
+ctl2 = {es = "La IA prepara y propone. Lo importante lo firma una persona.", en = "AI prepares and proposes. A person signs off what matters."}
+ctl3 = {es = "Cada agente tiene un dueño que responde de él.", en = "Every agent has an owner who answers for it."}
+ctl4 = {es = "La autonomía se gana con pruebas: primero sugiere, luego actúa con aprobación.", en = "Autonomy is earned with evidence: first it suggests, then it acts with approval."}
 
-[pt]
-kicker = {es = "Para ti", en = "For you"}
-h2a = {es = "Tu pregunta no es la del resto.", en = "Your question isn’t everyone else’s."}
-h2b = {es = "Tu respuesta, tampoco.", en = "Neither is your answer."}
-hace = {es = "Qué hacemos contigo", en = "What we do with you"}
-lleva = {es = "Lo que te llevas", en = "What you take away"}
-prueba = {es = "Ya lo hemos hecho", en = "We’ve done it before"}
-t1_tab = {es = "Resultados", en = "Results"}
-t1_h = {es = "Has invertido en IA. Que se note en la cuenta.", en = "You’ve invested in AI. Make it show on the P&amp;L."}
-t1_voz = {es = "«He firmado las licencias. Si dentro de un año el consejo me pregunta qué ha cambiado, ¿qué le enseño?»", en = "“I signed off the licenses. If the board asks me in a year what has changed, what do I show them?”"}
-t1_1 = {es = "Empezamos con Día Uno: tus equipos trabajan un día con IA y, al cierre, eliges con ellos los primeros casos.", en = "We start with Day One: your teams work with AI for a day and, at the close, you choose the first cases with them."}
-t1_2 = {es = "Elegimos los casos por valor: velocidad, escala y capacidad. La velocidad tiene techo; las otras dos, no.", en = "We choose cases by value: speed, scale and capability. Speed has a ceiling; the other two don’t."}
-t1_3 = {es = "Construimos los primeros con tus equipos y los medimos frente al punto de partida.", en = "We build the first ones with your teams and measure them against the starting point."}
-t1_4 = {es = "Diseñamos contigo el gobierno: quién propone, quién decide y quién responde.", en = "We design governance with you: who proposes, who decides and who answers for it."}
-t1_l = {es = "Una lista corta de casos con valor, los primeros funcionando y un equipo que sabe seguir.", en = "A short list of valuable cases, the first ones running and a team that knows how to continue."}
-t1_p = {es = "En ING España, del comité de dirección a las oficinas, los usuarios activos cada semana pasaron del 66 % al 92 %.", en = "At ING Spain, from the leadership team to the branches, weekly active users went from 66% to 92%."}
-t1_cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
-t2_tab = {es = "Personas y talento", en = "People and talent"}
-t2_h = {es = "Te piden productividad. Tu gente te pide dirección.", en = "They ask you for productivity. Your people ask you for direction."}
-t2_voz = {es = "«¿Cómo lo hago sin que la plantilla lo viva como una amenaza? Y la encuesta salió bien, pero ¿y el uso?»", en = "“How do I do this without the workforce seeing it as a threat? And the survey came out well, but what about usage?”"}
-t2_0 = {es = "Empezamos con Día Uno: tu gente trabaja con la IA en lo suyo, en horario laboral y sin examen.", en = "We start with Day One: your people work with AI on their own tasks, during working hours, with no grading."}
-t2_1 = {es = "Formamos a todos, del comité a la primera línea, cada perfil con sus tareas y sus archivos.", en = "We train everyone, from the leadership team to the front line, each profile with their own tasks and files."}
-t2_2 = {es = "Damos al programa nombre y marca propios, para que la plantilla lo reconozca como suyo.", en = "We give the program its own name and brand, so your people recognize it as theirs."}
-t2_3 = {es = "Medimos el uso real y lo que se construye, no solo las horas y la satisfacción.", en = "We measure real usage and what gets built, not just hours and satisfaction."}
-t2_4 = {es = "Te ayudamos a contarlo a la plantilla y a sus representantes, con transparencia.", en = "We help you explain it to the workforce and its representatives, transparently."}
-t2_5 = {es = "Creamos champions y una comunidad para que el hábito no dependa de nosotros.", en = "We build champions and a community so the habit doesn’t depend on us."}
-t2_6 = {es = "Dejamos documentado lo que se ha hecho. Con el Reglamento europeo de IA, conviene poder enseñarlo.", en = "We document what has been done. Under the EU AI Act, you should be able to show it."}
-t2_l = {es = "Una plantilla que usa la IA con criterio y sin miedo, datos para defender el programa ante la dirección y un modelo que se sostiene solo.", en = "A workforce that uses AI with judgment and without fear, data to defend the program to leadership and a model that sustains itself."}
-t2_p = {es = "En ING España, con el programa, la satisfacción con el uso de la IA llegó a 4,7 sobre 5. En el siguiente país del grupo, 3,2.", en = "At ING Spain, with the program, satisfaction with AI use reached 4.7 out of 5. In the next-best country in the group, 3.2."}
-t2_cta = {es = "Hablemos de tu plantilla", en = "Let’s talk about your workforce"}
-t2_subject = {es = "Formación en IA para mi plantilla", en = "AI training for my workforce"}
-t3_tab = {es = "Tecnología", en = "Technology"}
-t3_h = {es = "La IA, dentro de tu casa. Con tus reglas.", en = "AI inside your walls. On your terms."}
-t3_voz = {es = "«No quiero otra herramienta en la sombra ni otro piloto que nunca llega a producción.»", en = "“I don’t want another shadow tool, or another pilot that never reaches production.”"}
-t3_1 = {es = "Trabajamos dentro de tu entorno y con la IA que aprueba tu IT: Microsoft 365 Copilot, ChatGPT, Claude o Gemini.", en = "We work inside your environment and with the AI your IT approves: Microsoft 365 Copilot, ChatGPT, Claude or Gemini."}
-t3_2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que hace.", en = "Every agent has an owner, permissions and a log of what it does."}
-t3_3 = {es = "Antes de usarse, se prueba con casos reales, también los raros. La autonomía se gana con pruebas.", en = "Before it’s used, it’s tested on real cases, edge cases included. Autonomy is earned with evidence."}
-t3_4 = {es = "Lo traspasamos con manual, pruebas y formación, para que tu equipo lo mantenga sin depender de nosotros.", en = "We hand it over with a manual, tests and training, so your team maintains it without depending on us."}
-t3_l = {es = "Agentes en uso, gobernados y documentados, y un equipo interno capaz de mantenerlos.", en = "Agents in use, governed and documented, and an in-house team able to maintain them."}
-t3_prueba = {es = "Sin cambiar de herramienta", en = "Without changing tools"}
-t3_p = {es = "En Deloitte España formamos a 13.000 personas en un mes con la IA que ya tenían: Microsoft 365 Copilot.", en = "At Deloitte Spain we trained 13,000 people in one month with the AI they already had: Microsoft 365 Copilot."}
-t3_cta = {es = "Hablemos de tu entorno", en = "Let’s talk about your environment"}
+# 11 · Pulso · acompañamiento
+[pulso]
+kicker = {es = "Pulso · Acompañamiento", en = "Pulse · Ongoing support"}
+h2a = {es = "Lo que no se mide,", en = "What isn’t measured"}
+h2b = {es = "se enfría.", en = "cools off."}
+lead = {es = "Pulso mantiene vivo lo que has puesto en marcha. Cada mes medimos el uso real, resolvemos dudas en directo y subimos un peldaño. Cada trimestre, lo revisas con tu comité.", en = "Pulse keeps alive what you’ve set in motion. Every month we measure real usage, answer questions live and climb one step. Every quarter, you review it with your leadership team."}
+para = {es = "Champions, managers y tu comité, después de Hábito o de Spiral.", en = "Champions, managers and your leadership team, after Habit or Spiral."}
+dur = {es = "Cada mes, mientras te aporte.", en = "Every month, for as long as it adds value."}
+lleva = {es = "Un uso que no se enfría, un cuadro de mando por equipo y una cartera de casos que crece.", en = "Usage that doesn’t cool off, a dashboard per team and a portfolio of use cases that keeps growing."}
+peldanos = {es = "Todos: te acompaña en cada uno.", en = "All of them: it stays with you on each one."}
+c_h = {es = "El ciclo de cada mes", en = "The monthly cycle"}
+c1_t = {es = "Medir", en = "Measure"}
+c1 = {es = "Uso real por equipo, no licencias activas.", en = "Real usage by team, not active licenses."}
+c2_t = {es = "Resolver", en = "Solve"}
+c2 = {es = "Consultas en directo y los casos nuevos que traen tus equipos.", en = "Live questions and the new cases your teams bring."}
+c3_t = {es = "Subir", en = "Climb"}
+c3 = {es = "Una skill o una automatización nueva, con su dueño.", en = "A new skill or automation, with its owner."}
+c4_t = {es = "Revisar", en = "Review"}
+c4 = {es = "Con tu comité, cada trimestre: qué funciona, qué se para y qué sigue.", en = "With your leadership team, every quarter: what works, what stops and what’s next."}
+centro = {es = "Cada mes", en = "Every month"}
+cta = {es = "Hablemos de tu caso", en = "Let’s talk about your case"}
 
-[fmt]
-kicker = {es = "Formatos", en = "Formats"}
-h2a = {es = "Primero, un día de trabajo real.", en = "First, one day of real work."}
-h2b = {es = "Después, decides tú.", en = "Then you decide."}
-lead = {es = "Quizá tengas la IA desde hace meses. Día Uno es el día en que se pone a trabajar.", en = "You may have had AI for months. Day One is the day it gets to work."}
-v_kicker = {es = "Las tres rondas de Día Uno", en = "The three rounds of Day One"}
-v_h = {es = "Velocidad. Escala. Capacidad.", en = "Speed. Scale. Capability."}
-v_sub = {es = "Lo que trae la IA a cualquier trabajo. Tu equipo lo comprueba con el suyo.", en = "What AI brings to any job. Your team proves it on its own work."}
-v1_t = {es = "Velocidad", en = "Speed"}
-v1 = {es = "Lo de siempre, en menos tiempo.", en = "The usual work, in less time."}
-v1_e = {es = "El informe que te come la tarde, listo antes de la reunión.", en = "The report that eats up your afternoon, ready before the meeting."}
-v2_t = {es = "Escala", en = "Scale"}
-v2 = {es = "Llegas a más con el mismo equipo.", en = "You reach more with the same team."}
-v2_e = {es = "Lo que hoy haces para tus mejores clientes, para todos. Lo que revisas por muestras, entero.", en = "What you do today for your best clients, for all of them. What you check by sampling, in full."}
-v3_t = {es = "Capacidad", en = "Capability"}
-v3 = {es = "Haces lo que antes no sabías o no podías hacer.", en = "You do what you couldn’t do, or didn’t know how to do, before."}
-v3_e = {es = "Analizar datos sin ser analista. Construir tu primera herramienta sin haber programado nunca.", en = "Analyzing data without being an analyst. Building your first tool without ever having written code."}
-# Una frase por <span>: cada una va en su línea y, si no cabe, se equilibra sola (con un <br>, el equilibrio lo marca la primera)
-v_remate = {es = "<span>La velocidad se nota en tu mesa.</span> <span>La escala y la capacidad, en tu cuenta de resultados.</span>", en = "<span>Speed shows up at your desk.</span> <span>Scale and capability show up on your P&amp;L.</span>"}
-c_para = {es = "Para quién", en = "Who it’s for"}
-c_dur = {es = "Duración", en = "Duration"}
-c_que = {es = "Qué es", en = "What it is"}
-c_lleva = {es = "Te llevas", en = "You take away"}
-r_badge = {es = "El primer paso", en = "The first step"}
-r_name = {es = "Día Uno", en = "Day One"}
-r_para = {es = "Los equipos que elijas, de una o varias áreas. Tu comité abre el día y lo cierra.", en = "The teams you choose, from one area or several. Your leadership team opens and closes the day."}
-r_dur = {es = "Una jornada, en tu empresa", en = "One day, at your offices"}
-r_que = {es = "Una jornada de trabajo real con la IA de tu empresa. Cada persona, con sus propias tareas: no mira, hace.", en = "A day of real work with your company’s AI. Everyone on their own tasks: they don’t watch, they do."}
-r_lleva = {es = "Cada persona sale con una tarea suya hecha con IA. Tu comité, con los casos de sus equipos, priorizados y por escrito.", en = "Everyone leaves with a task of their own done with AI. Your leadership team, with its teams’ use cases, prioritized and in writing."}
-r_cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
-r_nota = {es = "Lo que sale del día es tuyo, sigas o no con nosotros.", en = "What comes out of the day is yours, whether or not you continue with us."}
-despues = {es = "Después, a tu ritmo", en = "Then, at your own pace"}
-p_name = {es = "Programa por perfil", en = "Program by profile"}
-p_para = {es = "Toda la organización, del comité a la primera línea", en = "The whole organization, from the leadership team to the front line"}
-p_dur = {es = "Se diseña contigo", en = "Designed with you"}
-p_que = {es = "Sesiones presenciales con los casos de cada perfil y contenido a su ritmo entre una y otra.", en = "In-person sessions with each profile’s cases, and self-paced content in between."}
-p_lleva = {es = "Cada persona usando la IA en su trabajo, champions en cada equipo y una comunidad que no se apaga.", en = "Everyone using AI in their work, champions in every team and a community that doesn’t fade."}
-d_name = {es = "Construcción con tu equipo", en = "Building with your team"}
-d_para = {es = "Un área y sus procesos", en = "One area and its processes"}
-d_dur = {es = "Ciclos cortos, proceso a proceso", en = "Short cycles, process by process"}
-d_que = {es = "Un ingeniero de Spiralia se sienta con el equipo y construye con él los agentes que asumen trabajo real.", en = "A Spiralia engineer sits with the team and builds with them the agents that take on real work."}
-d_lleva = {es = "Agentes en uso, cada uno con su dueño, y un equipo capaz de mantenerlos.", en = "Agents in use, each with its owner, and a team able to maintain them."}
-
+# 14 · Por qué Spiralia
 [pq]
 kicker = {es = "Por qué Spiralia", en = "Why Spiralia"}
 h2a = {es = "Hablamos el idioma del negocio.", en = "We speak the language of business."}
@@ -330,60 +483,85 @@ eq3_t = {es = "Ingeniería", en = "Engineering"}
 eq3 = {es = "Ingenieros que se sientan con tu equipo y construyen los agentes dentro de tus sistemas.", en = "Engineers who sit with your team and build the agents inside your systems."}
 eq_note = {es = "Las mismas personas que diseñan tu programa lo hacen.", en = "The same people who design your program run it."}
 
-[dg]
-kicker = {es = "Diagnóstico", en = "Assessment"}
-h2a = {es = "¿Dónde está tu empresa con la IA?", en = "Where does your company stand with AI?"}
-h2b = {es = "Tres minutos para saberlo.", en = "Three minutes to find out."}
-lead = {es = "Ocho preguntas. Sin datos personales. Un resultado que puedes llevar a tu comité.", en = "Eight questions. No personal data. A result you can take to your leadership team."}
-start = {es = "Empezar", en = "Start"}
-next = {es = "Siguiente", en = "Next"}
-prev = {es = "Atrás", en = "Back"}
-see = {es = "Ver el resultado", en = "See the result"}
-qof = {es = "Pregunta {n} de {t}", en = "Question {n} of {t}"}
-res_h = {es = "Tu punto de partida", en = "Your starting point"}
-res_next = {es = "Tus siguientes pasos", en = "Your next steps"}
-send = {es = "Envíanoslo", en = "Send it to us"}
-print = {es = "Guárdalo para tu comité", en = "Save it for your leadership team"}
-again = {es = "Repetir", en = "Start over"}
-note = {es = "Orientativo: es el criterio de Spiralia, no un estudio. Lo afinamos contigo en 30 minutos.", en = "Indicative: it reflects Spiralia’s judgment, not a study. We’ll refine it with you in 30 minutes."}
-mail_subject = {es = "Diagnóstico de IA: nuestro punto de partida", en = "AI assessment: our starting point"}
-mail_intro = {es = "Hola. He hecho el diagnóstico de vuestra web y este es nuestro punto de partida:", en = "Hello. I took the assessment on your website and this is our starting point:"}
-noscript = {es = "El diagnóstico necesita JavaScript. Si lo prefieres, escríbenos y lo hacemos contigo.", en = "The assessment needs JavaScript. If you prefer, write to us and we’ll do it with you."}
+
+# 13 · Para ti: cada inquietud, su respuesta (Resultados · Personas y talento · Tecnología)
+[pt]
+kicker = {es = "Para ti", en = "For you"}
+h2a = {es = "Tu pregunta no es la del resto.", en = "Your question isn’t everyone else’s."}
+h2b = {es = "Tu respuesta, tampoco.", en = "Neither is your answer."}
+hace = {es = "Qué hacemos contigo", en = "What we do with you"}
+lleva = {es = "Lo que te llevas", en = "What you take away"}
+prueba = {es = "Ya lo hemos hecho", en = "We’ve done it before"}
+t1_tab = {es = "Resultados", en = "Results"}
+t1_h = {es = "Has invertido en IA. Que se note en la cuenta.", en = "You’ve invested in AI. Make it show on the P&amp;L."}
+t1_voz = {es = "«He firmado las licencias. Si dentro de un año el consejo me pregunta qué ha cambiado, ¿qué le enseño?»", en = "“I signed off the licenses. If the board asks me in a year what has changed, what do I show them?”"}
+t1_1 = {es = "Empezamos con Día Uno: tu comité y tus managers trabajan un día con IA y, al cierre, elegís los primeros casos.", en = "We start with Day One: your leadership team and managers work with AI for a day and, at the close, you choose the first cases together."}
+t1_2 = {es = "Elegimos los casos por valor: velocidad, escala y capacidad. La velocidad tiene techo; las otras dos, no.", en = "We choose cases by value: speed, scale and capability. Speed has a ceiling; the other two don’t."}
+t1_3 = {es = "Con Spiral construimos los primeros con tus equipos y los medimos frente al punto de partida.", en = "With Spiral we build the first ones with your teams and measure them against the starting point."}
+t1_4 = {es = "Diseñamos contigo el gobierno: quién propone, quién decide y quién responde.", en = "We design governance with you: who proposes, who decides and who answers for it."}
+t1_l = {es = "Una lista corta de casos con valor, los primeros funcionando y un equipo que sabe seguir.", en = "A short list of valuable cases, the first ones running and a team that knows how to continue."}
+t1_p = {es = "En ING España, del comité de dirección a las oficinas, los usuarios activos cada semana pasaron del 66 % al 92 %.", en = "At ING Spain, from the leadership team to the branches, weekly active users went from 66% to 92%."}
+t1_cta = {es = "Pide fecha para tu Día Uno", en = "Request a date for your Day One"}
+t2_tab = {es = "Personas y talento", en = "People and talent"}
+t2_h = {es = "Te piden productividad. Tu gente te pide dirección.", en = "They ask you for productivity. Your people ask you for direction."}
+t2_voz = {es = "«¿Cómo lo hago sin que la plantilla lo viva como una amenaza? Y la encuesta salió bien, pero ¿y el uso?»", en = "“How do I do this without the workforce seeing it as a threat? And the survey came out well, but what about usage?”"}
+t2_0 = {es = "Empezamos con Día Uno y seguimos con Hábito: cada perfil, con su trabajo, en horario laboral y sin examen.", en = "We start with Day One and continue with Habit: each profile on its own work, during working hours, with no grading."}
+t2_1 = {es = "Formamos a todos, del comité a la primera línea, cada perfil con sus tareas y sus archivos.", en = "We train everyone, from the leadership team to the front line, each profile with their own tasks and files."}
+t2_2 = {es = "Damos al programa nombre y marca propios, para que la plantilla lo reconozca como suyo.", en = "We give the program its own name and brand, so your people recognize it as theirs."}
+t2_3 = {es = "Con Pulso medimos el uso real y lo que se construye, no solo las horas y la satisfacción.", en = "With Pulse we measure real usage and what gets built, not just hours and satisfaction."}
+t2_4 = {es = "Te ayudamos a contarlo a la plantilla y a sus representantes, con transparencia.", en = "We help you explain it to the workforce and its representatives, transparently."}
+t2_5 = {es = "Creamos champions y una comunidad para que el hábito no dependa de nosotros.", en = "We build champions and a community so the habit doesn’t depend on us."}
+t2_6 = {es = "Dejamos documentado lo que se ha hecho. Con el Reglamento europeo de IA, conviene poder enseñarlo.", en = "We document what has been done. Under the EU AI Act, you should be able to show it."}
+t2_l = {es = "Una plantilla que usa la IA con criterio y sin miedo, datos para defender el programa ante la dirección y un modelo que se sostiene solo.", en = "A workforce that uses AI with judgment and without fear, data to defend the program to leadership and a model that sustains itself."}
+t2_p = {es = "En ING España, con el programa, la satisfacción con el uso de la IA llegó a 4,7 sobre 5. En el siguiente país del grupo, 3,2.", en = "At ING Spain, with the program, satisfaction with AI use reached 4.7 out of 5. In the next-best country in the group, 3.2."}
+t2_cta = {es = "Hablemos de tu plantilla", en = "Let’s talk about your workforce"}
+t2_subject = {es = "Formación en IA para mi plantilla", en = "AI training for my workforce"}
+t3_tab = {es = "Tecnología", en = "Technology"}
+t3_h = {es = "La IA, dentro de tu casa. Con tus reglas.", en = "AI inside your walls. On your terms."}
+t3_voz = {es = "«No quiero otra herramienta en la sombra ni otro piloto que nunca llega a producción.»", en = "“I don’t want another shadow tool, or another pilot that never reaches production.”"}
+t3_1 = {es = "Trabajamos dentro de tu entorno y con la IA que aprueba tu IT: Microsoft 365 Copilot, ChatGPT, Claude o Gemini.", en = "We work inside your environment and with the AI your IT approves: Microsoft 365 Copilot, ChatGPT, Claude or Gemini."}
+t3_2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que hace.", en = "Every agent has an owner, permissions and a log of what it does."}
+t3_3 = {es = "En Spiral, antes de usarse, cada solución se prueba con casos reales, también los raros. La autonomía se gana con pruebas.", en = "In Spiral, before it’s used, every solution is tested on real cases, edge cases included. Autonomy is earned with evidence."}
+t3_4 = {es = "Lo traspasamos con manual, pruebas y formación, para que tu equipo lo mantenga sin depender de nosotros.", en = "We hand it over with a manual, tests and training, so your team maintains it without depending on us."}
+t3_l = {es = "Agentes en uso, gobernados y documentados, y un equipo interno capaz de mantenerlos.", en = "Agents in use, governed and documented, and an in-house team able to maintain them."}
+t3_prueba = {es = "Sin cambiar de herramienta", en = "Without changing tools"}
+t3_p = {es = "En Deloitte España formamos a 13.000 personas en un mes con la IA que ya tenían: Microsoft 365 Copilot.", en = "At Deloitte Spain we trained 13,000 people in one month with the AI they already had: Microsoft 365 Copilot."}
+t3_cta = {es = "Hablemos de tu entorno", en = "Let’s talk about your environment"}
 
 [faq]
 kicker = {es = "Preguntas del comité", en = "Leadership team questions"}
 h2 = {es = "Lo que nos preguntan antes de empezar.", en = "What we’re asked before getting started."}
 q1 = {es = "¿Por qué ahora y no dentro de seis meses?", en = "Why now and not in six months?"}
-a1 = {es = "Porque el uso se enfría en semanas y las licencias se pagan igual. Y porque quien ya rediseña su trabajo no va un paso por delante: va una curva por delante.", en = "Because usage cools off within weeks and the licenses cost the same. And because those already redesigning their work aren’t one step ahead: they’re a whole curve ahead."}
-q2 = {es = "¿Nuestros datos salen de la empresa?", en = "Does our data leave the company?"}
-a2 = {es = "Solo por donde ya lo permite tu IT. Trabajamos dentro de tu entorno, con las herramientas y los permisos que aprueba tu IT. Para preparar la formación usamos tus documentos, con acuerdo de confidencialidad y de encargo del tratamiento, o datos ficticios.", en = "Only where your IT already allows it. We work inside your environment, with the tools and permissions your IT approves. To prepare the training we use your documents, under a confidentiality and data processing agreement, or fictitious data."}
-q3 = {es = "¿Sois lo bastante grandes para nosotros?", en = "Are you big enough for us?"}
-a3 = {es = "En Deloitte España formamos a 13.000 personas en un mes. Somos una boutique por cómo trabajamos, no por lo que abarcamos.", en = "At Deloitte Spain we trained 13,000 people in one month. We’re a boutique in how we work, not in what we can take on."}
-q4 = {es = "¿Y si no funciona?", en = "What if it doesn’t work?"}
-a4 = {es = "Empezamos por algo pequeño que se ve el mismo día: Día Uno, una jornada de trabajo real con tus equipos. Si no vemos casos con valor, te lo decimos. Y cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small, with something you can see the same day: Day One, a day of real work with your teams. If we don’t see valuable cases, we’ll tell you. And every solution is tested on real cases before it’s used for real."}
-q5 = {es = "¿Con qué IA trabajáis? Ya tenemos un partner de Microsoft.", en = "Which AI do you work with? We already have a Microsoft partner."}
-a5 = {es = "Con la que ya tiene tu empresa: Microsoft 365 Copilot, ChatGPT, Claude o Gemini. Tu partner pone la herramienta; nosotros, que se use en cada puesto. Si aún no está elegida, te ayudamos a decidir.", en = "With the one your company already has: Microsoft 365 Copilot, ChatGPT, Claude or Gemini. Your partner brings the tool; we make it work in every role. If it hasn’t been chosen yet, we help you decide."}
-q6 = {es = "¿Nos quedamos con lo que se construye?", en = "Do we keep what gets built?"}
-a6 = {es = "Sí. Lo que construimos para ti es tuyo y vive en tu entorno, con las herramientas que aprueba tu IT, no en una plataforma nuestra. Al terminar te dejamos el manual, las pruebas y la formación para que tu equipo lo mantenga.", en = "Yes. What we build for you is yours and lives in your environment, with the tools your IT approves, not on a platform of ours. When we finish, we leave you the manual, the tests and the training so your team can maintain it."}
-q7 = {es = "¿Cuánto tiempo pide a nuestros equipos?", en = "How much time does it take from our teams?"}
-a7 = {es = "Día Uno pide una jornada a los equipos que elijas, en horario de trabajo y sin examen, y a tu comité, la apertura y el cierre. En los programas, las sesiones van dentro del horario y el contenido a su ritmo cabe entre tarea y tarea. Cuando construimos con tu equipo, el experto del área prueba y corrige cada versión; el ingeniero hace el resto.", en = "Day One takes one day from the teams you choose, during working hours and with no grading, and the opening and the close from your leadership team. In programs, sessions also run during working hours and self-paced content fits between tasks. When we build with your team, the area’s expert tests and corrects each version; the engineer does the rest."}
-q8 = {es = "Ya hemos hecho formación. ¿Empezamos de cero?", en = "We’ve already done training. Do we start from scratch?"}
-a8 = {es = "Al contrario: partimos de ahí. Solo el 36 % de los profesionales cree que su formación en IA ha sido suficiente (BCG, 2026). Vemos qué se usa y qué no, y llevamos a cada perfil al siguiente nivel con sus propios casos.", en = "Quite the opposite: we build on it. Only 36% of professionals think their AI training has been enough (BCG, 2026). We see what is being used and what isn’t, and take each profile to the next level with their own cases."}
-q9 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI Act require?"}
-a9 = {es = "Desde 2025, la ley europea pide a las empresas que usan IA que tomen medidas para formar a su gente. No pide certificados y, desde julio de 2026, deja claro que no exige un nivel concreto, pero conviene poder enseñar lo que se ha hecho. Nuestros programas lo dejan documentado.", en = "Since 2025, EU law has asked companies that use AI to take steps to build their staff’s AI literacy. It has never required certificates and, since July 2026, it makes clear that no specific level is required, but you should be able to show what you have done. Our programs document it."}
-q10 = {es = "¿Cuánto cuesta?", en = "How much does it cost?"}
-a10 = {es = "Depende de tu punto de partida y de hasta dónde quieras llegar: cada programa se diseña a medida. Lo vemos en una conversación de 30 minutos y te llevas una propuesta de primer paso.", en = "It depends on your starting point and how far you want to go: every program is tailored to you. We’ll go through it in a 30-minute conversation and you’ll leave with a proposed first step."}
+a1 = {es = "Porque el uso se enfría en semanas y las licencias se pagan igual. Y porque la IA multiplica: quien ya rediseña su trabajo no va un paso por delante, va una curva por delante, y la distancia crece cada semana.", en = "Because usage cools off within weeks and the licenses cost the same. And because AI multiplies: those already redesigning their work aren’t one step ahead, they’re a whole curve ahead, and the gap grows every week."}
+q2 = {es = "¿Tengo que empezar por Día Uno?", en = "Do I have to start with Day One?"}
+a2 = {es = "No, aunque casi todos lo hacen, porque en un día ordena las prioridades. Cada producto funciona solo: si tu gente ya está formada, Spiral empieza en la P; si ya tienes casos priorizados, puedes empezar por Hábito.", en = "No, although almost everyone does, because it sets the priorities in one day. Each product works on its own: if your people are already trained, Spiral starts at P; if you already have prioritized cases, you can start with Habit."}
+q3 = {es = "¿Nuestros datos salen de la empresa?", en = "Does our data leave the company?"}
+a3 = {es = "Solo por donde ya lo permite tu IT. Trabajamos dentro de tu entorno, con las herramientas y los permisos que aprueba tu IT. Para preparar la formación usamos tus documentos, con acuerdo de confidencialidad y de encargo del tratamiento, o datos ficticios.", en = "Only where your IT already allows it. We work inside your environment, with the tools and permissions your IT approves. To prepare the training we use your documents, under a confidentiality and data processing agreement, or fictitious data."}
+q4 = {es = "¿Sois lo bastante grandes para nosotros?", en = "Are you big enough for us?"}
+a4 = {es = "En Deloitte España formamos a 13.000 personas en un mes. Somos una boutique por cómo trabajamos, no por lo que abarcamos.", en = "At Deloitte Spain we trained 13,000 people in one month. We’re a boutique in how we work, not in what we can take on."}
+q5 = {es = "¿Y si no funciona?", en = "What if it doesn’t work?"}
+a5 = {es = "Empezamos por algo pequeño que se ve el mismo día: Día Uno, una jornada de trabajo real con tu comité y tus managers. Si no vemos casos con valor, te lo decimos. Y en Spiral cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small, with something you can see the same day: Day One, a day of real work with your leadership team and managers. If we don’t see valuable cases, we’ll tell you. And in Spiral every solution is tested on real cases before it’s used for real."}
+q6 = {es = "¿Con qué IA trabajáis? Ya tenemos un partner de Microsoft.", en = "Which AI do you work with? We already have a Microsoft partner."}
+a6 = {es = "Con la que ya tiene tu empresa: Microsoft 365 Copilot, ChatGPT, Claude o Gemini. Tu partner pone la herramienta; nosotros, que se use en cada puesto. Si aún no está elegida, te ayudamos a decidir.", en = "With the one your company already has: Microsoft 365 Copilot, ChatGPT, Claude or Gemini. Your partner brings the tool; we make it work in every role. If it hasn’t been chosen yet, we help you decide."}
+q7 = {es = "¿Nos quedamos con lo que se construye?", en = "Do we keep what gets built?"}
+a7 = {es = "Sí. Lo que construimos para ti es tuyo y vive en tu entorno, con las herramientas que aprueba tu IT, no en una plataforma nuestra. Al terminar te dejamos el manual, las pruebas y la formación para que tu equipo lo mantenga.", en = "Yes. What we build for you is yours and lives in your environment, with the tools your IT approves, not on a platform of ours. When we finish, we leave you the manual, the tests and the training so your team can maintain it."}
+q8 = {es = "¿Cuánto tiempo pide a nuestros equipos?", en = "How much time does it take from our teams?"}
+a8 = {es = "Día Uno pide una jornada a tu comité y a tus managers, en horario de trabajo y sin examen. En Hábito, las sesiones van dentro del horario y el contenido a su ritmo cabe entre tarea y tarea. En Spiral, el experto del área prueba y corrige cada versión; el ingeniero hace el resto. Pulso pide unas horas al mes a tus champions.", en = "Day One takes one day from your leadership team and managers, during working hours and with no grading. In Habit, sessions run during working hours and self-paced content fits between tasks. In Spiral, the area’s expert tests and corrects each version; the engineer does the rest. Pulse takes a few hours a month from your champions."}
+q9 = {es = "Ya hemos hecho formación. ¿Empezamos de cero?", en = "We’ve already done training. Do we start from scratch?"}
+a9 = {es = "Al contrario: partimos de ahí. Es el primer paso de Hábito. Vemos qué se usa y qué no, y llevamos a cada perfil al siguiente peldaño con sus propios casos.", en = "Quite the opposite: we build on it. It’s the first step of Habit. We see what is being used and what isn’t, and take each profile to the next step with their own cases."}
+q10 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI Act require?"}
+a10 = {es = "Desde 2025, la ley europea pide a las empresas que usan IA que tomen medidas para formar a su gente. No pide certificados y, desde julio de 2026, deja claro que no exige un nivel concreto, pero conviene poder enseñar lo que se ha hecho. Hábito y Pulso lo dejan documentado.", en = "Since 2025, EU law has asked companies that use AI to take steps to build their staff’s AI literacy. It has never required certificates and, since July 2026, it makes clear that no specific level is required, but you should be able to show what you have done. Habit and Pulse document it."}
+q11 = {es = "¿Cuánto cuesta?", en = "How much does it cost?"}
+a11 = {es = "Depende del producto y de tu punto de partida: cada uno se dimensiona contigo. Lo vemos en una conversación de 30 minutos y te llevas una propuesta de primer paso.", en = "It depends on the product and your starting point: each one is sized with you. We’ll go through it in a 30-minute conversation and you’ll leave with a proposed first step."}
 
 [ctx]
 casos = {es = "¿Quieres ver algo así en tu empresa?", en = "Want to see this in your company?"}
-metodo = {es = "Para empezar: un día de trabajo real con tus equipos.", en = "To begin: one day of real work with your teams."}
-construimos = {es = "¿Dónde está tu empresa hoy?", en = "Where does your company stand today?"}
 
 [cta]
 kicker = {es = "Hablemos", en = "Let’s talk"}
 h2a = {es = "Hablas con el equipo", en = "You talk to the team"}
 h2b = {es = "que lo va a hacer.", en = "that will do it."}
-lead = {es = "Treinta minutos para saber por dónde empezar. Sin intermediarios ni juniors: cuéntanos dónde está tu empresa y te proponemos el primer paso.", en = "Thirty minutes to work out where to start. No intermediaries, no juniors: tell us where your company stands and we’ll propose the first step."}
+lead = {es = "Treinta minutos para saber por dónde empezar y con qué producto. Sin intermediarios ni juniors: cuéntanos dónde está tu empresa y te proponemos el primer paso.", en = "Thirty minutes to work out where to start and with which product. No intermediaries, no juniors: tell us where your company stands and we’ll propose the first step."}
 btn = {es = "Reserva 30 minutos", en = "Book 30 minutes"}
 asist = {es = "¿Lo gestiona tu asistente? Escríbenos a", en = "Does your assistant manage your calendar? Write to us at"}
 copy = {es = "Copiar", en = "Copy"}
@@ -393,7 +571,7 @@ legal = {es = "Si nos escribes, usaremos tu nombre, tu email y lo que nos cuente
 urg = {es = "Si la IA va a estar en el presupuesto de 2027, que llegue con un plan.", en = "If AI is going into your 2027 budget, make sure it comes with a plan."}
 
 [ft]
-tag = {es = "Formación e implantación de IA para empresas.", en = "AI training and deployment for companies."}
+tag = {es = "Formación y despliegue de IA para empresas.", en = "AI training and deployment for companies."}
 ia = {es = "Spiralia AI", en = "Spiralia AI"}
 areas = {es = "Más de Spiralia", en = "More from Spiralia"}
 contact = {es = "Contacto", en = "Contact"}
@@ -407,15 +585,19 @@ copy = {es = "© 2026 Spiralia", en = "© 2026 Spiralia"}
 # /reserva/: el texto en español va escrito en el HTML; con ?l=en lo cambia el script. El aviso legal es [cta].legal.
 # primero sustituye a p cuando se llega desde un «Pide fecha para tu Día Uno» (d=dia-uno, metodo o resultados) o desde
 # el diagnóstico en el nivel Acceso, que recomienda Día Uno (d=diagnostico-dia-uno); d=rumbo sigue valiendo para los enlaces ya enviados.
+
+# /reserva/: el texto en español va escrito en el HTML; con ?l=en lo cambia el script. El aviso legal es [cta].legal.
+# primero sustituye a p cuando se llega desde un «Pide fecha para tu Día Uno» (d=dia-uno o resultados) o desde
+# el diagnóstico en el nivel Acceso, que recomienda Día Uno (d=diagnostico-dia-uno); d=rumbo sigue valiendo para los enlaces ya enviados.
 [reserva]
 titulo = {es = "Hablemos", en = "Let’s talk"}
 h = {es = "Hablemos.", en = "Let’s talk."}
 p = {es = "Escríbenos y te proponemos dos o tres huecos para una conversación de 30 minutos con el equipo.", en = "Write to us and we’ll suggest two or three slots for a 30-minute conversation with the team."}
-primero = {es = "Cuéntanos con qué equipos quieres empezar y quién vendrá del comité. Te proponemos fecha para tu Día Uno.", en = "Tell us which teams you’d like to start with and who from your leadership team will join. We’ll suggest a date for your Day One."}
+primero = {es = "Cuéntanos quién vendrá de tu comité y qué managers quieres sumar. Te proponemos fecha para tu Día Uno.", en = "Tell us who from your leadership team will join and which managers you’d like to bring. We’ll suggest a date for your Day One."}
 lista = {es = ["Tu empresa y tu cargo", "Dónde está tu empresa con la IA", "Qué te gustaría resolver primero"], en = ["Your company and your role", "Where you are with AI today", "What you would like to solve first"]}
 btn = {es = "Escribir el email", en = "Write the email"}
 subject = {es = "Quiero hablar de IA con Spiralia", en = "I’d like to talk about AI with Spiralia"}
-subject_primero = {es = "Quiero un Día Uno para mis equipos", en = "I’d like a Day One for my teams"}
+subject_primero = {es = "Quiero un Día Uno para mi comité", en = "I’d like a Day One for my leadership team"}
 volver = {es = "← Volver a Spiralia AI", en = "← Back to Spiralia AI"}
 
 # ---------------------------------------------------------------------------
@@ -529,27 +711,48 @@ o = {es = ["La ve como un tema de IT", "La apoya, pero no la usa", "La usa y la 
 [[data.diag.n]]
 name = {es = "Acceso", en = "Access"}
 h = {es = "Tu empresa tiene la puerta abierta, pero la IA aún no trabaja.", en = "Your company has the door open, but AI isn’t working yet."}
-s = {es = ["Empieza con un Día Uno: tus equipos, una jornada con la IA en su propio trabajo.", "Forma por perfiles, con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with a Day One: your teams spend a day using AI on their own work.", "Train by profile, with real tasks: that’s what keeps usage from cooling off."]}
+s = {es = ["Empieza con Día Uno: tu comité y tus managers, una jornada con la IA en su propio trabajo.", "Sigue con Hábito, formación por perfiles con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with Day One: your leadership team and managers spend a day using AI on their own work.", "Continue with Habit, training by profile with real tasks: that’s what keeps usage from cooling off."]}
 # Con la primera pregunta en «Nadie, o cada uno usa la suya», sustituye a la primera línea de s: Día Uno se hace
 # con la IA de la empresa, así que antes hay que elegirla (como en la respuesta 5 de las preguntas del comité)
-sin_ia = {es = "Elige tu IA corporativa (te ayudamos a decidir) y empieza con un Día Uno: tus equipos, una jornada con ella en su propio trabajo.", en = "Choose your corporate AI (we’ll help you decide) and start with a Day One: your teams spend a day using it on their own work."}
+sin_ia = {es = "Elige tu IA corporativa (te ayudamos a decidir) y empieza con Día Uno: tu comité y tus managers, una jornada con ella en su propio trabajo.", en = "Choose your corporate AI (we’ll help you decide) and start with Day One: your leadership team and managers spend a day using it on their own work."}
 
 [[data.diag.n]]
 name = {es = "Uso", en = "Use"}
 h = {es = "La gente la prueba. El trabajo todavía no ha cambiado.", en = "People are trying it. The work hasn’t changed yet."}
-s = {es = ["Pasa de lo general a lo de cada puesto con formación por perfil.", "Elige pocos casos con valor y mide su punto de partida."], en = ["Move from the general to each role’s work with training by profile.", "Choose a few valuable cases and measure their starting point."]}
+s = {es = ["Pasa de lo general a lo de cada puesto con Hábito, formación por perfil.", "Elige pocos casos con valor y mide su punto de partida: es lo que ordena Día Uno."], en = ["Move from the general to each role’s work with Habit, training by profile.", "Choose a few valuable cases and measure their starting point: that’s what Day One sets out."]}
 
 [[data.diag.n]]
 name = {es = "Hábito", en = "Habit"}
 h = {es = "Tu equipo la usa cada semana. Falta que asuma trabajo real.", en = "Your team uses it every week. It still needs to take on real work."}
-s = {es = ["Sienta a un ingeniero con el área donde más valor hay.", "Decide quién responde de cada agente antes de construirlo."], en = ["Put an engineer with the area where the value is greatest.", "Decide who answers for each agent before building it."]}
+s = {es = ["Sienta a un ingeniero con el área donde más valor hay: es Spiral.", "Decide quién responde de cada agente antes de construirlo."], en = ["Put an engineer with the area where the value is greatest: that’s Spiral.", "Decide who answers for each agent before building it."]}
 
 [[data.diag.n]]
 name = {es = "Rediseño", en = "Redesign"}
 h = {es = "Ya estás cambiando procesos. Ahora toca escalar con control.", en = "You’re already changing processes. Now it’s time to scale with control."}
-s = {es = ["Repite el método proceso a proceso, en ciclos cortos.", "Forma a tus propios constructores para no depender de nadie."], en = ["Repeat the method process by process, in short cycles.", "Train your own builders so you don’t depend on anyone."]}
+s = {es = ["Repite Spiral proceso a proceso, en ciclos cortos.", "Mide cada mes el uso y el valor con Pulso, y forma a tus propios constructores."], en = ["Repeat Spiral process by process, in short cycles.", "Measure usage and value every month with Pulse, and train your own builders."]}
 
 [[data.diag.n]]
 name = {es = "Autonomía", en = "Autonomy"}
 h = {es = "Construyes y gobiernas sin ayuda. Estás entre los que más valor sacan.", en = "You build and govern on your own. You’re among those getting the most value."}
 s = {es = ["Mide el valor caso a caso y llévalo a la cuenta de resultados.", "Comparte lo aprendido entre áreas, con champions y comunidad."], en = ["Measure value case by case and bring it to the P&L.", "Share what you’ve learned across areas, with champions and community."]}
+
+# Estimación del valor que se escapa, al final del diagnóstico. Son supuestos visibles y editables por quien lo hace, no cifras
+# de la página: por eso van aquí y no pasan la comprobación de cifras. captura: la parte del valor que se captura en cada nivel
+# (de Acceso a Autonomía), criterio de Spiralia. def: personas, coste por hora y horas a la semana por defecto.
+[data.diag.roi]
+h = {es = "Lo que está en juego", en = "What’s at stake"}
+paso = {es = "Último paso · Tres datos", en = "Last step · Three figures"}
+p = {es = "Tres datos para estimarlo. Son tus supuestos: ajústalos.", en = "Three figures to estimate it. They’re your assumptions: adjust them."}
+personas = {es = "Personas con acceso a la IA", en = "People with access to AI"}
+coste = {es = "Coste medio por hora de esas personas (€)", en = "Average hourly cost of those people (€)"}
+horas = {es = "Horas a la semana que la IA podría ahorrar a cada una", en = "Hours a week AI could save each of them"}
+horas_n = {es = "Supuesto prudente. Cámbialo si tienes un dato propio.", en = "A prudent assumption. Change it if you have your own figure."}
+calc = {es = "Ver el resultado", en = "See the result"}
+total = {es = "Valor en juego al año", en = "Value at stake per year"}
+hoy = {es = "Lo que capturas hoy, en tu nivel", en = "What you capture today, at your level"}
+fuga = {es = "Lo que se te escapa al año", en = "What slips away each year"}
+semana = {es = "Cada semana que esperas", en = "Every week you wait"}
+nota = {es = "Orientativo. Personas × horas a la semana × coste por hora × 46 semanas de trabajo. La parte que se captura en cada nivel (del 10 % en Acceso al 85 % en Autonomía) es criterio de Spiralia, no un estudio.", en = "Indicative. People × hours a week × hourly cost × 46 working weeks. The share captured at each level (from 10% at Access to 85% at Autonomy) reflects Spiralia’s judgment, not a study."}
+def = [500, 40, 2]
+semanas = 46
+captura = [0.10, 0.25, 0.45, 0.65, 0.85]
