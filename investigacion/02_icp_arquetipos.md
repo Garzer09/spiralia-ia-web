@@ -383,9 +383,9 @@ Sin datos públicos fiables sobre:
 
 ### 5.2 Texto vigente del artículo 4 [H] [F39]
 
-El artículo se sustituye íntegro. Su redacción, en el texto final en español, dice:
+El artículo se sustituye íntegro. Su redacción en el Diario Oficial (Reglamento (UE) 2026/1744, art. 1.5; verificado el 21-oct-2026 en la copia del BOE, https://www.boe.es/doue/2026/1744/L00001-00041.pdf) dice lo siguiente. El borrador PE-CONS 30/26 decía «apoyar el desarrollo»; el texto publicado dice «apoyar la promoción»:
 
-> «Los proveedores y responsables del despliegue de sistemas de IA adoptarán medidas para apoyar el desarrollo de la alfabetización en materia de IA de su personal y demás personas que se encarguen en su nombre del funcionamiento y la utilización de sistemas de IA, teniendo en cuenta sus conocimientos técnicos, su experiencia, su educación y su formación, así como el contexto previsto de uso de los sistemas de IA y las personas o los colectivos de personas en que se van a utilizar dichos sistemas. Esta obligación no exige que los proveedores o los responsables del despliegue garanticen un nivel específico de alfabetización en materia de IA de ninguna persona en particular.»
+> «Los proveedores y responsables del despliegue de sistemas de IA adoptarán medidas para apoyar la promoción de la alfabetización en materia de IA de su personal y demás personas que se encarguen en su nombre del funcionamiento y la utilización de sistemas de IA, teniendo en cuenta sus conocimientos técnicos, su experiencia, su educación y su formación, así como el contexto previsto de uso de los sistemas de IA y las personas o los colectivos de personas en que se van a utilizar dichos sistemas. Esta obligación no exige que los proveedores o los responsables del despliegue garanticen un nivel específico de alfabetización en materia de IA de ninguna persona en particular.»
 
 Además:
 - La Comisión y los Estados miembros apoyarán y facilitarán esos esfuerzos, en particular los de las pymes. La Comisión publicará ejemplos prácticos de cumplimiento.
@@ -404,7 +404,7 @@ Además:
 
 - **[H]** El art. 99.4 enumera las obligaciones con multas armonizadas, y el art. 4 no está en la lista. El Omnibus solo añade a esa lista las obligaciones del art. 25, apartados 2 y 4. El art. 99.1 deja a cada Estado fijar el régimen para «cualquier infracción», con medidas que pueden ser multas, advertencias o medidas no pecuniarias [F39].
 - **[H]** **España:** el Consejo de Ministros aprobó el 26 de mayo de 2026 el proyecto de Ley Orgánica para el buen uso y la gobernanza de la IA [F44]. Su tramitación en el Congreso empezó con la publicación en el Boletín de las Cortes el 12 de junio de 2026, con plazo de enmiendas hasta el 30 de junio [F45].
-  - **No está aprobado.**
+  - **No está aprobado.** Actualización del 21-oct-2026: caducó el 6 de octubre de 2026 al disolverse las Cortes (Real Decreto 806/2026, elecciones el 29 de noviembre; ficha 121/000096 del Congreso: «Concluido - (Caducado)»). Su catálogo de infracciones no incluía el art. 4.
   - Prevé multas de hasta 35 millones de euros o el 7 % del volumen de negocio en los casos más graves, como las prácticas prohibidas [F44].
   - Si tipifica el incumplimiento del art. 4: **sin datos**. La nota del Gobierno no lo menciona y no he podido revisar el articulado.
 - **[H]** El otro «Digital Omnibus», el de datos y protección de datos (2025/0360(COD)), es un expediente distinto. Según fuentes secundarias, en octubre de 2026 seguía en negociación en el Consejo [F43]. No afecta al art. 4.

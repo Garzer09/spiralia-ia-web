@@ -14,8 +14,9 @@
     play: el => { el.classList.remove('play'); void el.offsetWidth; requestAnimationFrame(() => el.classList.add('play')); },
     finish: el => el.classList.remove('anim', 'play'),
   };
-  // Lo que nadie dice en el comité · la escalera de Lo que hacemos · las fases de Día Uno · la preparación de Hábito · el ciclo de Pulso
-  ['voces', 'mapa', 'fases', 'prep', 'ciclo'].forEach(n => piece(n, css));
+  // Lo que nadie dice en el comité · las fases de la Jornada piloto · la preparación de la formación · la autonomía en Spiral
+  // (la escalera de Lo que hacemos la anima scroll.js con el scroll)
+  ['voces', 'fases', 'prep', 'aut'].forEach(n => piece(n, css));
 
   // M2 · Lo que pagas frente a lo que se usa: la línea de lo pagado se queda arriba, la del uso sube y se enfría,
   // y el hueco entre las dos (pagado y sin usar) se rellena al final. Reloj propio de 3,3 s, sin depender del scroll
@@ -44,19 +45,19 @@
     };
   })());
 
-  // M3 · La nube de lo que se acumula mientras esperas, que se ordena en un plan de cuatro productos.
+  // M3 · La nube de lo que se acumula mientras esperas, que se ordena en un plan de cinco productos.
   // Cada riesgo está en su columna (el plan); desordenado, se desplaza con transform a un sitio al azar del campo
   // (semilla fija) y flota. En pantallas estrechas no se desordena: las columnas se apilan y aparecen en orden
   piece('nube', (() => {
     let el, campo, chips, btn, orden = true, pulsado = false, L = {};
     const T = later(), estrecho = () => matchMedia('(max-width: 760px)').matches;
-    // Desorden legible: cada riesgo cae en una celda al azar de una rejilla de 4 × 5 que cubre el campo, con algo de holgura
+    // Desorden legible: cada riesgo cae en una celda al azar de una rejilla de 5 × 4 que cubre el campo, con algo de holgura
     function dispersa() {
       const R = lcg(20261021), w = campo.clientWidth, h = campo.clientHeight, b = campo.getBoundingClientRect();
-      const celdas = chips.map((c, i) => i).sort(() => R() - .5), cw = w / 4, ch = h / 5;
+      const celdas = chips.map((c, i) => i).sort(() => R() - .5), cw = w / 5, ch = h / 4;
       chips.forEach(c => { c.style.transition = 'none'; c.style.transform = 'none'; });
       chips.forEach((c, k) => {
-        const r = c.getBoundingClientRect(), col = celdas[k] % 4, fila = Math.floor(celdas[k] / 4) % 5;
+        const r = c.getBoundingClientRect(), col = celdas[k] % 5, fila = Math.floor(celdas[k] / 5) % 4;
         const x = Math.min(w - r.width, col * cw + R() * Math.max(0, cw - r.width)), y = fila * ch + (ch - r.height) / 2 + (R() - .5) * ch * .35;
         c._d = `translate(${(x - r.left + b.left).toFixed(0)}px,${(y - r.top + b.top).toFixed(0)}px) rotate(${((R() - .5) * 7).toFixed(1)}deg)`;
         c.style.setProperty('--fd', (5 + R() * 4).toFixed(2) + 's'); c.style.setProperty('--fo', (-R() * 6).toFixed(2) + 's');
@@ -66,7 +67,7 @@
     function pon(o, sin) {
       orden = o || estrecho(); el.classList.toggle('ordenada', orden);
       chips.forEach((c, i) => {
-        c.style.transitionDelay = sin ? '0s' : ((i % 5) * .06 + Math.floor(i / 5) * .1).toFixed(2) + 's';
+        c.style.transitionDelay = sin ? '0s' : ((i % 4) * .06 + Math.floor(i / 4) * .1).toFixed(2) + 's';
         c.style.transform = orden ? 'none' : c._d;
       });
       btn.textContent = orden ? L.desordenar : L.ordenar; btn.hidden = still() || estrecho();
@@ -82,6 +83,31 @@
       arm: r => { init(r); dispersa(); pon(false, true); el.classList.add('anim'); },
       play: r => { init(r); el.classList.add('play'); if (!pulsado) T.at(estrecho() ? 0 : 2800, () => pon(true)); },
       finish: r => { init(r); T.clear(); el.classList.remove('anim'); pon(true, true); },
+    };
+  })());
+
+  // M6 · Radar: un barrido que da la vuelta cada 6 s sobre 30 puntos (lo que sale cada semana, semilla fija). Cada punto
+  // se enciende cuando pasa el barrido y se apaga; cuatro se quedan marcados (lo que importa a tu empresa). Quieto, el
+  // barrido no gira y se ven los cuatro marcados
+  piece('radar', (() => {
+    const NS = 'http://www.w3.org/2000/svg', VUELTA = 6;
+    const puntos = el => {
+      const g = $('.radar-puntos', el); if (g.childElementCount) return;
+      const R = lcg(20261022);
+      for (let i = 0; i < 30; i++) {
+        const a = R() * 360, r = 34 + Math.sqrt(R()) * 136, rad = (a - 90) * Math.PI / 180, c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', (200 + r * Math.cos(rad)).toFixed(1)); c.setAttribute('cy', (200 + r * Math.sin(rad)).toFixed(1));
+        c.setAttribute('r', i < 4 ? 5.5 : 3);
+        if (i < 4) c.classList.add('si');
+        // El destello llega justo cuando pasa el barrido: el ángulo del punto, en segundos de la vuelta
+        c.style.animationDelay = (a / 360 * VUELTA - VUELTA).toFixed(2) + 's';
+        g.appendChild(c);
+      }
+    };
+    return {
+      arm: el => { puntos(el); el.classList.remove('gira', 'fin'); },
+      play: el => { puntos(el); el.classList.add('gira'); },
+      finish: el => { puntos(el); el.classList.remove('gira'); el.classList.add('fin'); },
     };
   })());
 
@@ -189,7 +215,7 @@
     return { arm, play: el => { if (!SPs.guiada) play(el); }, finish };
   })());
 
-  // M5 · Antes y después, por perfil (los ejemplos de Hábito) (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
+  // M5 · Antes y después, por perfil (los ejemplos de la Formación a medida) (reloj propio: aplicar(t) enciende lo que tiene data-at ≤ t)
   // Cada columna arranca al estar en pantalla: en móvil el «después» va debajo y no debe animarse fuera de vista.
   // Apiladas (móvil), lo que está a la vista no espera al reloj: al bajar (o al llegar de golpe, con un ancla o al
   // recargar) no queda ninguna tarjeta vacía. Tras un clic (un perfil, «Ver de nuevo», reanudar), lo que ya se veía
@@ -333,7 +359,7 @@
     new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
     new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
     if (pie) new IntersectionObserver(([e]) => { enPie = e.isIntersecting; set(); }).observe(pie);
-    // Donde la sección ya tiene su propia llamada (Día Uno), la fija se retira
+    // Donde la sección ya tiene su propia llamada (la Jornada piloto), la fija se retira
     const propias = $$('[data-cta-propia]'), vistas = new Set();
     if (propias.length) { const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vistas.add(e.target) : vistas.delete(e.target)); enPaso = vistas.size > 0; set(); }, { threshold: .25 }); propias.forEach(x => io.observe(x)); }
   })();

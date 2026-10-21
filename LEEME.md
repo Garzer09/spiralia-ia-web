@@ -1,6 +1,6 @@
 # Spiralia AI · la sección de IA de spiralia.es
 
-Es una página larga, en español con versión en inglés, para la alta dirección: negocio (CEO y dirección general), Personas y talento (RR. HH. y Formación) y Tecnología (CTO y CIO). Es un prototipo del 14-oct-2026, rediseñado el 19-oct-2026 tras una auditoría completa (`investigacion/04_auditoria_2026-10.md`) y otra vez el 21-oct-2026 con los cuatro productos (`investigacion/05_productos_y_relato.md`). La investigación está en `investigacion/`.
+Es una página larga, en español con versión en inglés, para la alta dirección: negocio (CEO y dirección general), Personas y talento (RR. HH. y Formación) y Tecnología (CTO y CIO). Es un prototipo del 14-oct-2026, rediseñado el 19-oct-2026 tras una auditoría completa (`investigacion/04_auditoria_2026-10.md`) y otra vez el 21-oct-2026: por la mañana con los productos y el relato, y por la tarde con los cinco productos actuales y el lenguaje visual de noth.in (`investigacion/05_productos_y_relato.md`). La investigación está en `investigacion/`.
 
 ## Cómo verla
 
@@ -15,9 +15,9 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 | Textos (ES y EN en cada clave) | `src/content.toml` |
 | Cifras permitidas y su fuente | `src/cifras.toml`. De aquí sale `FUENTES.md`. |
 | Estructura de la página | `src/index.template.html` |
-| Estilos (paleta «Monocromo Spiralia») | `src/css/site.css` |
+| Estilos (paleta «Monocromo Spiralia» con el lenguaje de noth.in) | `src/css/site.css` |
 | Productos, orden de la página y guion de cada pieza | `investigacion/05_productos_y_relato.md` |
-| Piezas animadas | `src/js/motion.js`: lo que pagas frente a lo que se usa, voces del comité, escalera de la IA, nube de riesgos, fases de Día Uno, preparación de Hábito, espiral SPIRAL de puntos, ciclo de Pulso, antes y después por perfil, vídeos de las piezas y de fondo, barra, menú móvil, logos y pestañas (la película de apertura va en línea en la plantilla). Capa de movimiento: `src/js/scroll.js`. WebGL (solo la portada): `src/js/gl.js` |
+| Piezas animadas | `src/js/motion.js`: lo que pagas frente a lo que se usa, voces del comité, nube de riesgos, fases de la Jornada piloto, preparación de la formación, espiral SPIRAL de puntos, autonomía en Spiral, radar, antes y después por perfil, vídeos de las piezas y de fondo, barra, menú móvil, logos y pestañas (la película de apertura va en línea en la plantilla). Capa de movimiento (titulares, nombres letra a letra, filetes, vídeos y la escalera de la IA): `src/js/scroll.js`. WebGL (solo la portada): `src/js/gl.js` |
 | Vídeos de las piezas (HyperFrames) | `motion/modelo/`, `motion/multiplica/`, `motion/lunes/` y `motion/agentes/`. Reglas comunes en `motion/PIEZAS.md` |
 | Diagnóstico | `src/js/diagnostico.js`. Sus preguntas y niveles están en `[data.diag]` de `content.toml`. |
 | URL de Microsoft Bookings | `BOOKINGS` en `build.py`, o directamente en `dist/reserva/index.html` sin volver a generar |
@@ -37,7 +37,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 
 Las cifras escritas en letras («ocho», «una década», «tres de cada cuatro», «veinticinco») que no están en `cifras.toml` dan un aviso, no un error. Las fracciones y los multiplicativos («dos tercios», «la cuarta parte», «el triple», «veinte veces», «multiplica por tres», «three times», «thirtyfold», «a third larger», «costs halved») avisan siempre, aunque la cifra esté dada de alta.
 
-El build no publica los retratos (`ana-iza.*`, `jose-garza.*`) ni los PNG de `assets/img/3d/`. Añade `?v=<huella del fichero>` a las URL de CSS, JS y vídeos, así que al volver a publicar nadie recibe una versión antigua de la caché; el HTML se sirve con `no-cache`.
+El build no publica los retratos (`ana-iza.*`, `jose-garza.*`) ni los iconos 3D (`assets/img/3d/`): desde el 21-oct la página no lleva iconos. Añade `?v=<huella del fichero>` a las URL de CSS, JS y vídeos, así que al volver a publicar nadie recibe una versión antigua de la caché; el HTML se sirve con `no-cache`.
 
 Con `--prod` falla además si:
 
@@ -64,13 +64,19 @@ Todo es mejora progresiva: sin JS, sin WebGL2, con «reducir movimiento» o con 
   - Laboratorio: sirve la raíz del repo (`python3 -m http.server 8863`) y abre `http://localhost:8863/motion/gl-lab/`.
 - **`src/js/scroll.js`:**
   - Scroll suave con Lenis (solo con ratón o trackpad).
-  - Titulares que suben por líneas y frases que se encienden palabra a palabra (SplitText).
-  - La curva del reto, que se dibuja con el scroll, y el método fijo mientras el scroll avanza sus pasos (ScrollTrigger).
-  - Botones magnéticos, teselas que se inclinan, luz que sigue al cursor (`.spot`) y progreso de lectura.
+  - El ritmo de noth.in: casi todo entra con `power4.inOut`, lento y sin rebotes.
+  - Cada cabecera dibuja su filete de izquierda a derecha (clase `dibuja`) y sus titulares suben por líneas desde una máscara. Los nombres de producto entran letra a letra, cada letra dentro de su palabra, para que ninguna palabra se parta entre dos líneas. Las frases se encienden palabra a palabra (SplitText).
+  - Los vídeos entran recortándose desde abajo. En Lo que hacemos se dibujan los filetes del recorrido y de la base, y la base sube desde abajo.
+  - **La escalera de la IA:**
+    - Con ≥1024 px y si cabe en la ventana, se fija bajo la barra (`refreshPriority: 2`, antes que el método) y el scroll sube los peldaños uno a uno. Al final aparecen las cotas de cada producto y la Jornada piloto.
+    - La etiqueta y el suelo (la base) entran solos al aparecer la escena.
+    - En móvil o en pantallas bajas, la escena se reproduce sola al entrar.
+  - El método queda fijo mientras el scroll avanza sus pasos (ScrollTrigger).
+  - La luz que sigue al cursor (solo en la marca del pie) y el progreso de lectura. Sin botones magnéticos ni teselas que se inclinan: con el lenguaje de noth.in, las superficies son planas.
   - Con la capa activa, `html` va con `scroll-behavior: auto`: con `smooth`, ScrollTrigger calcula mal las posiciones si recalcula con la página desplazada. En táctil, las anclas siguen siendo suaves solo mientras dura el salto.
   - Al girar la tableta, cambiar el tamaño de la ventana o imprimir, ScrollTrigger rehace las escenas. Antes se guarda la sección que se está leyendo y después se vuelve a ella. Al imprimir se mide antes de que el método abra sus seis pasos (`sp:imprime`, que lanza `engine.js`), y al acabar el método vuelve al paso que tenía. Al recargar (o volver atrás sin bfcache), el navegador restaura el scroll antes de que exista el espacio del método fijado: la sección y la fracción se guardan al salir (`sessionStorage`) y se recuperan con las escenas montadas.
 - **Librerías** en `src/js/vendor/`, servidas desde la propia web (sin CDN ni cookies): GSAP 3.14.2 con ScrollTrigger y SplitText (licencia estándar de GSAP, gratuita también para uso comercial) y Lenis 1.3.27 (MIT).
-- **Iconos 3D de marca:** `assets/img/3d/` (WebP de 512 y 192 px, más PNG). Se generan con three.js solo en tiempo de generación: `node tools/icons3d/render.mjs` (ver `tools/icons3d/README.md`).
+- **Iconos 3D de marca:** retirados de la página el 21-oct (Jose los veía «cutres»). Siguen en `assets/img/3d/` y en `tools/icons3d/`, pero el build no los publica.
 
 ## Portada: vídeo de respaldo (HyperFrames)
 
@@ -181,3 +187,24 @@ Respuesta a los 13 cambios de Jose del 21-oct. El detalle está en `investigacio
 - **Formatos (`#formatos`):** «Primero, un día de trabajo real. Después, decides tú.» Entre la cabecera y las tarjetas va la franja «Velocidad. Escala. Capacidad.», con un ejemplo por ronda y su remate (Jose eligió la versión con ejemplos). Día Uno ocupa todo el ancho; debajo, «Después, a tu ritmo», el programa por perfil y la construcción con tu equipo.
 - **En el resto de la página** también se habla de Día Uno: «Para ti» (Resultados, y Personas y talento), las preguntas 4 y 7, la llamada del método, `/reserva/` y el diagnóstico (nivel Acceso). El botón de la tarjeta enlaza a `/reserva/?d=dia-uno`; la llamada del método (`d=metodo`) y Resultados (`d=resultados`) llevan al mismo texto. `/reserva/` sigue aceptando `d=rumbo` para los enlaces ya enviados. En el diagnóstico, el nivel Acceso recomienda Día Uno y su botón de reserva lleva a ese mismo texto (`d=diagnostico-dia-uno`). Si a la primera pregunta se responde «Nadie, o cada uno usa la suya», la primera línea cambia por la de `sin_ia` (elegir antes la IA corporativa; copy pendiente de que lo vea Jose). `build.py` une «Día Uno» y «Day One» con un espacio de no separación para que el nombre no se parta entre líneas (salvo en los asuntos de correo). Icono: `assets/img/3d/diauno.webp` y `diauno-192.webp`, un amanecer (medio sol sobre el horizonte, cinco rayos); el de Rumbo sigue en `tools/icons3d`, pero `build.py` ya no lo publica (`ICONOS_RETIRADOS`).
 
+## Decisiones tomadas (21-oct-2026, tarde: productos y estilo)
+
+La fuente de verdad es `investigacion/05_productos_y_relato.md`, apartados 1, 2 y 2b.
+
+- **Cinco productos con nombres claros:**
+  - Recorrido en orden: Jornada piloto (antes Día Uno), Formación a medida (antes Hábito; en directo, grabada a medida o blended) y Spiral, con el gobierno y la autonomía.
+  - Base, debajo de todo: Alfabetización IA (nuevo; curso grabado y registro, art. 4 del Reglamento de IA) y Radar (antes Pulso; las novedades de cada mes, probadas).
+  - En inglés: Pilot Day, Tailored Training, Spiral, AI Literacy y Radar.
+- **Anclas y enlaces:** `#piloto`, `#formacion`, `#spiral`, `#alfabetizacion` y `#radar`. `/reserva/` acepta `d=piloto` y `d=diagnostico-piloto`, y sigue aceptando `d=dia-uno`, `d=diagnostico-dia-uno` y `d=rumbo` para los enlaces ya enviados.
+- **Espacios de no separación:** `build.py` los pone en los nombres de varias palabras dentro de las frases. No los pone en el nombre suelto (`prod.pN_n`), que en móvil tiene que poder partirse por palabras.
+- **Lo que hacemos:**
+  - Sale la entradilla de trabajo interno («Cada uno tiene su nombre, sus fases…»). Entra una que habla del dolor del cliente.
+  - Debajo, el recorrido en tres columnas, la base en una banda oscura y la escalera, que se construye con el scroll.
+- **Estilo noth.in con la marca Spiralia:** ver `investigacion/05` §2b. Sin iconos 3D. La película de apertura no se toca.
+- **Vídeo «lunes»:** la escalera final dice «Formación a medida», «Spiral» y «Alfabetización IA y Radar · Debajo de cada peldaño». Renderizado de nuevo en ES y EN, 16:9 y 4:5.
+- **Pendiente de que lo valide Jose:**
+  - la frase del formato blended;
+  - el temario de Alfabetización IA;
+  - la progresión de la autonomía en tres vueltas (Spiral);
+  - el ciclo de Radar (Vigilar, Filtrar, Probar, Aterrizar; una sesión y una guía al mes);
+  - en «Preguntas», que Radar pide «una sesión al mes».

@@ -33,13 +33,14 @@ content = tomllib.loads((SRC / 'content.toml').read_text())
 cifras = tomllib.loads((SRC / 'cifras.toml').read_text())['c']
 data = content.pop('data')
 
-# El nombre del primer paso no se parte entre dos líneas: «Día Uno» y «Day One» llevan un espacio de no separación.
-# El carácter, no &nbsp;: las líneas del diagnóstico pasan por esc(). Los asuntos de correo quedan con espacio normal
-NOMBRES = re.compile(r'\b(Día|Day) (Uno|One)\b')
+# Dentro de una frase, los nombres de producto de varias palabras no se parten entre dos líneas: llevan espacios de no
+# separación. El carácter, no &nbsp;: las líneas del diagnóstico pasan por esc(). Quedan con espacio normal los asuntos
+# de correo y el nombre suelto (prod.pN_n: títulos y columnas, donde en móvil tiene que poder partirse por palabras)
+NOMBRES = re.compile(r'\b(Jornada piloto|Pilot Day|Formación a medida|Tailored Training|Alfabetización IA|AI Literacy)\b')
 
 def junta(v):
     if isinstance(v, str):
-        return NOMBRES.sub('\\1\u00a0\\2', v)
+        return NOMBRES.sub(lambda m: m[1].replace(' ', '\u00a0'), v)
     return [junta(x) for x in v] if isinstance(v, list) else v
 
 def pick(v, lang, key):
@@ -50,7 +51,7 @@ def pick(v, lang, key):
         if lang != 'es':
             (errors if PROD else warns).append(f'sin traducir ({lang}): {key}')
         out = v['es']
-    return out if 'subject' in key else junta(out)
+    return out if 'subject' in key or re.fullmatch(r'prod\.p\d_n', key) else junta(out)
 
 def localize(x, lang, key='data'):
     if isinstance(x, dict):
@@ -85,7 +86,7 @@ def jsonld(t, url, lang):
            'audience': {'@type': 'BusinessAudience', 'audienceType': plain(t['meta.audience'])},
            'hasOfferCatalog': {'@type': 'OfferCatalog', 'name': plain(t['nav.productos']), 'itemListElement': [
                {'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': plain(t[f'prod.p{k}_n']), 'description': oferta(t, k)}}
-               for k in (1, 2, 3, 4)]}}
+               for k in (1, 2, 3, 4, 5)]}}
     qs = sorted((k for k in t if re.fullmatch(r'faq\.q\d+', k)), key=lambda k: int(k[5:]))
     faq = {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': plain(t[q]),
            'acceptedAnswer': {'@type': 'Answer', 'text': plain(t['faq.a' + q[5:]])}} for q in qs]}
@@ -260,10 +261,11 @@ a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:500 .95rem Sof
 <a class="volver" data-t="v" href="../">{volver}</a>
 </main>
 <script>
-// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pide fecha para tu Día Uno» o desde el diagnóstico
-// cuando recomienda Día Uno, el texto del primer paso. rumbo es el nombre anterior del primer paso: vale para los enlaces ya enviados.
+// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pide fecha para tu Jornada piloto» o desde el
+// diagnóstico cuando la recomienda, el texto del primer paso. dia-uno y rumbo son nombres anteriores del primer paso: valen
+// para los enlaces ya enviados.
 var q = new URLSearchParams(location.search), en = q.get("l") === "en", d = q.get("d") || "web";
-var T = {textos}[en ? "en" : "es"], primero = /^(dia-uno|diagnostico-dia-uno|rumbo|metodo|resultados)$/.test(d);
+var T = {textos}[en ? "en" : "es"], primero = /^(piloto|diagnostico-piloto|dia-uno|diagnostico-dia-uno|rumbo|metodo|resultados)$/.test(d);
 var $ = function (k) {{ return document.querySelector("[data-t=" + k + "]"); }};
 if (en) {{
   document.documentElement.lang = "en"; document.title = T.titulo + " · Spiralia AI";
@@ -272,7 +274,7 @@ if (en) {{
   $("g").innerHTML = T.legal;
 }}
 $("p").textContent = primero ? T.primero : T.p;
-$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((primero ? T.subject_primero : T.subject) + " · " + (d === "rumbo" ? "dia-uno" : d));
+$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((primero ? T.subject_primero : T.subject) + " · " + (/^(rumbo|dia-uno)$/.test(d) ? "piloto" : d));
 var c = $("c"), txt = T.copiar, reloj;
 c.textContent = txt; c.hidden = !navigator.clipboard;
 c.onclick = function () {{ navigator.clipboard.writeText("{mail}").then(function () {{
@@ -293,15 +295,12 @@ def reserva():
                           copiar=es['copiar'], asunto=urllib.parse.quote(es['subject'] + ' · web'),
                           textos=json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
 
-# Iconos 3D que tools/icons3d sigue pintando pero la página ya no usa. El de rumbo (el giróscopo) vuelve el 21-oct como icono de Pulso
-ICONOS_RETIRADOS = set()
-
 def fuera(d, nombres):
     """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py), fotos de personas que la página
-    no usa, los PNG de los iconos 3D (se sirven en webp) y los iconos retirados."""
+    no usa y los iconos 3D (assets/img/3d): desde el 21-oct la página no lleva iconos, solo tipografía, números y líneas."""
     tapa = shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf', 'ana-iza.*', 'jose-garza.*')(d, nombres)
-    if Path(d).name == '3d':
-        tapa |= {n for n in nombres if n.endswith('.png') or n.split('.')[0].removesuffix('-192') in ICONOS_RETIRADOS}
+    if Path(d).name == 'img':
+        tapa |= {'3d'} & set(nombres)
     return tapa
 
 HUELLAS = {}

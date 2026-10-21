@@ -2,7 +2,7 @@
  * Textos de «lunes» (ES y EN). Se cambian aquí; la animación no se toca.
  * Mismo ejemplo en toda la pieza: el informe mensual del área para el comité (el de la escalera de CCEP).
  * Los titulares (txt) van partidos en líneas para que suban desde su máscara; el resto se reparte solo.
- * sello y pulso se parten en el JS por «. » y « · » (el texto es el mismo).
+ * sello y pulso (la línea de la base: Alfabetización IA y Radar) se parten en el JS por «. » y « · » (el texto es el mismo).
  */
 window.COPY = {
   es: {
@@ -22,8 +22,8 @@ window.COPY = {
       { n: '04', v: 'Delegar', q: 'Agente', d: 'Recibe un objetivo y unos límites, y pide tu revisión.', e: 'Prepara el comité: reúne, señala y propone' },
     ],
     marcador: 'Tu equipo, el lunes',
-    tramos: [{ p: 'Hábito', d: 'Lo haces tú' }, { p: 'Spiral', d: 'Lo construimos contigo' }],
-    pulso: 'Pulso · Te acompañamos en cada peldaño',
+    tramos: [{ p: 'Formación a\u00a0medida', d: 'Lo haces tú' }, { p: 'Spiral', d: 'Lo construimos contigo' }],
+    pulso: 'Alfabetización IA y Radar · Debajo de cada peldaño',
     remate: ['Lo haces tú el lunes.', 'Y si quieres, subimos contigo.'],
     ilus: 'Ejemplo ilustrativo',
   },
@@ -44,8 +44,8 @@ window.COPY = {
       { n: '04', v: 'Delegate', q: 'Agent', d: 'It gets a goal and limits, and asks for your review.', e: 'Prepares the committee: gathers, flags, proposes' },
     ],
     marcador: 'Your team, on Monday',
-    tramos: [{ p: 'Habit', d: 'You do it' }, { p: 'Spiral', d: 'We build it with you' }],
-    pulso: 'Pulse · We stay with you on every step',
+    tramos: [{ p: 'Tailored Training', d: 'You do it' }, { p: 'Spiral', d: 'We build it with you' }],
+    pulso: 'AI Literacy and Radar · Under every step',
     remate: ['You do it on Monday.', 'And if you want, we climb with you.'],
     ilus: 'Illustrative example',
   },

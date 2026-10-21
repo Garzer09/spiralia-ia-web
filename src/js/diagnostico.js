@@ -86,8 +86,8 @@
   }
   function result() {
     const a = ans.map(x => x || 0), n = window.SPDiag.level(a), N = D.n[n];
-    // En Acceso el primer paso es Día Uno: la reserva lleva su texto, sin perder que se llega desde el diagnóstico
-    const reserva = n === 0 ? box.dataset.book.replace(/\bd=diagnostico\b/, 'd=diagnostico-dia-uno') : box.dataset.book;
+    // En Acceso el primer paso es la Jornada piloto: la reserva lleva su texto, sin perder que se llega desde el diagnóstico
+    const reserva = n === 0 ? box.dataset.book.replace(/\bd=diagnostico\b/, 'd=diagnostico-piloto') : box.dataset.book;
     window.SP.ev('Diagnóstico', { paso: 'resultado', nivel: N.name });
     const V = R && window.SPDiag.roi(datos[0], datos[1], datos[2], R.semanas, R.captura[n]);
     const cifras = V ? [[R.total, V.total], [R.hoy, V.hoy], [R.fuga, V.fuga], [R.semana, V.semana]] : [];

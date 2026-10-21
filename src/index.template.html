@@ -155,7 +155,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 02 · Lo que hacemos: los cuatro productos en una pantalla, sobre la escalera de la IA -->
+<!-- 02 · Lo que hacemos: el recorrido (tres pasos, en orden), la base (dos productos, debajo de todo) y la escalera de la IA -->
 <section class="sec light prods" id="productos" aria-labelledby="t-prod">
   <div class="wrap">
     <header class="head rv">
@@ -163,43 +163,63 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <h2 id="t-prod" class="display"><span class="l1">{{prod.h2a}}</span> <span class="l2">{{prod.h2b}}</span></h2>
       <p class="lead narrow">{{prod.lead}}</p>
     </header>
-    <ol class="prod-grid">
-      <li class="pcard glass spot rv"><a class="pcard-in" href="#dia-uno">
-        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/diauno-192.webp" srcset="{{base}}assets/img/3d/diauno-192.webp 192w, {{base}}assets/img/3d/diauno.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p1_tag}}</em></span>
-        <span class="pcard-n">{{prod.p1_n}}</span><span class="pcard-p">{{prod.p1}}</span>
-        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p1_para}}</span><span><b>{{prod.dur}}</b> {{prod.p1_dur}}</span></span>
-        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
-      <li class="pcard glass spot rv"><a class="pcard-in" href="#habito">
-        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p2_tag}}</em></span>
-        <span class="pcard-n">{{prod.p2_n}}</span><span class="pcard-p">{{prod.p2}}</span>
-        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p2_para}}</span><span><b>{{prod.dur}}</b> {{prod.p2_dur}}</span></span>
-        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
-      <li class="pcard glass spot rv"><a class="pcard-in" href="#spiral">
-        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/espiral-192.webp" srcset="{{base}}assets/img/3d/espiral-192.webp 192w, {{base}}assets/img/3d/espiral.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p3_tag}}</em></span>
-        <span class="pcard-n">{{prod.p3_n}}</span><span class="pcard-p">{{prod.p3}}</span>
-        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p3_para}}</span><span><b>{{prod.dur}}</b> {{prod.p3_dur}}</span></span>
-        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
-      <li class="pcard glass spot rv"><a class="pcard-in" href="#pulso">
-        <span class="pcard-top"><img class="pcard-ico" src="{{base}}assets/img/3d/rumbo-192.webp" srcset="{{base}}assets/img/3d/rumbo-192.webp 192w, {{base}}assets/img/3d/rumbo.webp 512w" sizes="88px" alt="" width="88" height="88" loading="lazy"><em>{{prod.p4_tag}}</em></span>
-        <span class="pcard-n">{{prod.p4_n}}</span><span class="pcard-p">{{prod.p4}}</span>
-        <span class="pcard-dl"><span><b>{{prod.para}}</b> {{prod.p4_para}}</span><span><b>{{prod.dur}}</b> {{prod.p4_dur}}</span></span>
-        <span class="pcard-ver">{{prod.ver}} <span aria-hidden="true">→</span></span></a></li>
-    </ol>
-    <!-- Dónde encaja cada producto: la escalera de CCEP (pedir, enseñar, automatizar, delegar) -->
-    <figure class="mapa" data-piece="mapa" aria-labelledby="t-mapa">
-      <figcaption id="t-mapa" class="h5">{{prod.mapa_h}}</figcaption>
-      <ol class="mapa-esc">
-        <li><b>{{esc.e1}}</b><span>{{esc.e1_q}}</span><p>{{esc.e1_d}}</p></li>
-        <li><b>{{esc.e2}}</b><span>{{esc.e2_q}}</span><p>{{esc.e2_d}}</p></li>
-        <li><b>{{esc.e3}}</b><span>{{esc.e3_q}}</span><p>{{esc.e3_d}}</p></li>
-        <li><b>{{esc.e4}}</b><span>{{esc.e4_q}}</span><p>{{esc.e4_d}}</p></li>
+    <div class="arq">
+      <p class="arq-k"><b>{{prod.ruta_k}}</b> {{prod.ruta_p}}</p>
+      <ol class="ruta">
+        <li class="prod"><a href="#piloto">
+          <span class="prod-n" aria-hidden="true">01</span>
+          <span class="prod-nom">{{prod.p1_n}}</span><span class="prod-tag">{{prod.p1_tag}}</span>
+          <span class="prod-p">{{prod.p1}}</span>
+          <span class="prod-dl"><span><b>{{prod.para}}</b> {{prod.p1_para}}</span><span><b>{{prod.dur}}</b> {{prod.p1_dur}}</span></span>
+          <span class="prod-ver">{{prod.ver}} <i class="flecha" aria-hidden="true"></i></span></a></li>
+        <li class="prod"><a href="#formacion">
+          <span class="prod-n" aria-hidden="true">02</span>
+          <span class="prod-nom">{{prod.p2_n}}</span><span class="prod-tag">{{prod.p2_tag}}</span>
+          <span class="prod-p">{{prod.p2}}</span>
+          <span class="prod-dl"><span><b>{{prod.para}}</b> {{prod.p2_para}}</span><span><b>{{prod.dur}}</b> {{prod.p2_dur}}</span></span>
+          <span class="prod-ver">{{prod.ver}} <i class="flecha" aria-hidden="true"></i></span></a></li>
+        <li class="prod"><a href="#spiral">
+          <span class="prod-n" aria-hidden="true">03</span>
+          <span class="prod-nom">{{prod.p3_n}}</span><span class="prod-tag">{{prod.p3_tag}}</span>
+          <span class="prod-p">{{prod.p3}}</span>
+          <span class="prod-dl"><span><b>{{prod.para}}</b> {{prod.p3_para}}</span><span><b>{{prod.dur}}</b> {{prod.p3_dur}}</span></span>
+          <span class="prod-ver">{{prod.ver}} <i class="flecha" aria-hidden="true"></i></span></a></li>
       </ol>
-      <div class="mapa-tramos">
-        <p class="tramo tramo-hab"><b>{{prod.p2_n}}</b> <span>{{esc.tu}}</span></p>
-        <p class="tramo tramo-spi"><b>{{prod.p3_n}}</b> <span>{{esc.contigo}}</span></p>
-        <p class="tramo tramo-pul"><b>{{prod.p4_n}}</b> <span>{{prod.mapa_pulso}}</span></p>
+      <div class="base">
+        <p class="arq-k"><b>{{prod.base_k}}</b> {{prod.base_p}}</p>
+        <ul>
+        <li class="prod"><a href="#alfabetizacion">
+          <span class="prod-n" aria-hidden="true">A</span>
+          <span class="prod-nom">{{prod.p4_n}}</span><span class="prod-tag">{{prod.p4_tag}}</span>
+          <span class="prod-p">{{prod.p4}}</span>
+          <span class="prod-dl"><span><b>{{prod.para}}</b> {{prod.p4_para}}</span><span><b>{{prod.dur}}</b> {{prod.p4_dur}}</span></span>
+          <span class="prod-ver">{{prod.ver}} <i class="flecha" aria-hidden="true"></i></span></a></li>
+        <li class="prod"><a href="#radar">
+          <span class="prod-n" aria-hidden="true">B</span>
+          <span class="prod-nom">{{prod.p5_n}}</span><span class="prod-tag">{{prod.p5_tag}}</span>
+          <span class="prod-p">{{prod.p5}}</span>
+          <span class="prod-dl"><span><b>{{prod.para}}</b> {{prod.p5_para}}</span><span><b>{{prod.dur}}</b> {{prod.p5_dur}}</span></span>
+          <span class="prod-ver">{{prod.ver}} <i class="flecha" aria-hidden="true"></i></span></a></li>
+        </ul>
       </div>
-      <p class="mapa-dia"><i class="mapa-sol" aria-hidden="true"></i>{{prod.mapa_dia}}</p>
+    </div>
+    <!-- La escalera de la IA (de CCEP): cuatro peldaños que se dibujan al bajar; debajo, qué producto cubre cada tramo y la base -->
+    <figure class="esc" aria-labelledby="t-esc">
+      <figcaption id="t-esc" class="esc-k">{{prod.mapa_h}}</figcaption>
+      <div class="esc-in">
+        <ol class="esc-p">
+          <li><div class="esc-t"><span class="esc-n">01</span><b>{{esc.e1}}</b><span class="esc-q">{{esc.e1_q}}</span><p>{{esc.e1_d}}</p></div><span class="esc-b" aria-hidden="true"></span></li>
+          <li><div class="esc-t"><span class="esc-n">02</span><b>{{esc.e2}}</b><span class="esc-q">{{esc.e2_q}}</span><p>{{esc.e2_d}}</p></div><span class="esc-b" aria-hidden="true"></span></li>
+          <li><div class="esc-t"><span class="esc-n">03</span><b>{{esc.e3}}</b><span class="esc-q">{{esc.e3_q}}</span><p>{{esc.e3_d}}</p></div><span class="esc-b" aria-hidden="true"></span></li>
+          <li><div class="esc-t"><span class="esc-n">04</span><b>{{esc.e4}}</b><span class="esc-q">{{esc.e4_q}}</span><p>{{esc.e4_d}}</p></div><span class="esc-b" aria-hidden="true"></span></li>
+        </ol>
+        <p class="esc-suelo"><a href="#alfabetizacion">{{prod.p4_n}}</a> <span aria-hidden="true">+</span> <a href="#radar">{{prod.p5_n}}</a> <em>{{prod.mapa_base}}</em></p>
+        <div class="esc-tramos">
+          <a class="tramo tramo-a" href="#formacion"><b>{{prod.p2_n}}</b> <span>{{esc.tu}}</span></a>
+          <a class="tramo tramo-b" href="#spiral"><b>{{prod.p3_n}}</b> <span>{{esc.contigo}}</span></a>
+        </div>
+      </div>
+      <p class="esc-dia"><a href="#piloto">{{prod.mapa_dia}} <i class="flecha" aria-hidden="true"></i></a></p>
     </figure>
   </div>
 </section>
@@ -300,14 +320,16 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <button type="button" class="glass-btn nube-btn" hidden></button>
       </div>
       <div class="nube-campo">
-        <div class="nube-col"><a class="nube-g" href="#dia-uno"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
-          <ul><li class="chip">{{esperar.g1_1}}</li><li class="chip">{{esperar.g1_2}}</li><li class="chip">{{esperar.g1_3}}</li><li class="chip">{{esperar.g1_4}}</li><li class="chip">{{esperar.g1_5}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#habito"><b>{{esperar.g2}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p2_n}}</em><small>{{esperar.g2_d}}</small></a>
-          <ul><li class="chip">{{esperar.g2_1}}</li><li class="chip">{{esperar.g2_2}}</li><li class="chip">{{esperar.g2_3}}</li><li class="chip">{{esperar.g2_4}}</li><li class="chip">{{esperar.g2_5}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#piloto"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
+          <ul><li class="chip">{{esperar.g1_1}}</li><li class="chip">{{esperar.g1_2}}</li><li class="chip">{{esperar.g1_3}}</li><li class="chip">{{esperar.g1_4}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#formacion"><b>{{esperar.g2}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p2_n}}</em><small>{{esperar.g2_d}}</small></a>
+          <ul><li class="chip">{{esperar.g2_1}}</li><li class="chip">{{esperar.g2_2}}</li><li class="chip">{{esperar.g2_3}}</li><li class="chip">{{esperar.g2_4}}</li></ul></div>
         <div class="nube-col"><a class="nube-g" href="#spiral"><b>{{esperar.g3}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p3_n}}</em><small>{{esperar.g3_d}}</small></a>
-          <ul><li class="chip">{{esperar.g3_1}}</li><li class="chip">{{esperar.g3_2}}</li><li class="chip">{{esperar.g3_3}}</li><li class="chip">{{esperar.g3_4}}</li><li class="chip">{{esperar.g3_5}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#pulso"><b>{{esperar.g4}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p4_n}}</em><small>{{esperar.g4_d}}</small></a>
-          <ul><li class="chip">{{esperar.g4_1}}</li><li class="chip">{{esperar.g4_2}}</li><li class="chip">{{esperar.g4_3}}</li><li class="chip">{{esperar.g4_4}}</li><li class="chip">{{esperar.g4_5}}</li></ul></div>
+          <ul><li class="chip">{{esperar.g3_1}}</li><li class="chip">{{esperar.g3_2}}</li><li class="chip">{{esperar.g3_3}}</li><li class="chip">{{esperar.g3_4}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#alfabetizacion"><b>{{esperar.g4}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p4_n}}</em><small>{{esperar.g4_d}}</small></a>
+          <ul><li class="chip">{{esperar.g4_1}}</li><li class="chip">{{esperar.g4_2}}</li><li class="chip">{{esperar.g4_3}}</li><li class="chip">{{esperar.g4_4}}</li></ul></div>
+        <div class="nube-col"><a class="nube-g" href="#radar"><b>{{esperar.g5}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p5_n}}</em><small>{{esperar.g5_d}}</small></a>
+          <ul><li class="chip">{{esperar.g5_1}}</li><li class="chip">{{esperar.g5_2}}</li><li class="chip">{{esperar.g5_3}}</li><li class="chip">{{esperar.g5_4}}</li></ul></div>
       </div>
     </div>
     <p class="ctx rv"><span>{{esperar.ctx}}</span> <a class="link-arrow" href="#diagnostico">{{esperar.ctx_btn}} <span aria-hidden="true">→</span></a></p>
@@ -322,7 +344,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <h2 id="t-dg" class="display"><span class="l1">{{dg.h2a}}</span> <span class="l2">{{dg.h2b}}</span></h2>
       <p class="lead narrow">{{dg.lead}}</p>
     </header>
-    <div class="dg glass" data-dg data-mail="{{mail}}"
+    <div class="dg" data-dg data-mail="{{mail}}"
          data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
          data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
          data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
@@ -357,31 +379,28 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 08 · Producto 01 · Día Uno, el piloto -->
-<section class="sec dark psec" id="dia-uno" aria-labelledby="t-dia">
+<!-- 08 · El recorrido, 01 · Jornada piloto: el primer paso -->
+<section class="sec dark psec" id="piloto" aria-labelledby="t-piloto">
   <div class="wrap">
     <header class="phead">
-      <div class="phead-l rv">
-        <p class="kicker"><span class="pnum" aria-hidden="true">01</span>{{dia.kicker}}</p>
-        <h2 id="t-dia" class="pnombre">{{prod.p1_n}}</h2>
-        <p class="display pclaim"><span class="l1">{{dia.h2a}}</span> <span class="l2">{{dia.h2b}}</span></p>
-        <p class="lead">{{dia.lead}}</p>
+      <p class="kicker"><span class="pnum" aria-hidden="true">01</span>{{piloto.kicker}}</p>
+      <h2 id="t-piloto" class="pnombre">{{prod.p1_n}}</h2>
+      <div class="phead-l">
+        <p class="display pclaim"><span class="l1">{{piloto.h2a}}</span> <span class="l2">{{piloto.h2b}}</span></p>
+        <p class="lead">{{piloto.lead}}</p>
       </div>
-      <div class="phead-r rv">
-        <img class="pico" src="{{base}}assets/img/3d/diauno.webp" alt="" width="200" height="200" loading="lazy">
-        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{dia.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{dia.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{dia.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{dia.peldanos}}</dd></div></dl>
-      </div>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{piloto.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{piloto.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{piloto.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{piloto.peldanos}}</dd></div></dl>
     </header>
     <div class="fases" data-piece="fases" aria-labelledby="t-dia-f">
       <h3 id="t-dia-f" class="h5">{{ficha.fases}}</h3>
       <ol>
-        <li><span class="fase-t">{{dia.f1_t}}</span><b>{{dia.f1_n}}</b><p>{{dia.f1}}</p></li>
-        <li><span class="fase-t">{{dia.f2_t}}</span><b>{{dia.f2_n}}</b><p>{{dia.f2}}</p></li>
-        <li><span class="fase-t">{{dia.f3_t}}</span><b>{{dia.f3_n}}</b><p>{{dia.f3}}</p></li>
-        <li><span class="fase-t">{{dia.f4_t}}</span><b>{{dia.f4_n}}</b><p>{{dia.f4}}</p></li>
+        <li><span class="fase-t">{{piloto.f1_t}}</span><b>{{piloto.f1_n}}</b><p>{{piloto.f1}}</p></li>
+        <li><span class="fase-t">{{piloto.f2_t}}</span><b>{{piloto.f2_n}}</b><p>{{piloto.f2}}</p></li>
+        <li><span class="fase-t">{{piloto.f3_t}}</span><b>{{piloto.f3_n}}</b><p>{{piloto.f3}}</p></li>
+        <li><span class="fase-t">{{piloto.f4_t}}</span><b>{{piloto.f4_n}}</b><p>{{piloto.f4}}</p></li>
       </ol>
     </div>
-    <!-- Las tres rondas de Día Uno: velocidad, escala y capacidad -->
+    <!-- Las tres rondas de la Jornada piloto: velocidad, escala y capacidad -->
     <div class="vec">
       <div class="vec-head rv">
         <p class="vec-k">{{fmt.v_kicker}}</p>
@@ -395,41 +414,46 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       </ol>
       <p class="lead-strong vec-remate">{{fmt.v_remate}}</p>
     </div>
-    <div class="pcta rv" data-cta-propia><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=dia-uno&amp;l={{lang}}">{{dia.cta}}</a><p>{{dia.nota}}</p></div>
+    <div class="pcta rv" data-cta-propia><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=piloto&amp;l={{lang}}">{{piloto.cta}} <i class="flecha" aria-hidden="true"></i></a><p>{{piloto.nota}}</p></div>
   </div>
 </section>
 
-<!-- 09 · Producto 02 · Hábito, formación a medida: primero cómo la preparamos, después los ejemplos -->
-<section class="sec light psec" id="habito" aria-labelledby="t-hab">
+<!-- 09 · El recorrido, 02 · Formación a medida: los tres formatos, cómo la preparamos y los ejemplos por perfil -->
+<section class="sec light psec" id="formacion" aria-labelledby="t-formacion">
   <div class="wrap">
     <header class="phead">
-      <div class="phead-l rv">
-        <p class="kicker"><span class="pnum" aria-hidden="true">02</span>{{hab.kicker}}</p>
-        <h2 id="t-hab" class="pnombre">{{prod.p2_n}}</h2>
-        <p class="display pclaim"><span class="l1">{{hab.h2a}}</span> <span class="l2">{{hab.h2b}}</span></p>
-        <p class="lead">{{hab.lead}}</p>
+      <p class="kicker"><span class="pnum" aria-hidden="true">02</span>{{formacion.kicker}}</p>
+      <h2 id="t-formacion" class="pnombre">{{prod.p2_n}}</h2>
+      <div class="phead-l">
+        <p class="display pclaim"><span class="l1">{{formacion.h2a}}</span> <span class="l2">{{formacion.h2b}}</span></p>
+        <p class="lead">{{formacion.lead}}</p>
       </div>
-      <div class="phead-r rv">
-        <img class="pico" src="{{base}}assets/img/3d/formacion.webp" alt="" width="200" height="200" loading="lazy">
-        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{hab.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{hab.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{hab.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{hab.peldanos}}</dd></div></dl>
-      </div>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{formacion.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{formacion.dur}}</dd></div><div><dt>{{ficha.formato}}</dt><dd>{{formacion.formato}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{formacion.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{formacion.peldanos}}</dd></div></dl>
     </header>
-    <div class="prep" data-piece="prep" aria-labelledby="t-prep">
-      <h3 id="t-prep" class="h5">{{hab.prep_h}}</h3>
+    <div class="mods" aria-labelledby="t-mods">
+      <h3 id="t-mods" class="h5">{{formacion.mod_h}}</h3>
       <ol>
-        <li><b>{{hab.s1_t}}</b><p>{{hab.s1}}</p><em>{{hab.s1_w}}</em></li>
-        <li><b>{{hab.s2_t}}</b><p>{{hab.s2}}</p><em>{{hab.s2_w}}</em></li>
-        <li><b>{{hab.s3_t}}</b><p>{{hab.s3}}</p><em>{{hab.s3_w}}</em></li>
-        <li><b>{{hab.s4_t}}</b><p>{{hab.s4}}</p><em>{{hab.s4_w}}</em></li>
-        <li><b>{{hab.s5_t}}</b><p>{{hab.s5}}</p><em>{{hab.s5_w}}</em></li>
-        <li><b>{{hab.s6_t}}</b><p>{{hab.s6}}</p><em>{{hab.s6_w}}</em></li>
+        <li class="rv"><b>{{formacion.m1_t}}</b><p>{{formacion.m1}}</p></li>
+        <li class="rv"><b>{{formacion.m2_t}}</b><p>{{formacion.m2}}</p></li>
+        <li class="rv"><b>{{formacion.m3_t}}</b><p>{{formacion.m3}}</p></li>
+      </ol>
+    </div>
+    <div class="prep" data-piece="prep" aria-labelledby="t-prep">
+      <h3 id="t-prep" class="h5">{{formacion.prep_h}}</h3>
+      <ol>
+        <li><b>{{formacion.s1_t}}</b><p>{{formacion.s1}}</p><em>{{formacion.s1_w}}</em></li>
+        <li><b>{{formacion.s2_t}}</b><p>{{formacion.s2}}</p><em>{{formacion.s2_w}}</em></li>
+        <li><b>{{formacion.s3_t}}</b><p>{{formacion.s3}}</p><em>{{formacion.s3_w}}</em></li>
+        <li><b>{{formacion.s4_t}}</b><p>{{formacion.s4}}</p><em>{{formacion.s4_w}}</em></li>
+        <li><b>{{formacion.s5_t}}</b><p>{{formacion.s5}}</p><em>{{formacion.s5_w}}</em></li>
+        <li><b>{{formacion.s6_t}}</b><p>{{formacion.s6}}</p><em>{{formacion.s6_w}}</em></li>
       </ol>
       <div class="prep-pie">
-        <div class="prep-necesito"><span class="prep-ok" aria-hidden="true"></span><p><b>{{hab.necesito_h}}:</b> {{hab.necesito}}</p></div>
-        <p class="prep-remate">{{hab.remate}}</p>
+        <div class="prep-necesito"><span class="prep-ok" aria-hidden="true"></span><p><b>{{formacion.necesito_h}}:</b> {{formacion.necesito}}</p></div>
+        <p class="prep-remate">{{formacion.remate}}</p>
       </div>
     </div>
-    <h3 class="ej-h display h4 rv">{{hab.ej_h}}</h3>
+    <h3 class="ej-h display h4 rv">{{formacion.ej_h}}</h3>
     <div class="demo" data-piece="demo"
          data-l-antes="{{attr:pers.antes}}" data-l-despues="{{attr:pers.despues}}" data-l-firma="{{attr:pers.firma}}"
          data-l-paso="{{attr:pers.paso}}" data-l-pasos="{{attr:pers.pasos}}" data-l-app="{{attr:pers.app}}" data-l-apps="{{attr:pers.apps}}"
@@ -445,24 +469,21 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <div class="demo-ctl"><button type="button" class="demo-pause"></button><button type="button" class="replay demo-replay">↻ {{pers.replay}}</button></div>
       </div>
     </div>
-    <div class="pcta rv"><a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:hab.subject}}">{{hab.cta}}</a></div>
+    <div class="pcta rv"><a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:formacion.subject}}">{{formacion.cta}} <i class="flecha" aria-hidden="true"></i></a></div>
   </div>
 </section>
 
-<!-- 10 · Producto 03 · Spiral, despliegue con tu equipo: el método SPIRAL y los agentes -->
+<!-- 10 · El recorrido, 03 · Spiral: el método SPIRAL, el gobierno y la autonomía, quién construye y los agentes -->
 <section class="sec dark psec" id="spiral" aria-labelledby="t-como">
   <div class="wrap">
     <header class="phead">
-      <div class="phead-l rv">
-        <p class="kicker"><span class="pnum" aria-hidden="true">03</span>{{como.kicker}}</p>
-        <h2 id="t-como" class="pnombre">{{prod.p3_n}}</h2>
+      <p class="kicker"><span class="pnum" aria-hidden="true">03</span>{{como.kicker}}</p>
+      <h2 id="t-como" class="pnombre">{{prod.p3_n}}</h2>
+      <div class="phead-l">
         <p class="display pclaim"><span class="l1">{{como.h2a}}</span> <span class="l2">{{como.h2b}}</span></p>
         <p class="lead">{{como.lead}}</p>
       </div>
-      <div class="phead-r rv">
-        <img class="pico" src="{{base}}assets/img/3d/espiral.webp" alt="" width="200" height="200" loading="lazy">
-        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{como.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{como.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{como.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{como.peldanos}}</dd></div></dl>
-      </div>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{como.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{como.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{como.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{como.peldanos}}</dd></div></dl>
     </header>
     <div class="spiral" data-piece="spiral">
       <figure class="sp-fig">
@@ -491,6 +512,27 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <p class="fde-note">{{como.vuelta}}</p>
       </div>
     </div>
+    <div class="gob" aria-labelledby="t-gob">
+      <div class="gob-head">
+        <p class="h5">{{como.gob_k}}</p>
+        <h3 id="t-gob" class="display h3"><span class="l1">{{como.gob_ha}}</span> <span class="l2">{{como.gob_hb}}</span></h3>
+      </div>
+      <div class="gob-col rv">
+        <h4 class="gob-t">{{como.gob_t}}</h4>
+        <ol class="gob-l"><li>{{como.gob1}}</li><li>{{como.gob2}}</li><li>{{como.gob3}}</li><li>{{como.gob4}}</li></ol>
+      </div>
+      <div class="gob-col rv">
+        <h4 class="gob-t">{{como.aut_t}}</h4>
+        <p class="gob-p">{{como.aut_p}}</p>
+        <ol class="aut" data-piece="aut">
+          <li style="--a:.8"><span class="aut-bar" aria-hidden="true"><i></i></span><b>{{como.aut1_t}}</b><p>{{como.aut1}}</p></li>
+          <li style="--a:.5"><span class="aut-bar" aria-hidden="true"><i></i></span><b>{{como.aut2_t}}</b><p>{{como.aut2}}</p></li>
+          <li style="--a:.12"><span class="aut-bar" aria-hidden="true"><i></i></span><b>{{como.aut3_t}}</b><p>{{como.aut3}}</p></li>
+        </ol>
+        <p class="aut-ley" aria-hidden="true"><span class="aut-a">{{como.aut_lbl_a}}</span><span class="aut-b">{{como.aut_lbl_b}}</span></p>
+        <p class="src">{{como.aut_nota}}</p>
+      </div>
+    </div>
     <p class="display remate-in rv"><span class="l1">{{como.remate_a}}</span> <span class="l2">{{como.remate_b}}</span></p>
 
     <div class="fde-def rv">
@@ -514,48 +556,83 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         </div>
         <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{fde.vid_alt}}</span></figcaption>
       </figure>
-      <div class="ctl rv">
-        <h3 class="h5">{{fde.ctl_h}}</h3>
-        <ul><li>{{fde.ctl1}}</li><li>{{fde.ctl2}}</li><li>{{fde.ctl3}}</li><li>{{fde.ctl4}}</li></ul>
-      </div>
     </div>
-    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=spiral&amp;l={{lang}}">{{como.cta}}</a></div>
+    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=spiral&amp;l={{lang}}">{{como.cta}} <i class="flecha" aria-hidden="true"></i></a></div>
   </div>
 </section>
 
-<!-- 11 · Producto 04 · Pulso, acompañamiento: el ciclo de cada mes -->
-<section class="sec paper psec" id="pulso" aria-labelledby="t-pulso">
+<!-- 11 · La base, A · Alfabetización IA: para toda la plantilla, con registro -->
+<section class="sec paper psec" id="alfabetizacion" aria-labelledby="t-alfa">
   <div class="wrap">
     <header class="phead">
-      <div class="phead-l rv">
-        <p class="kicker"><span class="pnum" aria-hidden="true">04</span>{{pulso.kicker}}</p>
-        <h2 id="t-pulso" class="pnombre">{{prod.p4_n}}</h2>
-        <p class="display pclaim"><span class="l1">{{pulso.h2a}}</span> <span class="l2">{{pulso.h2b}}</span></p>
-        <p class="lead">{{pulso.lead}}</p>
+      <p class="kicker"><span class="pnum" aria-hidden="true">A</span>{{alfa.kicker}}</p>
+      <h2 id="t-alfa" class="pnombre">{{prod.p4_n}}</h2>
+      <div class="phead-l">
+        <p class="display pclaim"><span class="l1">{{alfa.h2a}}</span> <span class="l2">{{alfa.h2b}}</span></p>
+        <p class="lead">{{alfa.lead}}</p>
       </div>
-      <div class="phead-r rv">
-        <img class="pico" src="{{base}}assets/img/3d/rumbo.webp" alt="" width="200" height="200" loading="lazy">
-        <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{pulso.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{pulso.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{pulso.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{pulso.peldanos}}</dd></div></dl>
-      </div>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{alfa.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{alfa.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{alfa.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{alfa.peldanos}}</dd></div></dl>
     </header>
-    <div class="ciclo" data-piece="ciclo" aria-labelledby="t-ciclo">
-      <h3 id="t-ciclo" class="h5">{{pulso.c_h}}</h3>
+    <div class="temario" aria-labelledby="t-temario">
+      <h3 id="t-temario" class="h5">{{alfa.t_h}}</h3>
+      <ol>
+        <li class="rv"><b>{{alfa.t1_t}}</b><p>{{alfa.t1}}</p></li>
+        <li class="rv"><b>{{alfa.t2_t}}</b><p>{{alfa.t2}}</p></li>
+        <li class="rv"><b>{{alfa.t3_t}}</b><p>{{alfa.t3}}</p></li>
+        <li class="rv"><b>{{alfa.t4_t}}</b><p>{{alfa.t4}}</p></li>
+      </ol>
+    </div>
+    <aside class="ley rv" aria-labelledby="t-ley">
+      <h3 id="t-ley" class="h5">{{alfa.ley_t}}</h3>
+      <p class="ley-p">{{alfa.ley}}</p>
+      <p class="src">{{alfa.ley_nota}} {{alfa.src}}</p>
+    </aside>
+    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=alfabetizacion&amp;l={{lang}}">{{alfa.cta}} <i class="flecha" aria-hidden="true"></i></a></div>
+  </div>
+</section>
+
+<!-- 12 · La base, B · Radar: cada mes, las novedades que importan, probadas con tus casos -->
+<section class="sec dark psec" id="radar" aria-labelledby="t-radar">
+  <div class="wrap">
+    <header class="phead">
+      <p class="kicker"><span class="pnum" aria-hidden="true">B</span>{{radar.kicker}}</p>
+      <h2 id="t-radar" class="pnombre">{{prod.p5_n}}</h2>
+      <div class="phead-l">
+        <p class="display pclaim"><span class="l1">{{radar.h2a}}</span> <span class="l2">{{radar.h2b}}</span></p>
+        <p class="lead">{{radar.lead}}</p>
+      </div>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{radar.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{radar.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{radar.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{radar.peldanos}}</dd></div></dl>
+    </header>
+    <div class="cifras" aria-labelledby="t-cifras">
+      <h3 id="t-cifras" class="h5">{{radar.n_h}}</h3>
+      <ul>
+        <li class="rv"><b data-to="94">{{radar.n1}}</b><span>{{radar.n1_t}}</span></li>
+        <li class="rv"><b data-to="80">{{radar.n2}}</b><span>{{radar.n2_t}}</span></li>
+        <li class="rv"><b data-to="13">{{radar.n3}}</b><span>{{radar.n3_t}}</span></li>
+      </ul>
+      <p class="lead-strong cifras-remate">{{radar.n_remate}}</p>
+      <p class="src">{{radar.src}}</p>
+    </div>
+    <div class="ciclo" aria-labelledby="t-ciclo">
+      <h3 id="t-ciclo" class="h5">{{radar.c_h}}</h3>
       <div class="ciclo-in">
-        <div class="ciclo-aro" aria-hidden="true">
-          <svg viewBox="0 0 400 400"><circle class="aro-base" cx="200" cy="200" r="150"/><circle class="aro-luz" cx="200" cy="200" r="150" pathLength="1"/>
-            <g class="aro-st"><circle cx="200" cy="50" r="9"/><circle cx="350" cy="200" r="9"/><circle cx="200" cy="350" r="9"/><circle cx="50" cy="200" r="9"/></g>
-            <g class="aro-orbita"><circle cx="200" cy="50" r="6"/></g></svg>
-          <span class="ciclo-centro">{{pulso.centro}}</span>
-        </div>
+        <figure class="radar" data-piece="radar">
+          <svg viewBox="0 0 400 400" role="img" aria-label="{{attr:radar.radar_aria}}">
+            <g class="radar-aros"><circle cx="200" cy="200" r="180"/><circle cx="200" cy="200" r="126"/><circle cx="200" cy="200" r="72"/><line x1="20" y1="200" x2="380" y2="200"/><line x1="200" y1="20" x2="200" y2="380"/></g>
+            <g class="radar-barrido"><path d="M200 200 L72.7 72.7 A180 180 0 0 1 200 20 Z"/><line x1="200" y1="200" x2="200" y2="20"/></g>
+            <g class="radar-puntos"></g>
+          </svg>
+          <figcaption class="tag">{{radar.ilus}}</figcaption>
+        </figure>
         <ol class="ciclo-l">
-          <li><b>{{pulso.c1_t}}</b><p>{{pulso.c1}}</p></li>
-          <li><b>{{pulso.c2_t}}</b><p>{{pulso.c2}}</p></li>
-          <li><b>{{pulso.c3_t}}</b><p>{{pulso.c3}}</p></li>
-          <li><b>{{pulso.c4_t}}</b><p>{{pulso.c4}}</p></li>
+          <li><b>{{radar.c1_t}}</b><p>{{radar.c1}}</p></li>
+          <li><b>{{radar.c2_t}}</b><p>{{radar.c2}}</p></li>
+          <li><b>{{radar.c3_t}}</b><p>{{radar.c3}}</p></li>
+          <li><b>{{radar.c4_t}}</b><p>{{radar.c4}}</p></li>
         </ol>
       </div>
     </div>
-    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=pulso&amp;l={{lang}}">{{pulso.cta}}</a></div>
+    <div class="pcta rv"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=radar&amp;l={{lang}}">{{radar.cta}} <i class="flecha" aria-hidden="true"></i></a></div>
   </div>
 </section>
 
@@ -567,7 +644,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <h2 id="t-pr" class="display"><span class="l1">{{pr.h2a}}</span> <span class="l2">{{pr.h2b}}</span></h2>
     </header>
     <div class="bento">
-      <article class="tile tile-ing glass spot rv">
+      <article class="tile tile-ing rv">
         <img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="26" class="pc-logo">
         <p class="tile-k">{{pr.ing_m1t}}</p>
         <p class="tile-big">{{pr.ing_m1}}</p>
@@ -579,22 +656,21 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <div class="tile-sub"><b>{{pr.ing_m2}}</b><span>{{pr.ing_m2t}}</span></div>
         <p class="src">{{pr.ing_src}}</p>
       </article>
-      <article class="tile tile-del glass spot rv">
+      <article class="tile tile-del rv">
         <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28" class="pc-logo">
         <p class="tile-big">{{pr.del_m1}}</p><p class="tile-k">{{pr.del_m1t}}</p>
         <h3 class="display h5t">{{pr.del_h}}</h3><p class="tile-p">{{pr.del_p}}</p>
         <div class="tile-sub"><b>{{pr.del_m2}}</b><span>{{pr.del_m2t}}</span></div>
         <p class="src">{{pr.del_src}}</p>
       </article>
-      <article class="tile tile-cc glass spot rv">
+      <article class="tile tile-cc rv">
         <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33" class="pc-logo">
         <p class="tile-big">{{pr.cc_m1}}</p><p class="tile-k">{{pr.cc_m1t}}</p>
         <h3 class="display h5t">{{pr.cc_h}}</h3><p class="tile-p">{{pr.cc_p}}</p>
         <div class="tile-sub"><b>{{pr.cc_m2}}</b><span>{{pr.cc_m2t}}</span></div>
         <p class="src">{{pr.cc_src}}</p>
       </article>
-      <article class="tile tile-ind glass spot rv">
-        <img class="tile-ico" src="{{base}}assets/img/3d/espiral-192.webp" srcset="{{base}}assets/img/3d/espiral-192.webp 192w, {{base}}assets/img/3d/espiral.webp 512w" sizes="132px" alt="" width="132" height="132" loading="lazy">
+      <article class="tile tile-ind rv">
         <h3 class="display h5t">{{pr.ind_h}}</h3><p class="tile-p">{{pr.ind_p}}</p>
       </article>
     </div>
@@ -621,9 +697,9 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     </header>
     <div class="tabs" data-tabs>
       <div class="tablist" role="tablist" aria-labelledby="t-pt">
-        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true"><img class="tab-ico" src="{{base}}assets/img/3d/resultados-192.webp" srcset="{{base}}assets/img/3d/resultados-192.webp 192w, {{base}}assets/img/3d/resultados.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t1_tab}}</button>
-        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/personas-192.webp" srcset="{{base}}assets/img/3d/personas-192.webp 192w, {{base}}assets/img/3d/personas.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t2_tab}}</button>
-        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1"><img class="tab-ico" src="{{base}}assets/img/3d/tecnologia-192.webp" srcset="{{base}}assets/img/3d/tecnologia-192.webp 192w, {{base}}assets/img/3d/tecnologia.webp 512w" sizes="28px" alt="" width="40" height="40" loading="lazy">{{pt.t3_tab}}</button>
+        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true">{{pt.t1_tab}}</button>
+        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1">{{pt.t2_tab}}</button>
+        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1">{{pt.t3_tab}}</button>
       </div>
       <div class="panel" role="tabpanel" id="para-ti-negocio" aria-labelledby="tab-negocio" tabindex="0">
         <p class="panel-who">{{pt.t1_tab}}</p>
@@ -676,9 +752,9 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     <div class="equipo rv" aria-labelledby="t-eq">
       <h3 id="t-eq" class="h5">{{pq.eq_h}}</h3>
       <div class="eq-row">
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/estrategia-192.webp" srcset="{{base}}assets/img/3d/estrategia-192.webp 192w, {{base}}assets/img/3d/estrategia.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/formacion-192.webp" srcset="{{base}}assets/img/3d/formacion-192.webp 192w, {{base}}assets/img/3d/formacion.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
-        <div class="eq-c glass spot"><img class="eq-ico" src="{{base}}assets/img/3d/ingenieria-192.webp" srcset="{{base}}assets/img/3d/ingenieria-192.webp 192w, {{base}}assets/img/3d/ingenieria.webp 512w" sizes="84px" alt="" width="96" height="96" loading="lazy"><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
+        <div class="eq-c"><span class="eq-n" aria-hidden="true">01</span><b>{{pq.eq1_t}}</b><p>{{pq.eq1}}</p></div>
+        <div class="eq-c"><span class="eq-n" aria-hidden="true">02</span><b>{{pq.eq2_t}}</b><p>{{pq.eq2}}</p></div>
+        <div class="eq-c"><span class="eq-n" aria-hidden="true">03</span><b>{{pq.eq3_t}}</b><p>{{pq.eq3}}</p></div>
       </div>
       <p class="eq-note">{{pq.eq_note}}</p>
     </div>
@@ -744,7 +820,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <p>{{ft.tag}}</p>
     </div>
     <nav aria-label="{{attr:ft.ia}}"><p>{{ft.ia}}</p>
-      <a href="#dia-uno">{{prod.p1_n}}</a><a href="#habito">{{prod.p2_n}}</a><a href="#spiral">{{prod.p3_n}}</a><a href="#pulso">{{prod.p4_n}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#preguntas">{{ft.faq}}</a>
+      <a href="#piloto">{{prod.p1_n}}</a><a href="#formacion">{{prod.p2_n}}</a><a href="#spiral">{{prod.p3_n}}</a><a href="#alfabetizacion">{{prod.p4_n}}</a><a href="#radar">{{prod.p5_n}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#preguntas">{{ft.faq}}</a>
     </nav>
     <nav aria-label="{{attr:ft.areas}}"><p>{{ft.areas}}</p>
       <a href="https://spiralia.es/">spiralia.es</a>

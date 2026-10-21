@@ -1,5 +1,5 @@
-// Capa de movimiento: scroll suave (Lenis), titulares que entran por líneas (SplitText), escenas guiadas
-// por el scroll (ScrollTrigger) y WebGL (gl.js) en la portada y en el método.
+// Capa de movimiento: scroll suave (Lenis), titulares que entran por líneas y nombres letra a letra (SplitText),
+// filetes que se dibujan, escenas guiadas por el scroll (ScrollTrigger: la escalera y el método) y WebGL (gl.js) en la portada.
 // Mejora progresiva: sin estas librerías, sin WebGL, con «reducir movimiento» o con ?still=1, la página
 // se queda como la dejan engine.js y motion.js, completa y estática.
 (() => {
@@ -17,9 +17,9 @@
   const fin = () => root.classList.remove('intro');
   const enEscucha = (m, f) => m.addEventListener ? m.addEventListener('change', f) : m.addListener(f);
 
-  // Luz que sigue al cursor en las superficies .spot y en la marca del pie (.luz)
+  // Luz que sigue al cursor en la marca del pie (.luz)
   if (fino) document.addEventListener('pointermove', e => {
-    const s = e.target.closest && e.target.closest('.spot, .luz'); if (!s) return;
+    const s = e.target.closest && e.target.closest('.luz'); if (!s) return;
     const r = s.getBoundingClientRect();
     s.style.setProperty('--mx', (e.clientX - r.left).toFixed(0) + 'px'); s.style.setProperty('--my', (e.clientY - r.top).toFixed(0) + 'px');
   }, { passive: true });
@@ -241,31 +241,105 @@
       if (glHero) ST.create({ trigger: hero, start: 'top top', end: 'bottom top', scrub: true, onUpdate: s => glHero && glHero.setProgress(s.progress) });
     } else fin();
 
-    // Titulares de sección: las líneas suben desde una máscara; antetítulo y entradilla, después
+    // El ritmo de noth.in: casi todo entra con power4.inOut, lento y sin rebotes
+    const IO = 'power4.inOut', SALE = 'power3.out';
+    // Letras sueltas, cada una en su máscara, dentro de su palabra: así no se parte una palabra entre dos líneas.
+    // /\s/ incluye el espacio de no separación de los nombres de producto (build.py). Un titular conserva su texto en
+    // aria-label; un <span> no admite nombre, así que su texto va entero en un .sr al lado y lo partido se oculta
+    const letras = (el) => {
+      if (!Split) return [el];
+      const titular = /^H\d$/.test(el.tagName);
+      if (!titular) { const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = el.textContent; el.before(sr); }
+      return new Split(el, { type: 'words,chars', wordDelimiter: { delimiter: /\s/, replaceWith: ' ' }, charsClass: 'split-char', mask: 'chars', aria: titular ? 'auto' : 'hidden' }).chars;
+    };
+    const dibuja = h => h.classList.add('dibuja');
+
+    // Titulares de sección: el filete se dibuja de izquierda a derecha, las líneas suben desde una máscara y la entradilla, detrás
     $$('.head').forEach(h => {
-      const d = $('.display', h); if (!d || visto(h)) return;
+      const d = $('.display', h);
+      if (!d || visto(h)) return dibuja(h);
       const l = $$('.l1, .l2', d).length ? $$('.l1, .l2', d).flatMap(lineas) : lineas(d);
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: h, start: 'top 82%', once: true } });
-      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8 }, 0)
-        .from(l, { yPercent: 115, duration: 1.15, stagger: .08 }, .05);
-      const lead = $('.lead', h); if (lead) tl.from(lead, { y: 16, autoAlpha: 0, duration: 1 }, .35);
+      const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: h, start: 'top 85%', once: true, onEnter: () => dibuja(h) } });
+      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8, ease: SALE }, .15)
+        .from(l, { yPercent: 110, duration: 1.15, stagger: .07 }, .2);
+      const lead = $('.lead', h); if (lead) tl.from(lead, { y: 18, autoAlpha: 0, duration: 1.1, ease: SALE }, .7);
     });
-    // Cabeceras de producto: el nombre grande sube, luego el claim en dos tiempos y la ficha
+    // Cabeceras de producto: filete, el nombre letra a letra, el claim en dos tiempos, la entradilla y la ficha
     $$('.phead').forEach(h => {
-      if (visto(h)) return;
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: h, start: 'top 80%', once: true } });
-      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8 }, 0)
-        .from(lineas($('.pnombre', h)), { yPercent: 115, duration: 1.3 }, .05)
-        .from($$('.pclaim .l1, .pclaim .l2', h).flatMap(lineas), { yPercent: 115, duration: 1.1, stagger: .08 }, .3)
-        .from($('.lead', h), { y: 16, autoAlpha: 0, duration: 1 }, .55)
-        .from($('.phead-r', h), { y: 24, autoAlpha: 0, duration: 1.1 }, .4);
+      if (visto(h)) return dibuja(h);
+      const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: h, start: 'top 80%', once: true, onEnter: () => dibuja(h) } });
+      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8, ease: SALE }, .15)
+        .from(letras($('.pnombre', h)), { yPercent: 110, duration: 1.2, stagger: .025 }, .2)
+        .from($$('.pclaim .l1, .pclaim .l2', h).flatMap(lineas), { yPercent: 110, duration: 1.1, stagger: .07 }, .55)
+        .from($('.lead', h), { y: 18, autoAlpha: 0, duration: 1.1, ease: SALE }, .85)
+        .from($('.pficha', h), { y: 24, autoAlpha: 0, duration: 1.1, ease: SALE }, .8);
     });
-    $$('.phead .rv').forEach(x => x.classList.remove('rv', 'pre'));
-    $$('.remate .display, .remate-in, .gal-head .display').forEach(d => {
+    $$('.remate-in, .gal-head .display, .gob-head .display').forEach(d => {
       if (visto(d)) return;
       const l = $$('.l1, .l2', d).flatMap(lineas);
-      gsap.from(l, { yPercent: 115, duration: 1.2, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: d, start: 'top 85%', once: true } });
+      gsap.from(l, { yPercent: 110, duration: 1.2, stagger: .08, ease: IO, scrollTrigger: { trigger: d, start: 'top 85%', once: true } });
     });
+
+    // Lo que hacemos: el filete del recorrido y el de la base se dibujan; la base sube desde abajo; cada producto entra
+    // después, con su número, su nombre letra a letra y el resto
+    const base = $('.base');
+    if (base && !visto(base)) gsap.from(base, { clipPath: 'inset(100% 0% 0% 0% round 4px)', duration: 1.3, ease: IO, scrollTrigger: { trigger: base, start: 'top 88%', once: true } });
+    $$('.ruta, .base ul').forEach(lista => {
+      if (visto(lista)) return;
+      gsap.set(lista, { '--sx': 0 });
+      const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: lista, start: 'top 84%', once: true } });
+      tl.to(lista, { '--sx': 1, duration: 1.4 }, 0);
+      $$(':scope > .prod', lista).forEach((it, i) => {
+        const t = .3 + i * .16;
+        tl.from($('.prod-n', it), { y: 8, autoAlpha: 0, duration: .7, ease: SALE }, t)
+          .from(letras($('.prod-nom', it)), { yPercent: 110, duration: 1.1, stagger: .018 }, t + .05)
+          .from($$('.prod-tag, .prod-p, .prod-dl, .prod-ver', it), { y: 14, autoAlpha: 0, duration: .9, stagger: .06, ease: SALE }, t + .35);
+      });
+    });
+
+    // La escalera de la IA se construye: primero el suelo (la base); después cada peldaño sube y su texto aparece encima;
+    // al final, las cotas de cada producto y la Jornada piloto. Con ≥1024 px y si cabe en la ventana, la escena se queda
+    // fija y el scroll sube los peldaños; si no, se reproducen solos al entrar
+    const esc = $('.esc');
+    if (esc && !visto(esc)) {
+      // La etiqueta y el suelo entran solos al aparecer la escena: fijada, nunca empieza en blanco
+      gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: esc, start: 'top 80%', once: true } })
+        .from($('.esc-k', esc), { y: 10, autoAlpha: 0, duration: .7, ease: SALE }, 0)
+        .from($('.esc-suelo', esc), { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.3 }, .1);
+      const construye = () => {
+        const tl = gsap.timeline({ defaults: { ease: IO }, paused: true });
+        $$('.esc-p li', esc).forEach((li, i) => {
+          const t = i * .55;
+          tl.from($('.esc-b', li), { scaleY: 0, transformOrigin: '50% 100%', duration: .8 }, t)
+            .from($$('.esc-t > *', li), { yPercent: 60, autoAlpha: 0, duration: .7, stagger: .06, ease: SALE }, t + .35);
+        });
+        tl.from($$('.tramo', esc), { clipPath: 'inset(-12px 100% 0% 0%)', duration: .9, stagger: .25 }, 2.3)
+          .from($('.esc-dia', esc), { y: 18, autoAlpha: 0, duration: .8, ease: SALE }, 2.9);
+        return tl;
+      };
+      const solo = tl => ST.create({ trigger: esc, start: 'top 72%', once: true, onEnter: () => tl.play() });
+      const mmE = gsap.matchMedia();
+      mmE.add('(min-width: 1024px)', () => {
+        const tl = construye();
+        // refreshPriority 2: va antes en la página que el método fijado (1), y sus posiciones dependen de esta
+        // Fijada bajo la barra (72 px): solo si cabe entera en la ventana
+        if (esc.offsetHeight <= innerHeight - 96) ST.create({ trigger: esc, start: 'top top+=72', end: () => '+=' + Math.round(innerHeight * 1.3), pin: true, scrub: .8, animation: tl, invalidateOnRefresh: true, refreshPriority: 2 });
+        else solo(tl);
+      });
+      mmE.add('(max-width: 1023px)', () => { solo(construye()); });
+    }
+
+    // Los vídeos entran recortándose desde abajo, con el póster algo más grande que se asienta
+    $$('.vid-marco').forEach(m => {
+      if (visto(m)) return;
+      gsap.timeline({ scrollTrigger: { trigger: m, start: 'top 88%', once: true } })
+        .from(m, { clipPath: 'inset(100% 0% 0% 0% round 4px)', duration: 1.3, ease: 'power3.inOut' }, 0)
+        .from($('.vid-poster', m), { scale: 1.16, duration: 1.9, ease: SALE }, 0);
+    });
+
+    // La marca del pie sube desde abajo al llegar al final
+    const marca = $('.foot-mark');
+    if (marca && !visto(marca)) gsap.from(marca, { yPercent: 70, duration: 1.6, ease: IO, scrollTrigger: { trigger: '.foot', start: 'top 75%', once: true } });
 
     // Frases que se encienden palabra a palabra al pasar
     $$('.remate-p, .lead-strong').forEach(p => {
@@ -347,22 +421,6 @@
         if (m === medida || !ancho.matches) return;
         medida = m;
         if (cabe() !== fijada) setTimeout(monta);
-      });
-    }
-
-    // Botones principales magnéticos y teselas que se inclinan hacia el cursor
-    if (fino) {
-      $$('.btn-cta.btn-lg, .bar .btn-cta').forEach(b => {
-        const x = gsap.quickTo(b, 'x', { duration: .5, ease: 'power3' }), y = gsap.quickTo(b, 'y', { duration: .5, ease: 'power3' });
-        b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * .22); y((e.clientY - r.top - r.height / 2) * .32); });
-        b.addEventListener('pointerleave', () => { x(0); y(0); });
-      });
-      // Cuanto más ancha la tarjeta, menos ángulo: el borde se desplaza lo mismo en una tesela que en una tarjeta
-      $$('.tile, .pcard').forEach(t => {
-        gsap.set(t, { transformPerspective: 1200 });
-        const rx = gsap.quickTo(t, 'rotationX', { duration: .6, ease: 'power3' }), ry = gsap.quickTo(t, 'rotationY', { duration: .6, ease: 'power3' });
-        t.addEventListener('pointermove', e => { const r = t.getBoundingClientRect(), a = 5 * Math.min(1, 420 / r.width); ry(((e.clientX - r.left) / r.width - .5) * a); rx(-((e.clientY - r.top) / r.height - .5) * a); });
-        t.addEventListener('pointerleave', () => { rx(0); ry(0); });
       });
     }
 

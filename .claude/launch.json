@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8851", "--bind", "127.0.0.1", "-d", "dist"],
       "port": 8851
+    },
+    {
+      "name": "spiralia-ia-8852",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8852", "--bind", "127.0.0.1", "-d", "dist"],
+      "port": 8852
     }
   ]
 }

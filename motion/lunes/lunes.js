@@ -20,10 +20,10 @@
  *                      peldaños 10,4 / 10,9 / 11,4 / 11,9 (suben desde la base, alturas crecientes; en 4:5, filas en diagonal)
  *                      13,0 cae el marcador blanco en el 1 y se enciende la huella; 13,35 «Tu equipo, el lunes»
  *                      14,2 salta en arco al 2 (giro de 90°), 14,8 el 2 se enciende y vuelve la etiqueta
- *                      15,0 llave «Hábito · Lo haces tú» (1-2) · 16,0 llave «Spiral · Lo construimos contigo» (3-4)
- *                      17,0 línea de «Pulso · Te acompañamos en cada peldaño» por los cuatro; latido 17,9–20,4
+ *                      15,0 llave «Formación a medida · Lo haces tú» (1-2) · 16,0 llave «Spiral · Lo construimos contigo» (3-4)
+ *                      17,0 línea de «Alfabetización IA y Radar · Debajo de cada peldaño» por los cuatro; latido 17,9–20,4
  *  20,5–24,0 REMATE    el título se va (20,45) y suben «Lo haces tú el lunes.» (20,75) y «Y si quieres, subimos contigo.» (21,0, en blanco)
- *                      Desde 21,55 todo quieto: el último fotograma (remate, escalera, marcador en el 2, Hábito, Spiral y Pulso) es el póster.
+ *                      Desde 21,55 todo quieto: el último fotograma (remate, escalera, marcador en el 2, Formación a medida, Spiral y la base) es el póster.
  * Esquina: «Ejemplo ilustrativo» durante toda la pieza.
  */
 (function (global) {
@@ -163,7 +163,7 @@
     marcador = h('div', 'marcador');
     etiqueta = h('p', 'rot m-etq', C.marcador);
 
-    // Llaves de Hábito (1-2) y Spiral (3-4) y la línea de Pulso por los cuatro
+    // Llaves de la Formación a medida (1-2) y Spiral (3-4) y la línea de la base (Alfabetización IA y Radar) por los cuatro
     const tramo = (d, cls) => { const e = h('div', 'tramo ' + (cls || '')); h('span', 'p', d.p, e); h('i', 'sep', null, e); h('span', 'd', d.d, e); return e; };
     const [pp, pd] = C.pulso.split(' · ');
     const lp = tramo({ p: pp, d: pd }, 'pul');
@@ -189,7 +189,7 @@
       G.pulso = { x0: 160, x1: 1760, y: yp };
     } else {
       const { esc, g } = G, H = esc[0].h;
-      // Hábito: a la derecha de las filas 1 y 2, con el rótulo a la altura de la 1
+      // Formación a medida: a la derecha de las filas 1 y 2, con el rótulo a la altura de la 1
       const r0 = esc[0].x + esc[0].w, r1 = esc[1].x + esc[1].w, gm0 = esc[0].y - g / 2, ym0 = esc[0].y + H / 2;
       trazo(s('path', { class: 'llave', d: `M${r1 + 8} ${esc[1].y + 10} L${r1 + 22} ${esc[1].y + 10} L${r1 + 22} ${gm0} L${r0 + 22} ${gm0} L${r0 + 22} ${esc[0].y + H - 10} L${r0 + 8} ${esc[0].y + H - 10}` }, capa), 15.0, .6);
       trazo(s('path', { class: 'llave', d: `M${r0 + 22} ${ym0} L${r0 + 34} ${ym0}` }, capa), 15.3, .2);
@@ -201,7 +201,7 @@
       trazo(s('path', { class: 'llave', d: `M${l3 - 22} ${ym3} L${l3 - 34} ${ym3}` }, capa), 16.3, .2);
       const e1 = tramo(C.tramos[1], 'dcha'); e1.style.right = (G.ancho - (l3 - 48)) + 'px'; e1.style.top = ym3 + 'px';
       aparece(e1, 16.25, .5, null, .4, 'translateY(-50%)');
-      // Pulso: una línea fina bajo las cuatro filas
+      // La base: una línea fina bajo las cuatro filas
       const yp = esc[0].y + H + 92;
       trazo(s('path', { class: 'pulso', d: `M84 ${yp} L996 ${yp}` }, capa), 17.0, .9);
       lp.style.left = '84px'; lp.style.top = (yp - 58) + 'px';
@@ -320,7 +320,7 @@
       else { etiqueta.style.right = (G.ancho - (P.x - 18)) + 'px'; etiqueta.style.top = (P.y + m / 2 - 13) + 'px'; etiqueta.style.transform = `translateX(${(-(1 - pl) * 14).toFixed(1)}px)`; }
     }
 
-    // Pulso: los nodos se encienden al paso de la línea y del latido (dos pasadas, 17,9–20,4)
+    // La base: los nodos se encienden al paso de la línea y del latido (dos pasadas, 17,9–20,4)
     const L = G.pulso, u = (t - 17.9) / 1.25, pasada = u >= 0 && u < 2 ? u % 1 : -1;
     const lx = pasada < 0 ? L.x0 : mezcla(L.x0, L.x1, io(pasada)), lo = pasada < 0 ? 0 : Math.sin(Math.PI * pasada);
     latido.style.opacity = lo.toFixed(3);

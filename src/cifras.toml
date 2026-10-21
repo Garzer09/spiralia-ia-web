@@ -36,8 +36,8 @@ fuente = "Dillon et al. (NBER w33795)."
 [[c]]
 valor = "80"
 tipo = "dato"
-que = "Encuestados que dicen que la IA les ha hecho más productivos"
-fuente = "McKinsey, «The state of AI in 2026» (agosto de 2026). Contrastado en fuentes secundarias y en el deck de KPMG; el original no se ha verificado (decisión de Jose, 14-oct-2026), así que la web no cita páginas."
+que = "Encuestados que dicen que la IA les ha hecho más productivos · Radar: «más de 80» novedades de Microsoft 365 Copilot por trimestre en 2026"
+fuente = "McKinsey, «The state of AI in 2026» (agosto de 2026). Contrastado en fuentes secundarias y en el deck de KPMG; el original no se ha verificado (decisión de Jose, 14-oct-2026), así que la web no cita páginas. Radar: recuento propio (21-oct-2026) sobre los nueve posts mensuales «What’s New in Microsoft 365 Copilot» de enero a septiembre de 2026, https://techcommunity.microsoft.com/tag/what's%20new?nodeId=board%3Amicrosoft-copilot-blog : 251 novedades (un párrafo descriptivo por apartado, sin «Did you know» ni «Learn more»), 83,7 por trimestre. Es un mínimo: los posts recogen las destacadas. El Microsoft 365 Roadmap da 278 elementos de Copilot con lanzamiento previsto en esos meses."
 
 [[c]]
 valor = "6"
@@ -48,8 +48,8 @@ fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundar
 [[c]]
 valor = "5"
 tipo = "dato"
-que = "Umbral de EBIT atribuido a la IA (McKinsey)"
-fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundarias)."
+que = "Umbral de EBIT atribuido a la IA (McKinsey) · productos de Spiralia AI («Cinco productos», en la descripción de la página): Jornada piloto, Formación a medida, Spiral, Alfabetización IA y Radar"
+fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundarias). Productos: oferta de Spiralia (investigacion/05_productos_y_relato.md, decisión de Jose Garza del 21-oct-2026)."
 
 [[c]]
 valor = "36"
@@ -96,8 +96,8 @@ fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
 [[c]]
 valor = "3"
 tipo = "formato"
-que = "Duración del diagnóstico (minutos) · las tres rondas de Día Uno: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera"
-fuente = "Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026 y, para Día Uno, del 20-oct-2026)."
+que = "Duración del diagnóstico (minutos) · las tres rondas de la Jornada piloto: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera · «Tres pasos» del recorrido (Jornada piloto, Formación a medida y Spiral) · tres formatos de la formación (en directo, grabada a medida y blended) · 3 de las 13 versiones de Claude, de acceso restringido (fuente de Radar)"
+fuente = "Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026; para el primer paso, del 20-oct-2026; para el recorrido y los formatos, del 21-oct-2026)."
 
 [[c]]
 valor = "2"
@@ -108,8 +108,8 @@ fuente = "Oferta de Spiralia."
 [[c]]
 valor = "4"
 tipo = "formato"
-que = "Productos de Spiralia AI («Cuatro productos»: Día Uno, Hábito, Spiral y Pulso) y peldaños de la escalera de la IA"
-fuente = "Oferta de Spiralia (investigacion/05_productos_y_relato.md, 21-oct-2026)."
+que = "Peldaños de la escalera de la IA · el artículo 4 del Reglamento europeo de IA (Alfabetización IA)"
+fuente = "Oferta de Spiralia (investigacion/05_productos_y_relato.md, 21-oct-2026). Reglamento (UE) 2024/1689, artículo 4, en la redacción del Reglamento (UE) 2026/1744."
 
 [[c]]
 valor = "8"
@@ -170,3 +170,15 @@ valor = "2027"
 tipo = "otro"
 que = "Año: el presupuesto de 2027, que los comités cierran en el último trimestre de 2026 (urgencia de calendario en el cierre)"
 fuente = "Calendario presupuestario. Retirar o cambiar por el año siguiente en el primer trimestre de 2027 (src/content.toml, [cta].urg)."
+
+[[c]]
+valor = "94"
+tipo = "dato"
+que = "Radar: modelos de IA notables publicados en 2025 por instituciones de Estados Unidos (59) y China (35). La suma es de Spiralia"
+fuente = "Stanford HAI, AI Index Report 2026, capítulo «Research and Development»: https://hai.stanford.edu/ai-index/2026-ai-index-report/research-and-development («produced 59 notable models in 2025 to China's 35»). Verificado el 21-oct-2026. Epoch AI registra 107 modelos notables en 2025 contando todos los países (recuento propio sobre su CSV, actualizado el 16-oct-2026)."
+
+[[c]]
+valor = "13"
+tipo = "dato"
+que = "Radar: versiones nuevas de los modelos de Claude de enero a septiembre de 2026 (10 abiertas a todos los clientes y 3 de acceso restringido)"
+fuente = "Recuento propio (21-oct-2026) de los anuncios de lanzamiento en las notas de versión de la API de Claude: https://platform.claude.com/docs/en/release-notes/overview . Con Haiku 5.5 (7-oct-2026) son 14."
