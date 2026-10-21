@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Agentes · Spiralia AI</title>
+  <style>
+    @font-face { font-family: "Butler"; src: url("Butler-Light.otf") format("opentype"); font-weight: 300; font-display: block; }
+    @font-face { font-family: "Sofia Sans Condensed"; src: url("SofiaSansCondensed-VF.ttf") format("truetype"); font-weight: 100 900; font-display: block; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #051A2B; }
+    .lienzo { position: relative; width: 1920px; height: 1080px; overflow: hidden; color: #E0DFDA; font-family: "Sofia Sans Condensed"; -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+    .v .lienzo { width: 1080px; height: 1350px; }
+    .lienzo > * { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, opacity; }
+
+    /* Fondo: una luz suave que sigue al foco, retícula de puntos y viñeta */
+    .luz { width: 2000px; height: 1500px; margin: -750px 0 0 -1000px; background: radial-gradient(closest-side, rgba(23, 68, 103, .5), rgba(13, 49, 80, .2) 55%, rgba(5, 26, 43, 0)); }
+    .reja { width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(224, 223, 218, .07) 1.3px, transparent 1.8px); background-size: 40px 40px; background-position: 20px 20px; -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 50%, #000 25%, transparent 100%); mask-image: radial-gradient(ellipse 72% 68% at 50% 50%, #000 25%, transparent 100%); }
+    .vin { width: 100%; height: 100%; background: radial-gradient(ellipse 85% 80% at 50% 46%, rgba(5, 26, 43, 0) 55%, rgba(2, 12, 21, .62) 100%); }
+
+    /* Tipografía común */
+    .mascara { overflow: hidden; padding-bottom: .1em; }
+    .sube { display: block; will-change: transform; }
+    .ua { position: relative; display: inline-block; }
+    .ua i { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-style: normal; }
+    .rotulo { font: 600 26px/1 "Sofia Sans Condensed"; letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
+    .v .rotulo { font-size: 30px; }
+    .titulo { font: 300 64px/1.08 "Butler"; letter-spacing: -.01em; white-space: nowrap; }
+    .v .titulo { font-size: 60px; }
+    .remate { display: flex; gap: .3em; font: 300 72px/1.08 "Butler"; letter-spacing: -.012em; white-space: nowrap; }
+    .remate .blanco { color: #FFFFFF; }
+    .v .remate { flex-direction: column; gap: 0; font-size: 60px; }
+    .ilus { color: #A9B1B8; }
+    .res { font: 300 36px/1.16 "Butler"; white-space: nowrap; }
+    .v .res.con { font-size: 34px; }
+
+    /* Hoy: rótulo, contador, pila de ventanas y pegamento (en 16:9 se encogen a 0,82, así que nada baja de 32 px) */
+    .hoyT { font-size: 32px; }
+    .v .hoyT { font-size: 30px; }
+    .cont { font: 300 40px/1.2 "Butler"; white-space: nowrap; }
+    .v .cont { font-size: 46px; }
+    .cont .mascara { position: relative; width: 1100px; height: 1.3em; }
+    .cont .sube { position: absolute; left: 0; top: 0; }
+    .cont b { font-weight: 300; color: #FFFFFF; }
+    .pega { font: 300 44px/1.15 "Butler"; color: #FFFFFF; white-space: nowrap; }
+
+    .pila { width: 540px; height: 10px; }
+    .hilo { position: absolute; left: 0; top: 0; width: 10px; height: 10px; overflow: visible; filter: drop-shadow(0 0 6px rgba(255, 255, 255, .45)); }
+    .hilo path { fill: none; stroke: #FFFFFF; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1 1; }
+    .hilo .chispa { stroke-width: 5; stroke-dasharray: .07 1.2; }
+    .ven { position: absolute; left: 0; top: 0; width: 540px; height: 138px; border-radius: 12px; background: #F5F4F0; color: #08263D;
+      box-shadow: 0 38px 64px -24px rgba(0, 0, 0, .7), 0 12px 24px -8px rgba(0, 0, 0, .38); transform-origin: 50% 50%; }
+    .v .ven { width: 700px; height: 150px; border-radius: 14px; }
+    .ven-b { position: absolute; left: 0; right: 0; top: 0; height: 50px; display: flex; align-items: center; gap: 10px; padding: 0 12px 0 18px;
+      background: #E0DFDA; border-radius: 12px 12px 0 0; border-bottom: 1px solid rgba(8, 38, 61, .12); }
+    .v .ven-b { height: 56px; border-radius: 14px 14px 0 0; padding: 0 14px 0 22px; }
+    .glifo { width: 28px; height: 28px; flex: none; fill: none; stroke: #08263D; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .glifo .p { fill: #08263D; stroke: none; }
+    .app { font: 600 32px/1 "Sofia Sans Condensed"; letter-spacing: .005em; white-space: nowrap; }
+    .v .app { font-size: 34px; }
+    .chip-e { margin-left: auto; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 11px; border: 1.5px dashed rgba(8, 38, 61, .6); border-radius: 999px;
+      font: 500 32px/1 "Sofia Sans Condensed"; white-space: nowrap; background: rgba(245, 244, 240, .7); transform-origin: 100% 50%; }
+    .v .chip-e { height: 42px; }
+    .reloj { width: 24px; height: 24px; flex: none; fill: none; stroke: #08263D; stroke-width: 2; stroke-linecap: round; }
+    .ven-t { position: absolute; left: 46px; top: 60px; font: 500 32px/1.15 "Sofia Sans Condensed"; white-space: nowrap; }
+    .v .ven-t { left: 50px; top: 66px; font-size: 34px; }
+    .esq { position: absolute; left: 46px; height: 8px; border-radius: 4px; background: rgba(8, 38, 61, .08); }
+    .v .esq { left: 50px; }
+    .velo { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: inherit; background: #051A2B; opacity: 0; }
+    .tu { position: absolute; left: 0; height: 54px; min-width: 54px; padding: 0 12px; border-radius: 27px; background: #0D3150; border: 2px solid #E0DFDA; color: #FFFFFF;
+      font: 600 32px/50px "Sofia Sans Condensed"; text-align: center; white-space: nowrap; box-shadow: 0 8px 18px rgba(0, 0, 0, .4); transform-origin: 0 50%; }
+    .v .tu { height: 58px; border-radius: 29px; line-height: 54px; font-size: 34px; }
+
+    /* Con un agente: panel de papel con los pasos, el registro, el pie y el sello */
+    .panel { width: 1050px; height: 640px; }
+    .marco { position: absolute; left: 0; top: 0; overflow: visible; }
+    .marco rect { fill: none; stroke: #E0DFDA; stroke-width: 2; stroke-dasharray: 1 1; }
+    .papel, .sombra { position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 20px; }
+    .papel { background: #F5F4F0; }
+    .sombra { box-shadow: 0 64px 120px -44px rgba(0, 0, 0, .75), 0 22px 44px -18px rgba(0, 0, 0, .45); opacity: 0; }
+    .paso { position: absolute; left: 36px; width: 548px; height: 82px; display: flex; align-items: center; gap: 16px; color: #08263D; }
+    .v .paso { left: 30px; width: 892px; height: 88px; gap: 18px; }
+    .paso > * { position: relative; }
+    .paso .banda { position: absolute; left: -18px; right: -18px; top: 4px; bottom: 4px; border-radius: 12px; background: #08263D; transform-origin: 50% 50%; opacity: 0;
+      box-shadow: 0 18px 36px -14px rgba(5, 26, 43, .55); }
+    .ind { width: 40px; height: 40px; flex: none; overflow: visible; }
+    .ind .anillo { fill: none; stroke: rgba(8, 38, 61, .22); stroke-width: 2; }
+    .ind .giro { fill: none; stroke: #08263D; stroke-width: 2.8; stroke-linecap: round; stroke-dasharray: 26 100; }
+    .ind .lleno { fill: #08263D; }
+    .ind .visto { fill: none; stroke: #F5F4F0; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; }
+    .ind .pausa { fill: #FFFFFF; }
+    .persona.lit .ind .anillo { stroke: rgba(255, 255, 255, .55); }
+    .persona .ind .lleno { fill: #FFFFFF; }
+    .persona .ind .visto { stroke: #08263D; }
+    .paso-c { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
+    .v .paso-c { gap: 5px; }
+    .l1, .l2 { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
+    .quien { font: 600 26px/1 "Sofia Sans Condensed"; letter-spacing: .2em; text-transform: uppercase; color: rgba(8, 38, 61, .55); }
+    .v .quien { font-size: 30px; }
+    .paso-t { font: 500 30px/1.12 "Sofia Sans Condensed"; }
+    .v .paso-t { font-size: 32px; }
+    .sub { font: 500 30px/1 "Sofia Sans Condensed"; color: rgba(8, 38, 61, .8); display: flex; align-items: center; }
+    .sub .hora, .reg-l .hora { color: rgba(8, 38, 61, .5); font-variant-numeric: tabular-nums; white-space: pre; }
+    .persona.lit { color: #FFFFFF; }
+    .persona.lit .quien { color: rgba(255, 255, 255, .72); }
+    .persona.lit .sub { color: rgba(255, 255, 255, .88); }
+    .persona.lit .sub .hora { color: rgba(255, 255, 255, .6); }
+    .persona.lit .caret { background: #FFFFFF; }
+    .chip-p { position: relative; margin-left: auto; display: flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 999px; background: #FFFFFF; color: #08263D;
+      font: 600 26px/1 "Sofia Sans Condensed"; letter-spacing: .02em; white-space: nowrap; transform-origin: 100% 50%; box-shadow: 0 0 22px rgba(255, 255, 255, .28); }
+    .v .chip-p { height: 42px; font-size: 30px; }
+    .chip-o { position: absolute; left: -2px; right: -2px; top: -2px; bottom: -2px; border-radius: 999px; border: 2px solid #FFFFFF; opacity: 0; }
+    .prog, .sep { position: absolute !important; left: 56px; right: 0; bottom: 0; height: 1px; background: rgba(8, 38, 61, .11); }
+    .prog { height: 2px; background: #08263D; transform-origin: 0 50%; transform: scaleX(0); }
+    .v .prog, .v .sep { left: 58px; }
+    .caret { display: inline-block; width: 2px; height: 1em; margin-left: 3px; background: #08263D; vertical-align: -.12em; opacity: 0; }
+
+    .divi { position: absolute; left: 612px; top: 34px; width: 1px; height: 492px; background: rgba(8, 38, 61, .13); transform-origin: 50% 0; }
+    .reg { position: absolute; left: 640px; top: 34px; width: 374px; color: #08263D; }
+    .reg-t { color: rgba(8, 38, 61, .55); height: 50px; }
+    .reg-l { font: 500 27px/1 "Sofia Sans Condensed"; height: 46px; white-space: nowrap; display: flex; align-items: center; }
+    .pie-r { position: absolute; left: 36px; right: 36px; top: 548px; height: 1px; background: rgba(8, 38, 61, .15); transform-origin: 0 50%; }
+    .v .pie-r { left: 30px; right: 30px; top: 574px; }
+    .tuparte { position: absolute; left: 36px; top: 568px; font: 300 36px/1.1 "Butler"; color: #08263D; white-space: nowrap; }
+    .v .tuparte { left: 30px; top: 604px; }
+    .tuparte i { font-style: normal; color: rgba(8, 38, 61, .55); }
+    .sello { position: absolute; left: 0; top: 0; padding: 14px 24px 12px; border: 3px solid #08263D; border-radius: 8px; color: #08263D; background: rgba(245, 244, 240, .9);
+      font: 600 26px/1.22 "Sofia Sans Condensed"; letter-spacing: .14em; text-transform: uppercase; text-align: center; white-space: nowrap; transform-origin: 50% 50%; opacity: 0; }
+    .v .sello { font-size: 30px; }
+    .sello::before { content: ""; position: absolute; left: 4px; right: 4px; top: 4px; bottom: 4px; border: 1px solid rgba(8, 38, 61, .7); border-radius: 4px; }
+    .sello-o { position: absolute; left: -3px; right: -3px; top: -3px; bottom: -3px; border: 2px solid #08263D; border-radius: 8px; opacity: 0; }
+  </style>
+  <script src="gsap.min.js"></script>
+  <script src="copy.js"></script>
+</head>
+<body>
+  <!-- 20 s a 30 fps (600 fotogramas), 16:9 y 4:5 (html.v), sin sonido. Línea de tiempo en agentes.js; textos en copy.js -->
+  <div id="pieza" class="lienzo" data-composition-id="agentes" data-start="0" data-duration="20" data-width="1920" data-height="1080" data-fps="30"></div>
+  <script src="agentes.js"></script>
+  <script>
+    PIEZA.montar(document.getElementById('pieza'));
+    const tl = gsap.timeline({ paused: true, onUpdate: () => PIEZA.pintar(tl.time()) });
+    tl.to({ ancla: 0 }, { ancla: 1, duration: PIEZA.duracion, ease: 'none' }, 0);
+    window.__timelines = window.__timelines || {};
+    window.__timelines["agentes"] = tl;
+    tl.seek(0);
+    PIEZA.pintar(0);
+  </script>
+</body>
+</html>
