@@ -14,7 +14,7 @@
     play: el => { el.classList.remove('play'); void el.offsetWidth; requestAnimationFrame(() => el.classList.add('play')); },
     finish: el => el.classList.remove('anim', 'play'),
   };
-  // Lo que nadie dice en el comité · las fases de la Jornada piloto · la preparación de la formación · la autonomía en Spiral
+  // Lo que nadie dice en el comité · las fases de Rumbo · la preparación de la formación · la autonomía en Spiral
   // (la escalera de Lo que hacemos la anima scroll.js con el scroll)
   ['voces', 'fases', 'prep', 'aut'].forEach(n => piece(n, css));
 
@@ -359,7 +359,7 @@
     new IntersectionObserver(([e]) => { enHero = e.isIntersecting; set(); }).observe(hero);
     new IntersectionObserver(([e]) => { enCierre = e.isIntersecting; set(); }, { threshold: .1 }).observe(cierre);
     if (pie) new IntersectionObserver(([e]) => { enPie = e.isIntersecting; set(); }).observe(pie);
-    // Donde la sección ya tiene su propia llamada (la Jornada piloto), la fija se retira
+    // Donde la sección ya tiene su propia llamada (Rumbo), la fija se retira
     const propias = $$('[data-cta-propia]'), vistas = new Set();
     if (propias.length) { const io = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vistas.add(e.target) : vistas.delete(e.target)); enPaso = vistas.size > 0; set(); }, { threshold: .25 }); propias.forEach(x => io.observe(x)); }
   })();

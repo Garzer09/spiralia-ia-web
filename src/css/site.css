@@ -516,7 +516,7 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
   .mods li+li,.temario li+li{padding-left:0;border-left:0;margin-top:28px;border-top:1px solid var(--line-l)}
 }
 
-/* Jornada piloto (oscuro): las cuatro fases en una línea de tiempo que se enciende */
+/* Rumbo (oscuro): las cuatro fases en una línea de tiempo que se enciende */
 .fases{margin:0 0 clamp(64px,8vw,120px)}
 .fases ol{position:relative;list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
 .fases ol::before,.fases ol::after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:var(--line-d)}
@@ -539,7 +539,7 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
   .fases li{padding-top:0}.fases li::before{left:-30px;top:4px}
 }
 
-/* Las tres rondas de la Jornada piloto: velocidad, escala y capacidad. Tres columnas con un filete que se dibuja */
+/* Las tres rondas de Rumbo: velocidad, escala y capacidad. Tres columnas con un filete que se dibuja */
 .vec{margin:0}
 .vec-head{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;align-items:last baseline;gap:.2rem clamp(20px,3vw,48px);margin-bottom:clamp(28px,3.4vw,48px)}
 .vec-k{grid-column:1/-1;margin:0 0 .7rem;font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-2)}

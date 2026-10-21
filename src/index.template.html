@@ -166,7 +166,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     <div class="arq">
       <p class="arq-k"><b>{{prod.ruta_k}}</b> {{prod.ruta_p}}</p>
       <ol class="ruta">
-        <li class="prod"><a href="#piloto">
+        <li class="prod"><a href="#rumbo">
           <span class="prod-n" aria-hidden="true">01</span>
           <span class="prod-nom">{{prod.p1_n}}</span><span class="prod-tag">{{prod.p1_tag}}</span>
           <span class="prod-p">{{prod.p1}}</span>
@@ -219,7 +219,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
           <a class="tramo tramo-b" href="#spiral"><b>{{prod.p3_n}}</b> <span>{{esc.contigo}}</span></a>
         </div>
       </div>
-      <p class="esc-dia"><a href="#piloto">{{prod.mapa_dia}} <i class="flecha" aria-hidden="true"></i></a></p>
+      <p class="esc-dia"><a href="#rumbo">{{prod.mapa_dia}} <i class="flecha" aria-hidden="true"></i></a></p>
     </figure>
   </div>
 </section>
@@ -320,7 +320,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <button type="button" class="glass-btn nube-btn" hidden></button>
       </div>
       <div class="nube-campo">
-        <div class="nube-col"><a class="nube-g" href="#piloto"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
+        <div class="nube-col"><a class="nube-g" href="#rumbo"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
           <ul><li class="chip">{{esperar.g1_1}}</li><li class="chip">{{esperar.g1_2}}</li><li class="chip">{{esperar.g1_3}}</li><li class="chip">{{esperar.g1_4}}</li></ul></div>
         <div class="nube-col"><a class="nube-g" href="#formacion"><b>{{esperar.g2}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p2_n}}</em><small>{{esperar.g2_d}}</small></a>
           <ul><li class="chip">{{esperar.g2_1}}</li><li class="chip">{{esperar.g2_2}}</li><li class="chip">{{esperar.g2_3}}</li><li class="chip">{{esperar.g2_4}}</li></ul></div>
@@ -379,28 +379,28 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 08 · El recorrido, 01 · Jornada piloto: el primer paso -->
-<section class="sec dark psec" id="piloto" aria-labelledby="t-piloto">
+<!-- 08 · El recorrido, 01 · Rumbo: el primer paso -->
+<section class="sec dark psec" id="rumbo" aria-labelledby="t-rumbo">
   <div class="wrap">
     <header class="phead">
-      <p class="kicker"><span class="pnum" aria-hidden="true">01</span>{{piloto.kicker}}</p>
-      <h2 id="t-piloto" class="pnombre">{{prod.p1_n}}</h2>
+      <p class="kicker"><span class="pnum" aria-hidden="true">01</span>{{rumbo.kicker}}</p>
+      <h2 id="t-rumbo" class="pnombre">{{prod.p1_n}}</h2>
       <div class="phead-l">
-        <p class="display pclaim"><span class="l1">{{piloto.h2a}}</span> <span class="l2">{{piloto.h2b}}</span></p>
-        <p class="lead">{{piloto.lead}}</p>
+        <p class="display pclaim"><span class="l1">{{rumbo.h2a}}</span> <span class="l2">{{rumbo.h2b}}</span></p>
+        <p class="lead">{{rumbo.lead}}</p>
       </div>
-      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{piloto.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{piloto.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{piloto.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{piloto.peldanos}}</dd></div></dl>
+      <dl class="pficha"><div><dt>{{ficha.para}}</dt><dd>{{rumbo.para}}</dd></div><div><dt>{{ficha.dur}}</dt><dd>{{rumbo.dur}}</dd></div><div><dt>{{ficha.lleva}}</dt><dd>{{rumbo.lleva}}</dd></div><div><dt>{{ficha.peldanos}}</dt><dd>{{rumbo.peldanos}}</dd></div></dl>
     </header>
     <div class="fases" data-piece="fases" aria-labelledby="t-dia-f">
       <h3 id="t-dia-f" class="h5">{{ficha.fases}}</h3>
       <ol>
-        <li><span class="fase-t">{{piloto.f1_t}}</span><b>{{piloto.f1_n}}</b><p>{{piloto.f1}}</p></li>
-        <li><span class="fase-t">{{piloto.f2_t}}</span><b>{{piloto.f2_n}}</b><p>{{piloto.f2}}</p></li>
-        <li><span class="fase-t">{{piloto.f3_t}}</span><b>{{piloto.f3_n}}</b><p>{{piloto.f3}}</p></li>
-        <li><span class="fase-t">{{piloto.f4_t}}</span><b>{{piloto.f4_n}}</b><p>{{piloto.f4}}</p></li>
+        <li><span class="fase-t">{{rumbo.f1_t}}</span><b>{{rumbo.f1_n}}</b><p>{{rumbo.f1}}</p></li>
+        <li><span class="fase-t">{{rumbo.f2_t}}</span><b>{{rumbo.f2_n}}</b><p>{{rumbo.f2}}</p></li>
+        <li><span class="fase-t">{{rumbo.f3_t}}</span><b>{{rumbo.f3_n}}</b><p>{{rumbo.f3}}</p></li>
+        <li><span class="fase-t">{{rumbo.f4_t}}</span><b>{{rumbo.f4_n}}</b><p>{{rumbo.f4}}</p></li>
       </ol>
     </div>
-    <!-- Las tres rondas de la Jornada piloto: velocidad, escala y capacidad -->
+    <!-- Las tres rondas de la Rumbo: velocidad, escala y capacidad -->
     <div class="vec">
       <div class="vec-head rv">
         <p class="vec-k">{{fmt.v_kicker}}</p>
@@ -414,7 +414,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       </ol>
       <p class="lead-strong vec-remate">{{fmt.v_remate}}</p>
     </div>
-    <div class="pcta rv" data-cta-propia><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=piloto&amp;l={{lang}}">{{piloto.cta}} <i class="flecha" aria-hidden="true"></i></a><p>{{piloto.nota}}</p></div>
+    <div class="pcta rv" data-cta-propia><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=rumbo&amp;l={{lang}}">{{rumbo.cta}} <i class="flecha" aria-hidden="true"></i></a><p>{{rumbo.nota}}</p></div>
   </div>
 </section>
 
@@ -820,7 +820,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <p>{{ft.tag}}</p>
     </div>
     <nav aria-label="{{attr:ft.ia}}"><p>{{ft.ia}}</p>
-      <a href="#piloto">{{prod.p1_n}}</a><a href="#formacion">{{prod.p2_n}}</a><a href="#spiral">{{prod.p3_n}}</a><a href="#alfabetizacion">{{prod.p4_n}}</a><a href="#radar">{{prod.p5_n}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#preguntas">{{ft.faq}}</a>
+      <a href="#rumbo">{{prod.p1_n}}</a><a href="#formacion">{{prod.p2_n}}</a><a href="#spiral">{{prod.p3_n}}</a><a href="#alfabetizacion">{{prod.p4_n}}</a><a href="#radar">{{prod.p5_n}}</a><a href="#diagnostico">{{ft.diag}}</a><a href="#pruebas">{{nav.casos}}</a><a href="#preguntas">{{ft.faq}}</a>
     </nav>
     <nav aria-label="{{attr:ft.areas}}"><p>{{ft.areas}}</p>
       <a href="https://spiralia.es/">spiralia.es</a>

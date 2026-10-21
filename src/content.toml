@@ -9,12 +9,12 @@
 #  · Primero el resultado, después el método. Pérdida en el problema; ganancia en la solución.
 #  · Palabras de negocio. Un término técnico solo si hace falta, explicado en una línea la primera vez.
 #  · Hechos en lugar de adjetivos. Sin exclamaciones, sin superlativos, sin escasez inventada.
-# Productos y relato: investigacion/05_productos_y_relato.md. Jornada piloto, Formación a medida, Spiral, Alfabetización IA
+# Productos y relato: investigacion/05_productos_y_relato.md. Rumbo, Formación a medida, Spiral, Alfabetización IA
 # y Radar son los nombres de los productos (21-oct): no se cambian sin cambiar también ese documento.
 
 [meta]
 title = {es = "Spiralia AI · Formación y despliegue de IA para empresas", en = "Spiralia AI · AI training and deployment for companies"}
-description = {es = "Cinco productos para que la IA trabaje en tu empresa: Jornada piloto, Formación a medida, Spiral, Alfabetización IA y Radar. Formamos a cada persona con su trabajo y construimos con tus equipos hasta que da resultados.", en = "Five products to put AI to work in your company: Pilot Day, Tailored Training, Spiral, AI Literacy and Radar. We train every person on their own work and build with your teams until it delivers results."}
+description = {es = "Cinco productos para que la IA trabaje en tu empresa: Rumbo, Formación a medida, Spiral, Alfabetización IA y Radar. Formamos a cada persona con su trabajo y construimos con tus equipos hasta que da resultados.", en = "Five products to put AI to work in your company: Rumbo, Tailored Training, Spiral, AI Literacy and Radar. We train every person on their own work and build with your teams until it delivers results."}
 og_alt = {es = "Que el ritmo de tu sector lo marque tu empresa. Spiralia AI.", en = "Let your company set your industry’s pace. Spiralia AI."}
 org = {es = "Spiralia trabaja con empresas en formación, comunicación y eventos. Spiralia AI es su área de formación y despliegue de IA.", en = "Spiralia works with companies on training, communication and events. Spiralia AI is its AI training and deployment practice."}
 audience = {es = "Comités de dirección, RR. HH. y tecnología de medianas y grandes empresas", en = "Leadership teams, HR and technology leaders at mid-sized and large companies"}
@@ -76,8 +76,8 @@ ver = {es = "Cómo funciona", en = "How it works"}
 para = {es = "Para", en = "For"}
 dur = {es = "Duración", en = "Duration"}
 p1_tag = {es = "El primer paso", en = "The first step"}
-p1_n = {es = "Jornada piloto", en = "Pilot Day"}
-p1 = {es = "Un día de trabajo real con la IA de tu empresa. Al cierre, tu comité sabe por dónde empezar.", en = "A day of real work with your company’s AI. By the close, your leadership team knows where to start."}
+p1_n = {es = "Rumbo", en = "Rumbo"}
+p1 = {es = "Una jornada práctica con la IA de tu empresa: ves qué puede hacer y la adopción empieza de verdad.", en = "A hands-on day with your company’s AI: you see what it can do and adoption truly begins."}
 p1_para = {es = "Comité de dirección y managers", en = "Leadership team and managers"}
 p1_dur = {es = "Una jornada", en = "One day"}
 p2_tag = {es = "En directo, grabada o blended", en = "Live, recorded or blended"}
@@ -101,7 +101,7 @@ p5 = {es = "Las novedades de IA que importan a tu negocio, ya probadas con tus c
 p5_para = {es = "Comité, managers y champions", en = "Leadership team, managers and champions"}
 p5_dur = {es = "Cada mes", en = "Every month"}
 mapa_h = {es = "La escalera de la IA: dónde encaja cada uno", en = "The AI ladder: where each one fits"}
-mapa_dia = {es = "La Jornada piloto te enseña la escalera entera en un día y decide por dónde empezar.", en = "Pilot Day shows you the whole ladder in one day and decides where to start."}
+mapa_dia = {es = "Rumbo te enseña la escalera entera en un día y decide por dónde empezar.", en = "Rumbo shows you the whole ladder in one day and decides where to start."}
 mapa_base = {es = "Debajo de cada peldaño.", en = "Under every step."}
 
 # La escalera de la IA (de CCEP): los mismos cuatro peldaños en Lo que hacemos y en Después de la formación
@@ -294,12 +294,12 @@ peldanos = {es = "Peldaños", en = "Steps"}
 formato = {es = "Formato", en = "Format"}
 fases = {es = "Cómo funciona", en = "How it works"}
 
-# 08 · Jornada piloto · el primer paso
-[piloto]
+# 08 · Rumbo · el primer paso (21-oct: vuelve el nombre Rumbo, que pasó por Día Uno y Jornada piloto)
+[rumbo]
 kicker = {es = "El primer paso", en = "The first step"}
 h2a = {es = "Primero, un día de trabajo real.", en = "First, one day of real work."}
 h2b = {es = "Después, decides tú.", en = "Then you decide."}
-lead = {es = "Quizá tengas la IA desde hace meses. La Jornada piloto es el día en que se pone a trabajar: tu comité y tus managers, con sus propias tareas y la IA de tu empresa.", en = "You may have had AI for months. Pilot Day is the day it gets to work: your leadership team and your managers, on their own tasks, with your company’s AI."}
+lead = {es = "Quizá tengas la IA desde hace meses. Rumbo es la jornada en que se pone a trabajar: tu comité y tus managers la usan con sus propias tareas, entienden qué pueden hacer con ella y la adopción empieza de verdad.", en = "You may have had AI for months. Rumbo is the day it gets to work: your leadership team and your managers use it on their own tasks, understand what they can do with it and adoption truly begins."}
 para = {es = "Tu comité de dirección y tus managers.", en = "Your leadership team and your managers."}
 dur = {es = "Una jornada en tu empresa, con preparación previa.", en = "One day at your offices, with preparation beforehand."}
 lleva = {es = "Cada persona sale con una tarea suya hecha con IA. Tu comité, con sus casos priorizados y un plan por escrito.", en = "Everyone leaves with a task of their own done with AI. Your leadership team, with its use cases prioritized and a written plan."}
@@ -316,12 +316,12 @@ f3 = {es = "Cada uno escribe sus casos y el comité los prioriza por valor.", en
 f4_t = {es = "Después", en = "After"}
 f4_n = {es = "Plan", en = "Plan"}
 f4 = {es = "Un resumen por escrito: casos priorizados, punto de partida y siguiente paso.", en = "A written summary: prioritized cases, starting point and next step."}
-cta = {es = "Pide fecha para tu Jornada piloto", en = "Request a date for your Pilot Day"}
+cta = {es = "Pide fecha para Rumbo", en = "Request a date for Rumbo"}
 nota = {es = "Lo que sale del día es tuyo, sigas o no con nosotros.", en = "What comes out of the day is yours, whether or not you continue with us."}
 
-# Las tres rondas de la Jornada piloto (franja dentro de la Jornada piloto)
+# Las tres rondas de Rumbo (franja dentro de Rumbo)
 [fmt]
-v_kicker = {es = "Las tres rondas de la Jornada piloto", en = "The three rounds of Pilot Day"}
+v_kicker = {es = "Las tres rondas de Rumbo", en = "The three rounds of Rumbo"}
 v_h = {es = "Velocidad. Escala. Capacidad.", en = "Speed. Scale. Capability."}
 v_sub = {es = "Lo que trae la IA a cualquier trabajo. Tu comité lo comprueba con el suyo.", en = "What AI brings to any job. Your leadership team proves it on its own work."}
 v1_t = {es = "Velocidad", en = "Speed"}
@@ -565,17 +565,17 @@ prueba = {es = "Ya lo hemos hecho", en = "We’ve done it before"}
 t1_tab = {es = "Resultados", en = "Results"}
 t1_h = {es = "Has invertido en IA. Que se note en la cuenta.", en = "You’ve invested in AI. Make it show on the P&amp;L."}
 t1_voz = {es = "«He firmado las licencias. Si dentro de un año el consejo me pregunta qué ha cambiado, ¿qué le enseño?»", en = "“I signed off the licenses. If the board asks me in a year what has changed, what do I show them?”"}
-t1_1 = {es = "Empezamos con una Jornada piloto: tu comité y tus managers trabajan un día con IA y, al cierre, elegís los primeros casos.", en = "We start with a Pilot Day: your leadership team and managers work with AI for a day and, at the close, you choose the first cases together."}
+t1_1 = {es = "Empezamos con Rumbo: tu comité y tus managers trabajan un día con IA y, al cierre, elegís los primeros casos.", en = "We start with Rumbo: your leadership team and managers work with AI for a day and, at the close, you choose the first cases together."}
 t1_2 = {es = "Elegimos los casos por valor: velocidad, escala y capacidad. La velocidad tiene techo; las otras dos, no.", en = "We choose cases by value: speed, scale and capability. Speed has a ceiling; the other two don’t."}
 t1_3 = {es = "Con Spiral construimos los primeros con tus equipos y los medimos frente al punto de partida.", en = "With Spiral we build the first ones with your teams and measure them against the starting point."}
 t1_4 = {es = "Diseñamos contigo el gobierno: quién propone, quién decide y quién responde.", en = "We design governance with you: who proposes, who decides and who answers for it."}
 t1_l = {es = "Una lista corta de casos con valor, los primeros funcionando y un equipo que sabe seguir.", en = "A short list of valuable cases, the first ones running and a team that knows how to continue."}
 t1_p = {es = "En ING España, del comité de dirección a las oficinas, los usuarios activos cada semana pasaron del 66 % al 92 %.", en = "At ING Spain, from the leadership team to the branches, weekly active users went from 66% to 92%."}
-t1_cta = {es = "Pide fecha para tu Jornada piloto", en = "Request a date for your Pilot Day"}
+t1_cta = {es = "Pide fecha para Rumbo", en = "Request a date for Rumbo"}
 t2_tab = {es = "Personas y talento", en = "People and talent"}
 t2_h = {es = "Te piden productividad. Tu gente te pide dirección.", en = "They ask you for productivity. Your people ask you for direction."}
 t2_voz = {es = "«¿Cómo lo hago sin que la plantilla lo viva como una amenaza? Y la encuesta salió bien, pero ¿y el uso?»", en = "“How do I do this without the workforce seeing it as a threat? And the survey came out well, but what about usage?”"}
-t2_0 = {es = "Empezamos con una Jornada piloto y seguimos con la Formación a medida: cada perfil, con su trabajo, en horario laboral y sin examen.", en = "We start with a Pilot Day and continue with Tailored Training: each profile on its own work, during working hours, with no grading."}
+t2_0 = {es = "Empezamos con Rumbo y seguimos con la Formación a medida: cada perfil, con su trabajo, en horario laboral y sin examen.", en = "We start with Rumbo and continue with Tailored Training: each profile on its own work, during working hours, with no grading."}
 t2_1 = {es = "Formamos a todos, del comité a la primera línea, cada perfil con sus tareas y sus archivos.", en = "We train everyone, from the leadership team to the front line, each profile with their own tasks and files."}
 t2_2 = {es = "Damos al programa nombre y marca propios, para que la plantilla lo reconozca como suyo.", en = "We give the program its own name and brand, so your people recognize it as theirs."}
 t2_3 = {es = "Medimos el uso real y lo que se construye, no solo las horas y la satisfacción.", en = "We measure real usage and what gets built, not just hours and satisfaction."}
@@ -603,20 +603,20 @@ kicker = {es = "Preguntas del comité", en = "Leadership team questions"}
 h2 = {es = "Lo que nos preguntan antes de empezar.", en = "What we’re asked before getting started."}
 q1 = {es = "¿Por qué ahora y no dentro de seis meses?", en = "Why now and not in six months?"}
 a1 = {es = "Porque el uso se enfría en semanas y las licencias se pagan igual. Y porque la IA multiplica: quien ya rediseña su trabajo no va un paso por delante, va una curva por delante, y la distancia crece cada semana.", en = "Because usage cools off within weeks and the licenses cost the same. And because AI multiplies: those already redesigning their work aren’t one step ahead, they’re a whole curve ahead, and the gap grows every week."}
-q2 = {es = "¿Tengo que empezar por la Jornada piloto?", en = "Do I have to start with Pilot Day?"}
+q2 = {es = "¿Tengo que empezar por Rumbo?", en = "Do I have to start with Rumbo?"}
 a2 = {es = "No. Es la forma más rápida de ordenar las prioridades, pero cada producto funciona solo: si tu gente ya está formada, Spiral empieza en la P; si ya tienes casos priorizados, puedes empezar por la Formación a medida. Alfabetización IA y Radar pueden empezar cuando quieras.", en = "No. It’s the fastest way to set priorities, but each product works on its own: if your people are already trained, Spiral starts at P; if you already have prioritized cases, you can start with Tailored Training. AI Literacy and Radar can start whenever you like."}
 q3 = {es = "¿Nuestros datos salen de la empresa?", en = "Does our data leave the company?"}
 a3 = {es = "Solo por donde ya lo permite tu IT. Trabajamos dentro de tu entorno, con las herramientas y los permisos que aprueba tu IT. Para preparar la formación usamos tus documentos, con acuerdo de confidencialidad y de encargo del tratamiento, o datos ficticios.", en = "Only where your IT already allows it. We work inside your environment, with the tools and permissions your IT approves. To prepare the training we use your documents, under a confidentiality and data processing agreement, or fictitious data."}
 q4 = {es = "¿Sois lo bastante grandes para nosotros?", en = "Are you big enough for us?"}
 a4 = {es = "En Deloitte España formamos a 13.000 personas en un mes. Somos una boutique por cómo trabajamos, no por lo que abarcamos.", en = "At Deloitte Spain we trained 13,000 people in one month. We’re a boutique in how we work, not in what we can take on."}
 q5 = {es = "¿Y si no funciona?", en = "What if it doesn’t work?"}
-a5 = {es = "Empezamos por algo pequeño que se ve el mismo día: la Jornada piloto, un día de trabajo real con tu comité y tus managers. Si no vemos casos con valor, te lo decimos. Y en Spiral cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small, with something you can see the same day: Pilot Day, a day of real work with your leadership team and managers. If we don’t see valuable cases, we’ll tell you. And in Spiral every solution is tested on real cases before it’s used for real."}
+a5 = {es = "Empezamos por algo pequeño que se ve el mismo día: Rumbo, un día de trabajo real con tu comité y tus managers. Si no vemos casos con valor, te lo decimos. Y en Spiral cada solución se prueba con casos reales antes de usarse de verdad.", en = "We start small, with something you can see the same day: Rumbo, a day of real work with your leadership team and managers. If we don’t see valuable cases, we’ll tell you. And in Spiral every solution is tested on real cases before it’s used for real."}
 q6 = {es = "¿Con qué IA trabajáis? Ya tenemos un partner de Microsoft.", en = "Which AI do you work with? We already have a Microsoft partner."}
 a6 = {es = "Con la que ya tiene tu empresa: Microsoft 365 Copilot, ChatGPT, Claude o Gemini. Tu partner pone la herramienta; nosotros, que se use en cada puesto. Si aún no está elegida, te ayudamos a decidir.", en = "With the one your company already has: Microsoft 365 Copilot, ChatGPT, Claude or Gemini. Your partner brings the tool; we make it work in every role. If it hasn’t been chosen yet, we help you decide."}
 q7 = {es = "¿Nos quedamos con lo que se construye?", en = "Do we keep what gets built?"}
 a7 = {es = "Sí. Lo que construimos para ti es tuyo y vive en tu entorno, con las herramientas que aprueba tu IT, no en una plataforma nuestra. Al terminar te dejamos el manual, las pruebas y la formación para que tu equipo lo mantenga.", en = "Yes. What we build for you is yours and lives in your environment, with the tools your IT approves, not on a platform of ours. When we finish, we leave you the manual, the tests and the training so your team can maintain it."}
 q8 = {es = "¿Cuánto tiempo pide a nuestros equipos?", en = "How much time does it take from our teams?"}
-a8 = {es = "La Jornada piloto pide un día a tu comité y a tus managers, en horario de trabajo y sin examen. En la Formación a medida, las sesiones en directo van dentro del horario y lo grabado cabe entre tarea y tarea. En Spiral, el experto del área prueba y corrige cada versión; el ingeniero hace el resto. Alfabetización IA es un curso grabado que cada persona hace a su ritmo, y Radar, una sesión al mes.", en = "Pilot Day takes one day from your leadership team and managers, during working hours and with no grading. In Tailored Training, live sessions run during working hours and recorded content fits between tasks. In Spiral, the area’s expert tests and corrects each version; the engineer does the rest. AI Literacy is a recorded course everyone takes at their own pace, and Radar, one session a month."}
+a8 = {es = "Rumbo pide un día a tu comité y a tus managers, en horario de trabajo y sin examen. En la Formación a medida, las sesiones en directo van dentro del horario y lo grabado cabe entre tarea y tarea. En Spiral, el experto del área prueba y corrige cada versión; el ingeniero hace el resto. Alfabetización IA es un curso grabado que cada persona hace a su ritmo, y Radar, una sesión al mes.", en = "Rumbo takes one day from your leadership team and managers, during working hours and with no grading. In Tailored Training, live sessions run during working hours and recorded content fits between tasks. In Spiral, the area’s expert tests and corrects each version; the engineer does the rest. AI Literacy is a recorded course everyone takes at their own pace, and Radar, one session a month."}
 q9 = {es = "Ya hemos hecho formación. ¿Empezamos de cero?", en = "We’ve already done training. Do we start from scratch?"}
 a9 = {es = "Al contrario: partimos de ahí. Es el primer paso de la Formación a medida. Vemos qué se usa y qué no, y llevamos a cada perfil al siguiente peldaño con sus propios casos.", en = "Quite the opposite: we build on it. It’s the first step of Tailored Training. We see what is being used and what isn’t, and take each profile to the next step with their own cases."}
 q10 = {es = "¿Qué pide el Reglamento europeo de IA?", en = "What does the EU AI Act require?"}
@@ -653,18 +653,18 @@ marcas = {es = "Logos de clientes de Spiralia. Marcas registradas de sus titular
 copy = {es = "© 2026 Spiralia", en = "© 2026 Spiralia"}
 
 # /reserva/: el texto en español va escrito en el HTML; con ?l=en lo cambia el script. El aviso legal es [cta].legal.
-# primero sustituye a p cuando se llega desde un «Pide fecha para tu Jornada piloto» (d=piloto o resultados) o desde
-# el diagnóstico en el nivel Acceso, que recomienda la Jornada piloto (d=diagnostico-piloto). d=dia-uno, diagnostico-dia-uno
-# y rumbo (nombres anteriores del primer paso) siguen valiendo para los enlaces ya enviados.
+# primero sustituye a p cuando se llega desde un «Pide fecha para Rumbo» (d=rumbo o resultados) o desde
+# el diagnóstico en el nivel Acceso, que recomienda Rumbo (d=diagnostico-rumbo). d=piloto, diagnostico-piloto, dia-uno y
+# diagnostico-dia-uno (nombres anteriores del primer paso) siguen valiendo para los enlaces ya enviados.
 [reserva]
 titulo = {es = "Hablemos", en = "Let’s talk"}
 h = {es = "Hablemos.", en = "Let’s talk."}
 p = {es = "Escríbenos y te proponemos dos o tres huecos para una conversación de 30 minutos con el equipo.", en = "Write to us and we’ll suggest two or three slots for a 30-minute conversation with the team."}
-primero = {es = "Cuéntanos quién vendrá de tu comité y qué managers quieres sumar. Te proponemos fecha para tu Jornada piloto.", en = "Tell us who from your leadership team will join and which managers you’d like to bring. We’ll suggest a date for your Pilot Day."}
+primero = {es = "Cuéntanos quién vendrá de tu comité y qué managers quieres sumar. Te proponemos fecha para Rumbo.", en = "Tell us who from your leadership team will join and which managers you’d like to bring. We’ll suggest a date for Rumbo."}
 lista = {es = ["Tu empresa y tu cargo", "Dónde está tu empresa con la IA", "Qué te gustaría resolver primero"], en = ["Your company and your role", "Where you are with AI today", "What you would like to solve first"]}
 btn = {es = "Escribir el email", en = "Write the email"}
 subject = {es = "Quiero hablar de IA con Spiralia", en = "I’d like to talk about AI with Spiralia"}
-subject_primero = {es = "Quiero una Jornada piloto para mi comité", en = "I’d like a Pilot Day for my leadership team"}
+subject_primero = {es = "Quiero Rumbo para mi comité", en = "I’d like Rumbo for my leadership team"}
 volver = {es = "← Volver a Spiralia AI", en = "← Back to Spiralia AI"}
 
 # ---------------------------------------------------------------------------
@@ -778,15 +778,15 @@ o = {es = ["La ve como un tema de IT", "La apoya, pero no la usa", "La usa y la 
 [[data.diag.n]]
 name = {es = "Acceso", en = "Access"}
 h = {es = "Tu empresa tiene la puerta abierta, pero la IA aún no trabaja.", en = "Your company has the door open, but AI isn’t working yet."}
-s = {es = ["Empieza con una Jornada piloto: tu comité y tus managers, un día con la IA en su propio trabajo.", "Sigue con la Formación a medida, por perfiles y con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with a Pilot Day: your leadership team and managers spend a day using AI on their own work.", "Continue with Tailored Training, by profile and with real tasks: that’s what keeps usage from cooling off."]}
-# Con la primera pregunta en «Nadie, o cada uno usa la suya», sustituye a la primera línea de s: la Jornada piloto se hace
+s = {es = ["Empieza con Rumbo: tu comité y tus managers, un día con la IA en su propio trabajo.", "Sigue con la Formación a medida, por perfiles y con tareas reales: es lo que evita que el uso se enfríe."], en = ["Start with Rumbo: your leadership team and managers spend a day using AI on their own work.", "Continue with Tailored Training, by profile and with real tasks: that’s what keeps usage from cooling off."]}
+# Con la primera pregunta en «Nadie, o cada uno usa la suya», sustituye a la primera línea de s: Rumbo se hace
 # con la IA de la empresa, así que antes hay que elegirla (como en la respuesta 5 de las preguntas del comité)
-sin_ia = {es = "Elige tu IA corporativa (te ayudamos a decidir) y empieza con una Jornada piloto: tu comité y tus managers, un día con ella en su propio trabajo.", en = "Choose your corporate AI (we’ll help you decide) and start with a Pilot Day: your leadership team and managers spend a day using it on their own work."}
+sin_ia = {es = "Elige tu IA corporativa (te ayudamos a decidir) y empieza con Rumbo: tu comité y tus managers, un día con ella en su propio trabajo.", en = "Choose your corporate AI (we’ll help you decide) and start with Rumbo: your leadership team and managers spend a day using it on their own work."}
 
 [[data.diag.n]]
 name = {es = "Uso", en = "Use"}
 h = {es = "La gente la prueba. El trabajo todavía no ha cambiado.", en = "People are trying it. The work hasn’t changed yet."}
-s = {es = ["Pasa de lo general a lo de cada puesto con la Formación a medida, por perfil.", "Elige pocos casos con valor y mide su punto de partida: es lo que ordena la Jornada piloto."], en = ["Move from the general to each role’s work with Tailored Training, by profile.", "Choose a few valuable cases and measure their starting point: that’s what Pilot Day sets out."]}
+s = {es = ["Pasa de lo general a lo de cada puesto con la Formación a medida, por perfil.", "Elige pocos casos con valor y mide su punto de partida: es lo que ordena Rumbo."], en = ["Move from the general to each role’s work with Tailored Training, by profile.", "Choose a few valuable cases and measure their starting point: that’s what Rumbo sets out."]}
 
 [[data.diag.n]]
 name = {es = "Hábito", en = "Habit"}

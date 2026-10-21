@@ -36,7 +36,7 @@ data = content.pop('data')
 # Dentro de una frase, los nombres de producto de varias palabras no se parten entre dos líneas: llevan espacios de no
 # separación. El carácter, no &nbsp;: las líneas del diagnóstico pasan por esc(). Quedan con espacio normal los asuntos
 # de correo y el nombre suelto (prod.pN_n: títulos y columnas, donde en móvil tiene que poder partirse por palabras)
-NOMBRES = re.compile(r'\b(Jornada piloto|Pilot Day|Formación a medida|Tailored Training|Alfabetización IA|AI Literacy)\b')
+NOMBRES = re.compile(r'\b(Formación a medida|Tailored Training|Alfabetización IA|AI Literacy)\b')
 
 def junta(v):
     if isinstance(v, str):
@@ -261,11 +261,11 @@ a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:500 .95rem Sof
 <a class="volver" data-t="v" href="../">{volver}</a>
 </main>
 <script>
-// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pide fecha para tu Jornada piloto» o desde el
-// diagnóstico cuando la recomienda, el texto del primer paso. dia-uno y rumbo son nombres anteriores del primer paso: valen
+// El HTML lleva el texto en español; con ?l=en se cambia aquí. Desde un «Pide fecha para Rumbo» o desde el diagnóstico
+// cuando lo recomienda, el texto del primer paso. piloto y dia-uno son nombres anteriores del primer paso: valen
 // para los enlaces ya enviados.
 var q = new URLSearchParams(location.search), en = q.get("l") === "en", d = q.get("d") || "web";
-var T = {textos}[en ? "en" : "es"], primero = /^(piloto|diagnostico-piloto|dia-uno|diagnostico-dia-uno|rumbo|metodo|resultados)$/.test(d);
+var T = {textos}[en ? "en" : "es"], primero = /^(rumbo|diagnostico-rumbo|piloto|diagnostico-piloto|dia-uno|diagnostico-dia-uno|metodo|resultados)$/.test(d);
 var $ = function (k) {{ return document.querySelector("[data-t=" + k + "]"); }};
 if (en) {{
   document.documentElement.lang = "en"; document.title = T.titulo + " · Spiralia AI";
@@ -274,7 +274,7 @@ if (en) {{
   $("g").innerHTML = T.legal;
 }}
 $("p").textContent = primero ? T.primero : T.p;
-$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((primero ? T.subject_primero : T.subject) + " · " + (/^(rumbo|dia-uno)$/.test(d) ? "piloto" : d));
+$("b").href = "mailto:{mail}?subject=" + encodeURIComponent((primero ? T.subject_primero : T.subject) + " · " + (/^(piloto|dia-uno)$/.test(d) ? "rumbo" : d));
 var c = $("c"), txt = T.copiar, reloj;
 c.textContent = txt; c.hidden = !navigator.clipboard;
 c.onclick = function () {{ navigator.clipboard.writeText("{mail}").then(function () {{

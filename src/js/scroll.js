@@ -298,7 +298,7 @@
     });
 
     // La escalera de la IA se construye: primero el suelo (la base); después cada peldaño sube y su texto aparece encima;
-    // al final, las cotas de cada producto y la Jornada piloto. Con ≥1024 px y si cabe en la ventana, la escena se queda
+    // al final, las cotas de cada producto y Rumbo. Con ≥1024 px y si cabe en la ventana, la escena se queda
     // fija y el scroll sube los peldaños; si no, se reproducen solos al entrar
     const esc = $('.esc');
     if (esc && !visto(esc)) {

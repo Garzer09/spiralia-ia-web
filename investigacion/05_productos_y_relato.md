@@ -8,7 +8,7 @@ Cinco productos con nombre claro, en español, que siempre funcionan igual: para
 
 | Producto | Inglés | Lugar | Qué es |
 |---|---|---|---|
-| **Jornada piloto** | Pilot Day | Recorrido · 01 | Antes Día Uno (y antes, Rumbo). Una jornada de trabajo real con la IA de la empresa. |
+| **Rumbo** | Rumbo | Recorrido · 01 | El nombre vuelve el 21-oct por la tarde (pasó por Día Uno y Rumbo, que a Jose no le sonaba comercial). Una jornada práctica con la IA de la empresa: entienden qué pueden hacer con ella y la adopción empieza de verdad. |
 | **Formación a medida** | Tailored Training | Recorrido · 02 | Antes Hábito. Un solo producto en tres formatos: en directo, grabada a medida o blended. |
 | **Spiral** | Spiral | Recorrido · 03 | Despliegue con el modelo de gobierno y la autonomía del equipo del cliente. |
 | **Alfabetización IA** | AI Literacy | Base · A | Nuevo. Curso grabado para toda la plantilla, con registro (art. 4 del Reglamento de IA). |
@@ -23,9 +23,9 @@ Sobre la **escalera de la IA** (la de CCEP):
 | 3 · Automatizar | Pasa sin que lo pidas: un correo entra y la respuesta queda preparada. | Con **Spiral** |
 | 4 · Delegar (agentes) | Hace la tarea entera, con permisos, dueño y registro. Tú decides lo importante. | Con **Spiral** |
 
-**Alfabetización IA** y **Radar** son el suelo de la escalera: van debajo de los cuatro peldaños. La **Jornada piloto** enseña la escalera entera en un día y decide por dónde empezar.
+**Alfabetización IA** y **Radar** son el suelo de la escalera: van debajo de los cuatro peldaños. La **Rumbo** enseña la escalera entera en un día y decide por dónde empezar.
 
-### Jornada piloto · el primer paso
+### Rumbo · el primer paso
 - **Para quién:** el comité de dirección y los managers.
 - **Duración:** una jornada en la empresa del cliente, con preparación previa.
 - **Fases:** Antes (escuchamos) · Por la mañana (hacen: tres rondas con su propio trabajo, velocidad, escala y capacidad) · Por la tarde (deciden: escriben sus casos y los priorizan por valor) · Después (plan por escrito).
@@ -73,7 +73,7 @@ Sobre la **escalera de la IA** (la de CCEP):
 4. **Por qué ahora**, **La ventaja** y **Lo que cuesta esperar**. La nube de riesgos se ordena en cinco columnas, una por producto.
 5. **Diagnóstico** y **El viernes y el lunes**.
 6. **Los cinco productos en detalle**:
-   - `#piloto`, `#formacion` y `#spiral`, con el gobierno y la autonomía antes de los agentes;
+   - `#rumbo`, `#formacion` y `#spiral`, con el gobierno y la autonomía antes de los agentes;
    - `#alfabetizacion`, con lo que dice hoy la norma;
    - `#radar`, con las tres cifras, el radar y el ciclo de cada mes.
 7. **Casos**, **Para ti**, **Por qué Spiralia**, **Preguntas** y **Cierre**.

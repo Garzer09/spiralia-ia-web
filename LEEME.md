@@ -17,7 +17,7 @@ Es una página larga, en español con versión en inglés, para la alta direcci�
 | Estructura de la página | `src/index.template.html` |
 | Estilos (paleta «Monocromo Spiralia» con el lenguaje de noth.in) | `src/css/site.css` |
 | Productos, orden de la página y guion de cada pieza | `investigacion/05_productos_y_relato.md` |
-| Piezas animadas | `src/js/motion.js`: lo que pagas frente a lo que se usa, voces del comité, nube de riesgos, fases de la Jornada piloto, preparación de la formación, espiral SPIRAL de puntos, autonomía en Spiral, radar, antes y después por perfil, vídeos de las piezas y de fondo, barra, menú móvil, logos y pestañas (la película de apertura va en línea en la plantilla). Capa de movimiento (titulares, nombres letra a letra, filetes, vídeos y la escalera de la IA): `src/js/scroll.js`. WebGL (solo la portada): `src/js/gl.js` |
+| Piezas animadas | `src/js/motion.js`: lo que pagas frente a lo que se usa, voces del comité, nube de riesgos, fases de Rumbo, preparación de la formación, espiral SPIRAL de puntos, autonomía en Spiral, radar, antes y después por perfil, vídeos de las piezas y de fondo, barra, menú móvil, logos y pestañas (la película de apertura va en línea en la plantilla). Capa de movimiento (titulares, nombres letra a letra, filetes, vídeos y la escalera de la IA): `src/js/scroll.js`. WebGL (solo la portada): `src/js/gl.js` |
 | Vídeos de las piezas (HyperFrames) | `motion/modelo/`, `motion/multiplica/`, `motion/lunes/` y `motion/agentes/`. Reglas comunes en `motion/PIEZAS.md` |
 | Diagnóstico | `src/js/diagnostico.js`. Sus preguntas y niveles están en `[data.diag]` de `content.toml`. |
 | URL de Microsoft Bookings | `BOOKINGS` en `build.py`, o directamente en `dist/reserva/index.html` sin volver a generar |
@@ -68,7 +68,7 @@ Todo es mejora progresiva: sin JS, sin WebGL2, con «reducir movimiento» o con 
   - Cada cabecera dibuja su filete de izquierda a derecha (clase `dibuja`) y sus titulares suben por líneas desde una máscara. Los nombres de producto entran letra a letra, cada letra dentro de su palabra, para que ninguna palabra se parta entre dos líneas. Las frases se encienden palabra a palabra (SplitText).
   - Los vídeos entran recortándose desde abajo. En Lo que hacemos se dibujan los filetes del recorrido y de la base, y la base sube desde abajo.
   - **La escalera de la IA:**
-    - Con ≥1024 px y si cabe en la ventana, se fija bajo la barra (`refreshPriority: 2`, antes que el método) y el scroll sube los peldaños uno a uno. Al final aparecen las cotas de cada producto y la Jornada piloto.
+    - Con ≥1024 px y si cabe en la ventana, se fija bajo la barra (`refreshPriority: 2`, antes que el método) y el scroll sube los peldaños uno a uno. Al final aparecen las cotas de cada producto y Rumbo.
     - La etiqueta y el suelo (la base) entran solos al aparecer la escena.
     - En móvil o en pantallas bajas, la escena se reproduce sola al entrar.
   - El método queda fijo mientras el scroll avanza sus pasos (ScrollTrigger).
@@ -192,10 +192,10 @@ Respuesta a los 13 cambios de Jose del 21-oct. El detalle está en `investigacio
 La fuente de verdad es `investigacion/05_productos_y_relato.md`, apartados 1, 2 y 2b.
 
 - **Cinco productos con nombres claros:**
-  - Recorrido en orden: Jornada piloto (antes Día Uno), Formación a medida (antes Hábito; en directo, grabada a medida o blended) y Spiral, con el gobierno y la autonomía.
+  - Recorrido en orden: Rumbo (antes Día Uno y Rumbo), Formación a medida (antes Hábito; en directo, grabada a medida o blended) y Spiral, con el gobierno y la autonomía.
   - Base, debajo de todo: Alfabetización IA (nuevo; curso grabado y registro, art. 4 del Reglamento de IA) y Radar (antes Pulso; las novedades de cada mes, probadas).
-  - En inglés: Pilot Day, Tailored Training, Spiral, AI Literacy y Radar.
-- **Anclas y enlaces:** `#piloto`, `#formacion`, `#spiral`, `#alfabetizacion` y `#radar`. `/reserva/` acepta `d=piloto` y `d=diagnostico-piloto`, y sigue aceptando `d=dia-uno`, `d=diagnostico-dia-uno` y `d=rumbo` para los enlaces ya enviados.
+  - En inglés: Rumbo, Tailored Training, Spiral, AI Literacy y Radar.
+- **Anclas y enlaces:** `#rumbo`, `#formacion`, `#spiral`, `#alfabetizacion` y `#radar`. `/reserva/` acepta `d=rumbo` y `d=diagnostico-rumbo`, y sigue aceptando `d=piloto`, `d=diagnostico-piloto`, `d=dia-uno` y `d=diagnostico-dia-uno` para los enlaces ya enviados.
 - **Espacios de no separación:** `build.py` los pone en los nombres de varias palabras dentro de las frases. No los pone en el nombre suelto (`prod.pN_n`), que en móvil tiene que poder partirse por palabras.
 - **Lo que hacemos:**
   - Sale la entradilla de trabajo interno («Cada uno tiene su nombre, sus fases…»). Entra una que habla del dolor del cliente.
@@ -208,3 +208,4 @@ La fuente de verdad es `investigacion/05_productos_y_relato.md`, apartados 1, 2 
   - la progresión de la autonomía en tres vueltas (Spiral);
   - el ciclo de Radar (Vigilar, Filtrar, Probar, Aterrizar; una sesión y una guía al mes);
   - en «Preguntas», que Radar pide «una sesión al mes».
+- **Rumbo (21-oct, última hora):** el primer paso vuelve a llamarse Rumbo, también en inglés. Ancla `#rumbo`; `/reserva/?d=rumbo`.

@@ -48,7 +48,7 @@ fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundar
 [[c]]
 valor = "5"
 tipo = "dato"
-que = "Umbral de EBIT atribuido a la IA (McKinsey) · productos de Spiralia AI («Cinco productos», en la descripción de la página): Jornada piloto, Formación a medida, Spiral, Alfabetización IA y Radar"
+que = "Umbral de EBIT atribuido a la IA (McKinsey) · productos de Spiralia AI («Cinco productos», en la descripción de la página): Rumbo, Formación a medida, Spiral, Alfabetización IA y Radar"
 fuente = "McKinsey, «The state of AI in 2026» (contrastado en fuentes secundarias). Productos: oferta de Spiralia (investigacion/05_productos_y_relato.md, decisión de Jose Garza del 21-oct-2026)."
 
 [[c]]
@@ -96,7 +96,7 @@ fuente = "Programa CCEP Iberia × Spiralia, julio de 2026."
 [[c]]
 valor = "3"
 tipo = "formato"
-que = "Duración del diagnóstico (minutos) · las tres rondas de la Jornada piloto: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera · «Tres pasos» del recorrido (Jornada piloto, Formación a medida y Spiral) · tres formatos de la formación (en directo, grabada a medida y blended) · 3 de las 13 versiones de Claude, de acceso restringido (fuente de Radar)"
+que = "Duración del diagnóstico (minutos) · las tres rondas de Rumbo: velocidad, escala y capacidad · «dos o tres» huecos que proponemos en /reserva/ · «tres datos» del cálculo del diagnóstico · «tres temas» del ejemplo de la escalera · «Tres pasos» del recorrido (Rumbo, Formación a medida y Spiral) · tres formatos de la formación (en directo, grabada a medida y blended) · 3 de las 13 versiones de Claude, de acceso restringido (fuente de Radar)"
 fuente = "Oferta de Spiralia (decisiones de Jose Garza del 14-oct-2026; para el primer paso, del 20-oct-2026; para el recorrido y los formatos, del 21-oct-2026)."
 
 [[c]]
