@@ -304,7 +304,7 @@
   const pausadoAntes = () => { try { return localStorage.getItem(PAUSA) === '1'; } catch (e) { return false; } };
   const recordar = v => { try { v ? localStorage.setItem(PAUSA, '1') : localStorage.removeItem(PAUSA); } catch (e) {} };
   function fondo(sec, btn) {
-    const v = $('video', sec), c = navigator.connection || {};
+    const v = $('.hero-video, .cierre-video', sec), c = navigator.connection || {};
     if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '') || sec.classList.contains('has-gl')) return; // con WebGL, el vídeo sobra
     const base = matchMedia('(max-aspect-ratio: 1/1)').matches ? sec.dataset.srcV : sec.dataset.srcH;
     // data-v: la huella que pone build.py, para que la caché no sirva un vídeo antiguo

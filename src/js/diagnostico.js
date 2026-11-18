@@ -60,6 +60,7 @@
       <button type="button" class="btn btn-ghost btn-sm dg-next"${ans[i] === null ? ' disabled' : ''}>${esc(i === D.q.length - 1 ? L.see : L.next)}</button></div>`);
     barra(+(i / D.q.length).toFixed(3));
     $$('.dg-opts button', box).forEach((b, j) => b.addEventListener('click', () => {
+      if (i === 0 && box.hasAttribute('data-open') && !ans.some(x => x !== null)) window.SP.ev('Diagnóstico', { paso: 'inicio' });
       ans[i] = j; $$('.dg-opts button', box).forEach((x, k) => x.setAttribute('aria-pressed', String(k === j)));
       setTimeout(() => (i < D.q.length - 1 ? ask(i + 1, true) : fin()), 220);
     }));
@@ -116,5 +117,6 @@
     $('.dg-level', box).focus({ preventScroll: true });
     aVista();
   }
-  document.addEventListener('DOMContentLoaded', intro);
+  // data-open (versión B): la caja abre ya en la primera pregunta; «inicio» se cuenta con la primera respuesta
+  document.addEventListener('DOMContentLoaded', () => (box.hasAttribute('data-open') ? ask(0) : intro()));
 })();

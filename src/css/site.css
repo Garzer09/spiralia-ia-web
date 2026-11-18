@@ -1064,3 +1064,15 @@ html.still{scroll-behavior:auto}
   .foot nav a,.foot-legal a{padding-block:10px}
   .foot-legal span{margin-top:8px}
 }
+
+/* Selector A/B (build.py lo crea solo con ?ab=1 o ?v=a|b): para comparar las dos versiones; los visitantes no lo ven */
+.ab-toggle{position:fixed;left:16px;bottom:16px;z-index:210;display:flex;align-items:center;gap:4px;padding:4px;border-radius:99px;
+  background:var(--night);border:1px solid rgba(224,223,218,.35);box-shadow:0 8px 24px rgba(5,26,43,.35);font:600 1rem/1 var(--sans)}
+.ab-toggle a,.ab-toggle button{display:grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border-radius:99px;border:0;background:none;
+  color:var(--on-dark);text-decoration:none;cursor:pointer;font:inherit;transition:background-color .2s ease,color .2s ease}
+.ab-toggle a[aria-current]{background:var(--greige);color:var(--navy)}
+.ab-toggle :focus-visible{outline-color:#fff}
+@media (hover:hover) and (pointer:fine){.ab-toggle a:not([aria-current]):hover,.ab-toggle button:hover{background:var(--navy-3)}}
+@media (max-width:980px){.ab-toggle{bottom:calc(84px + env(safe-area-inset-bottom))}}
+html.apertura body>.ab-toggle{visibility:visible}
+@media print{.ab-toggle{display:none}}

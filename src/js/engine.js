@@ -87,7 +87,8 @@
   $$('[data-keep-hash]').forEach(a => a.addEventListener('click', () => { if (location.hash) a.href = a.getAttribute('href').split('#')[0] + location.hash; }));
 
   // Medición sin cookies: si la página carga Plausible (ANALYTICS en build.py), cada evento le llega; si no, no hace nada.
-  const ev = (name, props) => { try { window.plausible && window.plausible(name, props ? { props } : undefined); } catch (e) {} };
+  // Cada evento lleva la variante del A/B (build.py la pone en <html data-variante>)
+  const ev = (name, props) => { try { window.plausible && window.plausible(name, { props: Object.assign({ variante: root.dataset.variante || 'a' }, props) }); } catch (e) {} };
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href*="reserva/"], a[href^="mailto:"], a[hreflang]'); if (!a) return;
     const h = a.getAttribute('href');
@@ -102,7 +103,7 @@
   // Titulares sin palabras sueltas: cada bloque (o cada .l1/.l2) prueba los tres modos de corte del navegador y se
   // queda con el que deja menos líneas de una sola palabra. Se mide con las fuentes ya cargadas y otra vez al cambiar
   // el ancho. Los bloques partidos para animarse (SplitText) se saltan: scroll.js los vuelve a juntar al acabar
-  const TITULARES = 'h1, h2, h3, h4, summary, .pnombre, .pclaim, .voz, .proof-line, .vec-f, .lead-strong, .prod-nom, .remate-in, [role=tab]';
+  const TITULARES = 'h1, h2, h3, h4, summary, .pnombre, .pclaim, .voz, .proof-line, .vec-f, .lead-strong, .prod-nom, .remate-in, [role=tab], .b-caso b, .b-res';
   const sueltas = el => {
     const rg = document.createRange(), tops = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     for (let n; (n = tw.nextNode());) for (const m of n.data.matchAll(/\S+/g)) {

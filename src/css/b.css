@@ -1,0 +1,126 @@
+/* Spiralia AI · versión B (A/B testing, 18-nov-2026), construida con el kit de taste (assets/kit). Aquí solo va lo que
+   el kit no trae: las fuentes de la marca, el interior de los visuales (el gráfico), el diagnóstico de A en claro, los
+   retratos, las fuentes numeradas y el selector A/B. Todo con los tokens del kit (--ink, --muted, --line, --s-*, --t-*). */
+
+@font-face{font-family:"Butler";src:url(../assets/fonts/Butler-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Butler";src:url(../assets/fonts/Butler-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-SemiBold.woff2) format("woff2");font-weight:500 600;font-display:swap}
+::selection{background:var(--p-ink);color:var(--p-bg)}
+.ground-inverse ::selection{background:var(--p-bg);color:var(--p-ink)}
+
+/* Notas al pie: un número pequeño que lleva a la fuente */
+sup{font-size:.62em;line-height:0;margin-left:2px}
+sup a{color:inherit;text-decoration:none;font-weight:500;padding:0 2px}
+sup a:hover{text-decoration:underline;text-underline-offset:2px}
+
+/* El gráfico del uso: un diagrama fijo, dibujado con la tinta de la página */
+.b-chart{margin:0}
+.b-chart svg{display:block;width:100%;height:auto;overflow:visible}
+.b-chart .ch-grid line{stroke:var(--line);stroke-width:1}
+.b-chart #trama line{stroke:color-mix(in oklab,var(--ink) 24%,transparent);stroke-width:1.3}
+.b-chart .ch-hueco{fill:url(#trama);stroke:none}
+.b-chart .ch-pago{fill:none;stroke:var(--muted);stroke-width:1.5}
+.b-chart .ch-line{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.b-chart .ch-pt circle{fill:var(--bg);stroke:var(--ink);stroke-width:2}
+.b-chart text{font-family:var(--font-text);fill:var(--muted)}
+.b-chart .ch-lbl{font-size:15px;font-weight:500}
+.b-chart .ch-in{fill:var(--ink)}
+.b-chart .ch-big{font-family:var(--font-display);font-size:28px;fill:var(--ink)}
+.b-chart .ch-sm{font-size:15px}
+@media (max-width:639px){.b-chart .ch-lbl,.b-chart .ch-sm{font-size:20px}.b-chart .ch-big{font-size:34px}}
+
+/* Los cinco productos y los papeles del equipo: filas del kit con su línea debajo */
+.b-rows .rows__name small,.b-roles .rows__name small{display:block;margin-top:var(--s-1);font-weight:400;font-size:var(--t-body);color:var(--muted)}
+.b-rows .rows__name,.b-roles .rows__name{font-family:var(--font-display);font-weight:400;font-size:var(--t-card)}
+.rows.b-rows > li:not(:first-child){padding-block:var(--s-2)}
+/* Los resultados: tres tarjetas; el logo del cliente, en sus colores, es la imagen de cada una */
+.b-casos{row-gap:var(--s-6);margin-top:var(--s-2)}
+.b-caso{display:flex;flex-direction:column;gap:var(--s-2)}
+.b-caso__logo{display:block;box-sizing:border-box;width:100%;height:clamp(120px,12vw,168px);padding:clamp(32px,3.4vw,52px) 24%;object-fit:contain;background:var(--surface);border-radius:var(--r-lg);margin-bottom:var(--s-4)}
+.b-caso__v{font-family:var(--font-display);font-size:var(--t-card);line-height:1.25;color:var(--ink);text-wrap:balance}
+.b-caso h3{font:500 var(--t-body)/1.4 var(--font-text);margin-top:var(--s-2)}
+.b-caso h3 + p{color:var(--muted)}
+/* En el móvil, casos ocupa dos pantallas justas: las placas de los logos crecen hasta llenarlas */
+@media (max-width:639px){#casos{--hm:2}#casos .b-casos{flex:1 1 auto;grid-auto-rows:1fr}#casos .b-caso__logo{flex:1 1 0;height:auto;min-height:120px}}
+.closing__cta > .btn--xl{flex-shrink:0}
+.b-escalera{aspect-ratio:16 / 9}
+.b-escalera .frame__img{object-fit:cover}
+.b-tools{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4);margin-top:var(--s-7);color:var(--muted)}
+.b-tools__icons{display:inline-flex;gap:var(--s-3)}
+
+/* Equipo: los dos retratos con la misma luz (uno llegó en color y otro en blanco y negro) y el mismo encuadre 4:5 */
+.b-persona{align-self:stretch}
+.b-persona img{display:block;width:100%;aspect-ratio:4 / 5;object-fit:cover;object-position:50% 20%;filter:grayscale(1) contrast(1.04);border-radius:var(--r-lg)}
+.b-persona h3{margin-top:var(--s-4);font-size:var(--t-card)}
+.b-persona p{color:var(--muted)}
+@media (max-width:1023px){.b-persona{grid-column:auto / span 6}}
+
+/* Las preguntas: seis, en dos columnas sobre las líneas de la rejilla (una en el móvil) */
+.b-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gutter);row-gap:var(--s-6);margin-top:var(--s-2)}
+.b-faq > .faq__item,.b-faq > .faq__item:first-child{padding:0 0 var(--s-5)}
+@media (max-width:639px){.b-faq{grid-template-columns:1fr;row-gap:0}.b-faq > .faq__item{padding:var(--s-4) 0}.b-faq > .faq__item:first-child{padding-top:0}}
+
+/* El titular del hero en tres líneas: la letra algo menor (la caja no crece, para no tapar la tarjeta del póster) */
+@media (min-width:1024px){.hero--film .hero__over h1{max-width:none;font-size:clamp(44px,4.4vw,64px)}}
+@media (max-width:639px){.hero--film .hero__over > :first-child{padding:var(--s-4)}.hero--film .hero__over h1{font-size:clamp(28px,9.2vw,36px)}}
+/* Titulares sin palabras partidas con guion (lo pidió el cliente): el kit trae hyphens:auto */
+:is(h1,h2,h3){hyphens:manual}
+.nw{white-space:nowrap}
+
+/* Los vídeos del método son 16:9: el marco también, para no cortar sus textos */
+#metodo .mo-pc__visuals,#metodo .mo-pc__visual,#metodo .mo-pc__visual > img{aspect-ratio:16 / 9}
+/* En el móvil el método no se fija: ocupa dos pantallas justas, para que no asome la sección siguiente */
+@media (max-width:639px){main > #metodo:not(.is-live){min-height:200vh;min-height:200lvh}#metodo:not(.is-live) .mo-pc__visual,#metodo:not(.is-live) .mo-pc__visual > img{aspect-ratio:1 / 1;max-height:none}#metodo:not(.is-live) .mo-pc__visual{margin-top:var(--s-3)}#metodo .mo-pc__visual > img{object-fit:contain;background:#0B2236}}
+
+/* El enlace de correo de las preguntas, con su sobre */
+.b-mail{display:inline-flex;align-items:center;gap:var(--s-2)}
+.b-mail svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round}
+
+/* En el móvil, cada número de nota es un blanco de 44 px */
+@media (max-width:639px){sup a{position:relative}sup a::before{content:"";position:absolute;inset:-17px}}
+
+/* El diagnóstico de A, en claro: el panel con su línea; sus botones toman los del kit */
+.dg{border:1px solid var(--line);border-radius:var(--r-md);padding:clamp(20px,3vw,40px);background:var(--surface);color:var(--ink)}
+.dg .btn-cta{background:var(--action);color:var(--action-ink)}
+.dg .btn-ghost{background:color-mix(in oklab,var(--ink) 8%,var(--bg));color:var(--ink);border-color:transparent}
+.dg-top{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);font-size:var(--t-small);color:var(--muted)}
+.dg-bar{height:2px;background:var(--line);margin:var(--s-3) 0 var(--s-6);position:relative}
+.dg-bar i{position:absolute;inset:0;background:var(--ink);transform:scaleX(var(--p,0));transform-origin:0 50%;transition:transform .3s var(--ease)}
+.dg-q{font:var(--display-weight) var(--t-h3)/1.2 var(--font-display);letter-spacing:var(--display-tracking);margin:0 0 var(--s-5)}
+.dg-sub,.dg-h{color:var(--muted);margin:0 0 var(--s-5)}
+.dg-opts{display:grid;gap:var(--s-2)}
+.dg-opts button{text-align:left;min-height:48px;padding:var(--s-3) var(--s-4);border-radius:var(--r-sm);border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .2s ease,background-color .2s ease,transform .16s var(--ease)}
+.dg-opts button:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.dg-opts button:hover{border-color:var(--ink)}}
+.dg-opts button[aria-pressed=true]{border-color:var(--ink);background:color-mix(in oklab,var(--ink) 8%,var(--bg))}
+.dg-nav,.dg-acts{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-3);margin-top:var(--s-5)}
+.dg-scale{list-style:none;display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);margin:0 0 var(--s-5);padding:0;color:var(--muted);font-size:var(--t-small)}
+.dg-scale .cur{color:var(--ink);font-weight:500}
+.dg-res h3{font-size:var(--t-small);font-weight:500;color:var(--muted);margin:0}
+.dg-level{font:var(--display-weight) var(--t-h2)/1 var(--font-display);margin:var(--s-2) 0}
+.dg-steps{padding-left:1.2em;display:grid;gap:var(--s-2)}
+.dg-roi-in{display:grid;gap:var(--s-4);margin-bottom:var(--s-4)}
+.dg-roi-in label{display:grid;gap:var(--s-2);font-size:var(--t-small);color:var(--muted)}
+.dg-roi-in input[type=number]{min-height:48px;padding:0 var(--s-3);border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+.dg-rango{display:flex;align-items:center;gap:var(--s-3)}
+.dg-rango input{flex:1;accent-color:var(--ink)}
+.dg-note{font-size:var(--t-small);color:var(--muted)}
+.dg [hidden]{display:none!important}
+
+/* Las fuentes: plegadas al pie, abiertas al llegar desde un número */
+.b-fuentes{margin-top:var(--s-6);font-size:var(--t-small);color:var(--muted)}
+.b-fuentes summary{cursor:pointer;font-weight:500;color:var(--ink);min-height:44px;display:flex;align-items:center}
+.b-fuentes ol{margin:var(--s-3) 0 0;padding-left:1.3em;display:grid;gap:var(--s-2);max-width:80ch}
+.b-fuentes li{scroll-margin-top:calc(var(--nav) + 24px)}
+.b-fuentes li:target{color:var(--ink)}
+
+/* Selector A/B (build.py lo crea solo con ?ab=1 o ?v=a|b): para comparar las dos versiones; los visitantes no lo ven */
+.ab-toggle{position:fixed;left:16px;bottom:16px;z-index:210;display:flex;align-items:center;gap:4px;padding:4px;border-radius:99px;
+  background:#08263D;border:1px solid rgba(224,223,218,.35);box-shadow:0 8px 24px rgba(5,26,43,.35);font:500 1rem/1 var(--font-text)}
+.ab-toggle a,.ab-toggle button{display:grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border-radius:99px;border:0;background:none;
+  color:#E0DFDA;text-decoration:none;cursor:pointer;font:inherit}
+.ab-toggle a[aria-current]{background:#E0DFDA;color:#08263D}
+.ab-toggle :focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media (max-width:639px){.ab-toggle{bottom:calc(84px + env(safe-area-inset-bottom))}}
+@media print{.ab-toggle{display:none}}

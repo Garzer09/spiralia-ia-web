@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="{{lang}}" data-type="service" data-radius="soft" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+{{ab}}
+<title>{{attr:meta.title}}</title>
+<meta name="description" content="{{attr:meta.description}}">
+<meta name="robots" content="{{robots}}">
+<!-- Versión B del A/B: la canónica es la A -->
+<link rel="canonical" href="{{canonical}}">
+<meta name="site-kind" content="other">
+<meta name="page-type" content="service">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{attr:meta.title}}">
+<meta property="og:description" content="{{attr:meta.description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{og_image}}">
+<meta property="og:image:alt" content="{{attr:meta.og_alt}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F5F4F0">
+<link rel="icon" href="{{base}}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="{{base}}assets/fonts/Butler-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{base}}assets/fonts/Akrobat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{base}}assets/kit/system.css">
+<link rel="stylesheet" href="{{base}}assets/kit/ui/cards.css">
+<link rel="stylesheet" href="{{base}}assets/kit/motion/motion.css">
+<link rel="stylesheet" href="{{base}}assets/kit/layout/layout.css">
+<link rel="stylesheet" href="{{base}}assets/kit/icons/icon.css">
+<!-- La paleta de la marca (start.mjs brand: papel, navy y su gris). Tipografía: Butler y Akrobat, las de la marca
+     (el cliente pidió Akrobat para todo lo que no es titular), en lugar de la pareja de Google que reparte taste -->
+<style>
+:root {
+  --p-bg: #f5f4f0; --p-surface: #ebeae4; --p-ink: #08263d; --p-muted: #3d4e5e;
+  --p-accent: #08263d; --p-accent-ink: #f5f4f0; --p-action: #08263d; --p-action-ink: #f5f4f0;
+  --p-inv-bg: #08263d; --p-inv-surface: #183348; --p-inv-ink: #f5f4f0; --p-inv-muted: #94a0a8;
+  --p-inv-accent: #f5f4f0; --p-inv-accent-ink: #08263d; --p-inv-action: #f5f4f0; --p-inv-action-ink: #08263d;
+  --font-display: "Butler", Georgia, serif;
+  --font-text: "Akrobat", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.018em;
+  --display-tracking-xl: -0.025em;
+  --ly-scale: 1.06;
+}
+</style>
+<link rel="stylesheet" href="{{base}}css/b.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="{{base}}assets/kit/moments/moments.js">
+<link rel="modulepreload" href="{{base}}assets/kit/moments/lib.js">
+<link rel="modulepreload" href="{{base}}assets/kit/moments/word-highlight/moment.js">
+<link rel="modulepreload" href="{{base}}assets/kit/moments/pinned-chapters/moment.js">
+<script type="application/ld+json">{{jsonld}}</script>
+{{analytics}}
+</head>
+<body>
+<!-- type: service
+     deal: hero film, nav nav-split, close close-type (close-photo dealt; no client photograph for it), footer footer-dark
+     (footer-visit dealt; no address in the brief), rhythm space, buttons tonal, mark: the client's logo
+     moments: word-highlight (#frase), pinned-chapters (#metodo)
+     palette: the client's own (start.mjs brand); type: Butler + Akrobat (the brand's, not dealt) -->
+<header class="nav nav--split">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">{{nav.skip}}</a>
+    <nav class="nav__links" aria-label="{{attr:nav.menu}}">
+      <div class="nav__item"><a class="nav__link" href="#productos">{{bnav.productos}}</a></div>
+      <div class="nav__item"><a class="nav__link" href="#metodo">{{bnav.como}}</a></div>
+      <div class="nav__item"><a class="nav__link" href="#casos">{{bnav.casos}}</a></div>
+      <div class="nav__item"><a class="nav__link" href="#equipo">{{bnav.equipo}}</a></div>
+    </nav>
+    <a class="nav__logo" href="#top" aria-label="{{attr:nav.home}}"><img src="{{base}}assets/img/spiralia.svg" alt="Spiralia" width="140" height="34"></a>
+    <div class="nav__actions">
+      <a class="nav__link" href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{bnav.idioma}}</a>
+      <a class="btn btn--primary" href="{{base}}reserva/?d=barra&amp;l={{lang}}&amp;v=b">{{bnav.cta}}</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="{{attr:nav.menu}}">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Hero film: el vídeo del lunes en su marco; las palabras en la caja sólida de su pie; se reproduce al pulsar -->
+  <section class="hero hero--film" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text hero__in">
+      <div class="hero__media hero__fill">
+        <picture>
+          <source media="(max-width: 639px)" srcset="{{base}}assets/img/b/lunes-{{lang}}-v0.jpg">
+          <img src="{{base}}assets/img/b/lunes-{{lang}}-h0.jpg" alt="{{attr:bhero.poster_alt}}" width="1920" height="1080" style="--ly-pos: 50% 40%; --ly-pos-phone: 0% 0%" fetchpriority="high" data-source="client" data-subject="vídeo de Spiralia">
+        </picture>
+        <div class="hero__over">
+          <div>
+            <h1 id="hero-h">{{bhero.h1}}</h1>
+            <p class="hero__lead">{{bhero.lead}}</p>
+            <div class="btn-row"><a class="btn btn--primary" href="{{base}}reserva/?d=portada&amp;l={{lang}}&amp;v=b">{{bnav.cta}}</a><a class="btn btn--secondary" href="#diagnostico">{{bhero.cta2}}</a></div>
+          </div>
+          <button class="ly-play" type="button" data-film="{{base}}assets/video/lunes-{{lang}}-h.mp4">
+            <span class="ly-play__disc"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4.5 2.6v12.8c0 .8.9 1.3 1.6.9l10.3-6.4c.6-.4.6-1.3 0-1.7L6.1 1.7c-.7-.4-1.6.1-1.6.9Z" fill="currentColor"/></svg></span>
+            <span class="ly-play__label">{{bhero.play}}<small>{{bhero.play_t}}</small></span>
+          </button>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- word-highlight: una frase de 12 a 40 palabras, una palabra fuerte -->
+  <section class="section statement" id="frase" data-moment="word-highlight" aria-label="{{attr:bfrase.label}}">
+    <div class="wrap">
+      <p class="mo-wh__text">{{bfrase.texto}}</p>
+    </div>
+  </section>
+
+  <!-- El uso que se enfría: el texto a la izquierda, el gráfico (diagrama fijo) a la derecha -->
+  <section class="section" id="uso" aria-labelledby="uso-h">
+    <div class="wrap grid grid--top">
+      <div class="span-5">
+        <div class="section-head">
+          <h2 id="uso-h">{{buso.h2}}</h2>
+          <p>{{buso.p}}<sup><a href="#f1">1</a></sup></p>
+          <p>{{buso.p2}}<sup><a href="#f2">2</a></sup></p>
+        </div>
+      </div>
+      <figure class="span-6 start-7 b-chart">
+        <svg viewBox="0 0 560 480" role="img" aria-label="{{attr:reto.chart_label}}: {{attr:reto.chart_uso}}, {{attr:reto.chart_peak}} {{attr:reto.chart_peak_t}}, {{attr:reto.chart_end}} {{attr:reto.chart_end_t}}">
+          <defs><pattern id="trama" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7"/></pattern></defs>
+          <g class="ch-grid"><line x1="40" y1="422" x2="540" y2="422"/><line x1="40" y1="40" x2="40" y2="422"/></g>
+          <path class="ch-hueco" d="M40 69 L540 69 L540 272 C500 269 450 264 400 257 C330 249 260 231 205 169 C175 132 150 108 125 135 C92 172 70 393 40 416 Z"/>
+          <path class="ch-pago" d="M40 69 L540 69"/>
+          <path class="ch-line" d="M40 416 C70 393 92 172 125 135 C150 108 175 132 205 169 C260 231 330 249 400 257 C450 264 500 269 540 272"/>
+          <text class="ch-lbl" x="540" y="51" text-anchor="end">{{reto.chart_pago}}</text>
+          <text class="ch-lbl ch-in" x="470" y="169" text-anchor="middle">{{reto.chart_hueco}}</text>
+          <g class="ch-pt"><circle cx="128" cy="133" r="6"/><text x="128" y="343" text-anchor="middle" class="ch-big">{{reto.chart_peak}}</text><text x="128" y="374" text-anchor="middle" class="ch-sm">{{reto.chart_peak_t}}</text></g>
+          <g class="ch-pt"><circle cx="540" cy="272" r="6"/><text x="540" y="322" text-anchor="end" class="ch-big">{{reto.chart_end}}</text><text x="540" y="354" text-anchor="end" class="ch-sm">{{reto.chart_end_t}}</text></g>
+          <text x="40" y="460" class="ch-sm">{{reto.chart_x0}}</text><text x="540" y="460" text-anchor="end" class="ch-sm">{{reto.chart_x1}}</text>
+        </svg>
+      </figure>
+    </div>
+  </section>
+
+  <!-- services-list: los cinco productos con su línea y su duración, junto a la imagen de la escalera -->
+  <section class="section" id="productos" aria-labelledby="prod-h">
+    <div class="wrap grid grid--top">
+      <div class="span-5">
+        <div class="section-head">
+          <h2 id="prod-h">{{bprod.h2}}</h2>
+          <p>{{bprod.p}}</p>
+        </div>
+        <ul class="rows b-rows">
+          <li><span class="rows__name">{{prod.p1_n}}<small>{{bprod.rumbo}}</small></span><span class="rows__value">{{bprod.rumbo_v}}</span></li>
+          <li><span class="rows__name">{{prod.p2_n}}<small>{{bprod.form}}</small></span><span class="rows__value">{{bprod.form_v}}</span></li>
+          <li><span class="rows__name">{{prod.p3_n}}<small>{{bprod.spiral}}</small></span><span class="rows__value">{{bprod.spiral_v}}</span></li>
+          <li><span class="rows__name">{{prod.p4_n}}<small>{{bprod.alfa}}</small></span><span class="rows__value">{{bprod.alfa_v}}</span></li>
+          <li><span class="rows__name">{{prod.p5_n}}<small>{{bprod.radar}}</small></span><span class="rows__value">{{bprod.radar_v}}</span></li>
+        </ul>
+      </div>
+      <div class="frame frame--photo span-6 start-7 b-escalera">
+        <img class="frame__img" src="{{base}}assets/video/lunes-{{lang}}-h.jpg" alt="{{attr:bprod.img_alt}}" width="1920" height="1080" loading="lazy" data-source="client" data-subject="la escalera de la IA">
+      </div>
+    </div>
+  </section>
+
+  <!-- pinned-chapters: los tres pasos se abren uno a uno; a la derecha, la imagen de cada uno -->
+  <section class="section" id="metodo" style="--h: 2" data-moment="pinned-chapters" aria-labelledby="metodo-h">
+    <div class="wrap mo-pc__grid">
+      <div class="mo-pc__text">
+        <h2 id="metodo-h">{{bcomo.h2}}</h2>
+        <ol class="mo-pc__steps">
+          <li class="mo-pc__step">
+            <h3>{{bcomo.s1_t}}</h3>
+            <p>{{bcomo.s1}}</p>
+            <figure class="mo-pc__visual"><img src="{{base}}assets/video/modelo-{{lang}}-h.jpg" alt="{{attr:bcomo.s1_alt}}" width="1920" height="1080" loading="lazy" data-source="client" data-subject="vídeo de Spiralia"></figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>{{bcomo.s2_t}}</h3>
+            <p>{{bcomo.s2}}</p>
+            <figure class="mo-pc__visual"><img src="{{base}}assets/img/b/lunes-{{lang}}-h8.jpg" alt="{{attr:bcomo.s2_alt}}" width="1920" height="1080" loading="lazy" data-source="client" data-subject="vídeo de Spiralia"></figure>
+          </li>
+          <li class="mo-pc__step">
+            <h3>{{bcomo.s3_t}}</h3>
+            <p>{{bcomo.s3}}</p>
+            <figure class="mo-pc__visual"><img src="{{base}}assets/video/agentes-{{lang}}-h.jpg" alt="{{attr:bcomo.s3_alt}}" width="1920" height="1080" loading="lazy" data-source="client" data-subject="vídeo de Spiralia"></figure>
+          </li>
+        </ol>
+      </div>
+      <div class="mo-pc__visuals frame"></div>
+    </div>
+  </section>
+
+  <!-- Prueba: tres resultados con nombre y fuente, y las herramientas con su logo real -->
+  <section class="section" id="casos" aria-labelledby="casos-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="casos-h">{{bcasos.h2}}</h2>
+      </div>
+      <div class="grid b-casos">
+        <article class="span-4 b-caso">
+          <img class="b-caso__logo" src="{{base}}assets/img/logo-ing.svg" alt="" width="89" height="22" loading="lazy" data-source="client" data-subject="logo del cliente">
+          <p class="b-caso__v">{{bcasos.ing_v}}<sup><a href="#f3">3</a></sup></p>
+          <h3>{{bcasos.ing}}</h3>
+          <p>{{bcasos.ing_p}}</p>
+        </article>
+        <article class="span-4 b-caso">
+          <img class="b-caso__logo" src="{{base}}assets/img/b/logo-deloitte.png" alt="" width="840" height="341" loading="lazy" data-source="client" data-subject="logo del cliente">
+          <p class="b-caso__v">{{bcasos.del_v}}<sup><a href="#f4">4</a></sup></p>
+          <h3>{{bcasos.del}}</h3>
+          <p>{{bcasos.del_p}}</p>
+        </article>
+        <article class="span-4 b-caso">
+          <img class="b-caso__logo" src="{{base}}assets/img/b/logo-ccep.png" alt="" width="620" height="360" loading="lazy" data-source="client" data-subject="logo del cliente">
+          <p class="b-caso__v">{{bcasos.cc_v}}<sup><a href="#f5">5</a></sup></p>
+          <h3>{{bcasos.cc}}</h3>
+          <p>{{bcasos.cc_p}}</p>
+        </article>
+      </div>
+      <p class="b-tools"><span class="b-tools__icons" aria-hidden="true"><img class="ic ic-40 ic-ink" src="{{base}}assets/icons/openai.svg" alt="" width="39" height="40"><img class="ic ic-40" src="{{base}}assets/icons/claude.svg" alt="" width="40" height="40"><img class="ic ic-40" src="{{base}}assets/icons/gemini.svg" alt="" width="40" height="40"></span>{{bcasos.tools}}</p>
+    </div>
+  </section>
+
+  <!-- Diagnóstico: el mismo motor que en A (diagnostico.js) -->
+  <section class="section" id="diagnostico" aria-labelledby="dg-h">
+    <div class="wrap grid grid--top">
+      <div class="span-5">
+        <div class="section-head">
+          <h2 id="dg-h">{{bdg.h2}}</h2>
+          <p>{{dg.lead}}</p>
+        </div>
+      </div>
+      <div class="span-6 start-7">
+        <div class="dg" data-dg data-open data-mail="{{mail}}"
+             data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
+             data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
+             data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
+             data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}" data-l-book="{{attr:bnav.cta}}" data-book="{{base}}reserva/?d=diagnostico&amp;l={{lang}}&amp;v=b">
+          <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- people-row: las personas que conocerá el cliente, con su retrato -->
+  <section class="section" id="equipo" aria-labelledby="equipo-h">
+    <div class="wrap grid grid--top">
+      <div class="span-5">
+        <div class="section-head">
+          <h2 id="equipo-h">{{beq.h2}}</h2>
+          <p>{{beq.p}}</p>
+        </div>
+        <ul class="rows b-roles">
+          <li><span class="rows__name">{{pq.eq1_t}}<small>{{pq.eq1}}</small></span></li>
+          <li><span class="rows__name">{{pq.eq2_t}}<small>{{pq.eq2}}</small></span></li>
+          <li><span class="rows__name">{{pq.eq3_t}}<small>{{pq.eq3}}</small></span></li>
+        </ul>
+      </div>
+      <div class="span-3 start-7 tile tile--portrait b-persona">
+        <img src="{{base}}assets/img/ana-iza.jpg" alt="{{attr:beq.ana_alt}}" width="540" height="540" loading="lazy" data-source="client" data-subject="Ana Iza">
+        <h3>Ana Iza</h3><p>{{beq.ana_r}}</p>
+      </div>
+      <div class="span-3 start-10 tile tile--portrait b-persona">
+        <img src="{{base}}assets/img/jose-garza.jpg" alt="{{attr:beq.jose_alt}}" width="540" height="720" loading="lazy" data-source="client" data-subject="Jose Garza">
+        <h3>Jose Garza</h3><p>{{beq.jose_r}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- faq: respuestas abiertas, sin acordeón -->
+  <section class="section section--faq" id="preguntas" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="faq-h">{{bfaq.h2}}</h2>
+        <p>{{bfaq.p}} <a class="link b-mail" href="mailto:{{mail}}?subject={{url:cta.subject}}"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>{{bfaq.link}}</a></p>
+      </div>
+      <div class="faq b-faq">
+        <div class="faq__item"><h3>{{bfaq.q1}}</h3><p>{{bfaq.a1}}</p></div>
+        <div class="faq__item"><h3>{{bfaq.q3}}</h3><p>{{bfaq.a3}}</p></div>
+        <div class="faq__item"><h3>{{bfaq.q4}}</h3><p>{{bfaq.a4}}</p></div>
+        <div class="faq__item"><h3>{{bfaq.q5}}</h3><p>{{bfaq.a5}}</p></div>
+        <div class="faq__item"><h3>{{bfaq.q6}}</h3><p>{{bfaq.a6}}</p></div>
+        <div class="faq__item"><h3>{{bfaq.q7}}</h3><p>{{bfaq.a7}}<sup><a href="#f6">6</a></sup></p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- footer.closing: el cierre (close-type) y el pie (footer-dark) en una sola pantalla -->
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">{{bcierre.h2}}</h2>
+        <p>{{bcierre.p}}</p>
+      </div>
+      <a class="btn btn--primary btn--xl" href="{{base}}reserva/?d=cierre&amp;l={{lang}}&amp;v=b">{{bnav.cta}}<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top" aria-label="{{attr:nav.home}}"><img src="{{base}}assets/img/spiralia-blanco.svg" alt="Spiralia" width="140" height="34" loading="lazy"></a>
+          <p class="footer__lede">{{ft.tag}}</p>
+        </div>
+        <div class="span-2 footer__col"><h3>{{bft.ia}}</h3><ul><li><a href="#productos">{{bnav.productos}}</a></li><li><a href="#metodo">{{bnav.como}}</a></li><li><a href="#casos">{{bnav.casos}}</a></li><li><a href="#diagnostico">{{ft.diag}}</a></li></ul></div>
+        <div class="span-3 footer__col"><h3>{{bft.contacto}}</h3><ul><li><a href="mailto:{{mail}}">{{mail}}</a></li><li><a href="https://www.linkedin.com/company/spiralia/">LinkedIn</a></li><li><a href="{{other}}" hreflang="{{other_lang}}" lang="{{other_lang}}" data-keep-hash>{{bnav.idioma}}</a></li></ul></div>
+        <div class="span-3 footer__col"><h3>{{bft.mas}}</h3><ul><li><a href="https://spiralia.es/">spiralia.es</a></li><li><a href="https://spiralia.es/politica-de-privacidad/">{{ft.privacy}}</a></li></ul></div>
+      </div>
+      <details class="b-fuentes">
+        <summary>{{bft.fuentes}}</summary>
+        <ol>
+          <li id="f1">{{reto.src1}} {{reto.chart_note}}</li>
+          <li id="f2">{{ventaja.src2}}</li>
+          <li id="f3">{{pr.ing_src}}</li>
+          <li id="f4">{{pr.del_src}}</li>
+          <li id="f5">{{pr.cc_src}}</li>
+          <li id="f6">{{alfa.src}} {{alfa.ley_nota}}</li>
+        </ol>
+      </details>
+      <div class="footer__legal">
+        <span>&copy; 2026 Spiralia &nbsp; {{ft.nocookies}}</span>
+        <span>{{bft.marcas}}</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="{{attr:bnav.cta}}">
+  <a class="btn btn--primary" href="{{base}}reserva/?d=fija&amp;l={{lang}}&amp;v=b">{{bnav.cta}}</a>
+</nav>
+
+<script type="application/json" id="page-data">{{data}}</script>
+<script src="{{base}}js/engine.js" defer></script>
+<script src="{{base}}js/diagnostico.js" defer></script>
+<script type="module" src="{{base}}assets/kit/system.js"></script>
+<script type="module" src="{{base}}assets/kit/motion/motion.js"></script>
+<script type="module" src="{{base}}assets/kit/layout/layout.js"></script>
+</body>
+</html>
