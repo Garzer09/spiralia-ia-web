@@ -64,6 +64,8 @@ sup a:hover{text-decoration:underline;text-underline-offset:2px}
 /* El titular del hero en tres líneas: la letra algo menor (la caja no crece, para no tapar la tarjeta del póster) */
 @media (min-width:1024px){.hero--film .hero__over h1{max-width:none;font-size:clamp(44px,4.4vw,64px)}}
 @media (max-width:639px){.hero--film .hero__over > :first-child{padding:var(--s-4)}.hero--film .hero__over h1{font-size:clamp(28px,9.2vw,36px)}}
+/* El póster del hero va en <picture> (vertical en el móvil): el kit solo lleva --ly-pos-phone a un img directo */
+@media (max-width:639px){.hero__media > picture > img{object-position:var(--ly-pos-phone,var(--ly-pos,50% 50%))}}
 /* Titulares sin palabras partidas con guion (lo pidió el cliente): el kit trae hyphens:auto */
 :is(h1,h2,h3){hyphens:manual}
 .nw{white-space:nowrap}
