@@ -239,17 +239,18 @@ if (BOOKINGS.indexOf("http") === 0) location.replace(BOOKINGS + location.search)
 </script>
 <style>
 @font-face{{font-family:Butler;src:url(../assets/fonts/Butler-Light.woff2) format("woff2");font-weight:300}}
-@font-face{{font-family:Sofia;src:url(../assets/fonts/SofiaSansCondensed.woff2) format("woff2");font-weight:100 900}}
-*{{box-sizing:border-box}}html,body{{margin:0;min-height:100%;background:#051A2B;color:#E0DFDA;font:400 17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}}
+@font-face{{font-family:Akrobat;src:url(../assets/fonts/Akrobat-Regular.woff2) format("woff2");font-weight:400}}
+@font-face{{font-family:Akrobat;src:url(../assets/fonts/Akrobat-SemiBold.woff2) format("woff2");font-weight:600}}
+*{{box-sizing:border-box}}html,body{{margin:0;min-height:100%;background:#051A2B;color:#E0DFDA;font:400 18px/1.55 Akrobat,system-ui,-apple-system,"Segoe UI",sans-serif}}
 body{{min-height:100svh;display:grid;place-items:center;padding:24px;background:radial-gradient(60% 50% at 75% 20%,#0D3150,transparent 70%),#051A2B}}
 main{{max-width:620px}}img{{display:block;width:120px;margin-bottom:48px}}
 h1{{font:300 clamp(2.4rem,7vw,4rem)/1.02 Butler,Georgia,serif;letter-spacing:-.015em;margin:0 0 18px}}
 p{{margin:0 0 14px;color:#A9B1B8;text-wrap:pretty}}ul{{margin:0 0 28px;padding-left:1.1em;color:#A9B1B8}}
 .btn{{display:inline-flex;align-items:center;min-height:52px;padding:0 26px;border-radius:99px;background:#E0DFDA;color:#08263D;text-decoration:none;
-  font:600 1.05rem/1 Sofia,"Arial Narrow",sans-serif;letter-spacing:.05em;margin:8px 12px 8px 0}}
-.mail{{color:#E0DFDA}}button{{font:500 .9rem Sofia,sans-serif;letter-spacing:.05em;color:#A9B1B8;background:none;border:1px solid rgba(224,223,218,.3);border-radius:99px;padding:.3rem .8rem;cursor:pointer}}
+  font:600 1.05rem/1 Akrobat,"Arial Narrow",sans-serif;letter-spacing:.02em;margin:8px 12px 8px 0}}
+.mail{{color:#E0DFDA}}button{{font:600 .9rem Akrobat,sans-serif;letter-spacing:.02em;color:#A9B1B8;background:none;border:1px solid rgba(224,223,218,.3);border-radius:99px;padding:.3rem .8rem;cursor:pointer}}
 .legal{{margin-top:28px;font-size:.82rem;line-height:1.55}}.legal a{{color:#E0DFDA}}
-a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:500 .95rem Sofia,sans-serif;letter-spacing:.06em}}
+a.volver{{display:inline-block;margin-top:28px;color:#A9B1B8;font:600 .95rem Akrobat,sans-serif;letter-spacing:.02em}}
 :focus-visible{{outline:2px solid #E0DFDA;outline-offset:3px}}
 </style></head>
 <body><main>

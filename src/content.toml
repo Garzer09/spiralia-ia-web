@@ -65,8 +65,8 @@ guion = {es = "Lo que cuenta el vídeo", en = "What the video says"}
 # 02 · Lo que hacemos: un recorrido de tres pasos (en orden) y una base de dos productos (debajo de todo), y la escalera de la IA
 [prod]
 kicker = {es = "Lo que hacemos", en = "What we do"}
-h2a = {es = "Tres pasos para que la IA trabaje.", en = "Three steps to put AI to work."}
-h2b = {es = "Y una base para que nadie se quede atrás.", en = "And a foundation so nobody falls behind."}
+h2a = {es = "Tres pasos para que la IA trabaje", en = "Three steps to put AI to work"}
+h2b = {es = "y una base para que nadie se quede atrás.", en = "and a foundation so nobody falls behind."}
 lead = {es = "Licencias pagadas, un uso que se enfría y casos que nadie prioriza. Cada producto quita uno de esos frenos.", en = "Paid-for licenses, usage that cools off and use cases nobody prioritizes. Each product removes one of those blockers."}
 ruta_k = {es = "El recorrido", en = "The path"}
 ruta_p = {es = "En orden: cada paso se apoya en el anterior.", en = "In order: each step builds on the one before."}
@@ -128,8 +128,8 @@ contigo = {es = "Lo construimos contigo", en = "We build it with you"}
 # 03 · Por qué ahora: leerle la mente al comité, y la curva del uso frente a lo que se paga
 [reto]
 kicker = {es = "Por qué ahora", en = "Why now"}
-h2a = {es = "Las licencias llegaron.", en = "The licenses arrived."}
-h2b = {es = "El plan, todavía no.", en = "The plan, not yet."}
+h2a = {es = "Las licencias llegaron,", en = "The licenses arrived,"}
+h2b = {es = "pero el plan todavía no.", en = "but the plan hasn’t yet."}
 voces_h = {es = "Lo que nadie dice en voz alta en el comité", en = "What nobody says out loud in the leadership meeting"}
 voz1 = {es = "¿Por dónde empiezo?", en = "Where do I start?"}
 voz2 = {es = "¿Lo está usando alguien de verdad?", en = "Is anyone really using it?"}
@@ -153,9 +153,8 @@ src1 = {es = "Dillon, Jaffe, Immorlica y Stanton, «Shifting Work Patterns with 
 
 # 04 · La ventaja: el mismo modelo para todos; la diferencia está en el despliegue
 [ventaja]
-kicker = {es = "Dónde está la ventaja", en = "Where the advantage is"}
-h2a = {es = "La IA ya está en todas las empresas.", en = "AI is already in every company."}
-h2b = {es = "Pero en pocas cuentas de resultados.", en = "But on very few P&amp;Ls."}
+h2a = {es = "La IA ya está en todas las empresas,", en = "AI is already in every company,"}
+h2b = {es = "pero en pocas cuentas de resultados.", en = "but on very few P&amp;Ls."}
 lead = {es = "Tu competencia y tú tenéis la misma IA, al mismo precio y desde el mismo día. El modelo no os distingue. Os distingue lo que cada empresa hace con él: en qué procesos entra, quién lo usa y cómo se mide.", en = "You and your competitors have the same AI, at the same price, from the same day. The model doesn’t set you apart. What sets you apart is what each company does with it: which processes it enters, who uses it and how it’s measured."}
 def = {es = "<b>Desplegar</b> es llevar la IA a los procesos de tu empresa, con tu gente, hasta que hace trabajo real. Eso no se compra: se construye.", en = "<b>Deploying</b> means bringing AI into your company’s processes, with your people, until it does real work. That can’t be bought: it’s built."}
 vid_alt = {es = "Vídeo de 16 segundos: el mismo modelo llega a tres empresas. La primera compra licencias y el uso se enfría; la segunda hace un piloto con un equipo; la tercera la despliega y cada equipo la usa en su trabajo. Solo la tercera lo nota en la cuenta de resultados. Mismo modelo, distinto resultado: la ventaja está en el despliegue.", en = "16-second video: the same model reaches three companies. The first buys licenses and usage cools off; the second runs a pilot with one team; the third deploys it and every team uses it in its own work. Only the third sees it on the P&L. Same model, different result: the advantage is in the deployment."}
@@ -170,8 +169,8 @@ src2 = {es = "McKinsey, «The state of AI in 2026» (agosto de 2026). Encuesta g
 # 05 · Lo que cuesta esperar: la IA multiplica; nube de riesgos que se ordena en un plan de cinco productos
 [esperar]
 kicker = {es = "Lo que cuesta esperar", en = "The cost of waiting"}
-h2a = {es = "La IA multiplica.", en = "AI multiplies."}
-h2b = {es = "Y la distancia, también.", en = "So does the gap."}
+h2a = {es = "La IA multiplica,", en = "AI multiplies,"}
+h2b = {es = "y la distancia también.", en = "and so does the gap."}
 lead = {es = "Quien la despliega con método gana algo cada semana y lo acumula. Quien espera no se queda quieto: se queda atrás. Y mientras tanto, la IA entra igual en tu empresa, cada uno a su manera.", en = "Those who deploy it with a method gain something every week and it compounds. Those who wait don’t stand still: they fall behind. Meanwhile, AI gets into your company anyway, everyone their own way."}
 vid_alt = {es = "Vídeo de 16 segundos: la IA no suma, multiplica. Semana a semana, quien la despliega con método se aleja de quien espera. Multiplica lo que haces bien y lo que haces mal: IA en la sombra, errores sin revisar, datos donde no deben. Cada semana que esperas, la distancia crece.", en = "16-second video: AI doesn’t add, it multiplies. Week after week, those who deploy it with a method pull away from those who wait. It multiplies what you do well and what you do badly: shadow AI, unchecked errors, data where it shouldn’t be. Every week you wait, the gap grows."}
 nube_h = {es = "Lo que se acumula mientras esperas", en = "What piles up while you wait"}
@@ -207,16 +206,16 @@ g5_1 = {es = "Novedades cada semana que nadie filtra", en = "Weekly updates nobo
 g5_2 = {es = "Funciones pagadas que nadie conoce", en = "Paid-for features nobody knows about"}
 g5_3 = {es = "Lo que probaste ya ha cambiado", en = "What you tested has already changed"}
 g5_4 = {es = "La competencia lo prueba antes", en = "Competitors try it first"}
-plan_h = {es = "Ordenado, es un plan.", en = "Put in order, it’s a plan."}
-plan_p = {es = "Cada riesgo tiene su respuesta, y cada respuesta, su producto.", en = "Every risk has its answer, and every answer, its product."}
+plan_h = {es = "Ordenado, es un plan:", en = "Put in order, it’s a plan:"}
+plan_p = {es = "cada riesgo tiene su respuesta, y cada respuesta, su producto.", en = "every risk has its answer, and every answer, its product."}
 ctx = {es = "¿Cuánto te está costando a ti?", en = "How much is it costing you?"}
 ctx_btn = {es = "Calcúlalo en 3 minutos", en = "Work it out in 3 minutes"}
 
 # 12 · Casos
 [pr]
 kicker = {es = "Casos", en = "Cases"}
-h2a = {es = "No lo contamos.", en = "We don’t just talk about it."}
-h2b = {es = "Ya lo estamos haciendo.", en = "We’re already doing it."}
+h2a = {es = "No lo contamos:", en = "We don’t just talk about it:"}
+h2b = {es = "ya lo estamos haciendo.", en = "we’re already doing it."}
 ing_h = {es = "Misma herramienta, mismo grupo.", en = "Same tool, same group."}
 ing_p = {es = "Formamos a toda la organización de ING España, del comité de dirección a las oficinas y el contact center, por equipos y con los archivos de su día a día.", en = "We trained the whole of ING Spain, from the leadership team to the branches and the contact center, team by team and with their everyday files."}
 ing_m1 = {es = "del 66 % al 92 %", en = "from 66% to 92%"}
@@ -253,8 +252,8 @@ tst_r = {es = "[PLACEHOLDER · Cargo · Empresa]", en = "[PLACEHOLDER · Role ·
 # 06 · Diagnóstico, con estimación del valor que se escapa (los supuestos y los textos del cálculo, en [data.diag.roi])
 [dg]
 kicker = {es = "Diagnóstico", en = "Assessment"}
-h2a = {es = "¿Dónde está tu empresa con la IA?", en = "Where does your company stand with AI?"}
-h2b = {es = "Y cuánto valor se te escapa.", en = "And how much value is slipping away."}
+h2a = {es = "¿Dónde está tu empresa con la IA", en = "Where does your company stand with AI,"}
+h2b = {es = "y cuánto valor se te escapa?", en = "and how much value is slipping away?"}
 lead = {es = "Ocho preguntas y tres datos. Sin datos personales. Te llevas tu nivel, tus siguientes pasos y una estimación orientativa del valor que hoy no capturas.", en = "Eight questions and three figures. No personal data. You leave with your level, your next steps and an indicative estimate of the value you’re not capturing today."}
 start = {es = "Empezar", en = "Start"}
 next = {es = "Siguiente", en = "Next"}
@@ -273,7 +272,6 @@ noscript = {es = "El diagnóstico necesita JavaScript. Si lo prefieres, escríbe
 
 # 07 · Después de la formación: el curso acaba el viernes; la escalera de la IA
 [lunes]
-kicker = {es = "Después de la formación", en = "After the training"}
 h2a = {es = "El curso acaba el viernes.", en = "The course ends on Friday."}
 h2b = {es = "Lo que cuenta empieza el lunes.", en = "What counts starts on Monday."}
 lead = {es = "Al terminar cualquier formación se oye la misma pregunta: ¿y ahora qué? Solo el 36 % de los profesionales cree que su formación en IA ha sido suficiente. Por eso la nuestra no se queda en el aula.", en = "At the end of any training you hear the same question: what now? Only 36% of professionals think their AI training has been enough. That’s why ours doesn’t stay in the classroom."}
@@ -297,8 +295,8 @@ fases = {es = "Cómo funciona", en = "How it works"}
 # 08 · Rumbo · el primer paso (21-oct: vuelve el nombre Rumbo, que pasó por Día Uno y Jornada piloto)
 [rumbo]
 kicker = {es = "El primer paso", en = "The first step"}
-h2a = {es = "Primero, un día de trabajo real.", en = "First, one day of real work."}
-h2b = {es = "Después, decides tú.", en = "Then you decide."}
+h2a = {es = "Primero, un día de trabajo real;", en = "First, one day of real work;"}
+h2b = {es = "después, decides tú.", en = "then you decide."}
 lead = {es = "Quizá tengas la IA desde hace meses. Rumbo es la jornada en que se pone a trabajar: tu comité y tus managers la usan con sus propias tareas, entienden qué pueden hacer con ella y la adopción empieza de verdad.", en = "You may have had AI for months. Rumbo is the day it gets to work: your leadership team and your managers use it on their own tasks, understand what they can do with it and adoption truly begins."}
 para = {es = "Tu comité de dirección y tus managers.", en = "Your leadership team and your managers."}
 dur = {es = "Una jornada en tu empresa, con preparación previa.", en = "One day at your offices, with preparation beforehand."}
@@ -399,8 +397,8 @@ more = {es = "Y así con cada perfil, del comité de dirección al contact cente
 # 10 · Spiral · despliegue y gobierno: el método SPIRAL (nombre en inglés de cada fase), el gobierno, la autonomía y los agentes
 [como]
 kicker = {es = "El tercer paso", en = "The third step"}
-h2a = {es = "Del aula al trabajo real.", en = "From classroom to real work."}
-h2b = {es = "Hasta que tu equipo siga solo.", en = "Until your team carries on without us."}
+h2a = {es = "Del aula al trabajo real,", en = "From classroom to real work,"}
+h2b = {es = "hasta que tu equipo siga solo.", en = "until your team carries on without us."}
 lead = {es = "Spiral lleva la IA a los procesos de un área: automatizaciones y agentes que hacen trabajo real, construidos con tu equipo y con reglas claras. Seis fases, siempre en el mismo orden; cada letra de la espiral es una.", en = "Spiral brings AI into an area’s processes: automations and agents that do real work, built with your team and under clear rules. Six phases, always in the same order; each letter of the spiral is one of them."}
 para = {es = "Un área y sus procesos.", en = "One area and its processes."}
 dur = {es = "Ciclos cortos, proceso a proceso.", en = "Short cycles, process by process."}
@@ -441,8 +439,8 @@ aria = {es = "La S de Spiralia formada por puntos, con las seis fases del métod
 cta = {es = "Hablemos de tu proceso", en = "Let’s talk about your process"}
 # Gobierno y autonomía: las reglas de la IA en tu empresa y un equipo que cada vuelta construye más solo
 gob_k = {es = "Gobierno y autonomía", en = "Governance and autonomy"}
-gob_ha = {es = "Reglas claras desde el primer agente.", en = "Clear rules from the first agent."}
-gob_hb = {es = "Y un equipo que cada vez nos necesita menos.", en = "And a team that needs us less each time."}
+gob_ha = {es = "Reglas claras desde el primer agente", en = "Clear rules from the first agent"}
+gob_hb = {es = "y un equipo que cada vez nos necesita menos.", en = "and a team that needs us less each time."}
 gob_t = {es = "El modelo de gobierno", en = "The governance model"}
 gob1 = {es = "Quién propone, quién decide y quién responde de cada uso de la IA, por escrito.", en = "Who proposes, who decides and who answers for each use of AI, in writing."}
 gob2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que hace.", en = "Every agent has an owner, permissions and a log of what it does."}
@@ -477,7 +475,7 @@ vid_alt = {es = "Vídeo de 20 segundos con un ejemplo ilustrativo, la propuesta 
 [alfa]
 kicker = {es = "La base · Para toda la plantilla", en = "The foundation · For the whole workforce"}
 h2a = {es = "La ley pide formar a quien usa la IA.", en = "The law asks you to train the people who use AI."}
-h2b = {es = "Sin certificados. Pero con algo que lo demuestre.", en = "No certificates. But with something to show for it."}
+h2b = {es = "Sin certificados, pero con algo que lo demuestre.", en = "No certificates, but with something to show for it."}
 lead = {es = "Alfabetización IA da a toda la plantilla las bases comunes para usar la IA con criterio: qué hace, dónde se equivoca y qué datos no deben salir. Y deja registro de quién lo ha hecho.", en = "AI Literacy gives the whole workforce the shared basics to use AI with judgment: what it does, where it gets things wrong and which data must not leave. And it keeps a record of who has done it."}
 para = {es = "Todas las personas que usan o van a usar la IA en tu empresa.", en = "Everyone who uses, or will use, AI in your company."}
 dur = {es = "Un curso grabado que cada persona sigue a su ritmo.", en = "A recorded course that everyone follows at their own pace."}
@@ -501,8 +499,8 @@ cta = {es = "Hablemos de tu plantilla", en = "Let’s talk about your workforce"
 # 12 · Radar · la base, cada mes: las novedades de IA que importan, probadas con tus casos. Cifras en cifras.toml
 [radar]
 kicker = {es = "La base · Cada mes", en = "The foundation · Every month"}
-h2a = {es = "Sale algo nuevo cada semana.", en = "Something new comes out every week."}
-h2b = {es = "Te traemos lo que importa, ya probado.", en = "We bring you what matters, already tested."}
+h2a = {es = "Sale algo nuevo cada semana", en = "Something new comes out every week,"}
+h2b = {es = "y te traemos lo que importa, ya probado.", en = "and we bring you what matters, already tested."}
 lead = {es = "Radar sigue lo que publican Microsoft, OpenAI, Anthropic y Google, lo prueba con tus casos y cada mes te lo trae aterrizado: qué cambia, a quién le sirve y qué hacer el lunes.", en = "Radar follows what Microsoft, OpenAI, Anthropic and Google release, tests it on your cases and brings it to you every month, ready to use: what changes, who it helps and what to do on Monday."}
 para = {es = "Tu comité, tus managers y tus champions.", en = "Your leadership team, your managers and your champions."}
 dur = {es = "Cada mes, mientras te aporte.", en = "Every month, for as long as it adds value."}
@@ -533,8 +531,8 @@ cta = {es = "Hablemos de tu caso", en = "Let’s talk about your case"}
 # 14 · Por qué Spiralia
 [pq]
 kicker = {es = "Por qué Spiralia", en = "Why Spiralia"}
-h2a = {es = "Hablamos el idioma del negocio.", en = "We speak the language of business."}
-h2b = {es = "Y sabemos construir.", en = "And we know how to build."}
+h2a = {es = "Hablamos el idioma del negocio", en = "We speak the language of business"}
+h2b = {es = "y sabemos construir.", en = "and we know how to build."}
 lead = {es = "Somos un equipo de consultores de estrategia, formadores e ingenieros. Hemos estado al otro lado de la mesa: por eso empezamos por tu cuenta de resultados, no por la tecnología.", en = "We’re a team of strategy consultants, trainers and engineers. We’ve been on the other side of the table: that’s why we start with your P&amp;L, not with the technology."}
 i1h = {es = "Venimos de la consultoría estratégica.", en = "We come from strategy consulting."}
 i1 = {es = "Hablamos de margen, prioridades y riesgo. La tecnología viene después.", en = "We talk about margin, priorities and risk. The technology comes after."}
@@ -556,14 +554,13 @@ eq_note = {es = "Las mismas personas que diseñan tu programa lo hacen.", en = "
 
 # 13 · Para ti: cada inquietud, su respuesta (Resultados · Personas y talento · Tecnología)
 [pt]
-kicker = {es = "Para ti", en = "For you"}
-h2a = {es = "Tu pregunta no es la del resto.", en = "Your question isn’t everyone else’s."}
-h2b = {es = "Tu respuesta, tampoco.", en = "Neither is your answer."}
+h2a = {es = "Tu pregunta no es la del resto,", en = "Your question isn’t everyone else’s,"}
+h2b = {es = "y tu respuesta, tampoco.", en = "and neither is your answer."}
 hace = {es = "Qué hacemos contigo", en = "What we do with you"}
 lleva = {es = "Lo que te llevas", en = "What you take away"}
 prueba = {es = "Ya lo hemos hecho", en = "We’ve done it before"}
 t1_tab = {es = "Resultados", en = "Results"}
-t1_h = {es = "Has invertido en IA. Que se note en la cuenta.", en = "You’ve invested in AI. Make it show on the P&amp;L."}
+t1_h = {es = "Has invertido en IA: que se note en la cuenta.", en = "You’ve invested in AI: make it show on the P&amp;L."}
 t1_voz = {es = "«He firmado las licencias. Si dentro de un año el consejo me pregunta qué ha cambiado, ¿qué le enseño?»", en = "“I signed off the licenses. If the board asks me in a year what has changed, what do I show them?”"}
 t1_1 = {es = "Empezamos con Rumbo: tu comité y tus managers trabajan un día con IA y, al cierre, elegís los primeros casos.", en = "We start with Rumbo: your leadership team and managers work with AI for a day and, at the close, you choose the first cases together."}
 t1_2 = {es = "Elegimos los casos por valor: velocidad, escala y capacidad. La velocidad tiene techo; las otras dos, no.", en = "We choose cases by value: speed, scale and capability. Speed has a ceiling; the other two don’t."}
@@ -573,7 +570,7 @@ t1_l = {es = "Una lista corta de casos con valor, los primeros funcionando y un 
 t1_p = {es = "En ING España, del comité de dirección a las oficinas, los usuarios activos cada semana pasaron del 66 % al 92 %.", en = "At ING Spain, from the leadership team to the branches, weekly active users went from 66% to 92%."}
 t1_cta = {es = "Pide fecha para Rumbo", en = "Request a date for Rumbo"}
 t2_tab = {es = "Personas y talento", en = "People and talent"}
-t2_h = {es = "Te piden productividad. Tu gente te pide dirección.", en = "They ask you for productivity. Your people ask you for direction."}
+t2_h = {es = "Te piden productividad y tu gente te pide dirección.", en = "They ask you for productivity, and your people ask you for direction."}
 t2_voz = {es = "«¿Cómo lo hago sin que la plantilla lo viva como una amenaza? Y la encuesta salió bien, pero ¿y el uso?»", en = "“How do I do this without the workforce seeing it as a threat? And the survey came out well, but what about usage?”"}
 t2_0 = {es = "Empezamos con Rumbo y seguimos con la Formación a medida: cada perfil, con su trabajo, en horario laboral y sin examen.", en = "We start with Rumbo and continue with Tailored Training: each profile on its own work, during working hours, with no grading."}
 t2_1 = {es = "Formamos a todos, del comité a la primera línea, cada perfil con sus tareas y sus archivos.", en = "We train everyone, from the leadership team to the front line, each profile with their own tasks and files."}
@@ -587,7 +584,7 @@ t2_p = {es = "En ING España, con el programa, la satisfacción con el uso de la
 t2_cta = {es = "Hablemos de tu plantilla", en = "Let’s talk about your workforce"}
 t2_subject = {es = "Formación en IA para mi plantilla", en = "AI training for my workforce"}
 t3_tab = {es = "Tecnología", en = "Technology"}
-t3_h = {es = "La IA, dentro de tu casa. Con tus reglas.", en = "AI inside your walls. On your terms."}
+t3_h = {es = "La IA, dentro de tu casa y con tus reglas.", en = "AI inside your walls, on your terms."}
 t3_voz = {es = "«No quiero otra herramienta en la sombra ni otro piloto que nunca llega a producción.»", en = "“I don’t want another shadow tool, or another pilot that never reaches production.”"}
 t3_1 = {es = "Trabajamos dentro de tu entorno y con la IA que aprueba tu IT: Microsoft 365 Copilot, ChatGPT, Claude o Gemini.", en = "We work inside your environment and with the AI your IT approves: Microsoft 365 Copilot, ChatGPT, Claude or Gemini."}
 t3_2 = {es = "Cada agente tiene un dueño, unos permisos y un registro de lo que hace.", en = "Every agent has an owner, permissions and a log of what it does."}
@@ -599,7 +596,6 @@ t3_p = {es = "En Deloitte España formamos a 13.000 personas en un mes con la IA
 t3_cta = {es = "Hablemos de tu entorno", en = "Let’s talk about your environment"}
 
 [faq]
-kicker = {es = "Preguntas del comité", en = "Leadership team questions"}
 h2 = {es = "Lo que nos preguntan antes de empezar.", en = "What we’re asked before getting started."}
 q1 = {es = "¿Por qué ahora y no dentro de seis meses?", en = "Why now and not in six months?"}
 a1 = {es = "Porque el uso se enfría en semanas y las licencias se pagan igual. Y porque la IA multiplica: quien ya rediseña su trabajo no va un paso por delante, va una curva por delante, y la distancia crece cada semana.", en = "Because usage cools off within weeks and the licenses cost the same. And because AI multiplies: those already redesigning their work aren’t one step ahead, they’re a whole curve ahead, and the gap grows every week."}
@@ -628,7 +624,6 @@ a11 = {es = "Depende del producto y de tu punto de partida: cada uno se dimensio
 casos = {es = "¿Quieres ver algo así en tu empresa?", en = "Want to see this in your company?"}
 
 [cta]
-kicker = {es = "Hablemos", en = "Let’s talk"}
 h2a = {es = "Hablas con el equipo", en = "You talk to the team"}
 h2b = {es = "que lo va a hacer.", en = "that will do it."}
 lead = {es = "Treinta minutos para saber por dónde empezar y con qué producto. Sin intermediarios ni juniors: cuéntanos dónde está tu empresa y te proponemos el primer paso.", en = "Thirty minutes to work out where to start and with which product. No intermediaries, no juniors: tell us where your company stands and we’ll propose the first step."}

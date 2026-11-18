@@ -7,6 +7,10 @@
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const sale = x => 1 - Math.pow(1 - x, 3);
   const lcg = s => () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  // WebM (VP9) donde se decodifica bien; Safari y los navegadores de iOS van con MP4 (H.264, por hardware):
+  // su VP9 es por software y a veces reproduce sin pintar, en negro
+  const safari = /^((?!chrome|chromium|crios|fxios|edg|android).)*safari/i.test(navigator.userAgent) || /iP(hone|ad|od)/.test(navigator.userAgent);
+  const WEBM = !safari && !!document.createElement('video').canPlayType('video/webm; codecs="vp9"');
 
   // Piezas que anima el CSS: .anim las deja preparadas y .play lanza las transiciones (con retrasos por --i)
   const css = {
@@ -304,7 +308,7 @@
     if (!v || still() || c.saveData || /2g/.test(c.effectiveType || '') || sec.classList.contains('has-gl')) return; // con WebGL, el vídeo sobra
     const base = matchMedia('(max-aspect-ratio: 1/1)').matches ? sec.dataset.srcV : sec.dataset.srcH;
     // data-v: la huella que pone build.py, para que la caché no sirva un vídeo antiguo
-    const url = base + (v.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4') + (sec.dataset.v ? '?v=' + sec.dataset.v : '');
+    const url = base + (WEBM ? '.webm' : '.mp4') + (sec.dataset.v ? '?v=' + sec.dataset.v : '');
     let visto = false, cargado = false, user = pausadoAntes();
     // Etiqueta fija («Pausar la animación de fondo»); el estado lo dice aria-pressed
     const set = () => { if (!btn) return; btn.setAttribute('aria-pressed', String(user)); btn.setAttribute('aria-label', btn.dataset.pause); };
@@ -416,6 +420,7 @@
       if (focus !== undefined) ev('Perfil', { pestaña: panels[i].id.replace('para-ti-', '') });
       if (focus) tabs[i].focus({ preventScroll: true });
       aLaVista(tabs[i]); window.SP.alto();
+      if (window.SP.sinViudas) window.SP.sinViudas(panels[i]);
     }
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => select(i, false));
@@ -454,21 +459,36 @@
   (() => {
     const figs = $$('[data-vid]'); if (!figs.length) return;
     const c = navigator.connection || {}, ahorro = !!c.saveData || /2g/.test(c.effectiveType || '');
-    const webm = !!document.createElement('video').canPlayType('video/webm; codecs="vp9"');
     const estrecho = matchMedia('(max-width: 700px)');
     figs.forEach(fig => {
       const v = $('video', fig), pb = $('.vid-pausa', fig), ob = $('.vid-otra', fig), barra = $('.vid-prog', fig);
-      let cargado = '', visto = false, parado = false, acabado = false, raf = 0;
+      let cargado = '', visto = false, parado = false, acabado = false, raf = 0, webm = WEBM, vigia = 0;
       const url = () => (estrecho.matches ? fig.dataset.srcV : fig.dataset.srcH) + (webm ? '.webm' : '.mp4') + (fig.dataset.v ? '?v=' + fig.dataset.v : '');
       const carga = () => { const u = url(); if (cargado !== u) { cargado = u; v.src = u; } };
       const boton = txt => { ob.textContent = txt; ob.hidden = false; };
       const avanza = () => { if (v.duration) barra.style.transform = `scaleX(${(v.currentTime / v.duration).toFixed(4)})`; if (!v.paused) raf = requestAnimationFrame(avanza); };
-      const reproduce = () => { carga(); acabado = false; fig.classList.remove('acabado'); v.play().catch(() => boton('▶ ' + ob.dataset.ver)); };
-      v.addEventListener('playing', () => { fig.classList.add('en-marcha'); pb.hidden = false; ob.hidden = true; pb.setAttribute('aria-pressed', 'false'); cancelAnimationFrame(raf); raf = requestAnimationFrame(avanza); });
+      // El vídeo tapa el póster solo cuando ha pintado su primer fotograma: «playing» puede llegar antes, y en negro
+      const pinta = () => { clearTimeout(vigia); fig.classList.add('pinta'); };
+      const esperaFotograma = () => {
+        if (fig.classList.contains('pinta')) return;
+        if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(pinta);
+        else { const t = () => { if (v.currentTime > 0) { v.removeEventListener('timeupdate', t); pinta(); } }; v.addEventListener('timeupdate', t); }
+      };
+      // Si no llega ningún fotograma (falta el archivo, red, el navegador no decodifica el WebM), se prueba el MP4;
+      // si tampoco, se queda el póster, que se entiende solo, con el botón para verlo
+      const falla = () => {
+        clearTimeout(vigia); fig.classList.remove('en-marcha', 'pinta'); pb.hidden = true;
+        if (webm) { webm = false; cargado = ''; reproduce(); } else { v.removeAttribute('src'); v.load(); cargado = ''; boton('▶ ' + ob.dataset.ver); }
+      };
+      const reproduce = () => {
+        carga(); acabado = false; fig.classList.remove('acabado');
+        clearTimeout(vigia); if (!fig.classList.contains('pinta')) vigia = setTimeout(() => { if (!fig.classList.contains('pinta') && !v.paused) falla(); }, 4000);
+        v.play().catch(() => { clearTimeout(vigia); boton('▶ ' + ob.dataset.ver); });
+      };
+      v.addEventListener('playing', () => { fig.classList.add('en-marcha'); esperaFotograma(); pb.hidden = false; ob.hidden = true; pb.setAttribute('aria-pressed', 'false'); cancelAnimationFrame(raf); raf = requestAnimationFrame(avanza); });
       v.addEventListener('pause', () => cancelAnimationFrame(raf));
       v.addEventListener('ended', () => { acabado = true; fig.classList.add('acabado'); pb.hidden = true; boton('↻ ' + ob.dataset.otra); barra.style.transform = 'scaleX(1)'; });
-      // Si el vídeo no llega (falta el archivo, red), se queda el póster, que se entiende solo
-      v.addEventListener('error', () => { fig.classList.remove('en-marcha'); pb.hidden = ob.hidden = true; });
+      v.addEventListener('error', () => { if (cargado) falla(); });
       pb.addEventListener('click', () => { parado = !parado; pb.setAttribute('aria-pressed', String(parado)); parado ? v.pause() : v.play().catch(() => {}); });
       ob.addEventListener('click', () => { parado = false; if (cargado) v.currentTime = 0; reproduce(); });
       if (still() || ahorro) { boton('▶ ' + ob.dataset.ver); return; }

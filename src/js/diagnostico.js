@@ -35,6 +35,9 @@
   const hNum = v => new Intl.NumberFormat(lang, { maximumFractionDigits: 1 }).format(v);
   // Cada pantalla cambia la altura de la página: ScrollTrigger lo recalcula
   const pinta = html => { box.innerHTML = html; window.SP.alto(); };
+  // La barra nace con el avance anterior y avanza hasta el nuevo: al repintar la caja, si no, saltaría sin transición
+  let avance = 0;
+  const barra = p => { const b = $('.dg-bar i', box); if (!b) return; void b.offsetWidth; b.style.setProperty('--p', p); avance = p; };
   // Si la caja ha quedado bajo la barra o fuera de la pantalla, se lleva a la vista
   const aVista = () => {
     const r = box.getBoundingClientRect(), barra = ($('#bar') || {}).offsetHeight || 64;
@@ -50,11 +53,12 @@
   function ask(i, focus) {
     cur = i; const q = D.q[i];
     pinta(`<div class="dg-top"><span>${esc(L.qof.replace('{n}', i + 1).replace('{t}', D.q.length))}</span></div>
-      <div class="dg-bar"><i style="--p:${(i / D.q.length * 100).toFixed(1)}%"></i></div>
+      <div class="dg-bar"><i style="--p:${avance}"></i></div>
       <p class="dg-q" tabindex="-1">${esc(q.q)}</p>
       <div class="dg-opts" role="group" aria-label="${esc(q.q)}">${q.o.map((o, j) => `<button type="button" aria-pressed="${ans[i] === j}">${esc(o)}</button>`).join('')}</div>
       <div class="dg-nav"><button type="button" class="btn btn-ghost btn-sm dg-prev"${i ? '' : ' hidden'}>${esc(L.prev)}</button>
       <button type="button" class="btn btn-ghost btn-sm dg-next"${ans[i] === null ? ' disabled' : ''}>${esc(i === D.q.length - 1 ? L.see : L.next)}</button></div>`);
+    barra(+(i / D.q.length).toFixed(3));
     $$('.dg-opts button', box).forEach((b, j) => b.addEventListener('click', () => {
       ans[i] = j; $$('.dg-opts button', box).forEach((x, k) => x.setAttribute('aria-pressed', String(k === j)));
       setTimeout(() => (i < D.q.length - 1 ? ask(i + 1, true) : fin()), 220);
@@ -67,7 +71,7 @@
   // Los tres datos del cálculo: con valores de partida prudentes, que cada uno cambia por los suyos
   function cuentas() {
     pinta(`<div class="dg-top"><span>${esc(R.paso)}</span></div>
-      <div class="dg-bar"><i style="--p:100%"></i></div>
+      <div class="dg-bar"><i style="--p:${avance}"></i></div>
       <p class="dg-q" tabindex="-1">${esc(R.h)}</p><p class="dg-sub">${esc(R.p)}</p>
       <div class="dg-roi-in">
         <label><span>${esc(R.personas)}</span><input type="number" inputmode="numeric" min="1" step="1" value="${datos[0]}" data-k="0"></label>
@@ -76,6 +80,7 @@
       </div>
       <div class="dg-nav"><button type="button" class="btn btn-ghost btn-sm dg-prev">${esc(L.prev)}</button>
       <button type="button" class="btn btn-cta btn-sm dg-next">${esc(R.calc)}</button></div>`);
+    barra(1);
     $$('input', box).forEach(inp => inp.addEventListener('input', () => {
       const v = parseFloat(inp.value); if (v >= 0) datos[+inp.dataset.k] = v;
       if (inp.type === 'range') $('output', box).textContent = hNum(datos[2]) + ' h';

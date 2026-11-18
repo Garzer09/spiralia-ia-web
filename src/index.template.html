@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#051A2B">
 <link rel="icon" href="{{base}}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="{{base}}assets/fonts/Butler-Light.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{{base}}assets/fonts/SofiaSansCondensed.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{base}}assets/fonts/Akrobat-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{base}}assets/video/hero-h.jpg" as="image" fetchpriority="high" media="(min-aspect-ratio: 1/1)">
 <link rel="preload" href="{{base}}assets/video/hero-v.jpg" as="image" fetchpriority="high" media="(max-aspect-ratio: 1/1)">
 <link rel="stylesheet" href="{{base}}css/site.css">
@@ -46,13 +46,16 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <script>(function(d){
   var capa=document.querySelector('.apertura-capa');
   if(!d.classList.contains('apertura')){capa.remove();return}
-  var v=capa.querySelector('video'),b=capa.querySelector('button'),p=capa.querySelector('.apertura-prog'),hecho=false,webm=!!v.canPlayType('video/webm; codecs="vp9"');
+  // Safari e iOS van con MP4 (H.264): su VP9 es por software y a veces reproduce en negro
+  var ua=navigator.userAgent,safari=/^((?!chrome|chromium|crios|fxios|edg|android).)*safari/i.test(ua)||/iP(hone|ad|od)/.test(ua);
+  var v=capa.querySelector('video'),b=capa.querySelector('button'),p=capa.querySelector('.apertura-prog'),hecho=false,webm=!safari&&!!v.canPlayType('video/webm; codecs="vp9"');
   var h=innerWidth>innerHeight,src=function(w){return v.dataset[(w?'webm':'mp4')+(h?'H':'')]};
   // El fondo de la capa (y el de html, que asoma en el hueco de la barra de desplazamiento) sigue al de cada escena,
   // con los mismos tiempos y colores que motion/film/film.js: las bandas no se ven
   var ESC=[[18.8,'#051A2B'],[16.7,'#0D3150'],[14.6,'#051A2B'],[12.4,'#0D3150'],[8.8,'#E0DFDA'],[5.2,'#051A2B'],[3.2,'#E0DFDA'],[0,'#051A2B']];
   capa.removeAttribute('aria-hidden');
-  // Se acaba al terminar, al saltarla (botón, Esc, rueda o deslizar) o si no arranca a tiempo; la web entra con un fundido
+  // Se acaba al terminar, al saltarla (botón, clic o toque en cualquier parte, cualquier tecla, rueda o deslizar)
+  // o si no arranca a tiempo; la web entra con un fundido
   function fin(){
     if(hecho)return;hecho=true;
     capa.classList.add('sale');d.classList.remove('apertura');d.style.background='';
@@ -62,10 +65,11 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     setTimeout(function(){v.pause();capa.remove()},900);
     ['wheel','touchmove','keydown'].forEach(function(n){removeEventListener(n,salta)});
   }
-  function salta(e){if(e.type!=='keydown'||/^(Escape|Enter| |ArrowDown|PageDown|End)$/.test(e.key)){if(e.type==='keydown')e.preventDefault();fin()}}
+  // Cualquier tecla la salta, menos Tab (lleva al botón «Saltar») y los atajos del navegador (⌘R, Ctrl+R…)
+  function salta(e){if(e.type==='keydown'){if(e.metaKey||e.ctrlKey||e.altKey||/^(Tab|Shift|Meta|Control|Alt|CapsLock)$/.test(e.key))return;e.preventDefault()}fin()}
   v.addEventListener('ended',fin);
   v.addEventListener('error',function(){if(webm){webm=false;v.src=src(false);v.play().catch(fin)}else fin()},true);
-  b.addEventListener('click',fin);
+  capa.addEventListener('click',fin);
   ['wheel','touchmove','keydown'].forEach(function(n){addEventListener(n,salta,{passive:n!=='keydown'})});
   var espera=setTimeout(fin,3500);
   v.addEventListener('playing',function(){clearTimeout(espera);(function paso(){
@@ -132,17 +136,16 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <button type="button" class="glass-btn marquee-pausa" hidden aria-pressed="false" data-pause="{{attr:hero.logos_pause}}" data-play="{{attr:hero.logos_play}}" aria-label="{{attr:hero.logos_pause}}"><i aria-hidden="true"></i></button>
       <div class="marquee-vista">
         <ul class="logos" aria-label="{{attr:hero.logos}}">
-          <li><img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="22"></li>
-          <li><img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28"></li>
-          <li><img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33"></li>
-          <li><img src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" height="34"></li>
-          <li><img src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" height="22"></li>
-          <li><img src="{{base}}assets/img/logo-lg.svg" alt="LG" height="18"></li>
-          <li><img src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" height="24"></li>
-          <li><img src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" height="23"></li>
-          <li><img src="{{base}}assets/img/logo-wizink.png" alt="WiZink" height="30"></li>
-          <li><img src="{{base}}assets/img/logo-teamsystem.svg" alt="TeamSystem" height="19"></li>
-          <li><img src="{{base}}assets/img/logo-miravia.svg" alt="Miravia" height="22"></li>
+          <li><img src="{{base}}assets/img/logo-ing.svg" alt="ING" width="89" height="22"></li>
+          <li><img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" width="69" height="28"></li>
+          <li><img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" width="57" height="33"></li>
+          <li><img src="{{base}}assets/img/logo-gptw-white.png" alt="Great Place to Work" width="34" height="34"></li>
+          <li><img src="{{base}}assets/img/logo-naturgy.svg" alt="Naturgy" width="90" height="22"></li>
+          <li><img src="{{base}}assets/img/logo-lg.svg" alt="LG" width="121" height="18"></li>
+          <li><img src="{{base}}assets/img/logo-schneider.svg" alt="Schneider Electric" width="79" height="24"></li>
+          <li><img src="{{base}}assets/img/logo-anicura.svg" alt="AniCura" width="80" height="23"></li>
+          <li><img src="{{base}}assets/img/logo-teamsystem.svg" alt="TeamSystem" width="99" height="19"></li>
+          <li><img src="{{base}}assets/img/logo-miravia.svg" alt="Miravia" width="90" height="22"></li>
         </ul>
       </div>
     </div>
@@ -268,7 +271,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <section class="sec paper" id="ventaja" aria-labelledby="t-ventaja">
   <div class="wrap">
     <header class="head rv">
-      <p class="kicker">{{ventaja.kicker}}</p>
       <h2 id="t-ventaja" class="display"><span class="l1">{{ventaja.h2a}}</span> <span class="l2">{{ventaja.h2b}}</span></h2>
     </header>
     <div class="ventaja-grid">
@@ -358,7 +360,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <section class="sec light" id="lunes" aria-labelledby="t-lunes">
   <div class="wrap">
     <header class="head rv">
-      <p class="kicker">{{lunes.kicker}}</p>
       <h2 id="t-lunes" class="display"><span class="l1">{{lunes.h2a}}</span> <span class="l2">{{lunes.h2b}}</span></h2>
       <p class="lead narrow">{{lunes.lead}}</p>
     </header>
@@ -645,7 +646,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     </header>
     <div class="bento">
       <article class="tile tile-ing rv">
-        <img src="{{base}}assets/img/logo-ing.svg" alt="ING" height="26" class="pc-logo">
+        <img src="{{base}}assets/img/logo-ing.svg" alt="ING" width="105" height="26" class="pc-logo" loading="lazy">
         <p class="tile-k">{{pr.ing_m1t}}</p>
         <p class="tile-big">{{pr.ing_m1}}</p>
         <div class="ing-bars" aria-hidden="true">
@@ -657,14 +658,14 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <p class="src">{{pr.ing_src}}</p>
       </article>
       <article class="tile tile-del rv">
-        <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" height="28" class="pc-logo">
+        <img src="{{base}}assets/img/logo-deloitte.png" alt="Deloitte" width="69" height="28" class="pc-logo" loading="lazy">
         <p class="tile-big">{{pr.del_m1}}</p><p class="tile-k">{{pr.del_m1t}}</p>
         <h3 class="display h5t">{{pr.del_h}}</h3><p class="tile-p">{{pr.del_p}}</p>
         <div class="tile-sub"><b>{{pr.del_m2}}</b><span>{{pr.del_m2t}}</span></div>
         <p class="src">{{pr.del_src}}</p>
       </article>
       <article class="tile tile-cc rv">
-        <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" height="33" class="pc-logo">
+        <img src="{{base}}assets/img/logo-ccep.png" alt="Coca-Cola Europacific Partners" width="57" height="33" class="pc-logo" loading="lazy">
         <p class="tile-big">{{pr.cc_m1}}</p><p class="tile-k">{{pr.cc_m1t}}</p>
         <h3 class="display h5t">{{pr.cc_h}}</h3><p class="tile-p">{{pr.cc_p}}</p>
         <div class="tile-sub"><b>{{pr.cc_m2}}</b><span>{{pr.cc_m2t}}</span></div>
@@ -692,7 +693,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <section class="sec light" id="para-ti" aria-labelledby="t-pt">
   <div class="wrap">
     <header class="head rv">
-      <p class="kicker">{{pt.kicker}}</p>
       <h2 id="t-pt" class="display"><span class="l1">{{pt.h2a}}</span> <span class="l2">{{pt.h2b}}</span></h2>
     </header>
     <div class="tabs" data-tabs>
@@ -765,7 +765,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
 <section class="sec light" id="preguntas" aria-labelledby="t-faq">
   <div class="wrap faq-wrap">
     <header class="head rv">
-      <p class="kicker">{{faq.kicker}}</p>
       <h2 id="t-faq" class="display h3">{{faq.h2}}</h2>
     </header>
     <div class="faq">
@@ -797,7 +796,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
   <button type="button" class="glass-btn hero-pause cierre-pausa" hidden aria-pressed="false" data-pause="{{attr:hero.pause}}" data-play="{{attr:hero.play}}" aria-label="{{attr:hero.pause}}"><i aria-hidden="true"></i></button>
   <div class="wrap cierre-in">
-    <p class="kicker">{{cta.kicker}}</p>
     <h2 id="t-cta" class="display"><span class="l1">{{cta.h2a}}</span> <span class="l2">{{cta.h2b}}</span></h2>
     <p class="lead">{{cta.lead}}</p>
     <div class="hero-ctas"><a class="btn btn-cta btn-lg" href="{{base}}reserva/?d=cierre&amp;l={{lang}}">{{cta.btn}}</a></div>

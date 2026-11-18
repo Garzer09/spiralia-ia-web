@@ -99,6 +99,48 @@
   // La altura de la página ha cambiado (pestañas, diagnóstico, preguntas, pasos del método): scroll.js recalcula ScrollTrigger tras ms
   const alto = ms => document.dispatchEvent(new CustomEvent('sp:alto', { detail: ms || 0 }));
 
-  window.SP = { $, $$, still, fmt, piece, ev, alto, alFinal, data: JSON.parse(($('#page-data') || {}).textContent || '{}') };
+  // Titulares sin palabras sueltas: cada bloque (o cada .l1/.l2) prueba los tres modos de corte del navegador y se
+  // queda con el que deja menos líneas de una sola palabra. Se mide con las fuentes ya cargadas y otra vez al cambiar
+  // el ancho. Los bloques partidos para animarse (SplitText) se saltan: scroll.js los vuelve a juntar al acabar
+  const TITULARES = 'h1, h2, h3, h4, summary, .pnombre, .pclaim, .voz, .proof-line, .vec-f, .lead-strong, .prod-nom, .remate-in, [role=tab]';
+  const sueltas = el => {
+    const rg = document.createRange(), tops = [], tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n; (n = tw.nextNode());) for (const m of n.data.matchAll(/\S+/g)) {
+      rg.setStart(n, m.index); rg.setEnd(n, m.index + m[0].length);
+      const r = rg.getClientRects()[0]; if (r) tops.push(r.top);
+    }
+    if (tops.length < 4) return 0;
+    const lineas = [];
+    tops.forEach(t => { const l = lineas.find(x => Math.abs(x.t - t) < 6); l ? l.n++ : lineas.push({ t, n: 1 }); });
+    // una palabra sola en la última línea pesa más que en medio
+    return lineas.length < 2 ? 0 : lineas.reduce((s, l, i) => s + (l.n === 1 ? (i === lineas.length - 1 ? 2 : 1) : 0), 0);
+  };
+  const sinViudas = (raiz = document) => {
+    const bloques = new Set();
+    (raiz.matches && raiz.matches(TITULARES) ? [raiz] : []).concat($$(TITULARES, raiz)).forEach(el => {
+      if (!el.getClientRects().length || el.querySelector('.split-line, .split-char')) return;
+      // .l1/.l2 en bloque se ajustan por separado; en línea (móvil), el titular entero
+      const partes = $$(':scope > .l1, :scope > .l2', el).filter(x => getComputedStyle(x).display === 'block');
+      (partes.length ? partes : [el]).forEach(b => bloques.add(b));
+    });
+    bloques.forEach(b => {
+      let mejor = null;
+      for (const modo of ['balance', 'pretty', 'wrap']) {
+        b.style.textWrap = modo; const s = sueltas(b);
+        if (!mejor || s < mejor.s) mejor = { modo, s };
+        if (!s) break;
+      }
+      b.style.textWrap = mejor.modo;
+    });
+  };
+  let anchoAntes = innerWidth, tViudas = 0;
+  addEventListener('resize', () => {
+    if (innerWidth === anchoAntes) return; anchoAntes = innerWidth;
+    clearTimeout(tViudas); tViudas = setTimeout(() => sinViudas(), 200);
+  });
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => sinViudas());
+  addEventListener('load', () => sinViudas());
+
+  window.SP = { $, $$, still, fmt, piece, ev, alto, alFinal, sinViudas, data: JSON.parse(($('#page-data') || {}).textContent || '{}') };
   document.addEventListener('DOMContentLoaded', setup);
 })();

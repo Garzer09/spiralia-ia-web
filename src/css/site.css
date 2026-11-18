@@ -6,11 +6,11 @@
 @font-face{font-family:"Butler";src:url(../assets/fonts/Butler-Light.woff2) format("woff2");font-weight:300;font-display:swap}
 @font-face{font-family:"Butler";src:url(../assets/fonts/Butler-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Butler";src:url(../assets/fonts/Butler-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:"Sofia Sans Condensed";src:url(../assets/fonts/SofiaSansCondensed.woff2) format("woff2");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Open Sans";src:url(../assets/fonts/OpenSans-latin.woff2) format("woff2");font-weight:300 800;font-display:swap;
-  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Open Sans";src:url(../assets/fonts/OpenSans-latin-ext.woff2) format("woff2");font-weight:300 800;font-display:swap;
-  unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+/* Akrobat (Fontfabric): todo lo que no es titular, desde el 18-nov-2026 (antes Open Sans y Sofia Sans Condensed) */
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-Light.woff2) format("woff2");font-weight:300;font-display:swap}
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Akrobat";src:url(../assets/fonts/Akrobat-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 
 :root{
   --night:#051A2B; --navy:#08263D; --navy-2:#0D3150; --navy-3:#174467;
@@ -23,11 +23,12 @@
   --cta-bg:var(--greige); --cta-ink:var(--navy);       /* botón principal sobre oscuro */
   --cta-bg-l:var(--navy); --cta-ink-l:var(--white);    /* botón principal sobre claro */
   --serif:"Butler",Georgia,"Times New Roman",serif;
-  --cond:"Sofia Sans Condensed","Arial Narrow",Arial,sans-serif;
-  --sans:"Open Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --cond:"Akrobat","Arial Narrow",Arial,sans-serif;
+  --sans:"Akrobat",system-ui,-apple-system,"Segoe UI",sans-serif;
   --gut:clamp(20px,3.4vw,48px); --maxw:1360px;
   --ease:cubic-bezier(.2,.7,.2,1);
   --ease-io:cubic-bezier(.76,0,.24,1);   /* power4.inOut: el ritmo de todas las entradas y los filetes */
+  --ease-out:cubic-bezier(.23,1,.32,1);  /* respuestas de la interfaz (pulsar, pestañas, preguntas): arrancan rápido y frenan al final */
   --sec-pad:clamp(88px,11vw,176px);
 }
 
@@ -41,7 +42,7 @@ a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--hl-l);outline-offset:3px;border-radius:2px}
 /* Sobre fondo oscuro, anillo claro; también en las superficies oscuras de las secciones claras */
-.dark :focus-visible,.navy :focus-visible,.bar :focus-visible,.foot :focus-visible,.vid :focus-visible,.base :focus-visible,
+.dark :focus-visible,.navy :focus-visible,.bar :focus-visible,.foot :focus-visible,.vid :focus-visible,.base :focus-visible,.esc-suelo :focus-visible,
 .apertura-capa :focus-visible,.skip:focus-visible{outline-color:var(--hl)}
 /* Sobre vídeo el fondo cambia: el anillo claro lleva un borde oscuro por fuera */
 .apertura-capa :focus-visible,.hero :focus-visible,.cierre :focus-visible{box-shadow:0 0 0 7px rgba(5,26,43,.85)}
@@ -51,17 +52,24 @@ button{font:inherit;color:inherit}
 .skip:focus{left:8px}
 ::selection{background:var(--navy-3);color:#fff}
 
-/* Tipografía: titulares enormes en Butler Light; etiquetas pequeñas en Sofia, en mayúsculas y entre paréntesis */
+/* Tipografía: titulares enormes en Butler Light; etiquetas pequeñas en Akrobat, en mayúsculas y entre paréntesis */
 .display{font-family:var(--serif);font-weight:300;letter-spacing:-.024em;line-height:1;margin:0}
 .display .l1,.display .l2{display:block}
+/* En móvil, la parte oscura y la gris fluyen seguidas (salvo en la portada): el corte lo decide la frase entera
+   y no deja palabras sueltas al final de cada mitad */
+@media (max-width:600px){.sec .display .l1,.sec .display .l2,.cierre .display .l1,.cierre .display .l2{display:inline}}
 .display .l2{color:var(--ink-2)}
 .dark .display .l2,.navy .display .l2{color:var(--on-dark-2)}
 h1.display{font-size:clamp(3rem,7.4vw,8rem)}
 h2.display{font-size:clamp(2.5rem,5.6vw,5.8rem)}
+/* Móviles muy estrechos: un punto menos, para que las palabras largas no se queden solas en su línea */
+@media (max-width:360px){h1.display{font-size:2.4rem}.hero h1{max-width:none}h2.display{font-size:2.15rem}}
 .h3{font-size:clamp(1.9rem,3.4vw,3.2rem)}
 .h4{font-family:var(--serif);font-weight:300;font-size:clamp(1.45rem,2.1vw,1.9rem);line-height:1.1;letter-spacing:-.012em;margin:0}
 .kicker,.h5{font-family:var(--cond);font-weight:600;font-size:.8rem;line-height:1.3;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
 .kicker{margin:0 0 clamp(28px,3.6vw,56px)}
+/* Cabecera sin etiqueta: el titular deja el mismo aire bajo el filete y el número de sección */
+.head>.display:first-child,.cierre-in>.display:first-child{margin-top:calc(1.04rem + clamp(28px,3.6vw,56px))}
 .h5{margin:0 0 .8rem}
 .kicker::before,.h5::before{content:"(\2009"}
 .kicker::after,.h5::after{content:"\2009)"}
@@ -71,28 +79,34 @@ h2.display{font-size:clamp(2.5rem,5.6vw,5.8rem)}
 p{text-wrap:pretty}
 .src{font-size:.76rem;line-height:1.5;color:var(--ink-2);margin:1.2rem 0 0;max-width:80ch}
 .dark .src,.navy .src{color:var(--on-dark-2)}
-.tag{display:inline-block;font-family:var(--cond);font-weight:600;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:.28rem .62rem;border:1px solid currentColor;border-radius:99px;opacity:.8}
+.tag{display:inline-block;font-family:var(--cond);font-weight:600;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:.28rem .62rem;border:1px solid currentColor;border-radius:99px;opacity:.9}
 .lead-strong{margin-top:1.4rem;font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,2.2vw,2rem);line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
 .dark .lead-strong,.navy .lead-strong{color:#fff}
 
 /* Flecha fina: una línea de 1 px con su punta. Se alarga al pasar por el enlace o el botón que la lleva */
-.flecha{position:relative;display:inline-block;flex:none;width:16px;height:1px;background:currentColor;vertical-align:middle;transition:width .5s var(--ease-io)}
-.flecha::after{content:"";position:absolute;right:0;top:-3.5px;width:7px;height:7px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg)}
-a:hover .flecha,a:focus-visible .flecha,.btn:hover .flecha{width:28px}
+/* La caja mide siempre 16 px (no empuja nada); la línea y la punta se mueven con transform */
+.flecha{position:relative;display:inline-block;flex:none;width:16px;height:1px;vertical-align:middle}
+.flecha::before{content:"";position:absolute;left:0;top:0;width:28px;height:1px;background:currentColor;transform-origin:0 50%;transform:scaleX(.5715);transition:transform .3s var(--ease-out)}
+.flecha::after{content:"";position:absolute;right:0;top:-3.5px;width:7px;height:7px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg);transition:transform .3s var(--ease-out)}
+a:focus-visible .flecha::before{transform:none}a:focus-visible .flecha::after{transform:translateX(12px) rotate(45deg)}
+@media (hover:hover) and (pointer:fine){a:hover .flecha::before,.btn:hover .flecha::before{transform:none}a:hover .flecha::after,.btn:hover .flecha::after{transform:translateX(12px) rotate(45deg)}}
 
 /* Botones: píldora, texto pequeño en mayúsculas */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.9rem;min-height:50px;padding:.7rem 1.5rem;border-radius:99px;
-  font-family:var(--cond);font-weight:600;font-size:.86rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;cursor:pointer;
-  text-align:center;text-wrap:balance;transition:background-color .4s,color .4s,border-color .4s}
+  font-family:var(--cond);font-weight:600;font-size:1.02rem;letter-spacing:.01em;text-decoration:none;border:1px solid transparent;cursor:pointer;
+  text-align:center;text-wrap:balance;transition:background-color .25s ease,color .25s ease,border-color .25s ease,transform .16s var(--ease-out)}
+/* Al pulsar, cualquier control se hunde un poco: la página confirma que ha oído el clic */
+.replay,.demo-pause,.copy,.menu-btn{transition:transform .16s var(--ease-out)}
+.btn:active,.glass-btn:active,.replay:active,.demo-pause:active,.copy:active,.menu-btn:active,.dg-opts button:active{transform:scale(.97)}
 .btn-cta{background:var(--cta-bg-l);color:var(--cta-ink-l)}
 .btn-cta:hover{background:var(--navy-3)}
 .dark .btn-cta,.navy .btn-cta,.bar .btn-cta,.base .btn-cta{background:var(--cta-bg);color:var(--cta-ink)}
-.dark .btn-cta:hover,.navy .btn-cta:hover,.bar .btn-cta:hover{background:#fff}
+.dark .btn-cta:hover,.navy .btn-cta:hover,.bar .btn-cta:hover,.cta-fija .btn-cta:hover{background:#fff}
 .btn-ghost{background:transparent;border-color:var(--line-l);color:var(--ink)}
 .dark .btn-ghost,.navy .btn-ghost{border-color:rgba(224,223,218,.4);color:var(--on-dark)}
 .btn-ghost:hover{border-color:currentColor}
-.btn-sm{min-height:38px;padding:.4rem 1rem;font-size:.78rem}
-.btn-lg{min-height:58px;padding:1rem 1.9rem;font-size:.9rem}
+.btn-sm{min-height:38px;padding:.4rem 1rem;font-size:.95rem}
+.btn-lg{min-height:58px;padding:1rem 1.9rem;font-size:1.1rem}
 .replay{background:none;border:1px solid var(--line-d);color:var(--on-dark-2);border-radius:99px;padding:.35rem .8rem;font-family:var(--cond);
   font-size:.86rem;letter-spacing:.06em;cursor:pointer}
 .light .replay,.paper .replay{border-color:var(--line-l);color:var(--ink-2)}
@@ -101,12 +115,14 @@ a:hover .flecha,a:focus-visible .flecha,.btn:hover .flecha{width:28px}
 @media (hover:hover){.spiral .replay,.demo-replay{opacity:0;transition:opacity .3s}
   .spiral:hover .replay,.demo:hover .demo-replay,.replay:focus-visible{opacity:1}}
 /* Enlace con subrayado de 1 px: entra por la izquierda al pasar */
-.link-arrow{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--cond);font-weight:600;font-size:.86rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;
-  padding-bottom:4px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .6s var(--ease-io)}
-.link-arrow:hover{background-size:0 1px;background-position:100% 100%}
+.link-arrow{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--cond);font-weight:600;font-size:1.02rem;letter-spacing:.01em;text-decoration:none;
+  padding-bottom:4px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .3s var(--ease-out)}
 .link-arrow span{display:none}
-.link-arrow::after{content:"";width:16px;height:1px;background:currentColor;transition:width .5s var(--ease-io)}
-.link-arrow:hover::after{width:28px}
+.link-arrow::after{content:"";width:28px;height:1px;margin-right:-12px;background:currentColor;transform-origin:0 50%;transform:scaleX(.5715);transition:transform .3s var(--ease-out)}
+/* Solo con ratón: en táctil el hover se queda pegado tras tocar y el enlace perdería su subrayado */
+@media (hover:hover) and (pointer:fine){
+  .link-arrow:hover{background-size:0 1px;background-position:100% 100%}
+  .link-arrow:hover::after{transform:none}}
 
 /* Secciones: dos superficies (noche y papel) y sus tonos vecinos, sin texturas ni degradados */
 .sec{padding-block:var(--sec-pad);position:relative}
@@ -138,7 +154,7 @@ main{counter-reset:sec}
   font-family:var(--cond);font-weight:500;font-size:.76rem;letter-spacing:.32em}
 .pill img{width:9px;height:auto}
 .bar-nav{display:flex;align-items:center;gap:28px;margin-left:auto;font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
-.bar-nav a{text-decoration:none;opacity:.8;padding-bottom:3px;background:linear-gradient(currentColor,currentColor) 100% 100%/0 1px no-repeat;transition:background-size .6s var(--ease-io),opacity .3s}
+.bar-nav a{text-decoration:none;opacity:.8;padding-bottom:3px;background:linear-gradient(currentColor,currentColor) 100% 100%/0 1px no-repeat;transition:background-size .3s var(--ease-out),opacity .3s}
 .bar-nav a:hover,.bar-nav a[aria-current]{opacity:1;background-size:100% 1px;background-position:0 100%}
 .bar-nav .bar-nav-cta,.bar-nav .bar-nav-lang{display:none}
 .lang{font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-decoration:none;opacity:.8;padding:6px}
@@ -188,7 +204,7 @@ main{counter-reset:sec}
 .hero.lejos .hero-ctl{visibility:hidden}
 /* Controles sobre vídeo: píldora oscura con filete */
 .glass-btn{display:inline-flex;align-items:center;gap:10px;min-height:40px;border-radius:99px;border:1px solid rgba(224,223,218,.32);background:rgba(5,26,43,.72);
-  color:var(--on-dark);font-family:var(--cond);font-size:.86rem;letter-spacing:.08em;cursor:pointer;transition:border-color .3s}
+  color:var(--on-dark);font-family:var(--cond);font-size:.86rem;letter-spacing:.08em;cursor:pointer;transition:border-color .3s,transform .16s var(--ease-out)}
 .glass-btn:hover{border-color:rgba(224,223,218,.8)}
 .hero-pause{width:40px;justify-content:center;padding:0}
 .hero-pause i{display:block;width:10px;height:12px;border-left:2px solid var(--on-dark);border-right:2px solid var(--on-dark)}
@@ -200,7 +216,6 @@ main{counter-reset:sec}
 @media (max-width:640px){
   .hero{padding-bottom:84px}
   .hero-ctas .btn{width:100%}
-  .hero-ctl{justify-content:space-between}
   .scroll-cue{display:none}
 }
 
@@ -221,14 +236,16 @@ main{counter-reset:sec}
 .logos.run.parada{animation-play-state:paused}
 .logos img{width:auto;max-width:130px;filter:brightness(0) invert(1);opacity:.66;flex:none}
 .logos.run{flex-wrap:nowrap;width:max-content;gap:22px 56px;animation:marquee var(--dur,48s) linear infinite}
-.marquee:hover .logos.run,.marquee:focus-within .logos.run{animation-play-state:paused}
+.marquee:focus-within .logos.run{animation-play-state:paused}
+/* En táctil, tocar la franja la pararía sin que el botón de pausa lo dijera */
+@media (hover:hover) and (pointer:fine){.marquee:hover .logos.run{animation-play-state:paused}}
 @keyframes marquee{to{transform:translateX(-50%)}}
 .roles{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 28px;margin-top:clamp(22px,3vw,32px);padding-top:clamp(18px,2.4vw,24px);border-top:1px solid var(--line-d);
   font-family:var(--cond);font-weight:600;font-size:.86rem;letter-spacing:.12em;text-transform:uppercase}
 .roles-lbl{color:var(--on-dark-2)}
 .roles-lbl::before{content:"(\2009"}.roles-lbl::after{content:"\2009)"}
-.roles a{text-decoration:none;padding-bottom:3px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .6s var(--ease-io)}
-.roles a:hover{background-size:0 1px;background-position:100% 100%}
+.roles a{text-transform:none;letter-spacing:.01em;font-size:1.02rem;text-decoration:none;padding-bottom:3px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .3s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.roles a:hover{background-size:0 1px;background-position:100% 100%}}
 @media (max-width:900px){.proof{grid-template-columns:1fr}.logos img{max-width:100px}}
 
 /* Apertura: la película a pantalla completa y, al acabar, la web con un fundido. El fondo es el de la película
@@ -236,7 +253,7 @@ main{counter-reset:sec}
 .apertura-capa{display:none}
 html.apertura,html.apertura body{overflow:hidden}
 html.apertura body>:not(.apertura-capa){visibility:hidden}
-html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;inset:0;z-index:200;background:#051A2B}
+html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;inset:0;z-index:200;background:#051A2B;cursor:pointer}
 .apertura-capa video{display:block;width:100%;height:100%;object-fit:contain}
 .apertura-capa.sale{opacity:0;pointer-events:none;transition:opacity .9s var(--ease)}
 .apertura-saltar{position:absolute;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));padding:0 18px}
@@ -257,18 +274,19 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .prod+.prod a{padding-left:clamp(18px,2.2vw,36px);border-left:1px solid var(--line-l)}
 .base .prod+.prod a{border-left-color:var(--line-d)}
 /* Al pasar, la columna se tiñe desde abajo */
-.prod a::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(8,38,61,.045);transform:scaleY(0);transform-origin:50% 100%;transition:transform .7s var(--ease-io)}
+.prod a::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(8,38,61,.045);transform:scaleY(0);transform-origin:50% 100%;transition:transform .3s var(--ease-out)}
 .base .prod a::before{background:rgba(224,223,218,.06)}
-.prod a:hover::before{transform:none}
+.prod a:focus-visible::before{transform:none}
+@media (hover:hover) and (pointer:fine){.prod a:hover::before{transform:none}}
 /* En el recorrido, una punta de flecha en el filete entre un paso y el siguiente: el orden se lee sin texto */
 .ruta .prod:not(:last-child)::after{content:"";position:absolute;z-index:1;top:-4px;right:-3px;width:8px;height:8px;border-top:1px solid var(--ink);border-right:1px solid var(--ink);transform:rotate(45deg)}
 .prod-n{font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.16em;color:var(--ink-2)}
-.prod-nom{display:block;margin:clamp(28px,4.4vw,72px) 0 .5rem;font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,3.6vw,3.6rem);line-height:.95;letter-spacing:-.03em;text-wrap:balance}
+.prod-nom{display:block;margin:clamp(28px,4.4vw,72px) 0 .5rem;font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,3.1vw,3rem);line-height:.95;letter-spacing:-.03em;text-wrap:balance}
 .prod-tag{font-family:var(--cond);font-weight:600;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
 .prod-p{display:block;margin:1.1rem 0 1.6rem;font-size:1rem;line-height:1.5;color:var(--ink-2);max-width:36ch}
 .prod-dl{display:grid;gap:6px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line-l);font-size:.9rem;line-height:1.35}
 .prod-dl b{display:inline-block;min-width:5.5rem;font-family:var(--cond);font-weight:600;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
-.prod-ver{display:inline-flex;align-items:center;gap:.7rem;margin-top:18px;font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+.prod-ver{display:inline-flex;align-items:center;gap:.7rem;margin-top:18px;font-family:var(--cond);font-weight:600;font-size:1rem;letter-spacing:.01em}
 /* La base: banda de noche bajo el recorrido, a todo el ancho */
 .base{margin-top:clamp(16px,2vw,28px);padding:clamp(18px,2vw,26px) clamp(18px,2.4vw,36px) 0;background:var(--night);color:var(--on-dark);border-radius:4px}
 .base .arq-k{color:var(--on-dark-2)}.base .arq-k b{color:var(--on-dark)}
@@ -277,8 +295,7 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .base .prod-nom{margin-top:clamp(20px,2.8vw,44px)}
 @media (max-width:980px){
   .ruta{grid-template-columns:1fr}
-  .prod+.prod a,.ruta .prod+.prod a{padding-left:0;border-left:0;border-top:1px solid var(--line-l)}
-  .ruta .prod:not(:last-child)::after{top:auto;bottom:-4px;right:auto;left:0;transform:rotate(135deg)}
+  .prod+.prod a{padding-left:0;border-left:0;border-top:1px solid var(--line-l)}
   .ruta .prod:not(:last-child)::after{display:none}
   .prod a{padding-right:0}
 }
@@ -306,8 +323,8 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 /* El suelo: la base de los cinco productos, a todo el ancho y en noche */
 .esc-suelo{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;margin:0;padding:clamp(16px,1.8vw,22px) clamp(16px,2vw,28px);background:var(--night);color:var(--on-dark);
   font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,2vw,1.8rem);line-height:1.1}
-.esc-suelo a{text-decoration:none;padding-bottom:2px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .6s var(--ease-io)}
-.esc-suelo a:hover{background-size:0 1px;background-position:100% 100%}
+.esc-suelo a{text-decoration:none;padding-bottom:2px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .3s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.esc-suelo a:hover{background-size:0 1px;background-position:100% 100%}}
 .esc-suelo span{color:var(--on-dark-2)}
 .esc-suelo em{margin-left:auto;font-style:normal;font-family:var(--cond);font-weight:600;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-2)}
 /* Las cotas: una línea con sus dos topes bajo los peldaños que cubre cada producto */
@@ -393,7 +410,8 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .dark .vid-marco,.navy .vid-marco{box-shadow:0 0 0 1px var(--line-d)}
 .vid-poster,.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .vid video{opacity:0;transition:opacity .6s ease}
-.vid.en-marcha video,.vid.acabado video{opacity:1}
+/* .pinta: el vídeo ya ha pintado un fotograma (motion.js); hasta entonces se ve el póster, nunca un marco negro */
+.vid.pinta video{opacity:1}
 .vid-ctl{position:absolute;right:14px;bottom:16px;display:flex;gap:8px;z-index:2}
 .vid-pausa{width:40px;justify-content:center;padding:0}
 .vid-pausa i{display:block;width:10px;height:12px;border-left:2px solid var(--on-dark);border-right:2px solid var(--on-dark)}
@@ -415,11 +433,12 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .nube-campo{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.4vw,22px);margin-top:28px}
 .nube-col ul{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
 .chip{display:block;padding:9px 14px;border-radius:99px;border:1px solid rgba(224,223,218,.24);background:var(--night);font-size:.88rem;line-height:1.3;
-  transition:transform 1.2s var(--ease),border-color .6s;will-change:transform}
+  transition:transform 1.2s var(--ease),border-color .6s}
 .nube:not(.ordenada) .chip{border-style:dashed;border-color:rgba(224,223,218,.32);animation:flota var(--fd,6s) ease-in-out var(--fo,0s) infinite}
 @keyframes flota{50%{translate:0 -9px}}
-.nube-g{display:block;padding-top:14px;border-top:1px solid var(--line-d);color:inherit;text-decoration:none;transition:opacity .7s ease .55s,transform .7s var(--ease) .55s}
-.nube:not(.ordenada) .nube-g{opacity:0;transform:translateY(-10px);transition-delay:0s;pointer-events:none}
+.nube-g{display:block;padding-top:14px;border-top:1px solid var(--line-d);color:inherit;text-decoration:none;transition:opacity .7s ease .55s,transform .7s var(--ease) .55s,visibility 0s .55s}
+/* Ocultos también para el teclado mientras la nube está desordenada: el foco no cae en enlaces que no se ven */
+.nube:not(.ordenada) .nube-g{opacity:0;visibility:hidden;transform:translateY(-10px);transition-delay:0s,0s,.7s;pointer-events:none}
 .nube-g b{font-family:var(--cond);font-weight:600;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-2)}
 .nube-flecha{margin:0 8px;color:var(--on-dark-2)}
 .nube-g em{display:block;margin-top:6px;font-style:normal;font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,2vw,1.95rem);line-height:1;letter-spacing:-.02em;color:#fff}
@@ -433,10 +452,10 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .dg{max-width:880px;border:1px solid var(--line-d);border-radius:4px;padding:clamp(20px,3.5vw,44px)}
 .dg-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--cond);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-2)}
 .dg-bar{height:1px;background:var(--line-d);margin:12px 0 26px;position:relative}
-.dg-bar i{position:absolute;inset:-.5px auto -.5px 0;background:var(--hl);width:var(--p,0%);transition:width .5s var(--ease-io)}
+.dg-bar i{position:absolute;inset:-.5px 0;background:var(--hl);transform:scaleX(var(--p,0));transform-origin:0 50%;transition:transform .3s var(--ease-out)}
 .dg-q{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,2.8vw,2.4rem);line-height:1.15;letter-spacing:-.015em;margin:0 0 24px}
 .dg-opts{display:grid;gap:8px}
-.dg-opts button{text-align:left;padding:14px 18px;border-radius:4px;border:1px solid var(--line-d);background:transparent;cursor:pointer;line-height:1.4;transition:background-color .25s,border-color .25s}
+.dg-opts button{text-align:left;padding:14px 18px;border-radius:4px;border:1px solid var(--line-d);background:transparent;cursor:pointer;line-height:1.4;transition:background-color .25s,border-color .25s,transform .16s var(--ease-out)}
 .dg-opts button:hover{border-color:rgba(224,223,218,.55)}
 .dg-opts button[aria-pressed=true]{border-color:var(--hl);background:rgba(224,223,218,.1)}
 .dg-nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
@@ -484,7 +503,7 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .phead{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,32px);padding-top:clamp(16px,1.6vw,22px);margin-bottom:clamp(64px,8vw,128px)}
 .phead>.kicker{grid-column:1/-1;margin-bottom:clamp(24px,3.4vw,52px)}
 .pnum{position:absolute;right:0;top:clamp(16px,1.6vw,22px);letter-spacing:.16em}
-.pnombre{grid-column:1/-1;margin:0 0 clamp(36px,5vw,80px);font-family:var(--serif);font-weight:300;font-size:clamp(3.4rem,11vw,10.5rem);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
+.pnombre{grid-column:1/-1;margin:0 0 clamp(36px,5vw,80px);font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,11vw,10.5rem);line-height:.9;letter-spacing:-.045em;text-wrap:balance}
 .dark .pnombre{color:#fff}
 .phead-l{grid-column:1/8}
 .pclaim{font-size:clamp(1.7rem,3vw,2.9rem);line-height:1.05}
@@ -655,12 +674,9 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .sp-svg .st{transition:opacity .5s ease}
 /* Fijada, las letras y la hebra encendida esperan a que los puntos formen la S */
 .spiral.pinned:not(.drawn) .sp-svg .st,.spiral.pinned:not(.drawn) .sp-svg .prog{opacity:0}
-.spiral.anim .sp-svg .base path{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
 .spiral.anim .sp-svg .st{opacity:0}
-.spiral.drawn .sp-svg .base path{transition:stroke-dashoffset 2.2s var(--ease);transition-delay:calc(var(--i)*.12s);stroke-dashoffset:0}
 .spiral.drawn .sp-svg .st{opacity:1}
 .spiral .sp-svg .prog{transition:stroke-dashoffset 1.05s var(--ease),opacity .5s ease}
-.spiral.done .sp-svg .base path{opacity:.46;transition:opacity 1.2s ease}
 .sp-steps .hint{font-family:var(--cond);font-size:.9rem;letter-spacing:.06em;color:var(--on-dark-2);margin:0 0 .8rem}
 .sp-steps ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-d)}
 .sp-steps li{border-bottom:1px solid var(--line-d)}
@@ -810,7 +826,7 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .tile-sub{display:flex;align-self:stretch;align-items:baseline;gap:12px;margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line-d)}
 .tile-sub b{font-family:var(--serif);font-weight:300;font-size:2rem;color:var(--on-dark);white-space:nowrap}
 .tile-sub span{font-size:.88rem;color:var(--on-dark-2);line-height:1.35}
-.tile .src{margin-top:1rem;font-size:.72rem}
+.tile .src{margin-top:1rem;font-size:.76rem}
 .tile-ind .h5t{margin:0;font-size:clamp(1.6rem,2.6vw,2.4rem)}
 @media (max-width:980px){.tile-ing,.tile-del,.tile-cc{grid-column:span 12;grid-row:auto}.tile-ind{grid-template-columns:1fr}}
 .tst{margin-top:clamp(48px,6vw,80px)}
@@ -823,10 +839,10 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 /* 13 · Para ti: pestañas de texto, la elegida subrayada */
 .tabs{display:flex;flex-direction:column;align-items:stretch}
 .tablist{display:flex;flex-wrap:wrap;gap:clamp(20px,3.4vw,52px);border-bottom:1px solid var(--line-l)}
-.tablist [role=tab]{position:relative;background:none;border:0;padding:0 0 16px;margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(1.45rem,2.6vw,2.4rem);line-height:1;letter-spacing:-.02em;color:var(--ink);opacity:.4;cursor:pointer;transition:opacity .4s}
-.tablist [role=tab]:hover{opacity:.75}
+.tablist [role=tab]{position:relative;background:none;border:0;padding:0 0 16px;margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(1.45rem,2.6vw,2.4rem);line-height:1;letter-spacing:-.02em;color:var(--ink);opacity:.65;cursor:pointer;transition:opacity .25s ease}
+.tablist [role=tab]:hover{opacity:.85}
 .tablist [role=tab][aria-selected=true]{opacity:1}
-.tablist [role=tab]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--navy);transform:scaleX(0);transform-origin:0 50%;transition:transform .7s var(--ease-io)}
+.tablist [role=tab]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--navy);transform:scaleX(0);transform-origin:0 50%;transition:transform .3s var(--ease-out)}
 .tablist [role=tab][aria-selected=true]::after{transform:none}
 .tabs .panel{width:100%;margin-top:clamp(32px,4vw,56px)}
 .panel-who{display:none;font-family:var(--cond);font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin:0 0 .6rem}
@@ -843,10 +859,11 @@ html:not(.js) .panel-who{display:block}
 .panel-side{border-left:1px solid var(--line-l);padding-left:clamp(20px,3vw,40px)}
 .panel-side p{margin:0 0 1.3rem}
 .proof-line{font-family:var(--serif);font-weight:300;font-size:1.3rem;line-height:1.35}
-.panel:not([hidden]){animation:panel .7s var(--ease)}
+.panel:not([hidden]){animation:panel .25s var(--ease-out)}
 @keyframes panel{from{opacity:0;transform:translateY(10px)}}
 @media (max-width:900px){.panel-grid{grid-template-columns:1fr}.panel-side{border-left:0;padding-left:0;border-top:1px solid var(--line-l);padding-top:24px}}
-@media (max-width:640px){.tablist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.tablist [role=tab]{font-size:1.12rem;line-height:1.1;text-align:left;text-wrap:balance}}
+/* En móvil, las pestañas en una fila que salta de línea: cada una entera, sin partir «Personas y talento» */
+@media (max-width:640px){.tablist{gap:14px 22px}.tablist [role=tab]{font-size:1.25rem;line-height:1.1;white-space:nowrap}}
 
 /* 14 · Por qué Spiralia: cuatro razones y el equipo, en columnas con filete */
 .why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
@@ -867,20 +884,23 @@ html:not(.js) .panel-who{display:block}
 @media (max-width:640px){.why{grid-template-columns:1fr}}
 
 /* 15 · Preguntas: grandes, a media luz; la abierta y la que está bajo el cursor, enteras */
-.faq-wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,4vw,64px);align-items:start}
+.faq-wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px);align-items:start}
+/* El titular de la columna estrecha, algo menor: en dos líneas, sin palabras sueltas */
+.faq-wrap .display{font-size:clamp(1.9rem,3vw,3rem)}
 .faq{border-top:1px solid var(--line-l)}
 .faq details{border-bottom:1px solid var(--line-l)}
-.faq summary{cursor:pointer;list-style:none;padding:22px 48px 22px 0;position:relative;font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,2.1vw,1.85rem);line-height:1.2;letter-spacing:-.012em;opacity:.55;transition:opacity .4s}
-.faq summary:hover,.faq details[open] summary{opacity:1}
+.faq summary{cursor:pointer;list-style:none;padding:22px 48px 22px 0;position:relative;font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,2.1vw,1.85rem);line-height:1.2;letter-spacing:-.012em;opacity:.65;transition:opacity .25s ease}
+.faq summary:hover,.faq summary:focus-visible,.faq details[open] summary{opacity:1}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::before,.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:13px;height:1px;background:currentColor;transition:transform .5s var(--ease-io)}
+.faq summary::before,.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:13px;height:1px;background:currentColor;transition:transform .3s var(--ease-out)}
 .faq summary::before{transform:rotate(90deg)}
 .faq details[open] summary::before{transform:rotate(0)}
 .faq details p{margin:0 0 26px;max-width:62ch;color:var(--ink-2)}
 @media (max-width:900px){.faq-wrap{grid-template-columns:1fr}}
 @supports (interpolate-size:allow-keywords){
   :root{interpolate-size:allow-keywords}
-  .faq details::details-content{block-size:0;overflow:hidden;transition:block-size .6s var(--ease-io),content-visibility .6s allow-discrete}
+  .faq details::details-content{block-size:0;overflow:hidden;transition:block-size .3s var(--ease-out),content-visibility .3s allow-discrete}
+  .faq details:not([open])::details-content{transition-duration:.2s}
   .faq details[open]::details-content{block-size:auto}
 }
 
@@ -942,7 +962,7 @@ html:not(.js) .panel-who{display:block}
 .split-line{overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
 .split-char{display:inline-block}
 .palabra{display:inline;transition:none}
-.sota .remate-p .palabra,.sota .lead-scrub .palabra{opacity:.22}
+.sota .lead-scrub .palabra{opacity:.22}
 .intro .hero-in,.intro .hero-ctl{visibility:hidden}
 .bar-prog{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--on-dark);transform-origin:0 50%;transform:scaleX(var(--prog,0));opacity:.55;pointer-events:none}
 .bar.over .bar-prog,.bar.open .bar-prog{opacity:0}
@@ -958,7 +978,7 @@ html.lenis,html.lenis body{height:auto}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
 /* Quieta (?still=1 o «reducir movimiento»): ninguna animación en bucle */
 html.still .scroll-cue i,html.still .logos.run,html.still .chip,html.still .radar *{animation:none!important}
@@ -1027,4 +1047,20 @@ html.still{scroll-behavior:auto}
   html.print-dg #diagnostico *{color:#08263D!important;border-color:#bbb!important}
   html.print-dg .dg-acts{display:none}
   .print-dg .foot-mark{display:none}
+}
+
+/* En táctil, cada control fuera del texto corrido se puede tocar en 44 px de alto. Donde agrandarlo movería la
+   maquetación, el área crece hacia arriba con un margen negativo (el subrayado sigue pegado al texto) */
+@media (pointer:coarse){
+  .brand{display:flex;align-items:center;min-height:44px}
+  .lang{padding:12px 8px}
+  .bar .btn-sm,.glass-btn,.replay,.demo-pause{min-height:44px}
+  .hero-pause,.vid-pausa,.marquee-pausa{width:44px}
+  .tablist [role=tab]{min-height:44px}
+  .link-arrow,.roles a,.esc-suelo a{padding-top:18px;margin-top:-18px}
+  .asist a{padding-block:9px}
+  .copy{position:relative}.copy::after{content:"";position:absolute;inset:-7px -4px}
+  .foot nav,.foot-legal{gap:0}
+  .foot nav a,.foot-legal a{padding-block:10px}
+  .foot-legal span{margin-top:8px}
 }

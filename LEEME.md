@@ -96,7 +96,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 ## Película de 22 s (HyperFrames)
 
 - **Qué es:** 22 s sin sonido, en ES y EN, en dos formatos: 16:9 (1920×1080) para pantallas apaisadas y 4:5 (1080×1350) para el resto.
-- **Apertura (decisión del 20-oct):** la película abre la web a pantalla completa y, al terminar, la web entra con un fundido; ya no hay botón «Ver la película». Se puede saltar con «Saltar», Esc, Intro, la rueda o deslizando. Sale en cada visita (decisión del 20-oct), salvo con un ancla en la URL, con `?still=1`, con «reducir movimiento», con Save-Data o en 2G. `?apertura=1` la fuerza y `?apertura=0` la quita (para revisar la web sin esperar). Si no arranca en 3,5 s o el navegador bloquea la reproducción, se salta sola. Mientras se ve, la web está oculta y quieta (sin scroll, sin WebGL ni vídeo de portada), y la entrada del titular espera al fundido. El código va en línea en la plantilla, justo al abrir `<body>`, para que no se vea la web antes; el estilo, en `.apertura-capa` (site.css). El fondo de la capa cambia con cada escena para que las bandas no se noten.
+- **Apertura (decisión del 20-oct):** la película abre la web a pantalla completa y, al terminar, la web entra con un fundido; ya no hay botón «Ver la película». Se puede saltar con «Saltar», con un clic o toque en cualquier parte, con cualquier tecla (menos Tab, que lleva a «Saltar», y los atajos con ⌘, Ctrl o Alt), con la rueda o deslizando. Sale en cada visita (decisión del 20-oct), salvo con un ancla en la URL, con `?still=1`, con «reducir movimiento», con Save-Data o en 2G. `?apertura=1` la fuerza y `?apertura=0` la quita (para revisar la web sin esperar). Si no arranca en 3,5 s o el navegador bloquea la reproducción, se salta sola. Mientras se ve, la web está oculta y quieta (sin scroll, sin WebGL ni vídeo de portada), y la entrada del titular espera al fundido. El código va en línea en la plantilla, justo al abrir `<body>`, para que no se vea la web antes; el estilo, en `.apertura-capa` (site.css). El fondo de la capa cambia con cada escena para que las bandas no se noten.
 - **Ritmo y estilo:** el de la portada de Santander. 120 BPM y frases que suben desde una máscara. Guion del 21-oct: abre con el dolor del CEO («Hay empresas que ya responden / deciden / venden antes. Con la misma IA que tú.»), sigue con el 80 % y, con un corte, el 6 % (3,6 s cada uno, con una rejilla de 100 personas y otra de 100 empresas), «La diferencia no es la IA. Es cómo se despliega.», lo que hacemos y la S de Spiralia dibujándose. «El curso acaba el viernes» sale de la película: tiene su propia sección.
 - **Cartel final:** solo la S, la palabra SPIRALIA y el lema «Formación y despliegue de IA». Sin cifras ni pruebas (decisión del 21-oct).
 - **Archivos:** `motion/film/`. Los textos están en `copy.js` y la coreografía, en función de t, en `film.js`. Los tiempos de cada escena están también en la plantilla (`ESC`, para que el fondo de la capa siga a la película): si cambian en `film.js`, hay que cambiarlos allí.
@@ -109,6 +109,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
 
 - **Qué son:** cuatro vídeos mudos que explican lo que el texto solo diría: `modelo` (el mismo modelo, tres empresas, tres resultados; sección «La ventaja»), `multiplica` (la IA multiplica y la distancia también; «Lo que cuesta esperar»), `lunes` (el curso acaba el viernes y la escalera de la IA; «Después de la formación») y `agentes` (la misma propuesta, con un agente; Spiral).
 - **Formatos:** ES y EN, en 16:9 (escritorio) y 4:5 (hasta 700 px de ancho), en WebM y MP4, con su póster: `assets/video/<pieza>-<lang>-<h|v>.*`. El póster es el último fotograma, que resume la pieza.
+- **Formato y fallos:** WebM (VP9) en Chrome, Edge y Firefox; MP4 (H.264) en Safari y en iOS, donde el VP9 va por software y a veces reproduce en negro. El vídeo solo tapa el póster cuando ha pintado su primer fotograma; si a los 4 s no ha pintado, se prueba el MP4 y, si tampoco, queda el póster con «Ver el vídeo». La película y los fondos de portada y cierre siguen el mismo criterio de formato.
 - **En la página:** se reproducen una vez al verse casi enteros y se quedan en el último fotograma; pausa y «Ver de nuevo». Con «reducir movimiento», `?still=1`, Save-Data o 2G no se descargan solos: queda el póster y un botón «Ver el vídeo». El texto de cada vídeo está en su `figcaption` (para lectores de pantalla y buscadores).
 - **Comandos:** `bash motion/render_piezas.sh snap` (capturas de revisión) y `bash motion/render_piezas.sh render`. `PIEZAS=modelo` para una sola; `LANGS` y `FORMATS` como en la película.
 - **Reglas comunes y proceso de revisión:** `motion/PIEZAS.md`.
@@ -144,7 +145,7 @@ Butler en OTF no pinta en Chromium algunos acentos (en el peso 400, «á», «ú
   - SPIRAL como método público.
   - Sin precio, sin calculadora de ROI y sin FUNDAE.
 - **Pruebas:**
-  - logos de todos los clientes menos KPMG y Santander;
+  - logos de todos los clientes menos KPMG y Santander (y, desde el 18-nov, sin WiZink);
   - 50.000 alumnos;
   - ING del 66 % al 92 % y 4,7 frente a 3,2;
   - Deloitte, 13.000 y 3.000;

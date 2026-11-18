@@ -9,6 +9,9 @@ subrutinas que el saneador de fuentes de Chrome rechaza. Se redibujan todos los 
 planos (T2CharStringPen) y se guardan en woff2. Se pierde el hinting CFF, que Chromium apenas usa.
 
 Sofia Sans Condensed: se queda con los caracteres latinos (los de Open Sans latin y latin-ext) y se pasa a woff2.
+
+Akrobat (Fontfabric, 18-nov-2026): la tipografía de todo lo que no es titular. Mismo tratamiento que Butler
+(contornos planos, por si sus OTF traen el mismo problema de acentos) y después solo los caracteres latinos.
 """
 import pathlib
 from fontTools.ttLib import TTFont
@@ -30,6 +33,10 @@ def butler(name):
 LATIN = ('U+0000-024F,U+0259,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+1E00-1EFF,'
          'U+2000-206F,U+2074,U+20AC,U+2113,U+2122,U+2190-2193,U+2212,U+2215,U+FEFF,U+FFFD')
 
+def akrobat(name):
+    butler(name)  # redibuja y guarda {name}.woff2
+    woff2(f'{name}.woff2', f'{name}.woff2')
+
 def woff2(src, dst):
     from fontTools import subset
     opts = subset.Options(); opts.flavor = 'woff2'; opts.layout_features = ['*']; opts.name_IDs = ['*']
@@ -41,5 +48,7 @@ if __name__ == '__main__':
     for w in ('Light', 'Regular', 'Medium'):
         butler(f'Butler-{w}')
     woff2('SofiaSansCondensed-VF.ttf', 'SofiaSansCondensed.woff2')
+    for w in ('Light', 'Regular', 'SemiBold', 'Bold'):
+        akrobat(f'Akrobat-{w}')
     for p in sorted(FONTS.glob('*.woff2')):
         print(f'{p.name:32} {p.stat().st_size // 1024} KB')

@@ -206,11 +206,26 @@
   // La espiral se retira del motor de piezas si arranca fijada (≥1024 px); si luego no se fija, la reproduce esta capa al entrar
   if (spiral && ancho.matches) spiral.removeAttribute('data-piece');
   // Los titulares de sección los anima esta capa, no la aparición genérica
-  $$('.head.rv').forEach(h => h.classList.remove('rv'));
+  $$('.head.rv, .remate-in.rv').forEach(h => h.classList.remove('rv'));
+  // En la galería de agentes el titular sube por líneas aquí; su entradilla sigue con la aparición genérica
+  $$('.gal-head.rv').forEach(g => { g.classList.remove('rv'); const p = $('.lead', g); if (p) p.classList.add('rv'); });
 
   listo.then(() => {
+    // Antes de partir, cada titular elige el corte sin palabras sueltas (engine.js): las líneas partidas heredan ese corte
+    if (window.SP.sinViudas) window.SP.sinViudas();
+    // Lo partido para animar se vuelve a juntar al acabar la entrada: sin máscaras ni líneas fijas, el titular se
+    // recoloca si cambia el ancho (girar la tableta, redimensionar) y nunca queda una palabra cortada
+    const partidos = [];
+    const junta = (anim, desde) => {
+      const ss = partidos.slice(desde);
+      if (ss.length) anim.eventCallback('onComplete', () => ss.forEach(([sp, sr]) => {
+        const el = sp.elements && sp.elements[0]; sp.revert(); if (sr) sr.remove();
+        if (el && window.SP.sinViudas) window.SP.sinViudas(el);
+      }));
+      return anim;
+    };
     // aria: 'none': el texto partido se sigue leyendo entero, sin aria-label en span o p
-    const lineas = (el) => Split ? new Split(el, { type: 'lines', mask: 'lines', linesClass: 'split-line', aria: 'none' }).lines : [el];
+    const lineas = (el) => { if (!Split) return [el]; const sp = new Split(el, { type: 'lines', mask: 'lines', linesClass: 'split-line', aria: 'none' }); partidos.push([sp]); return sp.lines; };
     const palabras = (el) => Split ? new Split(el, { type: 'words', wordsClass: 'palabra', aria: 'none' }).words : [el];
     // Con ancla, primero se salta (aprox.) para saber qué titulares quedan ya a la vista; los que están en
     // pantalla o por encima no se ocultan
@@ -223,11 +238,11 @@
     if (hero) {
       const entra = () => {
         if (root.classList.contains('intro')) {
-          const h1 = $('h1', hero), l = [...$$('.l1, .l2', h1)].flatMap(lineas);
-          gsap.timeline({ defaults: { ease: 'expo.out' } })
+          const h1 = $('h1', hero), desde = partidos.length, m = $$('.l1, .l2', h1).filter(x => getComputedStyle(x).display === 'block'), l = (m.length ? m : [h1]).flatMap(lineas);
+          junta(gsap.timeline({ defaults: { ease: 'expo.out' } }), desde)
             .from($('.kicker', hero), { y: 14, autoAlpha: 0, duration: .9 }, .05)
             .from(l, { yPercent: 115, duration: 1.25, stagger: .09 }, .1)
-            .from([$('.hero-sub', hero), $('.hero-ctas', hero), $('.hero-micro', hero)], { y: 18, autoAlpha: 0, duration: 1, stagger: .08 }, .45)
+            .from([$('.hero-sub', hero), $('.hero-ctas', hero)], { y: 18, autoAlpha: 0, duration: 1, stagger: .08 }, .45)
             .from($('.hero-ctl', hero), { autoAlpha: 0, duration: 1 }, .9);
         }
         // GSAP ya ha fijado el estado inicial: se quita .intro en el mismo tick, sin un fotograma vacío
@@ -249,35 +264,42 @@
     const letras = (el) => {
       if (!Split) return [el];
       const titular = /^H\d$/.test(el.tagName);
-      if (!titular) { const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = el.textContent; el.before(sr); }
-      return new Split(el, { type: 'words,chars', wordDelimiter: { delimiter: /\s/, replaceWith: ' ' }, charsClass: 'split-char', mask: 'chars', aria: titular ? 'auto' : 'hidden' }).chars;
+      let sr = null;
+      if (!titular) { sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = el.textContent; el.before(sr); }
+      const sp = new Split(el, { type: 'words,chars', wordDelimiter: { delimiter: /\s/, replaceWith: ' ' }, charsClass: 'split-char', mask: 'chars', aria: titular ? 'auto' : 'hidden' });
+      partidos.push([sp, sr]); return sp.chars;
     };
     const dibuja = h => h.classList.add('dibuja');
+    // Las dos mitades del titular (oscura y gris) se parten por separado solo si van en bloque; en móvil fluyen seguidas
+    const mitades = d => $$('.l1, .l2', d).filter(x => getComputedStyle(x).display === 'block');
 
     // Titulares de sección: el filete se dibuja de izquierda a derecha, las líneas suben desde una máscara y la entradilla, detrás
     $$('.head').forEach(h => {
       const d = $('.display', h);
       if (!d || visto(h)) return dibuja(h);
-      const l = $$('.l1, .l2', d).length ? $$('.l1, .l2', d).flatMap(lineas) : lineas(d);
-      const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: h, start: 'top 85%', once: true, onEnter: () => dibuja(h) } });
-      tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8, ease: SALE }, .15)
-        .from(l, { yPercent: 110, duration: 1.15, stagger: .07 }, .2);
+      const desde = partidos.length, partes = mitades(d), l = partes.length ? partes.flatMap(lineas) : lineas(d);
+      const tl = junta(gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: h, start: 'top 85%', once: true, onEnter: () => dibuja(h) } }), desde);
+      const k = $('.kicker', h); if (k) tl.from(k, { y: 10, autoAlpha: 0, duration: .8, ease: SALE }, .15);
+      tl.from(l, { yPercent: 110, duration: 1.15, stagger: .07 }, .2);
       const lead = $('.lead', h); if (lead) tl.from(lead, { y: 18, autoAlpha: 0, duration: 1.1, ease: SALE }, .7);
     });
     // Cabeceras de producto: filete, el nombre letra a letra, el claim en dos tiempos, la entradilla y la ficha
     $$('.phead').forEach(h => {
       if (visto(h)) return dibuja(h);
+      const desde = partidos.length;
       const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: h, start: 'top 80%', once: true, onEnter: () => dibuja(h) } });
       tl.from($('.kicker', h), { y: 10, autoAlpha: 0, duration: .8, ease: SALE }, .15)
         .from(letras($('.pnombre', h)), { yPercent: 110, duration: 1.2, stagger: .025 }, .2)
-        .from($$('.pclaim .l1, .pclaim .l2', h).flatMap(lineas), { yPercent: 110, duration: 1.1, stagger: .07 }, .55)
+        .from((pc => { const m = pc ? mitades(pc) : []; return pc ? (m.length ? m : [pc]).flatMap(lineas) : []; })($('.pclaim', h)), { yPercent: 110, duration: 1.1, stagger: .07 }, .55)
         .from($('.lead', h), { y: 18, autoAlpha: 0, duration: 1.1, ease: SALE }, .85)
         .from($('.pficha', h), { y: 24, autoAlpha: 0, duration: 1.1, ease: SALE }, .8);
+      junta(tl, desde);
     });
     $$('.remate-in, .gal-head .display, .gob-head .display').forEach(d => {
       if (visto(d)) return;
-      const l = $$('.l1, .l2', d).flatMap(lineas);
-      gsap.from(l, { yPercent: 110, duration: 1.2, stagger: .08, ease: IO, scrollTrigger: { trigger: d, start: 'top 85%', once: true } });
+      // Sin .l1/.l2 (el titular de la galería de agentes), se parte el titular entero
+      const desde = partidos.length, partes = mitades(d), l = (partes.length ? partes : [d]).flatMap(lineas);
+      junta(gsap.from(l, { yPercent: 110, duration: 1.2, stagger: .08, ease: IO, scrollTrigger: { trigger: d, start: 'top 85%', once: true } }), desde);
     });
 
     // Lo que hacemos: el filete del recorrido y el de la base se dibujan; la base sube desde abajo; cada producto entra
@@ -287,6 +309,7 @@
     $$('.ruta, .base ul').forEach(lista => {
       if (visto(lista)) return;
       gsap.set(lista, { '--sx': 0 });
+      const desde = partidos.length;
       const tl = gsap.timeline({ defaults: { ease: IO }, scrollTrigger: { trigger: lista, start: 'top 84%', once: true } });
       tl.to(lista, { '--sx': 1, duration: 1.4 }, 0);
       $$(':scope > .prod', lista).forEach((it, i) => {
@@ -295,6 +318,7 @@
           .from(letras($('.prod-nom', it)), { yPercent: 110, duration: 1.1, stagger: .018 }, t + .05)
           .from($$('.prod-tag, .prod-p, .prod-dl, .prod-ver', it), { y: 14, autoAlpha: 0, duration: .9, stagger: .06, ease: SALE }, t + .35);
       });
+      junta(tl, desde);
     });
 
     // La escalera de la IA se construye: primero el suelo (la base); después cada peldaño sube y su texto aparece encima;
@@ -318,15 +342,29 @@
         return tl;
       };
       const solo = tl => ST.create({ trigger: esc, start: 'top 72%', once: true, onEnter: () => tl.play() });
+      // Con el teclado, las cotas y el enlace a Rumbo no esperan al scroll: al recibir el foco, la escalera se completa
+      // (fijada, se salta al final de su recorrido). Devuelve la limpieza para gsap.matchMedia
+      const enFoco = (tl, st) => {
+        const f = e => {
+          if (!e.target.closest('.tramo, .esc-dia') || tl.progress() === 1) return;
+          const s = st();
+          if (s) lenis ? lenis.scrollTo(s.end, { immediate: true, force: true }) : scrollTo(0, s.end);
+          else tl.progress(1);
+        };
+        esc.addEventListener('focusin', f);
+        return () => esc.removeEventListener('focusin', f);
+      };
       const mmE = gsap.matchMedia();
       mmE.add('(min-width: 1024px)', () => {
         const tl = construye();
         // refreshPriority 2: va antes en la página que el método fijado (1), y sus posiciones dependen de esta
         // Fijada bajo la barra (72 px): solo si cabe entera en la ventana
-        if (esc.offsetHeight <= innerHeight - 96) ST.create({ trigger: esc, start: 'top top+=72', end: () => '+=' + Math.round(innerHeight * 1.3), pin: true, scrub: .8, animation: tl, invalidateOnRefresh: true, refreshPriority: 2 });
+        let stE = null;
+        if (esc.offsetHeight <= innerHeight - 96) stE = ST.create({ trigger: esc, start: 'top top+=72', end: () => '+=' + Math.round(innerHeight * 1.3), pin: true, scrub: .8, animation: tl, invalidateOnRefresh: true, refreshPriority: 2 });
         else solo(tl);
+        return enFoco(tl, () => stE);
       });
-      mmE.add('(max-width: 1023px)', () => { solo(construye()); });
+      mmE.add('(max-width: 1023px)', () => { const tl = construye(); solo(tl); return enFoco(tl, () => null); });
     }
 
     // Los vídeos entran recortándose desde abajo, con el póster algo más grande que se asienta
@@ -342,7 +380,7 @@
     if (marca && !visto(marca)) gsap.from(marca, { yPercent: 70, duration: 1.6, ease: IO, scrollTrigger: { trigger: '.foot', start: 'top 75%', once: true } });
 
     // Frases que se encienden palabra a palabra al pasar
-    $$('.remate-p, .lead-strong').forEach(p => {
+    $$('.lead-strong').forEach(p => {
       const w = palabras(p); p.classList.add('lead-scrub');
       gsap.fromTo(w, { opacity: .2 }, { opacity: 1, stagger: .06, ease: 'none',
         scrollTrigger: { trigger: p, start: 'top 85%', end: 'bottom 55%', scrub: .5 } });
