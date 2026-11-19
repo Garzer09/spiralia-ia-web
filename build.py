@@ -354,9 +354,10 @@ def main():
     (DIST / 'reserva').mkdir()
     (DIST / 'reserva/index.html').write_text(versiona(reserva(), DIST / 'reserva/index.html', 'reserva'))
     robots = 'index, follow' if PROD else 'noindex, nofollow'
+    # La antigua versión B del A/B (/b, /b/, /b/?v=b y lo mismo en inglés) lleva a la página
     (DIST / 'vercel.json').write_text(json.dumps({'redirects': [
-        {'source': '/b/:resto*', 'destination': '/', 'permanent': False},      # la antigua versión B del A/B
-        {'source': '/en/b/:resto*', 'destination': '/en/', 'permanent': False}], 'headers': [
+        {'source': src, 'destination': dst, 'permanent': False}
+        for pre, dst in (('/b', '/'), ('/en/b', '/en/')) for src in (pre, pre + '/', pre + '/(.*)')], 'headers': [
         {'source': '/(.*)', 'headers': [{'key': 'X-Robots-Tag', 'value': robots}, {'key': 'X-Content-Type-Options', 'value': 'nosniff'}]},
         {'source': '/((?!assets/|css/|js/).*)', 'headers': [{'key': 'Cache-Control', 'value': 'no-cache'}]}]}, indent=2))
     (DIST / '.htaccess').write_text(f'Header set X-Robots-Tag "{robots}"\nAddType font/otf .otf\nAddType font/ttf .ttf\n'
