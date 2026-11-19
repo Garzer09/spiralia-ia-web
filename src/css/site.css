@@ -140,7 +140,7 @@ main{counter-reset:sec}
 .sec .head{counter-increment:sec}
 .sec .head::after{content:counter(sec,decimal-leading-zero);position:absolute;right:0;top:clamp(16px,1.6vw,22px);font-family:var(--cond);font-weight:600;font-size:.8rem;line-height:1.3;letter-spacing:.16em;opacity:.6}
 .head .lead.narrow{max-width:46ch}
-@media (min-width:1024px){.sec>.wrap>.head .lead{margin-left:calc(100% / 3)}}
+.nw{white-space:nowrap}   /* un nombre con guion que no se parte («Coca-Cola») */
 
 /* 00 · Barra: transparente sobre la portada (.over) y sólida al bajar */
 .bar{position:fixed;inset:0 0 auto;z-index:50;border-bottom:1px solid var(--line-d);color:var(--on-dark);transition:border-color .35s ease}
@@ -467,6 +467,10 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
 .dg-scale li.past{border-color:rgba(224,223,218,.45)}
 .dg-scale li.cur{border-color:var(--hl);color:var(--hl)}
 .dg-steps{margin:0 0 26px;padding-left:1.2rem;display:grid;gap:8px}
+/* El freno principal: la respuesta más baja, con el producto que lo resuelve */
+.dg-freno{margin:0 0 26px;padding:16px 18px;border:1px solid rgba(255,255,255,.5);border-radius:4px;background:rgba(224,223,218,.1)}
+.dg-freno p{margin:8px 0 0;max-width:62ch;font-size:1.05rem;line-height:1.5}
+.dg-freno .link-arrow{white-space:nowrap}
 .dg-acts{display:flex;flex-wrap:wrap;gap:10px}
 .dg-note{font-size:.82rem;color:var(--on-dark-2);margin:20px 0 0}
 /* La estimación del valor en juego: tres datos editables y cuatro cifras (lo que se escapa, destacado) */
@@ -587,6 +591,8 @@ html.apertura .apertura-capa,.apertura-capa.sale{display:block;position:fixed;in
   .vec-l{grid-template-columns:1fr;gap:clamp(28px,5vw,40px)}
   .vec-e{max-width:46ch}
 }
+/* En el móvil, «Velocidad. Escala. Capacidad.» no cabe en una línea: una palabra por línea, como lista, y no dos y una suelta */
+@media (max-width:479px){.vec-h{width:min-content}}
 @media (min-width:600px) and (max-width:899px){
   .vec-l{gap:0}
   .vec-l li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28px;padding:18px 0 30px}
@@ -1064,15 +1070,3 @@ html.still{scroll-behavior:auto}
   .foot nav a,.foot-legal a{padding-block:10px}
   .foot-legal span{margin-top:8px}
 }
-
-/* Selector A/B (build.py lo crea solo con ?ab=1 o ?v=a|b): para comparar las dos versiones; los visitantes no lo ven */
-.ab-toggle{position:fixed;left:16px;bottom:16px;z-index:210;display:flex;align-items:center;gap:4px;padding:4px;border-radius:99px;
-  background:var(--night);border:1px solid rgba(224,223,218,.35);box-shadow:0 8px 24px rgba(5,26,43,.35);font:600 1rem/1 var(--sans)}
-.ab-toggle a,.ab-toggle button{display:grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border-radius:99px;border:0;background:none;
-  color:var(--on-dark);text-decoration:none;cursor:pointer;font:inherit;transition:background-color .2s ease,color .2s ease}
-.ab-toggle a[aria-current]{background:var(--greige);color:var(--navy)}
-.ab-toggle :focus-visible{outline-color:#fff}
-@media (hover:hover) and (pointer:fine){.ab-toggle a:not([aria-current]):hover,.ab-toggle button:hover{background:var(--navy-3)}}
-@media (max-width:980px){.ab-toggle{bottom:calc(84px + env(safe-area-inset-bottom))}}
-html.apertura body>.ab-toggle{visibility:visible}
-@media print{.ab-toggle{display:none}}

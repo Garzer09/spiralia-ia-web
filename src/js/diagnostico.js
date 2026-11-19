@@ -17,7 +17,9 @@
     const total = Math.max(0, personas) * Math.max(0, horas) * Math.max(0, coste) * semanas, hoy = total * captura;
     return { total, hoy, fuga: total - hoy, semana: semanas ? (total - hoy) / semanas : 0 };
   };
-  return { score, level, pasos, roi, MAXQ, NLEVELS };
+  // El freno principal: la pregunta con la respuesta más baja (en un empate, la primera); con todo al máximo, ninguno (-1)
+  const freno = a => { const m = Math.min(...a); return m >= MAXQ ? -1 : a.indexOf(m); };
+  return { score, level, pasos, roi, freno, MAXQ, NLEVELS };
 });
 
 (() => {
@@ -60,7 +62,6 @@
       <button type="button" class="btn btn-ghost btn-sm dg-next"${ans[i] === null ? ' disabled' : ''}>${esc(i === D.q.length - 1 ? L.see : L.next)}</button></div>`);
     barra(+(i / D.q.length).toFixed(3));
     $$('.dg-opts button', box).forEach((b, j) => b.addEventListener('click', () => {
-      if (i === 0 && box.hasAttribute('data-open') && !ans.some(x => x !== null)) window.SP.ev('Diagnóstico', { paso: 'inicio' });
       ans[i] = j; $$('.dg-opts button', box).forEach((x, k) => x.setAttribute('aria-pressed', String(k === j)));
       setTimeout(() => (i < D.q.length - 1 ? ask(i + 1, true) : fin()), 220);
     }));
@@ -75,15 +76,15 @@
       <div class="dg-bar"><i style="--p:${avance}"></i></div>
       <p class="dg-q" tabindex="-1">${esc(R.h)}</p><p class="dg-sub">${esc(R.p)}</p>
       <div class="dg-roi-in">
-        <label><span>${esc(R.personas)}</span><input type="number" inputmode="numeric" min="1" step="1" value="${datos[0]}" data-k="0"></label>
-        <label><span>${esc(R.coste)}</span><input type="number" inputmode="decimal" min="1" step="1" value="${datos[1]}" data-k="1"></label>
+        <label><span>${esc(R.personas)}</span><input type="number" inputmode="numeric" min="1" step="1" value="${datos[0] || ''}" data-k="0"></label>
+        <label><span>${esc(R.coste)}</span><input type="number" inputmode="decimal" min="1" step="1" value="${datos[1] || ''}" data-k="1"></label>
         <label class="dg-horas"><span>${esc(R.horas)}</span><span class="dg-rango"><input type="range" min="0.5" max="6" step="0.5" value="${datos[2]}" data-k="2"><output>${hNum(datos[2])} h</output></span><small>${esc(R.horas_n)}</small></label>
       </div>
       <div class="dg-nav"><button type="button" class="btn btn-ghost btn-sm dg-prev">${esc(L.prev)}</button>
       <button type="button" class="btn btn-cta btn-sm dg-next">${esc(R.calc)}</button></div>`);
     barra(1);
     $$('input', box).forEach(inp => inp.addEventListener('input', () => {
-      const v = parseFloat(inp.value); if (v >= 0) datos[+inp.dataset.k] = v;
+      const v = parseFloat(inp.value); datos[+inp.dataset.k] = v >= 0 ? v : 0;
       if (inp.type === 'range') $('output', box).textContent = hNum(datos[2]) + ' h';
     }));
     $('.dg-prev', box).addEventListener('click', () => ask(D.q.length - 1, true));
@@ -91,24 +92,26 @@
     $('.dg-q', box).focus({ preventScroll: true }); aVista();
   }
   function result() {
-    const a = ans.map(x => x || 0), n = window.SPDiag.level(a), N = D.n[n];
+    const a = ans.map(x => x || 0), n = window.SPDiag.level(a), N = D.n[n], k = window.SPDiag.freno(a), F = k >= 0 ? D.q[k] : null;
     // En Acceso el primer paso es Rumbo: la reserva lleva su texto, sin perder que se llega desde el diagnóstico
     const reserva = n === 0 ? box.dataset.book.replace(/\bd=diagnostico\b/, 'd=diagnostico-rumbo') : box.dataset.book;
-    window.SP.ev('Diagnóstico', { paso: 'resultado', nivel: N.name });
-    const V = R && window.SPDiag.roi(datos[0], datos[1], datos[2], R.semanas, R.captura[n]);
+    window.SP.ev('Diagnóstico', Object.assign({ paso: 'resultado', nivel: N.name }, F ? { freno: F.id } : {}));
+    // El valor en juego solo con los datos de quien responde: sin personas o sin coste por hora no se estima
+    const V = R && datos[0] > 0 && datos[1] > 0 ? window.SPDiag.roi(datos[0], datos[1], datos[2], R.semanas, R.captura[n]) : null;
     const cifras = V ? [[R.total, V.total], [R.hoy, V.hoy], [R.fuga, V.fuga], [R.semana, V.semana]] : [];
     const supuestos = R ? `${R.personas}: ${datos[0]} · ${R.coste}: ${datos[1]} · ${R.horas}: ${hNum(datos[2])}` : '';
-    const body = [L.intro, '', `${N.name}: ${N.h}`, '', ...D.q.map((q, i) => `${i + 1}. ${q.q} ${q.o[a[i]]}`),
+    const body = [L.intro, '', `${N.name}: ${N.h}`, ...(F ? ['', `${L.freno}: ${F.f}`] : []), '', ...D.q.map((q, i) => `${i + 1}. ${q.q} ${q.o[a[i]]}`),
       ...(V ? ['', ...cifras.map(([t, v]) => `${t}: ${eur(v)}`), supuestos] : [])].join('\n');
     const mail = `mailto:${box.dataset.mail}?subject=${encodeURIComponent(L.subject)}&body=${encodeURIComponent(body)}`;
     pinta(`<div class="dg-res"><h3>${esc(L.res)}</h3><p class="dg-level" tabindex="-1">${esc(N.name)}</p><p class="dg-h">${esc(N.h)}</p>
       <ol class="dg-scale">${D.n.map((x, i) => `<li class="${i < n ? 'past' : i === n ? 'cur' : ''}"${i === n ? ' aria-current="step"' : ''}>${esc(x.name)}</li>`).join('')}</ol>
-      ${V ? `<div class="dg-roi">${cifras.map(([t, v], k) => `<div class="${['', '', 'fuga', 'semana'][k]}"><span>${esc(t)}</span><b>${esc(eur(v))}</b></div>`).join('')}</div>
+      ${F ? `<div class="dg-freno"><h3>${esc(L.freno)}</h3><p>${esc(F.f)} <a class="link-arrow" href="#${esc(F.p)}">${esc(L.ver)} <span aria-hidden="true">→</span></a></p></div>` : ''}
+      ${V ? `<div class="dg-roi">${cifras.map(([t, v], j) => `<div class="${['', '', 'fuga', 'semana'][j]}"><span>${esc(t)}</span><b>${esc(eur(v))}</b></div>`).join('')}</div>
       <p class="dg-note dg-supuestos">${esc(R.nota)}</p>` : ''}
       <h3>${esc(L.steps)}</h3><ul class="dg-steps">${window.SPDiag.pasos(N, a).map(s => `<li>${esc(s)}</li>`).join('')}</ul>
       <div class="dg-acts"><a class="btn btn-cta" href="${esc(reserva)}">${esc(L.book)}</a><a class="btn btn-ghost" href="${mail}">${esc(L.send)}</a>
       <button type="button" class="btn btn-ghost dg-print">${esc(L.print)}</button><button type="button" class="btn btn-ghost dg-again">${esc(L.again)}</button></div>
-      <p class="dg-note">${esc(L.note)}</p></div>`);
+      ${V ? '' : `<p class="dg-note">${esc(L.note)}</p>`}</div>`);
     $('.dg-print', box).addEventListener('click', () => {
       const r = document.documentElement; r.classList.add('print-dg');
       addEventListener('afterprint', () => r.classList.remove('print-dg'), { once: true }); print();
@@ -117,6 +120,5 @@
     $('.dg-level', box).focus({ preventScroll: true });
     aVista();
   }
-  // data-open (versión B): la caja abre ya en la primera pregunta; «inicio» se cuenta con la primera respuesta
-  document.addEventListener('DOMContentLoaded', () => (box.hasAttribute('data-open') ? ask(0) : intro()));
+  document.addEventListener('DOMContentLoaded', intro);
 })();

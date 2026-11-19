@@ -34,3 +34,10 @@ assert.strictEqual(r.fuga, 1380000, 'y se escapa el resto');
 assert.strictEqual(r.semana, 30000, 'lo que se escapa, por semana');
 assert.deepStrictEqual(roi(-5, 40, 2, 46, .1), { total: 0, hoy: 0, fuga: 0, semana: 0 }, 'sin personas no hay valor en juego');
 console.log('ok · estimación del valor en juego');
+// El freno principal: la respuesta más baja (en un empate, la primera pregunta); con todo al máximo no hay freno
+const { freno } = require('../src/js/diagnostico.js');
+assert.strictEqual(freno([3, 2, 3, 1, 3, 2, 3, 3]), 3, 'la respuesta más baja');
+assert.strictEqual(freno([2, 2, 1, 3, 1, 3, 3, 3]), 2, 'en un empate, la primera');
+assert.strictEqual(freno(Array(Q).fill(0)), 0, 'todo a cero: el acceso');
+assert.strictEqual(freno(Array(Q).fill(MAXQ)), -1, 'todo al máximo: sin freno');
+console.log('ok · freno principal');

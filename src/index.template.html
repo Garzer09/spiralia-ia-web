@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-{{ab}}
 <title>{{attr:meta.title}}</title>
 <meta name="description" content="{{attr:meta.description}}">
 <meta name="robots" content="{{robots}}">
@@ -151,12 +150,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       </div>
     </div>
   </div>
-  <div class="wrap roles">
-    <span class="roles-lbl">{{hero.roles}}</span>
-    <a href="#para-ti-negocio" data-tab="negocio">{{hero.role1}}</a>
-    <a href="#para-ti-personas" data-tab="personas">{{hero.role2}}</a>
-    <a href="#para-ti-tecnologia" data-tab="tecnologia">{{hero.role3}}</a>
-  </div>
 </section>
 
 <!-- 02 · Lo que hacemos: el recorrido (tres pasos, en orden), la base (dos productos, debajo de todo) y la escalera de la IA -->
@@ -235,12 +228,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <p class="kicker">{{reto.kicker}}</p>
       <h2 id="t-reto" class="display"><span class="l1">{{reto.h2a}}</span> <span class="l2">{{reto.h2b}}</span></h2>
     </header>
-    <figure class="voces" data-piece="voces">
-      <figcaption class="voces-h">{{reto.voces_h}}</figcaption>
-      <ul>
-        <li><q>{{reto.voz1}}</q></li><li><q>{{reto.voz2}}</q></li><li><q>{{reto.voz3}}</q></li><li><q>{{reto.voz4}}</q></li><li><q>{{reto.voz5}}</q></li>
-      </ul>
-    </figure>
     <div class="reto-grid">
       <div class="rv">
         <p class="lead">{{reto.lead}}</p>
@@ -265,15 +252,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <figcaption><span class="ch-key ch-key-uso"></span>{{reto.chart_uso}} · {{reto.chart_note}}</figcaption>
       </figure>
     </div>
-  </div>
-</section>
-
-<!-- 04 · La ventaja: el mismo modelo para todos; la diferencia está en el despliegue -->
-<section class="sec paper" id="ventaja" aria-labelledby="t-ventaja">
-  <div class="wrap">
-    <header class="head rv">
-      <h2 id="t-ventaja" class="display"><span class="l1">{{ventaja.h2a}}</span> <span class="l2">{{ventaja.h2b}}</span></h2>
-    </header>
     <div class="ventaja-grid">
       <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/modelo-{{lang}}-h" data-src-v="{{base}}assets/video/modelo-{{lang}}-v">
         <div class="vid-marco">
@@ -289,53 +267,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
         <p class="def">{{ventaja.def}}</p>
       </div>
     </div>
-    <div class="vs">
-      <div class="vs-n"><b>{{ventaja.b2_80}}</b><span>{{ventaja.b2_80t}}</span></div>
-      <div class="vs-mid"><span>{{ventaja.b2_mid}}</span></div>
-      <div class="vs-n"><b>{{ventaja.b2_6}}</b><span>{{ventaja.b2_6t}}</span></div>
-    </div>
-    <p class="lead narrow rv">{{ventaja.b2_p}}</p>
     <p class="src">{{ventaja.src2}}</p>
-  </div>
-</section>
-
-<!-- 05 · Lo que cuesta esperar: el multiplicador y la nube de riesgos que se ordena en un plan -->
-<section class="sec dark" id="esperar" aria-labelledby="t-esperar">
-  <div class="wrap">
-    <header class="head rv">
-      <p class="kicker">{{esperar.kicker}}</p>
-      <h2 id="t-esperar" class="display"><span class="l1">{{esperar.h2a}}</span> <span class="l2">{{esperar.h2b}}</span></h2>
-      <p class="lead narrow">{{esperar.lead}}</p>
-    </header>
-    <figure class="vid vid-ancho" data-vid data-src-h="{{base}}assets/video/multiplica-{{lang}}-h" data-src-v="{{base}}assets/video/multiplica-{{lang}}-v">
-      <div class="vid-marco">
-        <picture><source media="(max-width: 700px)" srcset="{{base}}assets/video/multiplica-{{lang}}-v.jpg"><img class="vid-poster" src="{{base}}assets/video/multiplica-{{lang}}-h.jpg" alt="" width="1920" height="1080" loading="lazy"></picture>
-        <video muted playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
-        <div class="vid-ctl"><button type="button" class="glass-btn vid-pausa" hidden aria-pressed="false" aria-label="{{attr:vid.pausa}}"><i aria-hidden="true"></i></button><button type="button" class="glass-btn vid-otra" hidden data-ver="{{attr:vid.ver}}" data-otra="{{attr:vid.otra}}">↻ {{vid.otra}}</button></div>
-        <i class="vid-prog" aria-hidden="true"></i>
-      </div>
-      <figcaption><span class="sr">{{vid.guion}}: </span><span class="sr">{{esperar.vid_alt}}</span></figcaption>
-    </figure>
-    <div class="nube" data-piece="nube" data-l-ordenar="{{attr:esperar.ordenar}}" data-l-desordenar="{{attr:esperar.desordenar}}">
-      <div class="nube-top">
-        <h3 class="nube-h h5">{{esperar.nube_h}}</h3>
-        <h3 class="nube-plan display h3"><span class="l1">{{esperar.plan_h}}</span> <span class="l2">{{esperar.plan_p}}</span></h3>
-        <button type="button" class="glass-btn nube-btn" hidden></button>
-      </div>
-      <div class="nube-campo">
-        <div class="nube-col"><a class="nube-g" href="#rumbo"><b>{{esperar.g1}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p1_n}}</em><small>{{esperar.g1_d}}</small></a>
-          <ul><li class="chip">{{esperar.g1_1}}</li><li class="chip">{{esperar.g1_2}}</li><li class="chip">{{esperar.g1_3}}</li><li class="chip">{{esperar.g1_4}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#formacion"><b>{{esperar.g2}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p2_n}}</em><small>{{esperar.g2_d}}</small></a>
-          <ul><li class="chip">{{esperar.g2_1}}</li><li class="chip">{{esperar.g2_2}}</li><li class="chip">{{esperar.g2_3}}</li><li class="chip">{{esperar.g2_4}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#spiral"><b>{{esperar.g3}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p3_n}}</em><small>{{esperar.g3_d}}</small></a>
-          <ul><li class="chip">{{esperar.g3_1}}</li><li class="chip">{{esperar.g3_2}}</li><li class="chip">{{esperar.g3_3}}</li><li class="chip">{{esperar.g3_4}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#alfabetizacion"><b>{{esperar.g4}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p4_n}}</em><small>{{esperar.g4_d}}</small></a>
-          <ul><li class="chip">{{esperar.g4_1}}</li><li class="chip">{{esperar.g4_2}}</li><li class="chip">{{esperar.g4_3}}</li><li class="chip">{{esperar.g4_4}}</li></ul></div>
-        <div class="nube-col"><a class="nube-g" href="#radar"><b>{{esperar.g5}}</b><span class="nube-flecha" aria-hidden="true">→</span><em>{{prod.p5_n}}</em><small>{{esperar.g5_d}}</small></a>
-          <ul><li class="chip">{{esperar.g5_1}}</li><li class="chip">{{esperar.g5_2}}</li><li class="chip">{{esperar.g5_3}}</li><li class="chip">{{esperar.g5_4}}</li></ul></div>
-      </div>
-    </div>
-    <p class="ctx rv"><span>{{esperar.ctx}}</span> <a class="link-arrow" href="#diagnostico">{{esperar.ctx_btn}} <span aria-hidden="true">→</span></a></p>
   </div>
 </section>
 
@@ -350,7 +282,7 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
     <div class="dg" data-dg data-mail="{{mail}}"
          data-l-start="{{attr:dg.start}}" data-l-next="{{attr:dg.next}}" data-l-prev="{{attr:dg.prev}}" data-l-see="{{attr:dg.see}}"
          data-l-qof="{{attr:dg.qof}}" data-l-res="{{attr:dg.res_h}}" data-l-steps="{{attr:dg.res_next}}" data-l-send="{{attr:dg.send}}"
-         data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}"
+         data-l-print="{{attr:dg.print}}" data-l-again="{{attr:dg.again}}" data-l-note="{{attr:dg.note}}" data-l-freno="{{attr:dg.freno}}" data-l-ver="{{attr:prod.ver}}"
          data-l-subject="{{attr:dg.mail_subject}}" data-l-intro="{{attr:dg.mail_intro}}" data-l-book="{{attr:cta.btn}}" data-book="{{base}}reserva/?d=diagnostico&amp;l={{lang}}">
       <noscript><p>{{dg.noscript}} <a href="mailto:{{mail}}">{{mail}}</a></p></noscript>
     </div>
@@ -690,52 +622,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
   </div>
 </section>
 
-<!-- 13 · Para ti: cada inquietud, su respuesta (Resultados · Personas y talento · Tecnología) -->
-<section class="sec light" id="para-ti" aria-labelledby="t-pt">
-  <div class="wrap">
-    <header class="head rv">
-      <h2 id="t-pt" class="display"><span class="l1">{{pt.h2a}}</span> <span class="l2">{{pt.h2b}}</span></h2>
-    </header>
-    <div class="tabs" data-tabs>
-      <div class="tablist" role="tablist" aria-labelledby="t-pt">
-        <button role="tab" id="tab-negocio" aria-controls="para-ti-negocio" aria-selected="true">{{pt.t1_tab}}</button>
-        <button role="tab" id="tab-personas" aria-controls="para-ti-personas" aria-selected="false" tabindex="-1">{{pt.t2_tab}}</button>
-        <button role="tab" id="tab-tecnologia" aria-controls="para-ti-tecnologia" aria-selected="false" tabindex="-1">{{pt.t3_tab}}</button>
-      </div>
-      <div class="panel" role="tabpanel" id="para-ti-negocio" aria-labelledby="tab-negocio" tabindex="0">
-        <p class="panel-who">{{pt.t1_tab}}</p>
-        <h3 class="display h3">{{pt.t1_h}}</h3>
-        <blockquote class="voz">{{pt.t1_voz}}</blockquote>
-        <div class="panel-grid">
-          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t1_1}}</li><li>{{pt.t1_2}}</li><li>{{pt.t1_3}}</li><li>{{pt.t1_4}}</li></ul></div>
-          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t1_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t1_p}}</p>
-            <a class="btn btn-cta" href="{{base}}reserva/?d=resultados&amp;l={{lang}}">{{pt.t1_cta}}</a></div>
-        </div>
-      </div>
-      <div class="panel" role="tabpanel" id="para-ti-personas" aria-labelledby="tab-personas" tabindex="0">
-        <p class="panel-who">{{pt.t2_tab}}</p>
-        <h3 class="display h3">{{pt.t2_h}}</h3>
-        <blockquote class="voz">{{pt.t2_voz}}</blockquote>
-        <div class="panel-grid">
-          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t2_0}}</li><li>{{pt.t2_1}}</li><li>{{pt.t2_2}}</li><li>{{pt.t2_3}}</li><li>{{pt.t2_4}}</li><li>{{pt.t2_5}}</li><li>{{pt.t2_6}}</li></ul></div>
-          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t2_l}}</p><h4 class="h5">{{pt.prueba}}</h4><p class="proof-line">{{pt.t2_p}}</p>
-            <a class="btn btn-cta" href="mailto:{{mail}}?subject={{url:pt.t2_subject}}">{{pt.t2_cta}}</a></div>
-        </div>
-      </div>
-      <div class="panel" role="tabpanel" id="para-ti-tecnologia" aria-labelledby="tab-tecnologia" tabindex="0">
-        <p class="panel-who">{{pt.t3_tab}}</p>
-        <h3 class="display h3">{{pt.t3_h}}</h3>
-        <blockquote class="voz">{{pt.t3_voz}}</blockquote>
-        <div class="panel-grid">
-          <div><h4 class="h5">{{pt.hace}}</h4><ul class="checks"><li>{{pt.t3_1}}</li><li>{{pt.t3_2}}</li><li>{{pt.t3_3}}</li><li>{{pt.t3_4}}</li></ul></div>
-          <div class="panel-side"><h4 class="h5">{{pt.lleva}}</h4><p>{{pt.t3_l}}</p><h4 class="h5">{{pt.t3_prueba}}</h4><p class="proof-line">{{pt.t3_p}}</p>
-            <a class="btn btn-cta" href="{{base}}reserva/?d=tecnologia&amp;l={{lang}}">{{pt.t3_cta}}</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- 14 · Por qué Spiralia: autoridad colectiva, sin nombres -->
 <section class="sec paper" id="quienes" aria-labelledby="t-pq">
   <div class="wrap">
@@ -775,11 +661,6 @@ else setTimeout(function(){d.classList.remove('intro')},1200)})(document.documen
       <details><summary>{{faq.q4}}</summary><p>{{faq.a4}}</p></details>
       <details><summary>{{faq.q5}}</summary><p>{{faq.a5}}</p></details>
       <details><summary>{{faq.q6}}</summary><p>{{faq.a6}}</p></details>
-      <details><summary>{{faq.q7}}</summary><p>{{faq.a7}}</p></details>
-      <details><summary>{{faq.q8}}</summary><p>{{faq.a8}}</p></details>
-      <details><summary>{{faq.q9}}</summary><p>{{faq.a9}}</p></details>
-      <details><summary>{{faq.q10}}</summary><p>{{faq.a10}}</p></details>
-      <details><summary>{{faq.q11}}</summary><p>{{faq.a11}}</p></details>
     </div>
   </div>
 </section>

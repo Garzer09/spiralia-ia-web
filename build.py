@@ -25,16 +25,13 @@ SITE = 'https://spiralia.es/ia/' if PROD else 'https://spiralia-ia.vercel.app/' 
 BOOKINGS = '[BOOKINGS_URL]'                       # página de Microsoft Bookings (mejor una de equipo)
 MAIL = 'ana.iza@spiralia.es'                      # email de contacto de toda la página; cambiarlo aquí basta
 ANALYTICS = ''                                    # dominio en Plausible (sin cookies, UE); vacío = sin medición
-ANALYTICS_SRC = 'https://plausible.io/js/script.pageview-props.js'   # con propiedades en la visita: la variante del A/B
+ANALYTICS_SRC = 'https://plausible.io/js/script.js'
 LANGS = {'es': '', 'en': 'en/'}
 errors, warns, avisos = [], [], []
 
 content = tomllib.loads((SRC / 'content.toml').read_text())
 cifras = tomllib.loads((SRC / 'cifras.toml').read_text())['c']
 data = content.pop('data')
-# Versión B (A/B testing, 18-nov-2026): su copy está en src/b/content.toml y se suma al de A (puede usar claves de A)
-content_b = tomllib.loads((SRC / 'b' / 'content.toml').read_text())
-PENDIENTE = '[DATO PENDIENTE'                       # marcador visible en B de un dato que falta; producción no lo admite
 
 # Dentro de una frase, los nombres de producto de varias palabras no se parten entre dos líneas: llevan espacios de no
 # separación. El carácter, no &nbsp;: las líneas del diagnóstico pasan por esc(). Quedan con espacio normal los asuntos
@@ -66,9 +63,8 @@ def localize(x, lang, key='data'):
         return [localize(v, lang, f'{key}[{i}]') for i, v in enumerate(x)]
     return x
 
-def texts(lang, variante='a'):
-    fuentes = {**content, **content_b} if variante == 'b' else content
-    t = {f'{s}.{k}': pick(v, lang, f'{s}.{k}') for s, sec in fuentes.items() for k, v in sec.items()}
+def texts(lang):
+    t = {f'{s}.{k}': pick(v, lang, f'{s}.{k}') for s, sec in content.items() for k, v in sec.items()}
     return {k: v.replace('{mail}', MAIL) if isinstance(v, str) else v for k, v in t.items()}
 
 plain = lambda v: html.unescape(re.sub(r'<[^>]+>', '', str(v)))
@@ -198,33 +194,17 @@ def numbers(t, lang):
                 avisos.append(f'proporción en letras: «{a} … {b}» en {key} ({lang}); mejor la cifra, con su fuente')
     return sorted(found)
 
-# A/B: cada visitante recibe una variante al azar y la conserva durante la visita (sessionStorage, nunca cookies).
-# ?v=a o ?v=b la fuerza; ?ab=1 enseña (y recuerda en ese navegador) el selector para comparar. Los robots y los
-# navegadores automáticos (HeadlessChrome: comprobadores, capturas) no se redirigen.
-# Cada evento de la medición lleva la variante (engine.js) y la visita también (event-variante, Plausible).
-AB = """<script>(function(d,V,O){var s=location.search,m=s.match(/[?&]v=([ab])(?:&|$)/),v=V,ver=false;
-try{v=m?m[1]:(sessionStorage.getItem('sp-ab')||(Math.random()<.5?'a':'b'));sessionStorage.setItem('sp-ab',v);
-if(m||/[?&]ab=1(?:&|$)/.test(s))localStorage.setItem('sp-ab-ver','1');ver=localStorage.getItem('sp-ab-ver')==='1'}catch(e){v=V}
-d.setAttribute('data-variante',V);
-if(v!==V&&!/bot|crawl|spider|slurp|preview|lighthouse|headless/i.test(navigator.userAgent)){location.replace(O+s+location.hash);return}
-if(ver)document.addEventListener('DOMContentLoaded',function(){var b=document.createElement('div'),aq=V==='a'?location.pathname:O,bq=V==='b'?location.pathname:O;
-b.className='ab-toggle';b.setAttribute('role','group');b.setAttribute('aria-label','A/B');
-b.innerHTML='<a href="'+aq+'?v=a"'+(V==='a'?' aria-current="page"':'')+'>A</a><a href="'+bq+'?v=b"'+(V==='b'?' aria-current="page"':'')+'>B</a><button type="button" aria-label="Ocultar el selector A/B">×</button>';
-b.querySelector('button').onclick=function(){try{localStorage.removeItem('sp-ab-ver')}catch(e){}b.remove()};document.body.appendChild(b)})})(document.documentElement,'%s','%s')</script>"""
-
-def render(tpl, t, lang, variante='a'):
+def render(tpl, t, lang):
     other = 'en' if lang == 'es' else 'es'
     url = SITE + LANGS[lang]
-    base = '../' * ((1 if LANGS[lang] else 0) + (1 if variante == 'b' else 0))
     special = {
-        'lang': lang, 'base': base, 'other': base + LANGS[other] + ('b/' if variante == 'b' else ''),
+        'lang': lang, 'base': '../' if LANGS[lang] else '', 'other': ('../' if LANGS[lang] else 'en/'),
         'other_lang': other, 'canonical': url, 'url_es': SITE, 'url_en': SITE + 'en/',
         'robots': 'index,follow' if PROD else 'noindex,nofollow', 'mail': MAIL,
         'og_image': SITE + f'assets/og-{lang}.jpg',
         'data': json.dumps(localize(data, lang), ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'),
         'jsonld': jsonld(t, url, lang),
-        'ab': AB % (variante, 'b/' if variante == 'a' else '../'), 'variante': variante,
-        'analytics': (f'<script defer data-domain="{ANALYTICS}" event-variante="{variante}" src="{ANALYTICS_SRC}"></script>\n'
+        'analytics': (f'<script defer data-domain="{ANALYTICS}" src="{ANALYTICS_SRC}"></script>\n'
                       '<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)}</script>') if ANALYTICS else '',
     }
     def sub(m):
@@ -244,7 +224,7 @@ def render(tpl, t, lang, variante='a'):
     for left in re.findall(r'\{\{[^}]*\}\}', out):
         errors.append(f'sin resolver: {left}')
     if PROD:
-        for mark in ('[PLACEHOLDER', '[BOOKINGS_URL]', PENDIENTE):
+        for mark in ('[PLACEHOLDER', '[BOOKINGS_URL]'):
             if mark in out:
                 errors.append(f'{lang}: queda «{mark}» en producción')
     return out
@@ -317,10 +297,9 @@ def reserva():
                           textos=json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
 
 def fuera(d, nombres):
-    """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py) y los iconos 3D (assets/img/3d):
-    desde el 21-oct la página no lleva iconos 3D. Los retratos de Ana Iza y Jose Garza se publican desde el 18-nov
-    (los usa la versión B, con permiso)."""
-    tapa = shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf')(d, nombres)
+    """Lo que no se publica: fuentes originales (se sirven en woff2, tools/fonts.py), fotos de personas que la página
+    no usa y los iconos 3D (assets/img/3d): desde el 21-oct la página no lleva iconos, solo tipografía, números y líneas."""
+    tapa = shutil.ignore_patterns('.DS_Store', 'src-*', '*.otf', '*.ttf', 'ana-iza.*', 'jose-garza.*')(d, nombres)
     if Path(d).name == 'img':
         tapa |= {'3d'} & set(nombres)
     return tapa
@@ -335,7 +314,7 @@ def huella(*fs):
         h.update(HUELLAS[f].encode())
     return h.hexdigest()[:8]
 
-REF = r'(?<=["\'\s,(])((?:\.\./)*{}/[\w./-]+\.\w+)(?=["\'\s,)])'   # B en inglés está dos niveles abajo: ../../
+REF = r'(?<=["\'\s,(])((?:\.\./)?{}/[\w./-]+\.\w+)(?=["\'\s,)])'
 VERSIONADO = re.compile(REF.format('(?:css|js|assets/video)'))
 ASSETS = re.compile(REF.format('assets'))
 PREFIJOS = re.compile(r'(data-src-h="([^"?]+)" data-src-v="([^"?]+)")')
@@ -355,16 +334,14 @@ def versiona(out, page, lang):
 
 def main():
     tpl = (SRC / 'index.template.html').read_text()
-    tpl_b = (SRC / 'b' / 'index.template.html').read_text()
     if DIST.exists():
         shutil.rmtree(DIST)
     nums, pages = {}, {}
     for lang, sub in LANGS.items():
-        t, tb = texts(lang), texts(lang, 'b')
-        nums[lang], nums[lang + '-b'] = numbers(t, lang), numbers(tb, lang)
+        t = texts(lang)
+        nums[lang] = numbers(t, lang)
         pages[DIST / sub / 'index.html'] = (render(tpl, t, lang), lang)
-        pages[DIST / sub / 'b' / 'index.html'] = (render(tpl_b, tb, lang, 'b'), lang + '-b')
-    if not warns and (nums['es'] != nums['en'] or nums['es-b'] != nums['en-b']):
+    if not warns and nums['es'] != nums['en']:
         errors.append('las cifras de ES y EN no coinciden')
     shutil.copytree(ROOT / 'assets', DIST / 'assets', ignore=fuera)
     for d in ('css', 'js'):
@@ -377,7 +354,9 @@ def main():
     (DIST / 'reserva').mkdir()
     (DIST / 'reserva/index.html').write_text(versiona(reserva(), DIST / 'reserva/index.html', 'reserva'))
     robots = 'index, follow' if PROD else 'noindex, nofollow'
-    (DIST / 'vercel.json').write_text(json.dumps({'trailingSlash': True, 'headers': [
+    (DIST / 'vercel.json').write_text(json.dumps({'redirects': [
+        {'source': '/b/:resto*', 'destination': '/', 'permanent': False},      # la antigua versión B del A/B
+        {'source': '/en/b/:resto*', 'destination': '/en/', 'permanent': False}], 'headers': [
         {'source': '/(.*)', 'headers': [{'key': 'X-Robots-Tag', 'value': robots}, {'key': 'X-Content-Type-Options', 'value': 'nosniff'}]},
         {'source': '/((?!assets/|css/|js/).*)', 'headers': [{'key': 'Cache-Control', 'value': 'no-cache'}]}]}, indent=2))
     (DIST / '.htaccess').write_text(f'Header set X-Robots-Tag "{robots}"\nAddType font/otf .otf\nAddType font/ttf .ttf\n'
